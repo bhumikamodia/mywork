@@ -1,0 +1,18 @@
+{
+"serverip":"localhost",
+"serverport":"8090",
+"databaseip":"localhost",
+"databaseport":"",
+"databasename":"rdmdataspace",
+"rabbitmqurl": "amqp://guest:guest@localhost",
+"channel":"dev_reg",
+"booleancolumns":"boolean",
+"numbercolumns":"number",
+"integercolumns":"integer",
+"ttlfortemp":"5000",
+"devicetypedevice":"DEVICE",
+"devicetypegateway":"GATEWAY",
+"datatablenameprefix":"tbl_data_",
+"authtoken":"authorization",
+"secretkey":"abd123"
+}

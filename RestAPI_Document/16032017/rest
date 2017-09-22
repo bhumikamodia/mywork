@@ -1,0 +1,56 @@
+app.post('/registration/device', function (req, res) {
+		//check device is registerd
+		var query = "Select * from tbl_deviceinfo where deviceid='" + req.body.deviceid + "' ALLOW FILTERING";
+		client.execute(query, function (err, result) {
+			if (err) {
+				// Return error message in response if error is occured during database operation.
+				returnmsg = response.errorresponse(err);
+				res.status(400).send(returnmsg);
+			}
+			else {
+				//Update device
+				if (result.rows.length > 0) {
+					returnmsg = response.errorresponse(error.deviceregisterd);
+					res.status(400).send(returnmsg);
+				}
+				//Insert Device
+				else {
+					//check device detail is valid
+					var schema = validation.validationcheck("/registration/device", "POST");
+					req.checkBody(schema);
+					req.getValidationResult().then(function (result) {
+						var errors = result.useFirstErrorOnly().array();
+						if (errors.length > 0) {
+							// Return error message in response if request data is not valid.
+							returnmsg = response.errorresponse(errors);
+							res.status(400).send(JSON.stringify(returnmsg));
+						}
+						else {
+							// Register new device if request data is valid.
+							UpdateorInsertdevice(req, res, "insert");
+						}
+					})
+				}
+			}
+		});
+	});
+
+
+
+app.put('/registration/device', function (req, res) {
+//check device detail is valid
+					var schema = validation.validationcheck("/registration/device", "PUT");
+					req.checkBody(schema);
+					req.getValidationResult().then(function (result) {
+						var errors = result.useFirstErrorOnly().array();
+						if (errors.length > 0) {
+							// Return error message in response if request data is not valid.
+							returnmsg = response.errorresponse(errors);
+							res.status(400).send(JSON.stringify(returnmsg));
+						}
+						else {
+							// Update device if request data is valid.
+							UpdateorInsertdevice(req, res, "update");
+						}
+					})
+}

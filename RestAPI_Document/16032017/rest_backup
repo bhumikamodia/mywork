@@ -1,0 +1,23 @@
+
+	/*
+	app.post('/registration/availabledevices', function (req, res) {
+		var id = cassandra.types.Uuid.random();
+		var deviceid = req.body.deviceid;
+		//query for device detail insertion
+		var query = 'INSERT INTO tbl_available_dev_info (deviceid,proto,category,gatewayid,data,create_ts,schematype) VALUES (?,?,?,?,?,?,?)';
+		//paramter detail
+		const params = [deviceid, req.body.proto, req.body.category, JSON.stringify(req.body.gatewayid), JSON.stringify(req.body.data), moment.utc().format(), req.body.schematype]
+		//query execution for inserting device detail
+		client.execute(query, params, { prepare: true }, function (err, result) {
+			if (err) {
+				// Return error message in response if error is occured during database operation.
+				returnmsg = response.errorresponse(err);
+				res.status(400).send(returnmsg);
+			}
+			else {
+				//Return success message if device is inserted successfully
+				returnmsg = response.successresponse(error.success, JSON.parse('{"deviceid":"' + deviceid + '"}'));
+				res.status(201).send(returnmsg);
+			}
+		});
+	});*/

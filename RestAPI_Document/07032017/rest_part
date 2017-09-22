@@ -1,0 +1,28 @@
+var query = "SELECT table_name FROM system_schema.tables WHERE keyspace_name= '" + keyspace + "' and table_name='" + devicetblname + "'";
+					//query execution
+					client.execute(query, function (err, result) {
+						if (err) {
+							// Return error message in response if error is occured during database operation.
+							returnmsg = response.errorresponse(err);
+							res.status(400).send(returnmsg);
+						}
+						else {
+							if (result.rows.length > 0) {
+								var query = "SELECT * FROM system_schema.columns where keyspace_name='" + keyspace + "' and table_name='" + devicetblname + "'";
+								//query execution
+								client.execute(query, function (err, result) {
+									if (err) {
+										// Return error message in response if error is occured during database operation.
+										returnmsg = response.errorresponse(err);
+										res.status(400).send(returnmsg);
+									}
+									else {
+
+									}
+								});
+							}
+							else {
+								createDataTable(req.body.type, req.body.data)
+							}
+						}
+					});
