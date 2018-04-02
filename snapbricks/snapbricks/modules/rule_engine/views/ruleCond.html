@@ -1,0 +1,113 @@
+<div  ng-repeat="(conkey, itemrepe) in selectedRuleEngineData[0].data"  ng-init="ifSelectedIndex = $index;" ng-class="getClassName(itemrepe.block)"><!-- monitor-->
+	<div  ng-click="SelectIfBlock(itemrepe.block)" class="gray_border2"> <!--- IF Blocl CONDITION -->
+		<div  ng-repeat="(key,item) in itemrepe.ifc" class="row row_margin_0">									
+				<div id="ifmain" class="row row_margin_0 rule_option" >
+					<div class="col-xs-5"  >
+						<div class="row" style="padding-left:16px;">{{item.item.gatewayDisplayname}}/{{item.item.displayname}}/{{item.item.defination.definitionName}}</div>
+						<div class="row">
+								<div class="col-xs-2">
+									<span ng-show="item.filter_operation != '' && item.filter_duration != ''">
+									<span class="fa-stack fa-lg pull-left" ng-click="FilterOperationdelete(ifSelectedIndex,$index)">
+										<i class="fa fa-trash fa-stack-1x red"></i></span>
+									</span>
+									<span ng-show="item.filter_operation === '' && item.filter_duration === ''">
+										<span class="fa-stack fa-lg pull-left" ng-click="FilterOperationopen(ifSelectedIndex,$index)" data-toggle="modal" data-target="#filteroperation">
+										<i class="fa fa-cogs fa-stack-1x"></i></span>
+									</span>
+								</div>
+								<div class="">
+										<span ng-show="item.filter_operation != '' && item.filter_duration != ''" class="fileter_blue">
+											{{item.filter_operation}}&nbsp;&nbsp;{{item.filter_duration}}
+										</span>
+								</div>
+						</div>									
+					</div>
+					<div class="col-xs-1"><!-- ng-init="item.defination.if_selected_operator = (rule.edit_selected_row != -1 ) ? item.defination.if_selected_operator : '=' " ng-selected="{{item.defination.if_selected_operator == operator }}" -->
+						<select ng-model="item.operator"  ng-init="item.operator = (rule.edit_selected_row != -1 ||  item.operator != '' ) ? item.operator : '==' ">
+						<option ng-repeat="operator in OperatorsArr" value="{{operator}}"  >{{operator}}</option>
+						</select>
+					</div>						
+					<div class="col-xs-5">
+						<div  ng-repeat="opr in item.item.defination.properties" class="row row_margin_0" ng-init="ifseleIFC =$index;">	
+							<div ng-if="((opr.operations.indexOf('get') !== -1) || (opr.operations.indexOf('notify') !== -1))">
+									<span ng-if="item.item.defination.properties.length >= 2">{{opr.propertyName}}:<br/></span>
+									<div ng-if="opr.maximum >= 0"  ng-class="{ 'has-error': form.if_range_{{key}}_{{itemrepe.block}}.$dirty && (form.if_range_{{key}}_{{itemrepe.block}}.$error.required) }">
+											<span style="vertical-align:top">{{opr.minimum}}</span>
+											<input type="range" name="if_range_{{key}}_{{itemrepe.block}}"  min="{{opr.minimum}}" max="{{opr.maximum}}" 
+											ng-model="item.sel_val" class="inline_block" ng-init="" required />
+											
+											<span style="vertical-align:top">{{opr.maximum}}</span>
+											<span class="help-block error_red" ng-show="form.if_range_{{key}}_{{itemrepe.block}}.$error.required">This field is required</span>
+											<br clear="all"/>
+											<span style="vertical-align:top;">{{item.sel_val}}</span>
+									</div>
+									<div ng-else-if="opr.enum.length >0">
+											<select class="form-control width80" ng-model="item.sel_val"  ng-init="item.sel_val = opr.enum[0]">
+															<option ng-repeat="oper in opr.enum" value="{{oper}}" >{{oper}}</option>
+											</select>
+									</div>
+									<div ng-else-if="(opr.type == 'boolean')" ng-class="{ 'has-error': form.if_radio_{{key}}_{{itemrepe.block}}.$dirty && (form.if_radio_{{key}}_{{itemrepe.block}}.$error.required) }">
+										<input type="radio" name="if_radio_{{key}}_{{itemrepe.block}}" ng-value="true" ng-model="item.sel_val" required/>True &nbsp;
+										<input type="radio" name="if_radio_{{key}}_{{itemrepe.block}}" ng-value="false" ng-model="item.sel_val" required/>False &nbsp;
+										<span class="help-block error_red" ng-show="form.if_radio_{{key}}_{{itemrepe.block}}.$error.required">This field is required</span>
+									</div>													
+									<div ng-else-if="opr.type == 'number'" ng-class="{ 'has-error': form.if_number_{{key}}_{{itemrepe.block}}.$dirty && (form.if_number_{{key}}_{{itemrepe.block}}.$error.required) }">
+											<input type="number" name="if_number_{{key}}_{{itemrepe.block}}"  ng-model="item.sel_val" class="form-control width80" required />{{opr.units}}								
+											<span class="help-block error_red" ng-show="form.if_number_{{key}}_{{itemrepe.block}}.$error.required">This field is required</span>
+									</div>
+									<div ng-else-if="opr.type == 'integer'" ng-class="{ 'has-error': form.if_integer_{{key}}_{{itemrepe.block}}.$dirty && (form.if_integer_{{key}}_{{itemrepe.block}}.$error.required) }">
+											<input type="number" name="if_integer_{{key}}_{{itemrepe.block}}" ng-model="item.sel_val" class="form-control width80" required />{{opr.units}}								
+											<span class="help-block error_red" ng-show="form.if_integer_{{key}}_{{itemrepe.block}}.$error.required">This field is required</span>
+									</div>
+									<div ng-else-if="opr.type == 'float'" ng-class="{ 'has-error': form.if_float_{{key}}_{{itemrepe.block}}.$dirty && (form.if_float_{{key}}_{{itemrepe.block}}.$error.required) }">
+											<input type="number" name="if_float_{{key}}_{{itemrepe.block}}" ng-model="item.sel_val" class="form-control width80" required />{{opr.units}}								
+											<span class="help-block error_red" ng-show="form.if_float_{{key}}_{{itemrepe.block}}.$error.required">This field is required</span>
+									</div>
+									<div ng-else-if="opr.type == 'string'" ng-class="{ 'has-error': form.if_string_{{key}}_{{itemrepe.block}}.$dirty && (form.if_string_{{key}}_{{itemrepe.block}}.$error.required) }">
+											<input type="text" name="if_string_{{key}}_{{itemrepe.block}}" ng-model="item.sel_val" class="form-control width80" required />{{opr.units}}								
+											<span class="help-block error_red" ng-show="form.if_string_{{key}}_{{itemrepe.block}}.$error.required">This field is required</span>
+									</div>
+									<div ng-else ng-class="{ 'has-error': form.if_else_{{key}}_{{itemrepe.block}}.$dirty && (form.if_else_{{key}}_{{itemrepe.block}}.$error.required) }">
+											<input type="text" name="if_else_{{key}}_{{itemrepe.block}}" ng-model="item.sel_val" class="form-control width80" required />
+											<span class="help-block error_red" ng-show="form.if_else_{{key}}_{{itemrepe.block}}.$error.required">This field is required</span>
+									</div>
+							</div> <!--- completed get/post condition-->
+						</div> <!--- completed defination.properties-->
+					</div>
+					<div class="col-xs-1">
+						<a href="javascript:void(0)" ng-click="setIFDeleteBlock($index,itemrepe.block);" id="setIFDeleteBlock"><span class="fa-stack fa-lg pull-left"><i class="fa fa-close fa-stack-1x red"></i></span></a>	
+					</div>
+				</div><!--- completed if_rules block-->
+				<!--- Check IF condition OPERATOR on SUB CONDITION ---->
+				<div class="row row_margin_0 if_inside_con"  ng-if="key+1 != itemrepe.ifc.length" >
+						<div class="col-xs-5">&nbsp;</div>
+						<div class="select col-xs-2">
+								<select ng-model="item.sub_ope" class="form-control filter-control" ng-init="item.sub_ope = (rule.edit_selected_row != -1 &&  item.sub_ope != '' ) ? item.sub_ope : 'or'">
+								<option value="and">AND</option>
+								<option value="or">OR</option>
+								<option value="xor">XOR</option>
+							</select>						
+							 <div class="select__arrow"></div>
+							 
+						</div>
+						<div class="col-xs-5">&nbsp;</div>
+				</div>
+				<!--- Check IF end condition OPERATOR on SUB CONDITION ---->
+		</div>	<!--- completed ifc block-->				 
+	</div>	<!-- completed main Block -->	
+	<div class="row row_margin_0 if_main_con"  ng-if="itemrepe.block != rule.create_block" >
+				<div class="col-xs-4">
+				<!--<input type="button" value="Addproperty_in_this_block" ng-click=""  />-->
+				</div>
+				<div class="select col-xs-4" >
+				<input type="hidden" value=""  ng-model="itemrepe.main_ope" class="form-control" ng-init="itemrepe.main_ope = (rule.edit_selected_row != -1 &&  itemrepe.main_ope != '' ) ? itemrepe.main_ope : 'OR';"/>
+				<ul class="block_{{itemrepe.block}}">
+					<li><a  id="AND" ng-class="itemrepe.main_ope=='AND' ? 'main_con_selected' : ''" ng-click="itemrepe.main_ope = 'AND';setMainConditionclass('AND',itemrepe.block)" >AND</a> | </li>
+					<li><a id="OR" ng-class="itemrepe.main_ope=='OR' ? 'main_con_selected' : ''" ng-click="itemrepe.main_ope = 'OR';setMainConditionclass('OR',itemrepe.block)"  >OR</a> | </li>
+					<li><a id="XOR" ng-class="itemrepe.main_ope=='XOR' ? 'main_con_selected' : ''" ng-click="itemrepe.main_ope = 'XOR';setMainConditionclass('XOR',itemrepe.block)" >XOR</a></li>
+				</ul>
+				</div>	
+			<div class="col-xs-4">&nbsp;</div>
+	</div>								
+</div><!-- completed Data condition -->	
+<!------------------- end of Gpatel --->

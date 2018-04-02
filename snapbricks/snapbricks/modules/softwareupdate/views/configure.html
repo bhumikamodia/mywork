@@ -1,0 +1,1067 @@
+<div ng-controller="configureCtrl">
+
+    <div >
+	
+       <div ng-cloak>
+			<md-content>
+				<md-tabs md-dynamic-height md-border-bottom md-selected="-1">
+					<md-tab ng-click="configureGatewayFunction();">Configure Gateway</md-tab>
+					<!--<md-tab ng-click="configureAppFunction();">Configure App</md-tab>-->
+				</md-tabs>
+			</md-content>
+		</div>
+        <!--<div id="btn_group"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFunc();">
+                <i class="fa fa-refresh"></i>Refresh
+            </button>
+			<button type="button" ng-click="configureGatewayFunction();" ng-class="configureGatewayWizard==true? 'btn btn-primary' : 'btn btn-default';" class="btn btn-default btn-shadow border0"><i class="fa fa-certificate"></i>Configure Gateway</button>
+			<button type="button" ng-click="configureAppFunction();" ng-class="configureAppWizard==true? 'btn btn-primary' : 'btn btn-default';" class="btn btn-default btn-shadow border0"><i class="fa fa-certificate"></i>Configure App</button>
+        </div>-->
+    </div>
+	<div id="deviceTable">
+		<div ng-if="configureGatewayWizard == true">
+		<div class="stepwizard"  >
+			<div class="stepwizard-row setup-panel">
+			  <div class="stepwizard-step">
+				<a href="#step-1" ng-click="configGatewayMeshSelection();$event.preventDefault();" type="button" class="btn btn-primary btn-circle">1</a>
+				<p>Select Mesh</p>
+			  </div>
+			  <div class="stepwizard-step">
+			  <SPAN ng-if="configGatewayServerOption == false && configGatewayGatewayOption ==false && configGatewayAppOption == false">
+				<a href="#step-2" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+				</SPAN>
+				<SPAN ng-if="configGatewayServerOption == true || configGatewayGatewayOption ==true || configGatewayAppOption == true">
+				<a href="#step-2" ng-click="configGatewayServerSelection();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >2</a>
+				</SPAN>
+				<p>Select Server</p>
+			  </div>
+			  
+			  <div class="stepwizard-step">
+				<SPAN ng-if="configGatewayGatewayOption == false && configGatewayAppOption ==false">
+				<a href="#step-3" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle"  disabled="disabled">3</a>
+				</SPAN>
+				<SPAN ng-if="configGatewayGatewayOption == true || configGatewayAppOption ==true">
+				<a href="#step-3" ng-click="configGatewayGatewaySelection();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >3</a>
+				</SPAN>
+				<p>Select Gateway</p>
+			  </div>
+			  <div class="stepwizard-step">
+				<SPAN ng-if="configGatewayAppOption == false  ">
+				<a href="#step-4" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle"  disabled="disabled">4</a>
+				</SPAN>
+				<SPAN ng-if="configGatewayAppOption == true ">
+				<a href="#step-4" ng-click="configGatewayAppSelection();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >4</a>
+				</SPAN>
+				<p>Select Configuration</p>
+				</div>
+			   
+			</div>
+		</div>
+			<div ng-if="configGatewayMeshOption == true">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+									
+									<table  class="table table-striped" id="softMeshGrid"  >
+									<thead>
+									<tr>
+									<td colspan="12">
+									<div style="float:left;"><h4>Select Mesh</h4></div>
+									<div style="display: inline-block;float:right;" >
+									<button type="button" ng-click="nextStepconfigGatewayMesh();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+									</div>
+									</td>
+									</tr>
+									<tr>
+									
+									<th>Name</th>
+									<th>Network</th>
+									
+									</tr>
+									</thead>
+									<tbody>
+									<tr  ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-click="setClickedRowMesh($index,MeshApp);" ng-repeat="MeshApp in MeshApps | limitTo:MeshAppPerPage">
+											
+									
+											<td><div >{{MeshApp.name}}</div ></td>
+											<td><div >{{MeshApp.network}}</div ></td>
+											
+											
+											
+									</tr>
+									<tr ng-if="dataMeshAppLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+									<tr class="alert alert-danger" ng-if="(MeshApps.length == 0 || MeshAppTotalRecords ==0) && !dataMeshAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+									</tbody>
+									</table>
+				</div>
+				<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+									<div class="col-lg-12 blue-bg pad10">
+									<div class="col-lg-9">
+
+									<uib-pagination  total-items="MeshAppTotalRecords" ng-model="$parent.$parent.currentMeshAppPage" ng-change="pageChanged()" items-per-page="MeshAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+									boundary-links="true" num-pages="numPages"></uib-pagination>
+
+									</div>
+									<div class="col-lg-3 text-right">Displaying {{$parent.currentMeshAppPage}} / {{numPages}} of {{numPages}}</div>
+								</div>
+
+				</div>				
+
+			</div>
+			<div ng-if="configGatewayServerOption == true">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+								
+								<table  class="table table-striped" id="softAppGrid"  >
+								<thead>
+								<tr>
+								<td colspan="12">
+								<div style="float:left;"><h4>Select Ansible Server</h4></div>
+								<div style="display: inline-block;float:right;" >
+								<button type="button" ng-click="nextStepconfigGatewayServer();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+								</div>
+								</td>
+								</tr>
+								<tr>
+								
+								<th>Name</th>
+								<th>IP</th>
+								<th>Mesh</th>
+								<th>Mesh Network</th>
+								<th>Created On</th>
+								<th>Status</th>
+								
+								</tr>
+								
+								</thead>
+								<tbody>
+								<tr  ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-click="setClickedRowServer($index,ServerApp);" ng-repeat="ServerApp in filtered = (ServerApps) | limitTo:ServerAppPerPage">
+										
+								
+										<td><div >{{ServerApp.name}}</div ></td>
+										<td><div >{{ServerApp.ip}}</div ></td>
+										<td><div >{{ServerApp.mesh}}</div ></td>
+										<td><div >{{ServerApp.mesh_group}}</div ></td>
+										<td><div >{{ServerApp.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+										<td><div >{{ServerApp.status}}</div ></td>
+										
+								</tr>
+								<tr ng-if="dataServerAppLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(filtered.length == 0 || ServerAppTotalRecords ==0) && !dataServerAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+								</tbody>
+								</table>
+				</div>
+				<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+
+								<uib-pagination  total-items="ServerAppTotalRecords" ng-model="$parent.$parent.currentServerAppPage" ng-change="pageChanged()" items-per-page="ServerAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+								boundary-links="true" num-pages="numPages"></uib-pagination>
+
+								</div>
+								<div class="col-lg-3 text-right">Displaying {{$parent.currentServerAppPage}} / {{numPages}} of {{numPages}}</div>
+								</div>
+
+				</div>
+			</div>
+		
+			<div ng-if="configGatewayGatewayOption == true">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+							
+							<table  class="table table-striped" id="softGatewayGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Gateway</h4></div>
+							<div style=" display: inline-block;float:right;" >
+							<button type="button" ng-click="nextStepconfigGatewayGateway();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+							</div>
+							</td>
+							</tr>
+							<tr>
+							<th ><!--<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAllGateway" ng-click="checkAllSoftwareGateway(selectedAllGateway)" /> <label></label></span>--></th>
+							<th >Live</th>
+							<th >Display Name</th>
+							
+							<th >Static IP</th>
+							<th >Mesh</th>
+							<th >Mesh Network</th>
+							
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-click="setClickedRowGateway($index,gateway)" ng-repeat="gateway in filtered = (gatewayList) | limitTo:gatewayPerPage">
+							<td>
+												<SPAN class="checkbox checkbox-primary">
+												<input type="checkbox" id="{{gateway.id}}"  ng-checked="arrayObjectIndexOf(arrGatewayCheckboxSelection,gateway.id) > -1"  value="{{gateway.id}}"  /><label for="gateway.gatewaySelected"></label></SPAN>
+												</td>
+							<td>
+							<div uib-tooltip="Offline" tooltip-placement = "top" ng-if="gateway.connected==false"><div class="orange center-block"></div></div>
+							<div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+							</td>
+							<td>{{gateway.displayname}}</td>
+							
+							<td>{{gateway.gatewaymeta.staticip}}</td>
+							<td>{{gateway.gatewaymeta.meshID}}</td>
+							<td>{{gateway.gatewaymeta.meshNetwork}}</td>
+							
+							
+							</tr>
+							<tr ng-if="dataLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalItems ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody>
+							</table>
+							
+				</div>
+				<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+											<div class="col-lg-12 blue-bg pad10">
+											<div class="col-lg-9">
+											
+											<uib-pagination  total-items="totalItems" ng-model="$parent.$parent.currentGatewayPage" ng-change="pageChanged1()" items-per-page="gatewayPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+				boundary-links="true" num-pages="numPages"></uib-pagination>
+														
+													</div>
+													<div class="col-lg-3 text-right">Displaying {{currentGatewayPage}} / {{numPages}} of {{numPages}}</div>
+													</div>
+											
+				</div>
+			</div>
+
+			<div ng-if="configGatewayAppOption == true">
+			<!-- 		<div class="panel-group" id="accordion"  >
+						<div class="panel panel-default pad5"   ><div style="float:right;"><button class="btn btn-primary" ng-disabled="(formAzureConfig.$invalid) || (formUsbConfig.$invalid) || (formbaseConfig.$invalid) || (formcloudConnect.$invalid) || dataLoadingsaveAllConnection" ng-click="saveAllOptions();">Save All</button><i ng-if="dataLoadingsaveAllConnection"  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+						<div class="panel-heading">
+								<h4 class="panel-title"><a  data-parent="#accordion" data-toggle="collapse" href="#configGatewayStep1" ng-click="$event.preventDefault();" >
+										<i class="more-less fa fa-minus-square-o"></i>AzureIOT Hub Configuration</a>
+								
+								</h4>
+								
+						</div>
+						<div id="configGatewayStep1" class="panel-collapse collapse in">
+							<div class="panel-group margin0"  >
+							<form class="form-horizontal" id="formAzureConfig" name="formAzureConfig" >
+							<table class="table table-striped margin0" >
+								<tr>
+									<td>IOT Hub Name:</td>
+									<td ng-class="{ 'has-error': formAzureConfig.hub_name.$dirty && (formAzureConfig.hub_name.$error.required || formAzureConfig.hub_name.$error.maxlength) }">
+									<input type="text" name="hub_name" ng-model="configuration.AzureIoTHubConfiguration.IoTHubName" disallow-spaces  required  ng-maxlength="40" class="form-control width80" />
+									<span ng-show="formAzureConfig.hub_name.$dirty && formAzureConfig.hub_name.$error.required" class="help-block">This field is required</span>
+									<span ng-show="formAzureConfig.hub_name.$error.maxlength" class="help-block">This field Should Contain within 40 Characters</span>
+									</td>
+								</tr>
+								<tr>
+									<td>Primary Connection String:</td>
+									<td ng-class="{ 'has-error': formAzureConfig.primaryConnection.$dirty && (formAzureConfig.primaryConnection.$error.required || formAzureConfig.primaryConnection.$error.maxlength) }">
+									<input type="text" name="primaryConnection" ng-model="configuration.AzureIoTHubConfiguration.PrimaryConnectionString" disallow-spaces required  ng-maxlength="150" class="form-control width80"  />
+									<span ng-show="formAzureConfig.primaryConnection.$dirty && formAzureConfig.primaryConnection.$error.required" class="help-block">This field is required</span>
+									<span ng-show="formAzureConfig.primaryConnection.$error.maxlength" class="help-block">This field Should Contain within 150 Characters</span>
+									</td>
+								</tr>
+								<tr>
+									<td>Secondary Connection String:</td>
+									<td ng-class="{ 'has-error': formAzureConfig.secondaryConnection.$dirty && (formAzureConfig.secondaryConnection.$error.required || formAzureConfig.secondaryConnection.$error.maxlength) }">
+									<input type="text" name="secondaryConnection" ng-model="configuration.AzureIoTHubConfiguration.SecondaryConnectionString" disallow-spaces required  ng-maxlength="150" class="form-control width80" />
+									<span ng-show="formAzureConfig.secondaryConnection.$dirty && formAzureConfig.secondaryConnection.$error.required" class="help-block">This field is required</span>
+									<span ng-show="formAzureConfig.secondaryConnection.$error.maxlength" class="help-block">This field Should Contain within 150 Characters</span>
+									</td>
+								</tr>
+								
+								<tr>
+									<td class="graybg">&nbsp;</td>
+									<td class="graybg">
+										<button type="button" ng-disabled="formAzureConfig.$invalid || dataLoadingHubConnection"  ng-click="hubConnection();" class="btn btn-primary">Save</button>
+										<i ng-if="dataLoadingHubConnection"  class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+									</td>
+								</tr>	
+							</table>
+							</form>
+							</div>
+						</div>
+						</div>
+						<div class="panel panel-default pad5"   >
+						<div class="panel-heading">
+								<h4 class="panel-title"><a  data-toggle="collapse" data-parent="#accordion" href="#configGatewayStep2" ng-click="$event.preventDefault();" >
+										<i class="more-less fa fa-plus-square-o"></i>USB Configuration</a>
+								</h4>			 
+						</div>
+						<div id="configGatewayStep2" class="panel-collapse collapse">
+							<div class="panel-group margin0"  >
+							<form class="form-horizontal" id="formUsbConfig" name="formUsbConfig" >
+								<table class="table table-striped margin0" >
+									<tr>
+										<td>No of USBs:</td>
+										<td ng-class="{ 'has-error': (formUsbConfig.gateway_noofusbs.$dirty && (formUsbConfig.gateway_noofusbs.$error.required || !formUsbConfig.gateway_noofusbs.$valid)) }">
+										<input type="number" class="form-control" ng-model="configuration2.usbConfiguration.noofusbs" name="gateway_noofusbs"  min="1" max="8" required>
+										<span ng-show="formUsbConfig.gateway_noofusbs.$dirty && formUsbConfig.gateway_noofusbs.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+										<span ng-show="formUsbConfig.gateway_noofusbs.$dirty && !formUsbConfig.gateway_noofusbs.$valid" class="help-block" aria-hidden="true">This is not valid number</span>
+										</td>
+									</tr>
+									
+									<tr>
+										<td class="graybg">&nbsp;</td>
+										<td class="graybg">
+											<button type="button"  ng-disabled="formUsbConfig.$invalid || dataLoadingUsbConnection"  ng-click="usbConnection();"  class="btn btn-primary">Save</button>
+											<i ng-if="dataLoadingUsbConnection"  class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+										</td>
+									</tr>	
+								</table>
+							</form>
+							</div>
+						</div>
+						</div> -->
+						<!-- <div class="panel panel-default pad5"   >
+						<div class="panel-heading">
+								<h4 class="panel-title"><a  data-toggle="collapse" data-parent="#accordion" href="#configGatewayStep3" ng-click="$event.preventDefault();" >
+										<i class="more-less fa fa-plus-square-o"></i>Base URL Infomation</a>
+								</h4>			 
+						</div>		
+						<div id="configGatewayStep3" class="panel-collapse collapse">
+						<div class="panel-group margin0" >
+						<form class="form-horizontal" id="formbaseConfig" name="formbaseConfig" >
+								<table class="table table-striped margin0" >
+								<tr>
+									<td>Base URL Syntax</td>
+									<td ng-class="{ 'has-error': (formbaseConfig.url.$dirty && (formbaseConfig.url.$error.required || !formbaseConfig.url.$valid)) }">
+									<input type="text" name="url" ng-model="configuration3.baseurlConfiguration.baseurl" disallow-spaces required  class="form-control width80" />
+									<span ng-show="formbaseConfig.url.$dirty && formbaseConfig.url.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+										<span ng-show="formbaseConfig.url.$dirty && !formbaseConfig.url.$valid" class="help-block" aria-hidden="true">This is not valid number</span>
+									</td>
+								</tr>
+							
+								<tr>
+									<td class="graybg">&nbsp;</td>
+									<td class="graybg">
+									
+										<button type="button"  ng-disabled="formbaseConfig.$invalid || dataLoadingBaseConnection"  ng-click="baseConnection();" class="btn btn-primary">Save</button>
+										<i ng-if="dataLoadingBaseConnection"  class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+									</td>
+								</tr>	
+								</table>
+						</form>
+						</div>	
+						</div>
+						</div>
+						<div class="panel panel-default pad5"   >
+						<div class="panel-heading">
+								<h4 class="panel-title"><a  data-toggle="collapse" data-parent="#accordion" href="#configGatewayStep4" ng-click="$event.preventDefault();" >
+										<i class="more-less fa fa-plus-square-o"></i>Cloud Connectivity</a>
+								</h4>			 
+						</div>		
+						<div id="configGatewayStep4" class="panel-collapse collapse">
+						<div class="panel-group margin0"  >
+						<form class="form-horizontal" id="formcloudConnect" name="formcloudConnect" >
+									
+							<div class="row row_margin_0">
+							
+								<div ng-repeat="cdata in configuration4.CloudConnectivityConfiguration">
+									<div class="col-xs-6 margin0 mr-top10 pad-left0" >
+									
+										<table class="table table-striped margin0" style="border:2px solid #ccc">
+											<tr>
+												<td>Protocol</td>
+												<td ng-class="{ 'has-error': (formcloudConnect.protocol[$index].$dirty && formcloudConnect.protocol[$index].$error.required) || (formcloudConnect.protocol[$index].$error.maxlength) }">
+												
+												<select ng-model="cdata.protocol" name="protocol[$index]" class="form-control width80" ng-change="protocolFun(cdata.protocol,cdata);">
+												<option value="MQTT">MQTT</option>
+												<option value="AMQP">AMQP</option>
+												<option value="STOMP">STOMP</option>
+												</select>
+												<span ng-show="formcloudConnect.protocol[$index].$dirty && formcloudConnect.protocol[$index].$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+												<span ng-show="formcloudConnect.protocol[$index].$error.maxlength" class="help-block">This field Should Contain within 40 Characters</span>
+												</td>
+											</tr>
+											
+											<tr>
+												<td>Broker IP</td>
+												<td ng-class="{ 'has-error': (formcloudConnect.broker[$index].$dirty && formcloudConnect.broker[$index].$error.required) || (formcloudConnect.broker[$index].$error.maxlength) }">
+												<input type="text" name="broker[$index]" ng-model="cdata.url" class="form-control width80" disallow-spaces required  ng-maxlength="40" />
+												<span ng-show="formcloudConnect.broker[$index].$dirty && formcloudConnect.broker[$index].$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+												<span ng-show="formcloudConnect.broker[$index].$error.maxlength" class="help-block">This field Should Contain within 40 Characters</span>
+												</td>
+											</tr>
+											<tr>
+												<td>Port</td>
+												<td ng-class="{ 'has-error': (formcloudConnect.port[$index].$dirty && formcloudConnect.port[$index].$error.required) || (formcloudConnect.port[$index].$error.maxlength) }">
+												<input type="text" ng-model="cdata.port" class="form-control width80" disallow-spaces required  ng-maxlength="40" />
+												<span ng-show="formcloudConnect.port[$index].$dirty && formcloudConnect.port[$index].$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+												<span ng-show="formcloudConnect.port[$index].$error.maxlength" class="help-block">This field Should Contain within 40 Characters</span>
+												</td>
+											</tr>
+											<tr>
+												<td>Username</td>
+												<td ng-class="{ 'has-error': (formcloudConnect.username[$index].$dirty && formcloudConnect.username[$index].$error.required) || (formcloudConnect.username[$index].$error.maxlength) }">
+												<input type="text" name="username[$index]" ng-model="cdata.username" class="form-control width80" disallow-spaces required  ng-maxlength="40" />
+												<span ng-show="formcloudConnect.username[$index].$dirty && formcloudConnect.username[$index].$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+												<span ng-show="formcloudConnect.username[$index].$error.maxlength" class="help-block">This field Should Contain within 40 Characters</span>
+												</td>
+											</tr>
+											<tr>
+												<td>Password</td>
+												<td ng-class="{ 'has-error': (formcloudConnect.password[$index].$dirty && formcloudConnect.password[$index].$error.required) || (formcloudConnect.password[$index].$error.maxlength) }">
+												<input type="password" name="password[$index]" ng-model="cdata.password" class="form-control width80" disallow-spaces required  ng-maxlength="40" />
+												<span ng-show="formcloudConnect.password[$index].$dirty && formcloudConnect.password[$index].$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+												<span ng-show="formcloudConnect.password[$index].$error.maxlength" class="help-block">This field Should Contain within 40 Characters</span>
+												</td>
+											</tr>
+											
+											<tr>
+												<td>Management Type</td>
+												<td >
+													<select class="form-control width80" ng-model="cdata.type.management" >
+													<option value="primary">primary</option>
+													<option value="secondary">secondary</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td>Data Type</td>
+												<td><select class="form-control width80" ng-model="cdata.type.data" >
+													<option value="primary">primary</option>
+													<option value="secondary">secondary</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td>
+													<div style="float:left"><button type="button"  ng-click="UpdateCloudeRecord($index)" class="btn">Edit</button>&nbsp;&nbsp;</div>
+													<div style="float:left"><button type="button"  ng-click="DeleteCloudeRecord($index)" class="btn">Delete</button>&nbsp;&nbsp;</div>
+													<div style="float:left"><button type="button"  ng-click="funcCloudConnectivity('TEST',$index);" class="btn">Test Connection</button></div>
+												</td>
+											</tr>
+										</table>
+									
+									</div>				
+								</div>
+							</div>	
+						<div class="row margin0 pad5 graybg addconnection"><button class="btn btn-primary" ng-click="AddCloudeRecord(configuration4.CloudConnectivityConfiguration.length)">Add Connection</button>	
+						<button class="btn btn-primary" ng-disabled="formcloudConnect.$invalid || dataLoadingCloudConnection" ng-click="SaveCloudeRecord()">Save</button>
+						<i ng-if="dataLoadingCloudConnection"  class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+						</div>
+						</form>
+						</div>
+						</div>
+						</div> -->
+	<div class="panel-group" id="accordion">
+    <div class="panel panel-default pad5" ng-init="m_key=1">
+        <div class="panel-heading">
+            <h4 class="panel-title"><a  data-toggle="collapse" data-parent="#accordion" href="#editDefinitionProperty1" ng-click="$event.preventDefault();" >
+                    <i class="more-less fa fa-plus-square-o"></i>Base URL Infomation</a>
+            </h4>
+        </div>
+        <div id="editDefinitionProperty1" class="panel-collapse collapse">
+            <div class="panel-group margin0">
+			<form class="form-horizontal" id="formbaseConfig" name="formbaseConfig" >
+             
+                <table class="table table-striped margin0">
+                    <tr>
+                        <td width="15%">Organization Abbreviation</td>
+                        <td>
+                            <span class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
+                            <input type="text" style="width:110px;" ng-model="configuration3.baseurlConfiguration.baseurl" class="form-control"   />
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%">Gateway Base URL Syntax</td>
+                        <td><div class="col-lg-4 col-md-4 col-xs-4 col-sm-4" style="display: flex;">
+                            <input type="text" style="width:110px;" ng-model="configuration3.baseurlConfiguration.baseurl" class="form-control "  disabled="disabled" />&nbsp;/&nbsp;
+                            <input type="text" style="width:110px;" value="$orgid$" class="form-control" disabled="disabled" />&nbsp;/&nbsp;
+                            <input type="text" style="width:110px;" value="$gatewayid$" class="form-control " disabled="disabled" />&nbsp;/&nbsp;
+                        </div>
+                           
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%">App Base URL Syntax</td>
+                        <td><div class="col-lg-5 col-md-5 col-xs-5 col-sm-5" style="display: flex;">
+                            <input type="text" style="width:110px;" ng-model="configuration3.baseurlConfiguration.baseurl" class="form-control "  disabled="disabled" />&nbsp;/&nbsp;
+                            <input type="text" style="width:110px;" value="$orgid$" class="form-control" disabled="disabled" />&nbsp;/&nbsp;
+                            <input type="text" style="width:110px;" value="$gatewayid$" class="form-control " disabled="disabled" />&nbsp;/&nbsp;
+                            <input type="text" style="width:110px;" value="apps" class="form-control " disabled="disabled" />&nbsp;/&nbsp;
+                            <input type="text" style="width:110px;" value="$appid$" class="form-control " disabled="disabled" />&nbsp;/&nbsp;
+                        </div>
+                           
+                        </td>
+                    </tr>
+                     <tr>
+                            <td width="15%"> Telemetry Topic</td>
+                            <td ng-class="{ 'has-error': (formbaseConfig.url.$dirty && (formbaseConfig.url.$error.required || !formbaseConfig.url.$valid)) }">
+                                <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5" style="display: flex;">
+                                <input type="text" style="width:110px;" name="url" ng-model="configuration3.baseurlConfiguration.baseurl" disallow-spaces required class="form-control " disabled="disabled" /> &nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" name="url" value="data" disallow-spaces required class="form-control " disabled="disabled" />&nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" name="url" value="$orgid$" disabled="disabled" disallow-spaces required class="form-control " />&nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" name="url" value="$gatewayid$" disabled="disabled" disallow-spaces required class="form-control " />&nbsp;/&nbsp;
+                               
+                                <span ng-show="formbaseConfig.url.$dirty && formbaseConfig.url.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+                                <span ng-show="formbaseConfig.url.$dirty && !formbaseConfig.url.$valid" class="help-block" aria-hidden="true">This is not valid value</span>
+                                </div>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td width="15%">Gateway Notification Topic</td>
+                            <td ng-class="{ 'has-error': (formbaseConfig.url.$dirty && (formbaseConfig.url.$error.required || !formbaseConfig.url.$valid)) }">
+                                <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5" style="display: flex;">
+                                <input type="text" style="width:110px;" name="url" disallow-spaces required class="form-control " ng-model="configuration3.baseurlConfiguration.baseurl" disabled="disabled"/> &nbsp;/&nbsp;
+                                 <input type="text" style="width:110px;" value="notification" name="url" disallow-spaces required class="form-control " disabled="disabled"/>&nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" value="$orgid$" name="url" disallow-spaces required class="form-control " disabled="disabled"/>&nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" value="$gatewayid$" name="url"  disabled="disabled" disallow-spaces required class="form-control " />&nbsp;/&nbsp;
+                                 
+                                <span ng-show="formbaseConfig.url.$dirty && formbaseConfig.url.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+                                <span ng-show="formbaseConfig.url.$dirty && !formbaseConfig.url.$valid" class="help-block" aria-hidden="true">This is not valid value</span>
+                            </div>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td width="15%">App Notification Topic</td>
+                            <td ng-class="{ 'has-error': (formbaseConfig.url.$dirty && (formbaseConfig.url.$error.required || !formbaseConfig.url.$valid)) }">
+                                <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5" style="display: flex;">
+                                     <input type="text" style="width:110px;" name="url" disallow-spaces required class="form-control " ng-model="configuration3.baseurlConfiguration.baseurl" disabled="disabled"/> &nbsp;/&nbsp;
+                                 <input type="text" style="width:110px;" value="notification" name="url" disallow-spaces required class="form-control " disabled="disabled"/>&nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" value="$orgid$" name="url" disallow-spaces required class="form-control " disabled="disabled"/>&nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" value="$gatewayid$" name="url"  disabled="disabled" disallow-spaces required class="form-control " />&nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" value="apps" name="url"  disabled="disabled" disallow-spaces required class="form-control " />&nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" value="$appid$" name="url"  disabled="disabled" disallow-spaces required class="form-control " />&nbsp;/&nbsp;
+                                <span ng-show="formbaseConfig.url.$dirty && formbaseConfig.url.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+                                <span ng-show="formbaseConfig.url.$dirty && !formbaseConfig.url.$valid" class="help-block" aria-hidden="true">This is not valid value</span>
+                            </div>
+                            </td>
+                        </tr>
+                        
+                         <tr>
+                            <td width="15%">Device Notification Topic</td>
+                            <td ng-class="{ 'has-error': (formbaseConfig.url.$dirty && (formbaseConfig.url.$error.required || !formbaseConfig.url.$valid)) }">
+                                <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5" style="display: flex;">
+                                     <input type="text" style="width:110px;" name="url" disallow-spaces required class="form-control " ng-model="configuration3.baseurlConfiguration.baseurl" disabled="disabled"/> &nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" value="notification" name="url" disallow-spaces required class="form-control " disabled="disabled"/>&nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" value="$orgid$" name="url" disallow-spaces required class="form-control " disabled="disabled"/>&nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" value="$gatewayid$" name="url"  disabled="disabled" disallow-spaces required class="form-control " />&nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" value="devices" name="url"  disabled="disabled" disallow-spaces required class="form-control " />&nbsp;/&nbsp;
+                                <input type="text" style="width:110px;" value="$deviceid$" name="url"  disabled="disabled" disallow-spaces required class="form-control " />&nbsp;/&nbsp;
+                                <span ng-show="formbaseConfig.url.$dirty && formbaseConfig.url.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+                                <span ng-show="formbaseConfig.url.$dirty && !formbaseConfig.url.$valid" class="help-block" aria-hidden="true">This is not valid value</span>
+                            </div>
+                            </td>
+                        </tr>
+                    
+                    <tr>
+                        <td class="graybg">&nbsp;</td>
+                        <td class="graybg">
+                          <button type="button"  ng-disabled="formbaseConfig.$invalid || dataLoadingBaseConnection"  ng-click="baseConnection();" class="btn btn-primary">Save</button>
+							<i ng-if="dataLoadingBaseConnection"  class="fa fa-spinner fa-spin fa-2x fa-fw"></i>  
+                        </td>
+                    </tr>
+                </table>
+            
+
+			  <!-- <table class="table table-striped margin0">
+                    <tr>
+                        <td>Base URL Syntax</td>
+                        <td ng-class="{ 'has-error': (formbaseConfig.url.$dirty && (formbaseConfig.url.$error.required || !formbaseConfig.url.$valid)) }">
+						<input type="text" name="url" ng-model="configuration3.baseurlConfiguration.baseurl" disallow-spaces required  class="form-control width80" />
+						<span ng-show="formbaseConfig.url.$dirty && formbaseConfig.url.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+						<span ng-show="formbaseConfig.url.$dirty && !formbaseConfig.url.$valid" class="help-block" aria-hidden="true">This is not valid number</span>
+						
+						</td>
+                    </tr>
+                   
+                    <tr>
+                        <td class="graybg">&nbsp;</td>
+                        <td class="graybg">
+                          <button type="button"  ng-disabled="formbaseConfig.$invalid || dataLoadingBaseConnection"  ng-click="baseConnection();" class="btn btn-primary">Save</button>
+							<i ng-if="dataLoadingBaseConnection"  class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+                        </td>
+                    </tr>
+                </table>-->
+			</form>	
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default pad5">
+        <div class="panel-heading">
+            <h4 class="panel-title"><a  data-toggle="collapse" data-parent="#accordion" href="#editDefinitionProperty4" ng-click="$event.preventDefault();" >
+                    <i class="more-less fa fa-plus-square-o"></i>USB Configurations</a>                 
+            </h4>
+        </div>
+        <div id="editDefinitionProperty4" class="panel-collapse collapse">
+            <div class="panel-group margin0">
+               <form class="form-horizontal" id="formUsbConfig" name="formUsbConfig" >
+								<table class="table table-striped margin0" >
+									<tr>
+										<td>No of USBs:</td>
+										<td ng-class="{ 'has-error': (formUsbConfig.gateway_noofusbs.$dirty && (formUsbConfig.gateway_noofusbs.$error.required || !formUsbConfig.gateway_noofusbs.$valid)) }">
+										<input type="number" class="form-control" ng-model="configuration2.usbConfiguration.noofusbs" name="gateway_noofusbs"  min="1" max="8" required>
+										<span ng-show="formUsbConfig.gateway_noofusbs.$dirty && formUsbConfig.gateway_noofusbs.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+										<span ng-show="formUsbConfig.gateway_noofusbs.$dirty && !formUsbConfig.gateway_noofusbs.$valid" class="help-block" aria-hidden="true">This is not valid number</span>
+										</td>
+									</tr>
+									
+									<tr>
+										<td class="graybg">&nbsp;</td>
+										<td class="graybg">
+											<button type="button"  ng-disabled="formUsbConfig.$invalid || dataLoadingUsbConnection"  ng-click="usbConnection();"  class="btn btn-primary">Save</button>
+											<i ng-if="dataLoadingUsbConnection"  class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+										</td>
+									</tr>	
+								</table>
+							</form>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default pad5">
+        <div class="panel-heading">
+            <h4 class="panel-title"><a  data-toggle="collapse" data-parent="#accordion" href="#editDefinitionProperty3" ng-click="$event.preventDefault();" >
+                    <i class="more-less fa fa-plus-square-o"></i>Azure Connectivity</a>                    
+            </h4>
+        </div>
+        <div id="editDefinitionProperty3" class="panel-collapse collapse">
+            <div class="panel-group margin0">
+               <form class="form-horizontal" id="formAzureConfig" name="formAzureConfig" >
+							<table class="table table-striped margin0" >
+								<tr>
+									<td>IOT Hub Name:</td>
+									<td ng-class="{ 'has-error': formAzureConfig.hub_name.$dirty && (formAzureConfig.hub_name.$error.required || formAzureConfig.hub_name.$error.maxlength) }">
+									<input type="text" name="hub_name" ng-model="configuration.AzureIoTHubConfiguration.IoTHubName" disallow-spaces  required  ng-maxlength="40" class="form-control width80" />
+									<span ng-show="formAzureConfig.hub_name.$dirty && formAzureConfig.hub_name.$error.required" class="help-block">This field is required</span>
+									<span ng-show="formAzureConfig.hub_name.$error.maxlength" class="help-block">This field Should Contain within 40 Characters</span>
+									</td>
+								</tr>
+								<tr>
+									<td>Primary Connection String:</td>
+									<td ng-class="{ 'has-error': formAzureConfig.primaryConnection.$dirty && (formAzureConfig.primaryConnection.$error.required || formAzureConfig.primaryConnection.$error.maxlength) }">
+									<input type="text" name="primaryConnection" ng-model="configuration.AzureIoTHubConfiguration.PrimaryConnectionString" disallow-spaces required  ng-maxlength="150" class="form-control width80"  />
+									<span ng-show="formAzureConfig.primaryConnection.$dirty && formAzureConfig.primaryConnection.$error.required" class="help-block">This field is required</span>
+									<span ng-show="formAzureConfig.primaryConnection.$error.maxlength" class="help-block">This field Should Contain within 150 Characters</span>
+									</td>
+								</tr>
+								<tr>
+									<td>Secondary Connection String:</td>
+									<td ng-class="{ 'has-error': formAzureConfig.secondaryConnection.$dirty && (formAzureConfig.secondaryConnection.$error.required || formAzureConfig.secondaryConnection.$error.maxlength) }">
+									<input type="text" name="secondaryConnection" ng-model="configuration.AzureIoTHubConfiguration.SecondaryConnectionString" disallow-spaces required  ng-maxlength="150" class="form-control width80" />
+									<span ng-show="formAzureConfig.secondaryConnection.$dirty && formAzureConfig.secondaryConnection.$error.required" class="help-block">This field is required</span>
+									<span ng-show="formAzureConfig.secondaryConnection.$error.maxlength" class="help-block">This field Should Contain within 150 Characters</span>
+									</td>
+								</tr>
+								
+								<tr>
+									<td class="graybg">&nbsp;</td>
+									<td class="graybg">
+										<button type="button" ng-disabled="formAzureConfig.$invalid || dataLoadingHubConnection"  ng-click="hubConnection();" class="btn btn-primary">Save</button>
+										<i ng-if="dataLoadingHubConnection"  class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+									</td>
+								</tr>	
+							</table>
+							</form>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default pad5">
+        <div class="panel-heading">
+            <h4 class="panel-title"><a  data-toggle="collapse" data-parent="#accordion" href="#editDefinitionProperty5" ng-click="$event.preventDefault();" >
+                    <i class="more-less fa fa-plus-square-o"></i>Cloud Connectivity</a>                 
+            </h4>
+        </div>
+        <div id="editDefinitionProperty5" class="panel-collapse collapse">
+            <div class="panel-group margin0">
+                 <form class="form-horizontal" id="formcloudConnect" name="formcloudConnect" >
+									
+							<div class="row row_margin_0">
+							
+								<div ng-repeat="cdata in configuration4.CloudConnectivityConfiguration">
+									<div class="col-xs-6 margin0 mr-top10 pad-left0" >
+									
+										<table class="table table-striped margin0" style="border:2px solid #ccc">
+											<tr>
+												<td>Protocol</td>
+												<td ng-class="{ 'has-error': (formcloudConnect.protocol[$index].$dirty && formcloudConnect.protocol[$index].$error.required) || (formcloudConnect.protocol[$index].$error.maxlength) }">
+												
+												<select ng-model="cdata.protocol" name="protocol[$index]" class="form-control width80" ng-change="protocolFun(cdata.protocol,cdata);">
+												<option value="MQTT">MQTT</option>
+												<option value="AMQP">AMQP</option>
+												<option value="STOMP">STOMP</option>
+												</select>
+												<span ng-show="formcloudConnect.protocol[$index].$dirty && formcloudConnect.protocol[$index].$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+												<span ng-show="formcloudConnect.protocol[$index].$error.maxlength" class="help-block">This field Should Contain within 40 Characters</span>
+												</td>
+											</tr>
+											
+											<tr>
+												<td>Broker IP</td>
+												<td ng-class="{ 'has-error': (formcloudConnect.broker[$index].$dirty && formcloudConnect.broker[$index].$error.required) || (formcloudConnect.broker[$index].$error.maxlength) }">
+												<input type="text" name="broker[$index]" ng-model="cdata.url" class="form-control width80" disallow-spaces required  ng-maxlength="40" />
+												<span ng-show="formcloudConnect.broker[$index].$dirty && formcloudConnect.broker[$index].$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+												<span ng-show="formcloudConnect.broker[$index].$error.maxlength" class="help-block">This field Should Contain within 40 Characters</span>
+												</td>
+											</tr>
+											<tr>
+												<td>Port</td>
+												<td ng-class="{ 'has-error': (formcloudConnect.port[$index].$dirty && formcloudConnect.port[$index].$error.required) || (formcloudConnect.port[$index].$error.maxlength) }">
+												<input type="text" ng-model="cdata.port" class="form-control width80" disallow-spaces required  ng-maxlength="40" />
+												<span ng-show="formcloudConnect.port[$index].$dirty && formcloudConnect.port[$index].$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+												<span ng-show="formcloudConnect.port[$index].$error.maxlength" class="help-block">This field Should Contain within 40 Characters</span>
+												</td>
+											</tr>
+											<tr>
+												<td>Username</td>
+												<td ng-class="{ 'has-error': (formcloudConnect.username[$index].$dirty && formcloudConnect.username[$index].$error.required) || (formcloudConnect.username[$index].$error.maxlength) }">
+												<input type="text" name="username[$index]" ng-model="cdata.username" class="form-control width80" disallow-spaces required  ng-maxlength="40" />
+												<span ng-show="formcloudConnect.username[$index].$dirty && formcloudConnect.username[$index].$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+												<span ng-show="formcloudConnect.username[$index].$error.maxlength" class="help-block">This field Should Contain within 40 Characters</span>
+												</td>
+											</tr>
+											<tr>
+												<td>Password</td>
+												<td ng-class="{ 'has-error': (formcloudConnect.password[$index].$dirty && formcloudConnect.password[$index].$error.required) || (formcloudConnect.password[$index].$error.maxlength) }">
+												<input type="password" name="password[$index]" ng-model="cdata.password" class="form-control width80" disallow-spaces required  ng-maxlength="40" />
+												<span ng-show="formcloudConnect.password[$index].$dirty && formcloudConnect.password[$index].$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+												<span ng-show="formcloudConnect.password[$index].$error.maxlength" class="help-block">This field Should Contain within 40 Characters</span>
+												</td>
+											</tr>
+											
+											<tr>
+												<td>Management Type</td>
+												<td >
+													<select class="form-control width80" ng-model="cdata.type.management" >
+													<option value="primary">primary</option>
+													<option value="secondary">secondary</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td>Data Type</td>
+												<td><select class="form-control width80" ng-model="cdata.type.data" >
+													<option value="primary">primary</option>
+													<option value="secondary">secondary</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td>
+													<div style="float:left"><button type="button"  ng-click="UpdateCloudeRecord($index)" class="btn">Edit</button>&nbsp;&nbsp;</div>
+													<div style="float:left"><button type="button"  ng-click="DeleteCloudeRecord($index)" class="btn">Delete</button>&nbsp;&nbsp;</div>
+													<div style="float:left"><button type="button"  ng-click="funcCloudConnectivity('TEST',$index);" class="btn">Test Connection</button></div>
+												</td>
+											</tr>
+										</table>
+									
+									</div>				
+								</div>
+							</div>	
+						<div class="row margin0 pad5 graybg addconnection"><button class="btn btn-primary" ng-click="AddCloudeRecord(configuration4.CloudConnectivityConfiguration.length)">Add Connection</button>	
+						<button class="btn btn-primary" ng-disabled="formcloudConnect.$invalid || dataLoadingCloudConnection" ng-click="SaveCloudeRecord()">Save</button>
+						<i ng-if="dataLoadingCloudConnection"  class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+						</div>
+						</form>
+            </div>
+    </div>
+    <div class="panel panel-default pad5">
+        <div class="panel-heading">
+            <h4 class="panel-title"><a  data-toggle="collapse" data-parent="#accordion" href="#editDefinitionProperty6" ng-click="$event.preventDefault();" >
+                    <i class="more-less fa fa-plus-square-o"></i>Local Connectivity</a>                 
+            </h4>
+        </div>
+        <div id="editDefinitionProperty6" class="panel-collapse collapse">
+            <div class="panel-group margin0">
+                <div class="row margin0 pad5 graybg addconnection">
+                    <button class="btn btn-primary" ng-click="AddLocalRecord(configuration4.LocalConnectivityConfiguration.length)">Add Connection</button>
+                </div>
+                <div class="row row_margin_0">
+                    <div ng-repeat="ldata in configuration4.LocalConnectivityConfiguration">
+                        <div class="col-xs-6 margin0 mr-top10 pad-left0">
+                            <table class="table table-striped margin0" style="border:2px solid #ccc">
+                                <tr>
+                                    <td>Protocol</td>
+                                    <td>
+                                        <select ng-model="ldata.protocol" name="protocol[$index]" class="form-control width80" ng-change="protocolFun(ldata.protocol,ldata);">
+                                            <option value="">Select Any</option>
+                                            <option value="MQTT">MQTT</option>
+                                            <option value="AMQP">AMQP</option>
+                                            <option value="STOMP">STOMP</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Broker IP</td>
+                                     <td>
+                                        <form id="form" name="form">
+                                            <div  ng-class="{ 'has-error': form.ip.$dirty && form.ip.$error.pattern }">
+                                        <input type="text" ng-model="ldata.url" name="ip" id="ip" class="form-control width80"  ng-pattern="/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/" />
+                                        <span ng-if="form.ip.$error.pattern" class="help-block" aria-hidden="true">IP is not valid</span>
+                                    </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Port</td>
+                                    <td>
+                                        <input type="number" ng-model="ldata.port" class="form-control width80" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Username</td>
+                                    <td>
+                                        <input type="text" ng-model="ldata.user" class="form-control width80" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Password</td>
+                                    <td>
+                                        <input type="password" ng-model="ldata.pass" class="form-control width80" />
+                                    </td>
+                                </tr>
+                               <!--  <tr>
+                                    <td>Network SSID</td>
+                                    <td>
+                                        <input type="text" ng-model="ldata.ssid" class="form-control width80" />
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td>Certificate(key file)</td>
+                                    <td>
+                                        <input type="text" ng-model="ldata.key" class="form-control width80" />
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td>Certificate(cert file)</td>
+                                    <td>
+                                        <input type="text" ng-model="ldata.cert" class="form-control width80" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Certificate(cacert file)</td>
+                                    <td>
+                                        <input type="text" ng-model="ldata.cacert" class="form-control width80" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Type</td>
+                                    <td>
+                                        <select class="form-control width80" ng-model="ldata.type.type">
+                                            <option value="">Select Any</option>
+                                            <option value="primary">primary</option>
+                                            <option value="secondary">secondary</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                               
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <div style="float:left" ng-if="ldata.status =='NEW'">
+                                            <button type="button" ng-click="funcLocalConnectivity('ADD',$index);" class="btn">Save</button>&nbsp;&nbsp;
+                                        </div>
+                                        <div style="float:left" ng-if="ldata.status !=='NEW'">
+                                            <button type="button" ng-click="funcLocalConnectivity('EDIT',$index);" class="btn">Save</button>&nbsp;&nbsp;</div>
+                                        <div style="float:left" ng-if="ldata.status !=='NEW'">
+                                            <button type="button" ng-click="funcLocalConnectivity('DELETE',$index);" class="btn">Delete</button>&nbsp;&nbsp;</div>
+                                        <div style="float:left" ng-if="ldata.status =='NEW'">
+                                            <button type="button" ng-click="DeleteLocalRecord($index)" class="btn">Delete</button>&nbsp;&nbsp;</div>
+                                        <div style="float:left">
+                                            <button type="button" ng-click="funcLocalConnectivity('TEST',$index);" class="btn">Test Connection</button>
+                                        </div>
+                                        <i ng-if="localConnAppLoading[$index]" class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default pad5">
+        <div class="panel-heading">
+            <h4 class="panel-title"><a  data-toggle="collapse" data-parent="#accordion" href="#editDefinitionProperty9" ng-click="$event.preventDefault();" >
+                    <i class="more-less fa fa-plus-square-o"></i>Deploy Connectivity</a>                 
+            </h4>
+        </div>
+        <div id="editDefinitionProperty9" class="panel-collapse collapse">
+            <div class="panel-group margin0">
+                <div class="row row_margin_0">
+                    <div ng-repeat="ddata in configuration4.DeployConnectivityConfiguration">
+                        <div class="col-xs-6 margin0 mr-top10 pad-left0">
+                            <table class="table table-striped margin0" style="border:2px solid #ccc">
+                                <tr>
+                                    <td>Protocol</td>
+                                    <td>
+                                        <select ng-model="ddata.protocol" name="protocol[$index]" class="form-control width80" ng-change="protocolFun(ddata.protocol,ddata);">
+                                            <option value="">Select Any</option>
+                                            <option value="MQTT">MQTT</option>
+                                            <option value="AMQP">AMQP</option>
+                                            <option value="STOMP">STOMP</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Broker IP</td>
+                                    <td>
+                                        <form id="form" name="form">
+                                            <div  ng-class="{ 'has-error': form.ip.$dirty && form.ip.$error.pattern }">
+                                        <input type="text" ng-model="ddata.url" name="ip" id="ip" class="form-control width80"  ng-pattern="/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/" />
+                                        <span ng-if="form.ip.$error.pattern" class="help-block" aria-hidden="true">IP is not valid</span>
+                                    </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Port</td>
+                                    <td>
+                                        <input type="number" ng-model="ddata.port" class="form-control width80"  />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Username</td>
+                                    <td>
+                                        <input type="text" ng-model="ddata.user" class="form-control width80" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Password</td>
+                                    <td>
+                                        <input type="password" ng-model="ddata.pass" class="form-control width80" />
+                                    </td>
+                                </tr>
+                               <!--  <tr>
+                                    <td>Network SSID</td>
+                                    <td>
+                                        <input type="text" ng-model="cdata.ssid" class="form-control width80" />
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td>Certificate(key file)</td>
+                                    <td>
+                                        <input type="text" ng-model="ddata.key" class="form-control width80" />
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td>Certificate(cert file)</td>
+                                    <td>
+                                        <input type="text" ng-model="ddata.cert" class="form-control width80" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Certificate(cacert file)</td>
+                                    <td>
+                                        <input type="text" ng-model="ddata.cacert" class="form-control width80" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Type</td>
+                                    <td>
+                                        <select class="form-control width80" ng-model="ddata.type.type">
+                                            <option value="">Select Any</option>
+                                            <option value="primary">primary</option>
+                                            <option value="secondary">secondary</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <!-- <tr>
+                                    <td>Data Type</td>
+                                    <td>
+                                        <select class="form-control width80" ng-model="cdata.type.data">
+                                            <option value="primary">primary</option>
+                                            <option value="secondary">secondary</option>
+                                        </select>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <div style="float:left" ng-if="ddata.status =='NEW'">
+                                            <button type="button" ng-click="funcDeployConnectivity('ADD',$index);" class="btn">Save</button>&nbsp;&nbsp;
+                                        </div>
+                                        <div style="float:left" ng-if="ddata.status !=='NEW'">
+                                            <button type="button" ng-click="funcDeployConnectivity('EDIT',$index);" class="btn">Save</button>&nbsp;&nbsp;</div>
+                                        <div style="float:left" ng-if="ddata.status !=='NEW'">
+                                            <button type="button" ng-click="funcDeployConnectivity('DELETE',$index);" class="btn">Delete</button>&nbsp;&nbsp;</div>
+                                        <div style="float:left" ng-if="ddata.status =='NEW'">
+                                            <button type="button" ng-click="DeleteDeployRecord($index)" class="btn">Delete</button>&nbsp;&nbsp;</div>
+                                        <div style="float:left">
+                                            <button type="button" ng-click="funcDeployConnectivity('TEST',$index);" class="btn">Test Connection</button>
+                                        </div>
+                                        <i ng-if="deployConnAppLoading[$index]" class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin0 pad5 graybg addconnection">
+                    <button class="btn btn-primary" ng-click="AddDeployRecord(configuration4.DeployConnectivityConfiguration.length)">Add Connection</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default pad5">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+            <a  data-toggle="collapse" data-parent="#accordion" href="#editDefinitionProperty7" ng-click="$event.preventDefault();" >
+                        <i class="more-less fa fa-plus-square-o"></i>Gateway Mode</a>                     
+                </h4>
+        </div>
+        <div id="editDefinitionProperty7" class="panel-collapse collapse">
+            <div class="panel-group margin0">
+                <md-radio-group ng-model="data.group1" class="mr-top10">
+                    <md-radio-button value="standalone" class="md-primary"> Standalone mode </md-radio-button>
+                    <md-radio-button value="mesh" class="md-primary">Mesh mode</md-radio-button>
+                    
+                </md-radio-group>
+               
+            </div>
+        </div>
+    </div>
+     <script type="text/ng-template" id="viewPacketJson.html">
+        <div role="dialog">
+            <div style="color:black;">
+                <!-- Modal content-->
+                <div class="modal-content ">
+                    <div id="btn_group" class="nav navbar-fixed-top gradient-bg " style="color:white;">
+                        <button type="button" class="close" ng-click="clearmodel();">&times;</button>
+                        <b>Packet JSON Details - {{appName}}</b>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal mr-top40" id="form" name="form">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+                                    <pre>{{protocol}}</pre>
+                                    <pre>{{JSONDATA}}</pre>
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+</div>
+<script>
+function toggleIcon(e) {
+    $(e.target)
+        .prev('.panel-heading')
+        .find(".more-less")
+        .toggleClass('fa-plus-square-o fa-minus-square-o');
+}
+$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+$('.panel-group').on('shown.bs.collapse', toggleIcon);
+</script>
+						</div>
+						<script>
+							function toggleIcon(e) 
+											{ 
+											$(e.target)
+											.prev('.panel-heading')
+											.find(".more-less")
+											.toggleClass('fa-plus-square-o fa-minus-square-o');
+											}
+											$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+											$('.panel-group').on('shown.bs.collapse', toggleIcon);
+
+							</script>
+			</div>
+			
+		</div>
+		<div ng-if="configureAppWizard == true">
+		<h1>UNDER DEVELOPMENT</h1>
+		</div>
+	</div>
+</div>

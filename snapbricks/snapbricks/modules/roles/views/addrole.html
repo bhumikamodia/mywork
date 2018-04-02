@@ -1,0 +1,104 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<style>
+ul.tree {
+    list-style: none;
+}
+
+ul.tree > li {
+    margin: 10px;
+}
+
+ul.tree > li > span {
+    cursor: pointer;
+}
+
+</style>
+<div ng-controller="UserRoleCreateEditCtrl">
+<div class="row">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div ncy-breadcrumb></div>
+			 <button style="float:right;display:inline;" type="submit" class="btn btn_back" title="Back to list" back-button>
+                <i class="fa fa-chevron-left mr-right7"></i>Back to list
+            </button>
+        </div>
+</div>
+
+<div >
+<div class="row">
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<h2 style="color:dodgerblue; font-weight: bold !important;" ng-if="!userRoleselectedInfo.id">Add Role</h2>
+<h2 style="color:dodgerblue; font-weight: bold !important;" ng-if="userRoleselectedInfo.id">Edit Role - {{userRoleselectedInfo.roles}}</h2>
+					<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+					
+				</div>
+
+</div>
+
+
+<div class="row">
+<form class="form-horizontal" id="form" name="form" role="form" >
+<div id="deviceTable" >
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">	
+	
+						<table class="table table-striped pad0" >
+							<thead>
+								<tr>
+									<th class="col-lg-2 col-ms-2 col-sm-2 col-xs-3">Name</th>
+									<th class="col-lg-8 col-ms-10 col-sm-10 col-xs-9">Value</th>
+								</tr>
+							</thead>
+							<tbody>
+							<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">User Role:</div></td>
+									<td><div class="col-sm-6" ng-class="{ 'has-error': form.roles.$dirty && form.roles.$error.required }">
+									<input type="text" class="form-control" id="roles" name="roles" ng-model="userData.roles" placeholder="User Role" ng-maxlength="100" required/><span ng-show="form.roles.$dirty && form.roles.$error.required" class="help-block">Role is required</span><span ng-show="form.roles.$error.maxlength" class="help-block">Role Should Contain within 100 Characters</span>
+									</div>
+									
+									</td>
+								</tr>
+								<!--<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Scope:</div></td>
+									<td><div class="col-xs-4" ng-class="{ 'has-error': form.scope.$dirty && (form.scope.$error.required || form.scope.$error.maxlength) }">
+									<input type="text" class="form-control" name="scope" ng-model="userData.scope" placeholder="scope of the role" ng-maxlength="100" required/>
+									
+									<span ng-show="form.scope.$dirty && form.scope.$error.required" class="help-block">Scope is required</span><span ng-show="form.scope.$error.maxlength" class="help-block">Scope Should Contain within 100 Characters</span></div>									
+									</td>
+								</tr>-->
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Role Permission:</div></td>
+									<td><div class="col-sm-6" >
+									<!--<div ng-repeat="userRole in allRoles">
+									<div class="radio radio-danger">
+										<input type="checkbox" ng-model="userRole.userroleSelected"  /> {{userRole.displayname}}
+										</div>
+									</div>-->
+									<img ng-if="dataallRolesLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+									<ul class="tree">
+										<node-tree children="allRoles"></node-tree>
+									</ul>
+									</div>
+									
+									</td>
+								</tr>
+								
+							</tbody>
+						</table>
+																				
+						
+</div>
+
+	
+	</div>
+	<div class="col-lg-12">
+	<button type="button" ng-show="can('create_role')" class="btn btn_act" ng-disabled="form.$invalid || dataLoading" ng-click="saveApplication(allRoles);"  style="height:48px !important;" ng-if="!userRoleselectedInfo.id">Add Role</button>
+	<button type="button" ng-show="can('update_role')" class="btn btn_act" ng-disabled="form.$invalid || dataLoading" ng-click="saveApplication(allRoles,userRoleselectedInfo.id);"  style="height:48px !important;" ng-if="userRoleselectedInfo.id">Edit Role</button>
+	<img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+	</div>
+</form>	
+</div>
+</div>
+
+
+</div>

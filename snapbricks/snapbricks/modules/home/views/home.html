@@ -1,0 +1,461 @@
+<div class="row">
+    <div >
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" ncy-breadcrumb></div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mr-top10">
+        	<button type="button"  class="btn btn-default btn-shadow border0" ng-click="powerbiSignin();" ng-show="!tokenStatus()">
+				<i class="fa fa-sign-in"></i>
+				 Login to Power BI
+			</button>
+        <button type="button"  class="btn btn-default btn-shadow border0 float-right" ng-click="powerbiSignOut();" ng-show="tokenStatus()">
+				<i class="fa fa-sign-in"></i>
+				Logout from Power BI
+			</button>
+		</div>
+    </div>
+</div>
+
+<div id="home">
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	  	<!-- <hr class="mr-top10" style="border:2px solid #3D6BA9;" /> -->
+
+	  	<div ng-cloak>
+  <md-content>
+    <md-tabs md-dynamic-height md-border-bottom >
+      <md-tab label="Show Dashboard" ng-click="$event.preventDefault();">
+        <md-content id="home" class="md-padding">
+        	<div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-bottom20">
+			
+
+			<img  ng-show="dataLoadingHome" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+			
+			
+			<table ng-if="tokenStatus()">
+				<tbody>
+					<tr ng-if="!dataLoadingHome">
+						<td >
+							<div style="display: inline-block;">
+				            	<h5><b class="pad10">Select Gateway : </b></h5>
+				        	</div>
+						</td>
+						<td >
+							<div style="display: inline-block;" >
+				            	<select ng-model="selectedGateway" class="form-control width200" ng-options="gateway.name for gateway in powerbiGatewayList" ng-change="getDevices(selectedGateway)">
+				                	<option value="" selected>Select Gateway</option>
+				                	
+				                </select>
+				            </div>
+				            <!-- {{selectedGateway.displayname}} -->
+						</td>
+						<!-- <td class="mr-right10 pad-left20">
+							<button type="button" class="btn btn-success" ng-click="addGateway();">
+								<span class="glyphicon glyphicon-plus"></span>&nbsp; Add Gateway 
+							</button>
+						</td> --><!-- 
+						 -->
+			
+					
+						<td class="mr-right10" ng-if="selectedGateway!=undefined">
+							<div style="display: inline-block" >
+		                		<h5><b class="pad15">Select Device : </b></h5>
+		            		</div>	
+		            	</td>
+		            	<td ng-if="selectedGateway!=undefined">
+		            		<div style="display: inline-block" class="mr-left10">
+				            	<select ng-model="selectedDevice" class="form-control width200" ng-change="deviceSelected(selectedDevice)" ng-options="device.name for device in powerbideviceList">
+				                	<option value="" selected>Select Device</option>
+				                	<!-- <option value="bd4a9b92-1550-476c-9de2-d803c494039d" >ZW100MultiSensor</option>
+				                	<option value="ed71b208-f3a0-4937-96df-947b1056af84" >FGFS101FloodSensor</option>
+				                	<option value="830615f2-4ed3-4823-8aef-796eeb1ea739" >FGK10x Door Opening Sensor</option> -->
+				                </select>
+				            </div>
+				          
+				        </td>
+				        <td rowspan="2" ng-if="selectedGateway!=undefined" class="pad-left20">
+							<button type="button"  class="btn btn-default btn-shadow border0" ng-click="getDashboard(selectedDevice.dashboard_url)">
+								
+								Show Dashboard
+							</button>
+						</td>
+				        
+						</td>
+						
+				</tbody>
+			</table>
+		</div>
+	 	<div id="dashboardContainer" style="width:100%;height:600px !important;margin-top: 50px; margin-bottom: 100px"></div>
+        </md-content>
+    </md-tab>
+     <md-tab label="Add/Update Dashboard" ng-click="$event.preventDefault();getAddGatewayList()">
+        <md-content id="home1" class="md-padding">
+        		<div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-bottom20">
+			
+
+			<img  ng-show="dataLoadingHome" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+			
+			
+			<table ng-if="tokenStatus()">
+				<tbody>
+					<tr ng-if="!dataLoadingHome">
+						<td >
+							<div style="display: inline-block;">
+				            	<h5><b class="pad10">Select Gateway : </b></h5>
+				        	</div>
+						</td>
+						<td >
+							<div style="display: inline-block;" >
+				            	<select ng-model="selectedAddGateway" class="form-control width200" ng-options="gateway.name for gateway in addGwList" ng-change="getAddDevices(selectedAddGateway)">
+				                	<option value="" selected>Select Gateway</option>
+				                	
+				                </select>
+				            </div>
+				            <!-- {{selectedGateway.displayname}} -->
+						</td>
+						<!-- <td class="mr-right10 pad-left20">
+							<button type="button" class="btn btn-success" ng-click="addGateway();">
+								<span class="glyphicon glyphicon-plus"></span>&nbsp; Add Gateway 
+							</button>
+						</td> --><!-- 
+						 -->
+			
+					
+						<td class="mr-right10" ng-if="selectedAddGateway!=undefined">
+							<div style="display: inline-block" >
+		                		<h5><b class="pad15">Select Device : </b></h5>
+		            		</div>	
+		            	</td>
+		            	<td ng-if="selectedAddGateway!=undefined">
+		            		<div style="display: inline-block" class="mr-left10">
+				            	<select ng-model="selectedAddDevice" class="form-control width200" ng-change="deviceAddSelected(selectedAddDevice)" ng-options="device.name for device in powerbiAdddeviceList">
+				                	<option value="" selected>Select Device</option>
+				                	<!-- <option value="bd4a9b92-1550-476c-9de2-d803c494039d" >ZW100MultiSensor</option>
+				                	<option value="ed71b208-f3a0-4937-96df-947b1056af84" >FGFS101FloodSensor</option>
+				                	<option value="830615f2-4ed3-4823-8aef-796eeb1ea739" >FGK10x Door Opening Sensor</option> -->
+				                </select>
+				            </div>
+				          
+				        </td>
+				      
+				        
+						</td>
+						
+				</tbody>
+			</table>
+		</div>
+	 	               <div class="row">
+                    <!-- 1 st div -->
+                    <div ng-if=" selectedAddDevice!=undefined && selectedAddDevice.dashboard_url==''" class="col-md-6 col-xs-12">
+                        <div id="deviceTable">
+                            <div class="table-responsive border0">
+                                <table id="total" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: 1.5em">Steps to follow:</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1.Select "API Info (<i class="fa fa-info-circle"></i>) in datasets of ({{addGateway.name}}_{{addGateway.gwid}}) from PowerBI.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2.Copy "Push URL" from Power BI and paste it into form as "Push URL".</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3.Click "Done" button.</td>
+                                        </tr>
+                                       
+                                        <tr>
+                                            <td>4.Click "Create" button from Top-Right corner and Select "Dashboard".</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5.Input {{selectedAddDevice.name}}_{{selectedAddDevice.deviceid}} as "Dashboard Name.</td>
+                                        </tr>
+                                      
+                                        <tr>
+                                            <td>6.Click on "Add Tile" button and Select Real-Time Data (CUSTOM STREAMING DATA) and click "Next".</td>
+                                        </tr>
+                                        <tr>
+                                            <td>7.Select Dataset "{{addGateway.name}}_{{addGateway.gwid}}".</td>
+                                        </tr>
+                                        <tr>
+                                            <td>8.Select the visualization type from list and add axis, legend and value accordingly.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>9.Click next button.</td>
+                                        </tr>
+                                         <tr>
+                                            <td>10.Add title and subtitle for Tile. Click Apply</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                     <div  class="col-md-6 col-xs-12" ng-if=" selectedAddDevice!=undefined && selectedAddDevice.dashboard_url!=''" >
+
+                        <div id="deviceTable">
+                            <div class="table-responsive border0">
+                                <table id="total" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: 1.5em">Steps for add new Tile</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr>
+                                            <td>1.Select {{selectedAddDevice.name}}_{{selectedAddDevice.deviceid}} dashboard from dashboard section.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2.Click on "Add Tile" button and Select Real-Time Data (CUSTOM STREAMING DATA) and click "Next".</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3.Select Dataset "{{addGateway.name}}_{{addGateway.gwid}}".</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4.Select the visualization type from list and add axis, legend and value accordingly.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5.Click next button.</td>
+                                        </tr>
+                                         <tr>
+                                            <td>6.Add title and subtitle for Tile. Click Apply</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="table-responsive border0">
+                                <table id="total" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: 1.5em">Steps for update existing Tile</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr>
+                                            <td>1.Select {{selectedAddDevice.name}}_{{selectedAddDevice.deviceid}} dashboard from dashboard section.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2.Click on ... icon of tile for editing that tile.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3.Click on Edit detils from list.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4.Edit the details of tile.</td>
+                                        </tr>
+                                      
+                                         <tr>
+                                            <td>5.Click Apply</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="table-responsive border0">
+                                <table id="total" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: 1.5em">Steps for Delete Tile</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr>
+                                            <td>1.Select {{selectedAddDevice.name}}_{{selectedAddDevice.deviceid}} dashboard from dashboard section.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2.Click on ... icon of tile for deleting that tile.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3.Click on Delete tile from list.</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                     </div>
+                    <!-- 2 nd div -->
+                    <div class="col-md-6 col-xs-12" ng-if="selectedAddDevice!=undefined">
+                        <div id="deviceTable">
+                            <form class="form-horizontal" id="form" name="form">
+                                <table class="table table-striped" id="softGatewayGrid">
+                                    <thead>
+                                        <th style="font-size: 1.5em">PowerBi Device Form</th>
+                                    </thead>
+                                </table>
+                                <table class="table table-striped" id="softGatewayGrid">
+                                    <tbody>
+                                        <tr >
+                                            <td class="col-lg-2 col-md-3 col-sm-3 col-xs-3">Push URL</td>
+                                            <td class="col-lg-10 col-md-9 col-sm-9 col-xs-9">
+                                                <div ng-class="{ 'has-error': form.pushurl.$dirty && form.pushurl.$error.required }">
+                                                    <input type="text" class="form-control" ng-model="addGateway.dataset_url" name="pushurl" id="pushurl" disallow-spaces required>
+                                                    <span ng-show="form.pushurl.$dirty && form.pushurl.$error.required" class="help-block ng-hide" aria-hidden="true"> Push URL is required</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                         
+                                      
+                                        <tr >
+                                            <td colspan="5" >
+                                                <button type="button" ng-click="addPushURL(addGateway.dataset_url);"  class="btn btn-primary">Save Information</button>
+                                                &nbsp;
+                                                <a class="btn btn-primary" ng-click="backtoList();">Cancel</a>
+                                                <img ng-if="dataAddServerLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        </md-content>
+    </md-tab>
+</md-tabs>
+</md-content>
+	  	<!-- <div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-bottom20">
+	  		<table>
+	  			<tbody>
+	  				<tr >
+						<td class="mr-right10">
+							<div style="display: inline-block;">
+		                		<h5><b class="pad-left10">Add URL  : </b></h5>
+		            		</div>	
+		            	</td>
+		            	<td class="mr-right10">
+		            		<div style="display: inline-block;" class="mr-left10">
+				            	<input type="text" ng-model="data" class="form-control" style="width: 300px" />
+				            </div>
+				          
+				        </td>
+				        <td class="mr-right10 pad-left20">
+				        	<button type="button" class="btn btn-primary btn-xs form-control" ng-click="getDashboard(data)"> &nbsp;Show Dashboard
+								
+							</button>
+				        </td>
+					</tr>	
+	  			</tbody>
+	  		</table>
+	  	</div> -->
+	  	
+	</div>     
+</div>
+
+</div>
+ 
+<script type="text/ng-template" id="modaladdgateway.html">
+    <link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+    <div>
+        <div class="modal-content">
+            <div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+                <button type="button" class="close" ng-click="clearDevicemodal()">&times;</button>
+                <b class="modal-title">Add Gateways </b>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="form" name="form" style="margin-top:40px;">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+                            <table class="table table-striped" id="softGatewayGrid">
+                                <thead>
+                                    <tr>
+                                       <th></th>
+                                        <th>Display Name</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-repeat="gw in gatewayList|limitTo:gatewayPerPage:gatewayPerPage*(currentPage-1)">
+                                        <td>
+                                            <SPAN class="checkbox checkbox-primary">
+<input type="checkbox" id="{{gw.gateway_id}}"   value="{{gw}}" ng-click="checkedGateway(gw)" />
+<label for="gw.gatewaySelected"></label>
+		</SPAN> </td>
+                                        <td>{{gw.gateway_name}}</td>
+
+                                    </tr>
+                                   
+                                    <tr class="alert alert-danger" ng-if="gatewayList.length==0">
+                                        <td colspan="11"><strong>No Record Found.</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                         <div id="pagination" ng-show="gatewayList.length>0"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+  <div class="col-lg-12 blue-bg pad10" >
+    <div class="col-lg-9">
+      <uib-pagination total-items="gatewayList.length" ng-model="currentPage" ng-change="pageChanged()" items-per-page="gatewayPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+    
+    </div>
+    <div class="col-lg-3 text-right">Displaying {{currentPage}} / {{numPages}} of {{numPages}}</div>
+  </div>
+</div>
+                        <div class="col-sm-offset-2 col-sm-6 mr-top20">
+                            <button type="button" class="btn btn-primary" ng-click="saveGatewayList()"> Create PowerBi Dataset</button>
+                            <button type="button" class="btn btn-primary" ng-click="clearDevicemodal()">Close</button>
+                            <img ng-if="dataAddGatewayLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="modaladddevice.html">
+    <link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+    <div>
+        <div class="modal-content">
+           <!--  <div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+                <button type="button" class="close" ng-click="clearDevicemodal()">&times;</button>
+                <b class="modal-title">Add Devices </b>
+            </div> -->
+            <div class="modal-body">
+                <form class="form-horizontal" id="form" name="form" style="margin-top:40px;">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+                            <table class="table table-striped" id="softGatewayGrid">
+                                <thead>
+                                    <tr>
+                                       
+                                        <th>Display Name</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-repeat="dev in deviceList|limitTo:devPerPage:devPerPage*(currentPage-1)">
+                                        
+                                        <td>{{dev.device_name}}</td>
+                                        <td><div>
+<button  class="btn btn-default" ng-click="nextPage(dev)" >
+<i class="glyphicon glyphicon-menu-right"></i>
+</button>
+</div></td>
+
+                                    </tr>
+                                   
+                                    <tr class="alert alert-danger" ng-if="deviceList.length==0">
+                                        <td colspan="11"><strong>No Record Found.</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                         <div id="pagination" ng-show="deviceList.length>0"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+  <div class="col-lg-12 blue-bg pad10" >
+    <div class="col-lg-9">
+      <uib-pagination total-items="deviceList.length" ng-model="currentPage" ng-change="pageChanged()" items-per-page="devPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+    
+    </div>
+    <div class="col-lg-3 text-right">Displaying {{currentPage}} / {{numPages}} of {{numPages}}</div>
+  </div>
+</div>
+                       
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,235 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<script>
+$(document).ready(function () {
+  $('[data-toggle="offcanvas"]').click(function () {
+    $('.row-offcanvas').toggleClass('active')
+  });
+});
+</script>
+<div ng-controller="ruleengineEditCtrl">
+   <div class="row">
+       	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div ncy-breadcrumb></div>
+			 <button style="float:right;display:inline;" type="submit" class="btn btn_back" title="Back to list" back-button>
+                <i class="fa fa-chevron-left mr-right7"></i>Back to list
+            </button>
+			<h4 style="display:inline-block;">Edit Rule Information</h4>
+        </div>
+    </div>
+	 
+   <div ng-if="processPage!='edittransformation'">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+               
+                <div class="stepwizard " >
+					<div class="stepwizard-row setup-panel">
+					  <div class="stepwizard-step">
+						<a href="#step-1" ng-click="editselectSteps(1);$event.preventDefault();" type="button" class="btn btn-primary btn-circle">1</a>
+						<p>Input</p>
+					  </div>
+					  <div class="stepwizard-step">
+						<a href="#step-2" ng-click="$event.preventDefault();" disabled="disabled" type="button" class="btn btn-default btn-circle" >2</a>
+						<p>Monitor</p>
+					  </div>					  
+					</div>
+				  </div> 				 
+                <hr class="mr-top10" style="border:2px solid #3D6BA9;" />
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+               
+            </div>
+        </div>  
+		<div class="row">
+		<div id="deviceTable" > <!-- id="deviceTable" -->
+            
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+					<form class="form-horizontal" id="main_form" name="main_form"  >
+                    <table class="table table-striped pad0">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Name:</div>
+                                </td>
+                                <td>
+								<input type="hidden"    ng-model="ruleEngineselectedInfo.metadata.ruleid" ng-init="ruleEngineselectedInfo.metadata.ruleid = ruleEngineselectedInfo.id"/>
+								    <div ng-class="{'has-error': (main_form.parent_rule_name.$dirty && (main_form.parent_rule_name.$error.required))}" class="col-lg-4 col-md-6 col-sm-6">
+                                        <input type="text" name="parent_rule_name"   ng-model="ruleEngineselectedInfo.metadata.rulename" ng-pattern="/^[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)*$/" class="form-control" placeholder="Enter Name" required  autocomplete="off"/>
+										<span class="help-block" ng-show="main_form.parent_rule_name.$error.required && main_form.parent_rule_name.$dirty">This field is required</span>
+										 <span ng-if="main_form.parent_rule_name.$error.pattern" class="help-block" aria-hidden="true">Name is not valid</span>
+                                    </div>
+                                </td>
+                            </tr>
+							<tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Description:</div>
+                                </td>
+                                <td>
+                                    <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{ 'has-error': main_form.parent_rule_desc.$dirty && (main_form.parent_rule_desc.$error.required) }">
+                                        <input type="text" name="parent_rule_desc"   ng-model="ruleEngineselectedInfo.metadata.description" class="form-control" placeholder="Enter Description here" required autocomplete="off" />
+										<span class="help-block" ng-show="main_form.parent_rule_desc.$error.required && main_form.parent_rule_desc.$dirty">This field is required</span>
+                                    </div>
+                                </td>
+                            </tr>							
+                        </tbody>
+                    </table>
+                   </form>
+                    <style>
+                        .panel-body {
+                            border-top: 0px !important;
+                        }
+                        .panel-group .panel-heading {
+                            border-bottom: 0px !important;
+                        }
+                        .selectionBox option {
+                            background-color: #000;
+                            color: #fff;
+                        }
+					    .modal-lg {
+							width: 90%;
+						   max-width:1200px;
+						  }
+                    </style>                   
+					<button type="button" class="btn btn_act" ng-disabled="main_form.$invalid" ng-click="editSavedInfo();" style="height:48px !important;">Update</button>
+                    <button type="button" class="btn btn_act" ng-disabled="main_form.$invalid" ng-click="editNextInfo();" style="height:48px !important;">Next</button>
+                </div>         
+			</div>
+        </div>		
+	</div>
+	<div ng-if="processPage =='edittransformation'">
+		<div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="stepwizard" >
+					<div class="stepwizard-row setup-panel">
+					  <div class="stepwizard-step">
+						<a href="#step-1" ng-click="editselectSteps(1);$event.preventDefault();" type="button" class="btn btn-primary btn-circle">1</a>
+						<p>Input</p>
+					  </div>
+					  <div class="stepwizard-step">
+						<a href="#step-2" ng-click="editselectSteps(2);$event.preventDefault();" type="button" class="btn btn-primary btn-circle" >2</a>
+						<p>Monitor</p>
+					  </div>					  
+					</div>
+				  </div> 				 
+                <hr class="mr-top10" style="border:2px solid #3D6BA9;" />
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+               
+            </div>
+        </div>
+		<div class="row">
+		 <div id="deviceTable" >
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="col-lg-4 col-md-6 col-sm-12 " id="sidebar">
+<div class="list-group" >
+					  <a href="#" ng-click="$event.preventDefault();" class="list-group-item active">Monitor Properties</a>
+						<div class="list-group-item pad0" style="height:230px;overflow-y:scroll">
+						  <table class="table table-striped">
+							  <tr ng-repeat="item in dataFilterSelectedDevices">
+								<td class="wordwrap">
+									<div ng-if="item.propertyType == 'get,post'" class="col-xs-2 pad-left3">
+										<span class='monitor_block' >M</span><span  class='action_block'>A</span>
+									</div>
+									<div ng-else-if="item.propertyType == 'get'" class="col-xs-2 pad-left3">
+										<span class="monitor_block">M</span>
+									</div>
+									<div ng-else-if="item.propertyType == 'post'" class="col-xs-2 pad-left3">
+										<span class="action_block">A</span>
+									</div>					
+									<div ng-else-if="item.propertyType == 'notify'" class="col-xs-2 pad-left3">
+										<span class="notifi_block">N</span>
+									</div>
+									<div class="col-xs-10">
+									{{item.gatewayDisplayname}}/{{item.displayname}}/{{pr.propertyName}} &nbsp;
+									</div>									
+								</td>
+								<td>
+								<button  class="btn btn-default" ng-click="ruleEngineAction(item)" ng-disabled="alreadyExistsRuleEngine(item)"><i class="glyphicon glyphicon-menu-right"></i>
+								</button>
+								</td>
+							  </tr>
+						  </table>
+						</div>
+						<div ng-if="dataFilterSelectedDevices.length<=0"> 
+						<div class="alert alert-danger">NO RECORD FOUND.</div>
+						</div>
+				    </div>				
+					<div class="list-group" >
+							  <a href="#" ng-click="$event.preventDefault();" class="list-group-item active">Rules Added</a>
+							  <div class="list-group-item pad0" style="height:150px;overflow-y:scroll">
+							  <table class="table table-striped">
+								  <tr ng-repeat="rulearr in editsessionAddRules" ng-init="RulesAddedIndex = $index;">
+									<td class="wordwrap" > {{rulearr.ruleName}}</td>
+									<td width="34%"><button  class="btn btn-default" ng-click="editSessionRuleData($index)" ><i class="glyphicon glyphicon-edit"></i></button>
+										<button  class="btn btn-default" ng-click="deleteSessionRuleData($index)" ><i class="glyphicon glyphicon-trash"></i></button>
+									</td>
+								  </tr>
+							  </table>
+							  </div>							
+					</div>	
+					
+				</div>
+				<div ng-include="'modules/rule_engine/views/ruleEngineEditCondition.html'"></div>	
+				
+			</div>	
+			<!----modle code --->
+		<div class="modal fade " id="filteroperation" role="dialog">
+                        <div class="modal-dialog mr-top20 modal-lg">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+							<div id="btn_group" class="nav navbar-fixed-top gradient-bg modal-header " style="color:white;">  
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<b class="ng-binding">Operation </b>
+							</div><br clear="all"><br clear="all">
+							<div class="modal-body model_bg" >
+                                   <table class="table">
+								   <tr>
+										<td width="15%">Operation</td>
+										<td width="25%"><select class="form-control filter-control"  ng-model="model.model_operation">
+															<option value=''>Select</option>
+															<option value='filter()'>filter()</option>
+															<option value='avg()'>Avg()</option>
+															<option value='min()'>Min()</option>
+															<option value='max()'>Max()</option>															
+														</select>
+										</td>
+										<td >&nbsp;</td>										
+								   </tr>
+								   <tr>
+										<td>Duration</td>
+										<td>
+											<input type="number"  ng-model="model.model_time_txt" class="form-control" value=""/>
+										</td>
+										<td >
+										<input type="hidden" value=""  ng-model="model.model_time" class="form-control" />
+										<div class="model_condition_ope col-xs-10"> 
+										<button type="button" id='samples' class="btn btn-default" ng-click="model.model_time = 'samples';setModelMainConditionclass('samples');">Samples</button>
+										<button type="button" id='sec' class="btn btn-default" ng-click="model.model_time = 'sec';setModelMainConditionclass('sec');">Sec</button>
+										<button type="button" id='min' class="btn btn-default" ng-click="model.model_time = 'min';setModelMainConditionclass('min');">Min</button>
+										<button type="button" id='max' class="btn btn-default" ng-click="model.model_time = 'max';setModelMainConditionclass('max');">Max</button>
+										<button type="button" id='hrs' class="btn btn-default" ng-click="model.model_time = 'hrs';setModelMainConditionclass('hrs');">Hrs</button>
+										</div>										
+										</td>										
+								   </tr>
+								   <td>&nbsp;</td>
+									<td colspan="2"><button type="button" class="btn btn_act" ng-click="FilterOperationData()">Done</button>
+                                     </td>
+								   </tr>
+								   </table>
+                                        
+                            </div>
+                        </div>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function toggleIcon(e) {
+		$(e.target)
+			.prev('.panel-heading')
+			.find(".more-less")
+			.toggleClass('fa-plus-square-o fa-minus-square-o');
+	}
+	$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+	$('.panel-group').on('shown.bs.collapse', toggleIcon);
+</script>

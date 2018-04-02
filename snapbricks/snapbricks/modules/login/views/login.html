@@ -1,0 +1,51 @@
+<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 login">
+                <h3 class="text-center">Login</h3>
+    <div class="panel panel-default">
+     <div class="panel-body">
+        <div class="col-lg-5 col-md-5 padding-l-0 padding-r-0 padding-t-10 text-center">
+          <div class="col-xs-1 visible-xs">&nbsp;</div>
+                   
+                    <span class="clearfix hidden-sm hidden-xs"></span>
+                    <hr class="hidden-sm hidden-xs">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+    <h5><strong>Powered By</strong></h5>
+          <img ng-src="{{LogoHeaderLogin}}" class="img-responsive"  image-source/></div>
+    <span class="clearfix visible-sm visible-xs"></span>
+        <hr class="visible-sm visible-xs">
+    </div>
+  <form name="form" ng-submit="login()" role="form" class="ng-pristine ng-invalid ng-invalid-required">
+  <div class="col-lg-7 col-md-7">
+           
+           <div class="form-group" >
+              <label for="Login ID">Login ID</label>
+              <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
+                  <div class="input-group">
+                      <span class="input-group-addon"><span class="fa fa-user"></span></span>
+                      <input name="username" id="username" class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="username" required="" placeholder="Login ID" aria-invalid="true" type="text">
+        
+                  </div>
+				  <span ng-show="form.username.$dirty &amp;&amp; form.username.$error.required" class="help-block ng-hide" aria-hidden="true">Username is required</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword">Password</label>
+              <div class="form-group" ng-class="{ 'has-error': form.password.$dirty &amp;&amp; form.password.$error.required }">
+                  <div class="input-group">
+                      <span class="input-group-addon"><span class="fa fa-key"></span></span>
+                      <input name="password" id="password" class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-cut="$event.preventDefault()" ng-copy="$event.preventDefault()" ng-paste="$event.preventDefault()" ng-model="password" required="" placeholder="Password" aria-invalid="true" type="password">
+      
+      </div> <span ng-show="form.password.$dirty &amp;&amp; form.password.$error.required" class="help-block ng-hide" aria-hidden="true">Password is required</span>
+              </div>
+            </div>
+          
+          <button type="submit" class="btn btn-primary btn-sm margin-r-10" id="loginBtn">Login</button>
+          <button type="button" ng-click="username ='';password = ''" class="btn btn-default btn-sm" >Cancel</button>
+		  <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        </div>
+         </form> 
+        </div>
+    </div>
+    <div class="form-group text-center">
+      <label><a ui-sref="password-recovery">Forgot Password</a></label>
+    </div>
+  </div>

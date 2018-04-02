@@ -1,0 +1,36 @@
+<!-- 
+	Developed In : EI
+	Employee Code : 11001708
+-->
+<div class="nav navbar-fixed-top gradient-bg">
+			<div class="row">
+				
+			<div ng-if="globals.currentUser" style="cursor: pointer;float: left;margin-left: 10px;width: 55px;" class="font20 color-white mr-hamburger2" id="menu-toggle-3" aria-hidden="false">
+			<div >
+			<span id="toggleLeftSpan1" style="top:20px;"  class="glyphicon glyphicon-menu-left"></span>
+			<span id="toggleLeftSpan2" style="top:20px;"  class="glyphicon glyphicon-menu-hamburger"></span>
+			</div></div>
+			<div class="col-lg-2 col-md-3 col-sm-4 col-xs-4"><img ng-src="{{LogoHeader}}" uib-tooltip="Snapbricks" tooltip-placement = "right" alt="Snapbricks" class="img-responsive img-logo mr-top12"   image-source /></div>
+				
+				
+				<div class="col-lg-2 col-md-3 col-sm-3 col-xs-5 pull-right text-right">
+					<div class="dropdown" ng-if="globals.currentUser">
+						<button class="btn dropdown-toggle dropdown-toggle-admin admin-gradient-bg border0 border-radius0" type="button" data-toggle="dropdown">
+							<i class="fa fa-user white-bg border-radius100"></i>{{username}}
+							<span class="caret"></span>
+						</button>
+						 <ul class="dropdown-menu">
+       <li ng-if="globals.currentUser" ng-controller="logoutCtrl"><a  href="#" ng-click="$event.preventDefault();
+													logout();">Logout</a></li>
+       <!--<li ><a href="#">Another action</a></li>
+       <li><a href="#">Something else here</a></li>
+       <li class="divider"></li>
+       <li><a href="#">Separated link</a></li>-->
+      </ul>
+						
+					</div>
+					
+				</div>
+				
+			</div>
+</div>

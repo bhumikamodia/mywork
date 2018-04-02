@@ -1,0 +1,69 @@
+<!---- code added by Gpatel -->
+<div  ng-repeat="(elsekey,item2) in selectedRuleEngineData[2].data" ng-init="elseSelectedIndex = $index;" class="elseaction"> 
+	<div class="gray_border2">
+		<div class="row row_margin_0">
+			<div  class="row row_margin_0 rule_option">
+				<div class="col-xs-5" >
+					{{item2.item.gatewayDisplayname}}/{{item2.item.displayname}}/{{item2.item.defination.definitionName}}	
+				</div>
+				<div class="col-xs-1">
+					<select ng-model="item2.operator" >
+						<option  value="==" selected>==</option>
+						
+					</select>
+					<input type="hidden" ng-init="item2.operator='=='" />
+				</div>
+				<div class="col-xs-5">
+					<div  ng-repeat="opr in item2.item.defination.properties" class="row row_margin_0">
+						<div ng-if="(opr.operations.indexOf('post') !== -1)"> 
+								<span ng-if="item2.item.defination.properties.length >= 2">{{opr.propertyName}}:<br/></span>
+								<div ng-if="opr.maximum >= 0" ng-class="{ 'has-error': form.else_range_{{elsekey}}.$dirty && (form.else_range_{{elsekey}}.$error.required) }">
+										<span style="vertical-align:top">{{opr.minimum}}</span>
+										<input type="range" name="else_range_{{elsekey}}"  value="{{item2.sel_val}}" min="{{opr.minimum}}" max="{{opr.maximum}}"
+										ng-model="item2.sel_val" class="inline_block" ng-init=""  required/><span style="vertical-align:top">{{opr.maximum}}</span>
+										<span class="help-block" ng-show="form.else_range_{{elsekey}}.$error.required">This field is required</span>
+										<br clear="all"/>
+										<span style="vertical-align:top;">{{item2.sel_val}}</span>
+								</div>
+								<div ng-else-if="opr.enum.length >0">
+										<select class="form-control width80" ng-model="item2.sel_val" ng-init="item2.sel_val= opr.enum[0]">
+												<option ng-repeat="oper in opr.enum" value="{{oper}}" >{{oper}}</option>
+										</select>
+								</div>
+								
+								<div ng-else-if="(opr.type == 'boolean')" ng-class="{ 'has-error': form.else_radio_{{elsekey}}.$dirty && (form.then_radio_{{elsekey}}.$error.required) }">
+									<input type="radio" name="form.else_radio_{{elsekey}}" ng-value="true" ng-model="item2.sel_val" required/>True &nbsp;
+									<input type="radio" name="form.else_radio_{{elsekey}}" ng-value="false" ng-model="item2.sel_val" required/>False &nbsp;
+									<span class="help-block" ng-show="form.else_radio_{{elsekey}}.$error.required">This field is required</span>
+								</div>	
+								<div ng-else-if="opr.type == 'number'" ng-class="{ 'has-error': form.else_number_{{elsekey}}.$dirty && (form.else_number_{{elsekey}}.$error.required) }">
+										<input type="text" name="else_number_{{elsekey}}" ng-model="item2.sel_val" class="form-control width80" required/>{{opr.units}}
+										<span class="help-block" ng-show="form.else_number_{{elsekey}}.$error.required">This field is required</span>															
+								</div>
+								<div ng-else-if="opr.type == 'integer'" ng-class="{ 'has-error': form.else_integer_{{elsekey}}.$dirty && (form.else_integer_{{elsekey}}.$error.required) }">
+										<input type="text" name="else_integer_{{elsekey}}" ng-model="item2.sel_val" class="form-control width80" required/>{{opr.units}}
+										<span class="help-block" ng-show="form.else_integer_{{elsekey}}.$error.required">This field is required</span>	
+								</div>
+								<div ng-else-if="opr.type == 'float'" ng-class="{ 'has-error': form.else_float_{{elsekey}}.$dirty && (form.else_float_{{elsekey}}.$error.required) }">
+										<input type="text" name="else_float_{{elsekey}}" ng-model="item2.sel_val" class="form-control width80" required/>{{opr.units}}								
+										<span class="help-block" ng-show="form.else_float_{{elsekey}}.$error.required">This field is required</span>	
+								</div>
+								<div ng-else-if="opr.type == 'string'" ng-class="{ 'has-error': form.else_string_{{elsekey}}.$dirty && (form.else_string_{{elsekey}}.$error.required) }">
+										<input type="text" name="else_string_{{elsekey}}" ng-model="item2.sel_val" class="form-control width80" required/>{{opr.units}}								
+										<span class="help-block" ng-show="form.else_string_{{elsekey}}.$error.required">This field is required</span>	
+								</div>
+								<div ng-else ng-class="{ 'has-error': form.else_block_{{elsekey}}.$dirty && (form.else_block_{{elsekey}}.$error.required) }">
+										<input type="text" name="else_block_{{elsekey}}" ng-model="item2.sel_val" class="form-control width80" required/>
+										<span class="help-block" ng-show="form.else_block_{{elsekey}}.$error.required">This field is required</span>	
+								</div>				
+						</div> <!-- post condition -->
+					</div>
+				</div>
+				<div class="col-xs-1">
+					<a href="javascript:void(0)" ng-click="setElseDeleteBlock($index)" id ="setElseDeleteBlock"><span class="fa-stack fa-lg pull-left"><i class="fa fa-close fa-stack-1x red"></i></span></a>								
+				</div>						
+			</div>	<!--- Rulesoption colse -->
+		</div>
+	</div><!-- gray border block -->
+</div><!--- main data condition close -->
+<!------------------- end of Gpatel --->

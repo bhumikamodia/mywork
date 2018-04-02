@@ -1,0 +1,259 @@
+<link rel="stylesheet" type="text/css" href="assets/CSS/default/style.css">
+<div ng-controller="GroupCreateEditCtrl">
+<div class="row">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div ncy-breadcrumb></div>
+			 <button style="float:right;display:inline;" type="submit" class="btn btn_back" title="Back to list" back-button>
+                <i class="fa fa-chevron-left mr-right7"></i>Back to list
+            </button>
+        </div>
+</div>
+
+<div >
+<div class="row">
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<h2 style="color:dodgerblue; font-weight: bold !important;" ng-if="!groupselectedInfo.groupname">Add Group</h2>
+<h2 style="color:dodgerblue; font-weight: bold !important;" ng-if="groupselectedInfo.groupname">Edit Group - {{groupselectedInfo.groupname}}</h2>
+					<hr class="mr-top10" style="border:2px solid #3D6BA9;" />
+					
+				</div>
+
+</div>
+
+
+<div class="row">
+<form class="form-horizontal" id="form" name="form" role="form" >
+<div id="deviceTable" >
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">	
+	
+						<table class="table table-striped pad0" >
+							<thead>
+								<tr>
+									<th class="col-lg-2 col-ms-2 col-sm-2 col-xs-3">Name</th>
+									<th class="col-lg-8 col-ms-10 col-sm-10 col-xs-9">Value</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Group Name:</div></td>
+									<td><div class="col-xs-4" ng-class="{ 'has-error': form.groupName.$dirty && (form.groupName.$error.required || form.groupName.$error.maxlength) }"><input type="text" class="form-control" id="groupName" name="groupName" ng-model="groupName" ng-value="groupselectedInfo.groupname" ng-maxlength="100" required placeholder="Type name of the group"/><span ng-show="form.groupName.$dirty && form.groupName.$error.required" class="help-block">Name of Group is required</span><span ng-show="form.groupName.$error.maxlength" class="help-block">Your Name Should not more than 100 Characters</span></div>									
+									</td>
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Description:</div></td>
+									<td> <div class="col-sm-12" ng-class="{ 'has-error': form.groupDescription.$dirty && (form.groupDescription.$error.required || form.groupDescription.$error.maxlength) }">
+									<textarea class="form-control" id="groupDescription" name="groupDescription" ng-model="groupDescription" ng-bind-html="groupselectedInfo.description" ng-maxlength="100" required ></textarea><span ng-show="form.groupDescription.$dirty && form.groupDescription.$error.required" class="help-block">Description of Group is required</span><span ng-show="form.groupDescription.$error.maxlength" class="help-block">Your Description Should not more than 100 Characters</span>
+									</div>
+									</td>
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Parent Groups:</div></td>
+									<td><div class="col-sm-12">
+									
+									<input type="button" value="Collapse All" class="filter-control" onclick="$('#container11').jstree('close_all');">
+<input type="button" value="Expand All" class="filter-control " onclick="$('#container11').jstree('open_all');">
+									
+									<div id="container11"></div>
+									</div>
+									
+									</td>
+								</tr>
+								
+								
+								
+							</tbody>
+						</table>
+							
+</div>
+
+	
+	</div>
+	<div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
+	<div  ng-if="!groupselectedInfo.id">													
+						<button ng-show="can('create_gatewaygroups')" type="button" class="btn btn_act" ng-click="saveGroup();"  style="height:48px !important;">Add Group</button>
+							</div>
+							<div ng-if="groupselectedInfo.id">													
+						<button ng-show="can('update_gatewaygroups')" type="button" class="btn btn_act" ng-click="saveGroup(groupselectedInfo.id);"  style="height:48px !important;">Edit Group</button>
+							</div>
+	</div>						
+	</form>						
+</div>
+</div>
+
+
+</div>
+ <!--
+ groupModule.directive('nodeTree', function() {
+      return {
+        template: '<node ng-repeat="node in tree"></node>',
+        replace: true,
+        transclude: true,
+        restrict: 'E',
+        scope: {
+          tree: '=ngModel'
+        }
+      };
+});
+
+groupModule.directive('node', function($compile) {
+  return { 
+    restrict: 'E',
+    replace:true,
+     templateUrl: 'the-tree.html',
+    link: function(scope, elm, attrs) {
+    
+      //$(elm).parent('ul').find('span.leaf').on('click', function (e) {
+       $(elm).find('span.leaf').on('click', function (e) {
+      
+         var children = $(elm).find('li');
+      
+        if (children.is(":visible")) {
+            children.hide('fast');
+            $(elm).find('span.leaf i.fa-minus').addClass('fa-plus').removeClass('fa-minus');
+        }
+        else{
+          
+            children.show('fast');
+            $(elm).find('span.leaf i.fa-plus').addClass('fa-minus').removeClass('fa-plus');
+            }
+                e.stopPropagation();
+            });
+      scope.updateSelection = function(position,node){
+		  //console.log(displayTree);
+		  node.checked = !node.checked;
+		   function checkChildren(c) {
+          angular.forEach(c.children, function(c) {
+            c.checked = node.checked;
+            checkChildren(c);
+          });
+        }
+        checkChildren(node);
+		  
+	  };
+      
+      scope.nodeClicked = function(node) {
+        node.checked = !node.checked;
+        function checkChildren(c) {
+          angular.forEach(c.children, function(c) {
+            c.checked = node.checked;
+            checkChildren(c);
+          });
+        }
+        checkChildren(node);
+      };
+      
+      scope.switcher = function(booleanExpr, trueValue, falseValue) {
+        return booleanExpr ? trueValue : falseValue;
+    };
+      
+      scope.isLeaf = function(_data) {
+        if (_data.children.length == 0) {
+            return true;
+        }
+        return false;
+    };
+      
+     
+      if (scope.node.children.length>0) {
+        var childNode = $compile('<ul ><node-tree ng-model="node.children"></node-tree></ul>')(scope)
+        elm.append(childNode);
+      }
+    }
+  };
+});
+ <style>
+.tree {
+    min-height:20px;
+    padding:19px;
+    margin-bottom:20px;
+    background-color:#fbfbfb;
+    border:1px solid #999;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)
+}
+.tree li {
+    list-style-type:none;
+    margin:0;
+    padding:10px 5px 0 5px;
+    position:relative
+}
+.tree li::before, .tree li::after {
+    content:'';
+    left:-20px;
+    position:absolute;
+    right:auto
+}
+.tree li::before {
+    border-left:1px solid #999;
+    bottom:50px;
+    height:100%;
+    top:0;
+    width:1px
+}
+.tree li::after {
+    border-top:1px solid #999;
+    height:20px;
+    top:25px;
+    width:25px
+}
+.tree li span.leaf {
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border:1px solid #999;
+    border-radius:5px;
+    display:inline-block;
+    padding:3px 8px;
+    text-decoration:none
+}
+.tree li.parent_li>span {
+    cursor:pointer
+}
+.tree>ul>li::before, .tree>ul>li::after {
+    border:0
+}
+.tree li:last-child::before {
+    height:30px
+}
+
+.tree li.parent_li>span.leaf:hover, .tree li.parent_li>span.leaf:hover+ul li span.leaf {
+    background:#C8E9CE;
+    border:1px solid #94a0b4;
+    color:#000
+}
+.node {
+  cursor: pointer;
+}
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font: 10px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+</style><div class="span5 article-tree">
+									<div ng-style="{'overflow': 'auto'}">
+
+										<div class="tree well">
+										<ul>
+										<node-tree ng-model="displayTree"></node-tree>
+										</ul>
+										   
+										</div>
+									</div>
+									</div>-->

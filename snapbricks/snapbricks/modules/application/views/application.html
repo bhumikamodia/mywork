@@ -1,0 +1,104 @@
+<div class="row">
+				<div >
+					
+						<div ncy-breadcrumb></div>
+					
+				</div>	
+				
+</div>
+<div class="row" id="home">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+					<div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20">
+								<button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFunc();"><i class="fa fa-refresh"></i> Refresh</button>
+								<button ng-show="can('create_organisation')" type="button" class="btn btn-default btn-shadow border0" ng-click="create()"><i class="fa fa-plus-circle"></i> Add</button>
+								<button ng-show="can('assignsubscription_organisation')" type="button" class="btn btn-default btn-shadow border0" ng-disabled="!selectedRowApplication" ng-click="openInfo('subscription',selectedRowApplication)"><i class="fa fa-list"></i> Subscription</button>
+					</div>
+				</div>
+<div id="deviceTable">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+<table id="total" class="table table-striped">
+										<thead>
+											<tr>
+												<!--<th ><input type="checkbox" ng-model="selectedAll"  ng-click="checkAll(selectedAll)"/></th>-->
+												<th style="width:5%;">Applicant Name</th>
+												<th style="width:10%;">Client Email</th>
+												<th style="width:20%;" >Client Address</th>
+												<th ng-show="can('retrieve_organisation')" style="width:1%;">Edit </th>
+												<th  style="width:1%;" ng-show="can('activate_organisation') && can('deactivate_organisation')">Status </th>
+												<th ng-show="can('destroy_organisation')" style="width:1%;">Delete </th>
+												
+												<th style="width:1%;">
+												<i class="fa fa-filter" data-toggle="modal" data-target="#myModal" ></i>
+													<!-- Modal -->
+													<div class="modal fade" id="myModal" role="dialog">
+														<div class="modal-dialog mr-top80">
+														  <!-- Modal content-->
+															<div class="modal-content black-bg">
+																<div class="modal-header border0">
+																	<button type="button" class="close" data-dismiss="modal">&times;</button>
+																	<h4 class="modal-title">Filter Discover - under construction</h4>
+																</div>
+																<div class="modal-body">
+																	<form class="form-horizontal">
+																		<div class="form-group">
+																			<label class="control-label col-lg-5" for="dname">On Development </label>
+																			<div class="col-lg-5">
+																				On Development
+																			</div>
+																		</div>
+																		
+																		<div class="form-group"> 
+																			<div class="col-sm-offset-5 col-sm-5">
+																				<button type="submit" ng-click="searchFeaturesSubmit();" data-dismiss='modal' class="btn btn-filter">Apply Filter</button>
+																			</div>
+																		</div>
+																	</form>
+																</div>
+															</div>
+														</div>
+													</div>
+												</th>
+											</tr>
+										</thead>
+										<tbody >
+				
+					<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,application)" ng-repeat="application in filtered = (applicationList || undefined) | orderBy:sortType:sortReverse | limitTo:applicationPerPage">
+                        
+						<!--<td>
+						<input type="checkbox" ng-model="application.applicationSelected" ng-change="checkStatus(application);"  />
+						</td>-->
+                        <td>{{application.orgname}}
+						</td>
+						 
+						<td><div >{{application.email}}</div></td>
+						<td><div>{{application.address}}</div></td>
+                        <td ng-show="can('retrieve_organisation')"><div><a ng-click="create(application)"><i class="fa fa-edit"></i></a></div></td>
+                         <td class="col-xs-1" ng-show="can('activate_organisation') && can('deactivate_organisation')"><div><div class="btn-group btn-toggle"> 
+							<button uib-tooltip="Activate" tooltip-placement = "top" ng-class="application.is_active == true ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-default'" ng-click="changeStatusApplication('activate',application,$event)"
+							><span class="glyphicon glyphicon-ok"></span></button>
+							<button uib-tooltip="Deactivate" tooltip-placement = "top" ng-class="application.is_active == false ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-default'" ng-click="changeStatusApplication('deactivate',application,$event)"
+							><span class="glyphicon glyphicon-ban-circle"></span></button>
+						</div></div></td>
+						<td ng-show="can('destroy_organisation')"><div><a id="btn_deactivate" ng-click="deleteApplication(application.id,$event)"><i  class="fa fa-trash"></i></a></div></td>
+						<td><div></div></td>
+                    </tr>
+					<tr ng-if="dataapplicationsLoading" class=""><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+					<tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalapplicationItems ==0) && !dataapplicationsLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+					</tbody>
+					</table>			
+</div>
+<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(filtered).length">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+								
+								<uib-pagination  total-items="totalapplicationItems" ng-model="currentapplicationPage" ng-change="pageChanged()" items-per-page="applicationPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+    boundary-links="true" num-pages="numPages"></uib-pagination>
+											
+										</div>
+										<div class="col-lg-3 text-right">Displaying {{currentapplicationPage}} / {{numPages}} of {{numPages}}</div>
+										</div>
+								
+								</div>
+</div>								
+</div>

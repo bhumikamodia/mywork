@@ -1,0 +1,367 @@
+﻿<!DOCTYPE html>
+<html >
+    <head>
+        <title>:: IOT ::</title>
+		<!-- 
+			Developed In : EI
+			Employee Code : 11001708
+		-->
+        <!-- clickjacking prevention -->
+        <!--<meta http-equiv="X-Frame-Options" content="deny" />-->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  minimum-scale=1.0, user-scalable=no" name="viewport" />
+		
+        <!-- Start Toaster and Bootstrap CSS -->
+       <meta name="author" content="Kanan Mahudhia">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="assets/CSS/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="assets/CSS/font-awesome.min.css">
+		
+		<!--<link href="css/dataTables.bootstrap.css" rel="stylesheet" />-->
+		<link rel="stylesheet" href="assets/CSS/angular-toaster/1.1.0/toaster.min.css" />
+        <!-- START : Common Application Custom Css -->
+        <link href="assets/CSS/app.css" rel="stylesheet" />
+		 <link href="assets/CSS/c3.css" rel="stylesheet" />
+		 <link rel="stylesheet" href="assets/CSS/leaflet.css" /> <!-- This is for mapbox -->
+		 <link rel="stylesheet" type="text/css" href="assets/CSS/MarkerCluster.css" /> <!-- Use to group Marker -->
+	     <link rel="stylesheet" type="text/css" href="assets/CSS/MarkerCluster.Default.css" /><!-- Use to group Marker -->
+        <!-- End : Common Application Custom Css -->
+       
+        <!-- jQuery Library -->
+        <script src="assets/JavaScript/JQuery/jquery.min.js"></script>
+		<!--	C3, d3.v3, iotgraph-->
+		<script src="assets/JavaScript/JQuery/c3.js"></script>
+		<script src="assets/JavaScript/JQuery/d3.v3.js"></script>
+		<script src="assets/JavaScript/JQuery/iotgraph.js"></script>
+		<!--	End of iotgraph -->
+		<!--	Start Map -->
+		<script type='text/javascript' src="assets/JavaScript/JQuery/leaflet-src.js"></script><!-- This is for mapbox -->
+		<script src="assets/JavaScript/JQuery/leaflet.markercluster-src.js"></script>
+		<!--	End of Map -->
+		<!-- Bootstrap 3.3.5 -->
+        <script src="assets/JavaScript/Bootstrap/3.3.6/bootstrap.min.js"></script>
+       
+       <script src="assets/JavaScript/JQuery/jquery.slimscroll.min.js"></script>
+	  
+        <!-- FastClick -->
+      <!--  <script src="assets/JavaScript/JQuery/fastclick.min.js"></script> -->
+
+        <!-- AdminLTE App -->
+        <!--<script src="assets/JavaScript/JQuery/jquery.bootstrap-duallistbox.min.js"></script>
+        <script src="assets/JavaScript/JQuery/app.min.js"></script>-->
+		
+        <!-- Start Angular JS Libraries -->
+        <script src="assets/JavaScript/Angular/angular.js"></script>
+         <script src="assets/JavaScript/Angular/angular-idle.min.js"></script>
+		
+        <script src="app.route.js"></script>
+        <script src="api.config.js"></script>
+		
+        
+       	<!-- font icons css -->
+       <!-- <link rel="stylesheet" href="assets/css/font-awesome-icon/css/ionicons.css" />-->
+        <!-- Start Google Captcha Libraries -->
+        <!--<script src="assets/js/lib/Angular/angular-recaptcha/release/angular-recaptcha.min.js"></script>
+        <script src="//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded" async defer></script>-->
+        <!-- End Google Captcha Libraries -->
+        <!-- UI-Router -->
+        <script src="assets/JavaScript/Angular/angular-ui-router/2.18/angular-ui-router.min.js"></script>
+		 <script src="assets/JavaScript/Angular/angular-cookies.min.js"></script>
+        <!-- UI-Bootstrap -->
+        <script src="assets/JavaScript/Bootstrap/3.3.6/ui-bootstrap-tpls-1.3.3.js"></script>
+		
+		<!--Drag and drop / ngCSV Export File js -->
+        <link rel="stylesheet" href="assets/CSS/drag-drop/adapt-strap.css"/>
+        <script src="assets/JavaScript/Angular/angular-drag-drop/adapt-strap.js"></script>
+        <script src="assets/JavaScript/Angular/angular-drag-drop/adapt-strap.tpl.js"></script>
+        <script src="assets/JavaScript/Angular/angular-drag-drop/angular-sanitize.js"></script>
+		
+        <!--Drag and drop js -->
+		
+        <!-- Breadcrumbs library -->
+        <script src="assets/JavaScript/Angular/angular-breadcrumbs/angular-breadcrumb.js"></script>
+		<script src="assets/JavaScript/Angular/angular-toaster/1.1.0/toaster.min.js"></script>
+		<script src="assets/JavaScript/Angular/angular-animate/1.5.3/angular-animate.js"></script>
+		
+		
+		<script src="assets/JavaScript/JQuery/moment.js"></script>
+		<script src="assets/JavaScript/Angular/angular-moment.js"></script>
+		
+        <script src="commons/directives/app-directive.js"></script>
+		 <!-- Start Custom Exception Handling -->
+        <script src="commons/exception-handler/custom-error-handler.js"></script>
+        <script src="commons/exception-handler/tracekit.js"></script>
+        <!-- End Custom Exception Handling -->
+	    <!-- Start : logger -->
+        <script src="commons/logger/logger.js"></script>
+        <!-- End : logger -->
+        <script src="commons/controllers/commonModalController.js"></script>
+        
+		
+        <!--<script src="common/filters/custom-filters.js"></script>-->
+        <!--UI Grid-->
+        <!--    <script src="assets/js/lib/UI-Grid/angular-touch.js"></script>
+            <script src="assets/js/lib/UI-Grid/csv.js"></script>
+            <script src="assets/js/lib/UI-Grid/pdfmake.js"></script>
+            <script src="assets/js/lib/UI-Grid/vfs_fonts.js"></script>
+            <script src="assets/js/lib/UI-Grid/ui-grid.min.js"></script>
+            <link rel="stylesheet" href="assets/css/UI-Grid/ui-grid.min.css">
+            <link rel="stylesheet" href="assets/css/UI-Grid/ui-grid.ttf">
+            <link rel="stylesheet" href="assets/css/UI-Grid/ui-grid.woff">-->
+        <!--UI Grid-->
+        <script src="assets/JavaScript/JQuery/jquery-ui.js"></script>
+		<!-- Angular Export Javascript FileSaver -->
+		
+		<!-- Angular Export Javascript FileSaver -->
+        <!-- Login Module Files -->
+        <script src="modules/login/loginMod.js"></script>
+        <script src="modules/login/services/loginService.js"></script>
+        <script src="modules/login/controllers/loginController.js"></script>
+        <!-- Login Module Files -->
+		
+		<!-- Home Module Files -->
+        <script src="modules/home/homeMod.js"></script>
+        <script src="modules/home/controllers/homeController.js"></script>
+        <script src="modules/home/services/homeService.js"></script>
+        <!-- Home Module Files -->
+		
+        <!-- Gateway Module Files -->
+        <script src="modules/gateway/gatewayMod.js"></script>
+        <script src="modules/gateway/controllers/gatewayController.js"></script>
+        <script src="modules/gateway/services/gatewayService.js"></script>
+        <!-- Gateway Module Files -->
+		
+		<!-- Device Module Files -->
+        <script src="modules/devices/deviceMod.js"></script>
+        <script src="modules/devices/controllers/deviceController.js"></script>
+        <script src="modules/devices/services/deviceService.js"></script>
+        <!-- Device Module Files -->
+		<!--<script src="assets/JavaScript/JQuery/blob.js"></script>
+		<script src="assets/JavaScript/JQuery/FileSaver.js" type="text/javascript"></script>
+		<script src="assets/JavaScript/JQuery/json-export-excel.min.js" type="text/javascript"></script>-->
+    <script>
+      /*  setupTraceKit();
+        function setupTraceKit() {
+            TraceKit.report.subscribe(function (errorReport) {
+                var msg = 'msg: ' + errorReport.message + '\n\n';
+                msg += "::::STACKTRACE::::\n";
+                for (var i = 0; i < errorReport.stack.length; i++) {
+                    msg += "stack[" + i + "] " + errorReport.stack[i].url + ":" + errorReport.stack[i].line + "\n";
+                }
+                console.log(msg);
+                // log to server
+            })
+        };
+		String.format = function () {
+            // The string containing the format items (e.g. "{0}")
+            // will and always has to be the first argument.
+            var theString = arguments[0];
+
+            // start with the second argument (i = 1)
+            for (var i = 1; i < arguments.length; i++) {
+                // "gm" = RegEx options for Global search (more than one instance)
+                // and for Multiline search
+                var regEx = new RegExp("\\{" + (i - 1) + "\\}", "gm");
+                theString = theString.replace(regEx, arguments[i]);
+            }
+
+            return theString;
+        };*/
+    </script>
+	
+</head>
+
+<body  >
+ <center >
+							<div id="mapid" style="width: 1400px; height: 650px;"></div></center>
+	
+</body>
+<script>
+function getParamValue(paramName)
+{
+    var url = window.location.search.substring(1); //get rid of "?" in querystring
+    var qArray = url.split('&'); //get key-value pairs
+    for (var i = 0; i < qArray.length; i++) 
+    {
+        var pArr = qArray[i].split('='); //split key and value
+        if (pArr[0] == paramName) 
+            return pArr[1]; //return value
+    }
+}
+$(document).ready(function(){
+var latitude,longitude,modelname,macid,modelid,serialnumber,provider;
+if(getParamValue('latitude') != undefined){
+ latitude =  getParamValue('latitude');
+
+ latitude  = latitude.split(',');
+}
+if(getParamValue('longitude') != undefined){
+ longitude =  getParamValue('longitude');
+ longitude  = longitude.split(',');
+}
+if(getParamValue('modelname') != undefined){
+modelname =  getParamValue('modelname');
+modelname  = modelname.split(',');
+}
+if(getParamValue('macid') != undefined){
+macid =  getParamValue('macid');
+macid  = macid.split(',');
+}
+if(getParamValue('modelid') != undefined){
+modelid =  getParamValue('modelid');
+modelid  = modelid.split(',');
+}
+if(getParamValue('serialnumber') != undefined){
+serialnumber =  getParamValue('serialnumber');
+serialnumber  = serialnumber.split(',');
+}
+if(getParamValue('provider') != undefined){
+provider =  getParamValue('provider');
+provider  = provider.split(',');
+}
+if(latitude != undefined)
+{
+map_draw(latitude,longitude,modelname,macid,modelid,serialnumber,provider);
+}
+
+});
+
+function map_draw(latitude,longitude,modelname,macid,modelid,serialnumber,provider)
+{
+	var mymap = L.map('mapid').setView([10.1, 20.2], 13);
+
+	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+	}).addTo(mymap);
+
+	var myIcon = L.icon({
+		  iconUrl:'assets/Images/map-marker.png',
+		  iconRetinaUrl:'assets/Images/map-marker.png',
+		  iconSize: [25, 40]
+		});
+	
+	var mapmaker = L.markerClusterGroup();
+	
+	for(var i = 0; i < latitude.length; i++){
+		//console.log("latitude = "+latitude[i]);
+	    //console.log("longitude ="+longitude[i]);
+	 var marker =  L.marker([latitude[i], longitude[i]],{icon: myIcon});
+	 marker.bindPopup("Latitude = "+latitude[i]+"<br>"+"Longitude = "+longitude[i]+"<br>"+"Model Name = "+modelname[i]+"<br>"+"Mac Address = "+macid[i]+"<br>"+"Model Id = "+modelid[i]+"<br>"+"Serial Number = "+serialnumber[i]+"<br>"+"Provider = "+provider[i]);
+	 mapmaker.addLayer( marker );
+	}
+
+	mymap.addLayer( mapmaker );
+	mymap.fitBounds(mapmaker.getBounds());
+	//L.marker([10.1, 20.2]).addTo(mymap);
+	//var marker = L.marker([51.5, -0.09]).addTo(mymap);
+	//var marker = L.marker([51.5, -0.09]).addTo(mymap);
+	//var marker = L.marker([51.5, -0.09]).addTo(mymap);
+	//var marker = L.marker([51.5, -0.09]).addTo(mymap);
+}
+/*
+var mapApp = angular.module('mapApp', ['ngCookies']);
+mapApp.controller('mapCtrl', function ($scope, $rootScope,$cookieStore,mapModuleService,$timeout) {
+//alert("Call this controller");
+$rootScope.globals = $cookieStore.get('globals') || {};
+	
+    if (!$rootScope.globals.currentUser) {
+		//console.log($rootScope.globals);
+	   $location.path('/login');
+    } else {
+        $scope.username = $rootScope.globals.currentUser.username;
+        $rootScope.authToken = $rootScope.globals.currentUser.authToken;
+      //  alert($rootScope.authToken);
+    }
+	$timeout(function(){
+	
+	var page = getParamValue('page');
+	
+ var latitude=[],longitude=[],modelname=[],macid=[],modelid=[],serialnumber=[],provider=[];    
+mapModuleService.MapConfigure(page).then(function(result){
+//alert(JSON.stringify(data));
+//var object = data.Data;
+
+  $.each(result.Data, function(index, object) {
+		         
+				  latitude[index]= object.gatewaymeta.latitude;
+				 
+		         
+				  longitude[index]=object.gatewaymeta.longitude;
+				 
+		           
+		           if(object.gatewaymeta.modelname){modelname[index]=object.gatewaymeta.modelname;}else{modelname[index]="N/A";};
+		           if(object.gatewaymeta.macid){macid[index]=object.gatewaymeta.macid;}else{macid[index]="N/A";}
+		           if(object.gatewaymeta.modelid){modelid[index]=object.gatewaymeta.modelid;}else{modelid[index]="N/A";}
+		           if(object.gatewaymeta.serialnumber){serialnumber[index]=object.gatewaymeta.serialnumber;}else{serialnumber[index]="N/A";}	          
+		           if(object.gatewaymeta.provider){provider[index]=object.gatewaymeta.provider;}else{provider[index]="N/A";}
+		          // console.log("provider : "+object.gatewaymeta.provider);
+		           
+				});
+	 map_draw(latitude,longitude,modelname,macid,modelid,serialnumber,provider);
+
+	   // }});
+
+ 
+		          // console.log("provider : "+data.Data.gatewaymeta.provider);
+
+
+});
+},1);
+});
+mapApp.service('mapModuleService',function($http,$timeout,$rootScope){
+var URL;
+
+this.MapConfigure = function(page)
+		{
+			URL = 'http://10.107.0.186/api/gateway/?format=json';
+
+			if(page != "" || page != undefined)
+			{
+				URL = URL+ "&page="+page;
+			}
+			return $http({
+				method: 'GET',
+				url: URL,
+				headers: {
+					'Content-Type':'application/json',
+					'Authorization':'JWT '+$rootScope.authToken
+			     }
+			}).then(function(response){
+				return response.data;
+			});
+		};
+	});
+	*/
+/*
+$(document).ready(function(){
+	//InitChart();
+	
+	  $.ajax
+	  ({
+		  url: "commons/json/gatewayList.json",
+		  dataType: "json",
+		  success: function(result)
+		  {
+	         var latitude=[],longitude=[],modelname=[],macid=[],modelid=[],serialnumber=[],provider=[];	    
+	           $.each(result.Data, function(index, object) {
+		          
+		           latitude[index]= object.gatewaymeta.latitude;
+		           longitude[index]=object.gatewaymeta.longitude;
+		           if(object.gatewaymeta.modelname){modelname[index]=object.gatewaymeta.modelname;}else{modelname[index]="N/A";};
+		           if(object.gatewaymeta.macid){macid[index]=object.gatewaymeta.macid;}else{macid[index]="N/A";}
+		           if(object.gatewaymeta.modelid){modelid[index]=object.gatewaymeta.modelid;}else{modelid[index]="N/A";}
+		           if(object.gatewaymeta.serialnumber){serialnumber[index]=object.gatewaymeta.serialnumber;}else{serialnumber[index]="N/A";}	          
+		           if(object.gatewaymeta.provider){provider[index]=object.gatewaymeta.provider;}else{provider[index]="N/A";}
+		          // console.log("provider : "+object.gatewaymeta.provider);
+		           
+				});
+	           map_draw(latitude,longitude,modelname,macid,modelid,serialnumber,provider);
+	    }});
+	
+	
+});
+
+*/
+</script>
+</html>

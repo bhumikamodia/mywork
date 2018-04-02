@@ -1,0 +1,264 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<div ng-controller="deviceGroupsAddCtrl">
+<div >
+<div class="row">
+<div >
+
+<div ncy-breadcrumb></div>
+
+</div>	
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-1 text-right">
+</div>
+</div>
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+</div>
+</div>
+
+
+<form class="form-horizontal" id="formData">
+<div class="row"  id="deviceTable">
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+
+
+
+<div>
+<table class="table table-striped pad0">
+<thead>
+<tr>
+<th class="col-lg-2 col-ms-2 col-sm-2 col-xs-3">Name</th>
+<th class="col-lg-10 col-ms-10 col-sm-10 col-xs-9">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Group Name:</td>
+<td><!-- <div class="col-xs-4" ng-class="{ 'has-error': form.groupName.$dirty && (form.groupName.$error.required || form.groupName.$error.maxlength) }"> -->
+<!-- 
+<input type="text" class="form-control" id="groupName" ng-model="devicegroupData.name" />
+ -->
+
+
+ <div ng-class="{ 'has-error': form.grpname.$dirty && (form.grpname.$error.required || form.grpname.$error.maxlength) }">
+<input class="form-control" name="grpname" maxlength="24" ng-model="devicegroupData.name"  placeholder="Add Group Name" ng-maxlength="24" required/><span ng-show="form.grpname.$dirty && (form.grpname.$error.required)" class="help-block">Group Name is required</span><span ng-show="form.grpname.$dirty" class="help-block">Please Enter Proper Group Name!!!</span><span ng-show="form.grpname.$error.maxlength" class="help-block">Name Should Contain within 24 Characters</span></div>
+
+
+
+</div>
+</td>
+</tr>
+<tr>
+<td>Description:</td>
+<td>
+
+
+ <div >
+<textarea class="form-control" name="groupDesc" maxlength="200" ng-model="devicegroupData.description"  placeholder="Add Group Description" ></textarea></div>
+
+
+
+
+</td>
+
+
+</tr>
+<tr>
+<td>Devices</td>
+<td><div class="col-xs-8">
+
+
+
+<div style=" display: inline-block;" ng-repeat="item in DeviceSavedList" id ="item" ng-model="item.displayname">{{item.displayname}}<span ng-if="!$last">,&nbsp;</span></div>
+
+
+<div ng-if="!editDeviceInfo.id"><button class="btn btn-default btn-shadow" data-toggle="modal" data-target="#myModaladddevice">Add Devices</button></div>
+
+<div ng-if="editDeviceInfo.id" ><button class="btn btn-default btn-shadow" data-toggle="modal" data-target="#myModaladddevice" data-id="devicegroupData" >Edit Devices</button></div>
+
+</div>
+</td>
+</tr>
+
+
+</tbody>
+</table>
+</div>
+
+</div>
+
+
+</div>
+<div class="">
+
+<SPAN >
+
+
+<button type="button" ng-if="!editDeviceInfo.id" ng-disabled="dataLoading" class="btn btn_act"  ng-click="addGroups(devicegroupData,item);" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Save Group</button>
+<button type="button" ng-if="editDeviceInfo.id" ng-disabled="dataLoading" class="btn btn_act"  ng-click="editGroups(devicegroupData,item);" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Save Group</button>
+</SPAN>	
+
+<img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+</div>
+</form>
+
+
+</div>
+
+<style>
+
+.panel-body {
+border-top: 0px !important;
+}
+.panel-group .panel-heading {
+border-bottom: 0px !important;
+}
+.selectionBox option {
+background-color: #000;
+color: #fff;
+}
+.modal-lg {
+width: 90%;
+/* max-width:1100px;*/
+}
+</style>
+<div class="modal fade " id="myModaladddevice" role="dialog">				 
+<div class="modal-dialog mr-top10 modal-lg">
+<!-- Modal content-->
+<div class="modal-content">
+
+
+
+<div class="nav navbar-fixed-top gradient-bg modal-header" style="color:white;">
+<button type="button"  class="close"  data-dismiss="modal" >&times;</button>
+<b ng-if="!editDeviceInfo.id" class="modal-title" id="modal-title">Add Device</b>
+<b ng-if="editDeviceInfo.id" class="modal-title" id="modal-title">Edit Device -  {{editDeviceInfo.name}}</b>
+</div>
+
+
+<div class="modal-body">
+<form class="form-horizontal" style="margin-top: 45px;">
+<div >
+<!--<form class="form-horizontal">
+<div class="form-group">
+<label class="control-label col-lg-2 col-md-3 col-sm-3 col-xs-5 text-left" for="gateway">Select gateway:</label>
+<div class="col-lg-5 col-md-3 col-sm-3 col-xs-5">
+<div class = "input-group">
+
+<input type="text" class="form-control search-input filter-control" id="gateway" ng-model="gateway"  ng-keyup="completeGatewayDeviceGroup()" placeholder="Type Gateway Name">
+<span class="input-group-addon input-group-addon-search"><i class="fa fa-search"></i></span>
+</div>
+
+</div>
+</div>
+</form>
+<hr class="mr-top10" style="border:2px solid #333333;" />-->
+<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6 table-responsive mr-top0 border0">
+<table id="total" class="table table-striped">
+<thead>
+<tr>
+<th>Status</th>
+<th>Display Name</th>
+<th>Mac ID</th>
+<!-- <th>Gateway</th>  <th>Gateway Manager</th> -->
+<th>Status</th>
+<th>Protocol</th>
+<th>Add</th>
+
+</tr>
+</thead>
+<tbody>
+<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,device)"  ng-repeat="device in filtered = (deviceList | filter:{device_status:'ACTIVE'} || undefined) | limitTo:devicePerPage">
+<!--{{$index + (currentGatewayPage - 1) * gatewayPerPage + 1}}-->
+
+<td><div uib-tooltip="Offline" tooltip-placement = "top" ng-if="device.connected==false"><div class="orange center-block"></div></div>
+<div uib-tooltip="Online" tooltip-placement = "top" ng-if="device.connected==true"><div class="green center-block"></div></div>
+</td>
+<td>
+<div style="cursor:pointer;">{{device.displayname}}</div>
+</td>
+<td><div>{{device.macid}}</div></td>
+<!-- <td><div>{{device.gateway.displayname}}</div></td> -->
+<!-- <td><div>{{device.gateway.gatewaymanager_username}}</div></td> -->
+<td><div >{{device.device_status}}</div></td>
+
+
+<td><div >{{device.protocol}}</div>
+
+</td>
+<td><div>
+<button  class="btn btn-default" ng-click="getDeviceinfo(device)" ng-disabled="alreadyExists(device)">
+<i class="glyphicon glyphicon-menu-right"></i>
+</button>
+</div></td>
+
+</tr>
+<tr ng-if="dataRuleEngineLoading" class="alert alert-danger">
+<td colspan="11">
+<div align="center">
+<img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+</div>
+</td>
+</tr>
+<tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalItems ==0) && !dataRuleEngineLoading">
+<td colspan="11">
+<strong>No Record Found.</strong>
+</td>
+</tr>
+</tbody>
+</table>
+<div id="pagination" ng-show="(filtered).length">
+<div class="col-lg-12 blue-bg pad10" >
+<div class="col-lg-8">
+<uib-pagination total-items="totalItems" ng-model="currentDevicePage" ng-change="pageChanged()" items-per-page="devicePerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+</div>
+<div class="col-lg-3 text-right">Displaying {{currentDevicePage}} / {{numPages}} of {{numPages}}</div>
+</div>
+</div>
+</div>
+
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mr-top5">
+<div id="deviceTable">
+<font color="White" size="4">
+<input ng-if="!editDeviceInfo.id" type="text" value=" Added Devices" style="width:100%;background-color:grey" readonly/>
+<input ng-if="editDeviceInfo.id" type="text" value=" Manage Devices" style="width:100%;background-color:grey" readonly/>
+
+<!-- <input type="text" value=" Added Devices" style="width:100%;background-color:grey" readonly/> -->
+
+
+</font>
+
+
+<ul class="list-group" ng-if="tags.length>0">
+<li  class="list-group-item" ng-repeat="item in tags">{{item.displayname}}<a style="cursor:pointer;" ng-click="removeTags(item);"><i style="float:right;" class="glyphicon glyphicon-remove"></i></a></li>
+</ul>
+<ul class="list-group" ng-if="tags.length==0">
+<li><div class="alert alert-danger"><strong>No Record Found.</strong></div></li>
+</ul>
+</div>
+</div>	
+</div>
+
+<br clear="all"><br clear="all">
+<button type="button" class="btn btn_act" ng-click="savedeviceGroups(item)">Done</button>
+<button type="button" class="btn btn_act" ng-click="cleardeviceGroups()">Clear</button>
+</form>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<script type="text/javascript">
+
+function toggleIcon(e) 
+{
+$(e.target)
+.prev('.panel-heading')
+.find(".more-less")
+.toggleClass('fa-plus-square-o fa-minus-square-o');
+}
+$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+$('.panel-group').on('shown.bs.collapse', toggleIcon);
+</script>

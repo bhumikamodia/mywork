@@ -1,0 +1,159 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+
+        <div  id="configPanel" role="dialog">
+<div  style="color:black;"  >
+    <!-- Modal content-->
+    <div class="modal-content ">
+        <div id= "btn_group" class="nav navbar-fixed-top gradient-bg " style="color:white;">
+<button type="button" class="close" ng-click="clearControlPanel();">&times;</button>
+
+<b>Config Panel</b> - &nbsp;  {{selectedRowDevice.displayname}}
+        </div>
+        <div >
+<div class="modal-body" >
+    <form name="form" class="form-horizontal">
+        <div class="container col-md-12" >
+<div class="mr-leftmin30 mr-rightmin30 panel panel-default" style="border-radius:0px;">
+    <div class="row outer">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+<table  ng-if = "regPropsDefinitionArray.length==0" class="mr-leftmin30" style="margin-left:4%;" class="col-md-10"  >
+    <tr >
+        <td class="alert alert-danger"><div align="center">No Record Found.</div></td>
+    </tr>
+</table>
+        </div>
+        <div class="col-md-2">
+<div id="deviceTable">
+    <table class="table table-striped pad0" style="margin-top: 30%;" >
+        <thead>
+        </thead>
+        <tbody >
+<tr ng-repeat="properties in regPropsDefinitionArray" ng-class="{'selectedProp':$index == selectedRowProp}" ng-init="propertiesTestIndex = $index;" style="cursor:pointer;" ng-click="setClickedRowProp($index)" >
+    <td ng-if="$index==0" class="grad col-lg-2" ng-init="getPropLock(selectedRowDevice.id,$index);toggleDeviceProperty(properties,$index);refreshSlider();setClickedRowProp($index)"  ng-click="getPropLock(selectedRowDevice.id,$index);toggleDeviceProperty(properties,$index);refreshSlider()"> 
+        <div >
+<label style="cursor:pointer;" ng-model="propDetail" for="gman">
+    <span class="modal-title">{{properties.definitionName}}</span>
+</label>
+        </div>
+    </td>
+</tr>
+<tr ng-repeat="properties in regPropsDefinitionArray" ng-class="{'selectedProp':$index == selectedRowProp}" ng-init="propertiesTestIndex = $index;" style="cursor:pointer;" ng-click="setClickedRowProp($index)" >
+    <td ng-if="$index!=0" class="grad col-lg-2"   ng-click="getPropLock(selectedRowDevice.id,$index);toggleDeviceProperty(properties,$index);refreshSlider()" > 
+        <div >
+<label style="cursor:pointer;" ng-model="propDetail" for="gman">
+    <span class="modal-title">{{properties.definitionName}}</span>
+</label>
+        </div>
+    </td>
+</tr>
+        </tbody>
+    </table>
+</div>
+        </div>
+        <div class="col-md-10" style="margin-top: 5%;">
+<div ng-if = "regPropsDefinitionArray.length>0">
+    <table class="table table-striped pad0">
+        <tr>
+<td> 
+    <div ng-repeat="properties in regPropsDefinitionArray" ng-class="{'selectedProp':$index == selectedRowProp}">
+        <div ng-show="(selectedRowProperty.Selected == true && regPropsDefinitionArray[$index]==selectedRowProperty)  " >
+<table class="table table-striped pad0" ng-repeat="defName in properties.properties" ng-init="propIndex=$index">
+    <tr ng-if="checkForPostOperation(defName.operations)==false || checkForPostOperation(defName.operations)==true">
+        <td class="transforms" width="50%">{{defName.propertyName}} Reported Value 
+        </td>
+        <td width="50%">
+    <p id="{{defName.propertyName+selectedRowProp}}">{{defName.reportedvalue}} </p>
+        </td> 
+    </tr>
+   <!--  <tr ng-if="checkForPostOperation(defName.operations)==true && defName.indexOf('desiredvalue')">
+        <td class="transforms" width="50%">
+{{defName.propertyName}}   Desired Value </td>
+<td width="50%">
+    <p style="cursor:pointer;" ng-click="getRequestJob(desiredValue.JOBID)">{{defName.desiredvalue}}&nbsp;&nbsp;&nbsp;</p>
+</td>
+        </tr> -->
+        <tr>
+        <td ng-if="defName.operations.indexOf('notify')!=-1 ||defName.operations.indexOf('post')!=-1 ">Permissible Configurations
+        
+        </td>
+        <td>
+      
+        <p ng-if="defName.minimum!=undefined" > Minimum :: {{defName.minimum}}</p>
+        
+        <p ng-if="defName.minimum!=undefined">Maximum :: {{defName.maximum}}</p>
+        <div ng-if="defName.operations.indexOf('notify')!=-1 ||defName.operations.indexOf('post')!=-1 "> 
+        <button style="margin-left: 20%;margin-top: 3%" type="button" ng-hide="editingProperty[selectedRowProp]==true" ng-click="edit(selectedRowProp) " class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit"></span></button>
+        </div>
+        </td>
+        </tr>
+        <tr>
+        <td></td>
+            <td style="float: right">
+            <div ng-show="editingProperty[selectedRowProp]==true">
+        <button  type="button" class="btn btn-xs btn-primary" ng-click="saveinfo(properties,selectedRowProp)"><span class="glyphicon glyphicon-ok" ></span></button>
+   
+    <button type="button" ng-click="delete(selectedRowProp)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" ></span></button>
+        </div> 
+        </td>
+       
+        </tr>
+        <tr ng-show="editingProperty[selectedRowProp]==true">
+        <td>Operating Range</td>
+        <td >
+        <div ng-if="defName.operations.indexOf('post')!=-1">
+        <p ng-if="defName.minimum!=undefined" >Minimum : <input class="form-control" type="number" min="{{defName.minimum}}" max="{{defName.maximum}}" style="width: 100px;margin-top: -5%;margin-left: 15%" type="text" ng-model="defName.operable_minimum" /> </p>
+         <p ng-if="defName.maximum!=undefined" >Maximum : <input class="form-control" type="number" style="width: 100px;margin-top: -5%;margin-left: 15%" min="{{defName.minimum}}" max="{{defName.maximum}}" type="text" ng-model="defName.operable_maximum" /> </p>
+         </div>
+         <div ng-if="defName.operations.indexOf('notify')!=-1">
+         <p>Telemetry :  <toggle on="start" off="stop" onstyle="btn-success widthFix" offstyle="btn-danger widthFix" ng-model="defName.telemetry" style="margin-top: -5%;margin-left: 1%">{{value}}</toggle></p>
+         <p> Time : <input class="form-control" style="width: 100px;margin-top: -5%;margin-left: 15%" type="text" ng-model="defName.operable_interval" />
+         
+         <div class="btn-group" data-toggle="buttons" style="margin-top: -15%;margin-left: 40%">  
+            <label  class="btn btn-default active">     
+                <input id="a" type="radio" name="intervalvalue" value="s" ng-model="defName.a"> Second
+            </label>   
+            <label  class="btn btn-default">     
+                <input id="a" type="radio" name="intervalvalue" value="m" ng-model="defName.a"> Minute   
+            </label>
+            <label  class="btn btn-default">     
+                <input id="a" type="radio" name="intervalvalue" value="h" ng-model="defName.a"> Hour   
+            </label> 
+        </div>       
+        
+        </p> 
+              
+        </div>
+    
+        </tr>
+      
+</table>
+<div class="form-group col-lg-12" ng-show="selectedRowProperty.Selected == true  && regPropsDefinitionArray[$index]==selectedRowProperty">
+    <div class="col-sm-offset-3">
+
+<span>
+    <button type="button" ng-disabled="DisabledGetMethod[$index] || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">GET {{LockGetMethod[index]}}</button></span>
+<span>
+        <button type="button" ng-click="setProperties(selectedRowProperty
+        ,propertiesTestIndex);" ng-disabled=" DisabledPostMethod[$index] || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">POST</button> </span>
+<span >
+        <button type="button"  ng-click="putBtn();"  ng-disabled=" DisabledPushMethod[$index] || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">PUT</button> </span>
+    <span >
+        <button type="button"  ng-click="putBtn();"  ng-disabled=" DisabledDeleteMethod[$index] || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">DELETE</button> </span>
+<span >
+        <button uib-tooltip="This is device initiated" type="button"  ng-click="deleteBtn();"  ng-disabled="DisabledNotifyMethod[$index] || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">NOTIFY</button> </span>
+    </div>
+</div>
+
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div></div></div></div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>

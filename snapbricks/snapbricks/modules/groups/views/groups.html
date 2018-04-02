@@ -1,0 +1,109 @@
+<div class="row">
+				<div >
+					
+						<div ncy-breadcrumb></div>
+					
+				</div>	
+				
+</div>
+<div class="row" id="home">
+
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<hr class="mr-top10" style="border:2px solid #3D6BA9;" />
+					<div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20">
+								<button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFunc();"><i class="fa fa-refresh"></i> Refresh</button>
+								<div class="dropdown display-inline">
+								<button type="button" class="btn btn-default btn-shadow border0 dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-share-square-o"></i>Export<span class=""></span></button>
+									<ul class="dropdown-menu dropdown-export">
+										<li><a  export-Excel attrname="groupsGrid" attrpageno="{{currentgroupPage}}"><i class="fa fa-file-excel-o mr-right7"></i>Export to Excel</a></li>
+										<li class="divider"></li>
+										<li><a  export-Csv attrname="groupsGrid" attrpageno="{{currentgroupPage}}"><i class="fa fa-file-o mr-right7"></i>Export to CSV</a></li>
+										
+									</ul>
+								</div>
+								<button type="button" ng-show="can('create_gatewaygroups')" class="btn btn-default btn-shadow border0" ng-click="create()"><i class="fa fa-plus-circle"></i> Add</button>
+								<!--<button id="btn_deactivate" type="button" class="btn btn-default btn-shadow border0" ng-click="openRegisterInfo('activation',selectedRowGateway)"><i class="fa fa-ban"></i> Deactivate</button>
+								<button type="button" class="btn btn-default btn-shadow border0" ng-click="openRegisterInfo('activation',selectedRowGateway)"><i class="fa fa-check-circle"></i> Activate</button>-->
+					</div>
+				</div>
+<div id="deviceTable" >				
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+<table id="groupsGrid" class="table table-striped">
+										<thead>
+											<tr>
+												<!--<th ><input type="checkbox" ng-model="selectedAll"  ng-click="checkAll(selectedAll)"/></th>-->
+												<th >Group Name</th>
+												<th >Description</th>
+												<th >Created Date</th>
+												<th ng-show="can('retrieve_gatewaygroups')">Edit </th>
+												<th ng-show="can('delete_gatewaygroups')">Delete </th>
+												<th >
+												<i class="fa fa-filter" data-toggle="modal" data-target="#myModal" ></i>
+													<!-- Modal -->
+													<div class="modal fade" id="myModal" role="dialog">
+														<div class="modal-dialog mr-top80">
+														  <!-- Modal content-->
+															<div class="modal-content black-bg">
+																<div class="modal-header border0">
+																	<button type="button" class="close" data-dismiss="modal">&times;</button>
+																	<h4 class="modal-title">Filter Discover - under construction</h4>
+																</div>
+																<div class="modal-body">
+																	<form class="form-horizontal">
+																		<div class="form-group">
+																			<label class="control-label col-lg-5" for="dname">On Development </label>
+																			<div class="col-lg-5">
+																				On Development
+																			</div>
+																		</div>
+																		
+																		<div class="form-group"> 
+																			<div class="col-sm-offset-5 col-sm-5">
+																				<button type="submit" ng-click="searchFeaturesSubmit();" data-dismiss='modal' class="btn btn-filter">Apply Filter</button>
+																			</div>
+																		</div>
+																	</form>
+																</div>
+															</div>
+														</div>
+													</div>
+												</th>
+											</tr>
+										</thead>
+										<tbody >
+				
+					<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,group)" ng-repeat="group in filtered = (groupList || undefined) | orderBy:sortType:sortReverse | limitTo:groupPerPage">
+                        
+						<!--<td>
+						<input type="checkbox" ng-model="group.groupSelected" ng-change="checkStatus(group);"  />
+						</td>-->
+                        <td>{{group.groupname}}
+						</td>
+						 
+						<td><div >{{group.description}}</div></td>
+						<td><div>{{group.created_ts | utcToLocal:'dd-MM-yyyy hh:mm:ss'}}</div></td>
+                        <td ng-show="can('retrieve_gatewaygroups')"><div><a ng-click="create(group)"><i class="fa fa-edit"></i></a></div></td>
+                        
+						<td ng-show="can('delete_gatewaygroups')"><div><a id="btn_deactivate" ng-click="deleteGroup(group.id,$event)"><i  class="fa fa-trash"></i></a></div></td>
+						<td><div></div></td>
+                    </tr>
+					<tr ng-if="dataGroupsLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+					<tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalgroupItems ==0) && !dataGroupsLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+					</tbody>
+					</table>			
+</div>
+<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(filtered).length">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+								
+								<uib-pagination  total-items="totalgroupItems" ng-model="currentgroupPage" ng-change="pageChanged()" items-per-page="groupPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+    boundary-links="true" num-pages="numPages"></uib-pagination>
+											
+										</div>
+										<div class="col-lg-3 text-right">Displaying {{currentgroupPage}} / {{numPages}} of {{numPages}}</div>
+										</div>
+								
+								</div>
+</div>
+</div>

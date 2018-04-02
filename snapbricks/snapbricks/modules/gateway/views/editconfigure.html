@@ -1,0 +1,373 @@
+<div class="row">
+			<div class="col-lg-10 col-md-10 col-sm-10 col-xs-7">
+				
+					<div ncy-breadcrumb></div>
+				
+			</div>	
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-1 text-right">
+					<form>
+						<button type="submit" class="btn btn_back" title="Back To Configuration" back-button><i class="fa fa-chevron-left mr-right7" ></i>Back to list</button>
+					</form>
+				</div>
+			</div>
+<div class="row" ng-controller="editConfigurationController">
+	
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<div class="modal-header">
+			<h3 class="modal-title" id="modal-title">Edit Configuration</h3>
+		</div>		
+				<div class="modal-content">
+				<form class="form-horizontal">
+				<div id="deviceTable" >
+				<div class="modal-body" id="modal-body">
+					<h4>General Info</h4>
+					<div >
+												<table class="table table-striped pad0">
+													<tbody>
+														<tr ng-if="configuration.telemetry.tinterval != ''">
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Telemetry</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">Every <input type="text" ng-model="msg.tinterval" ng-value="{{configuration.telemetry.tinterval}}"/> Minutes</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">HeartBeat</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">N/A</td>
+														</tr>
+													</tbody>
+												</table>
+					</div>
+					<h4>Messaging Interface </h4> 
+					<div id="messages" >
+									<div style="margin-left:2%;">
+									<div id="messagesloop" class="panel panel-default" data-ng-repeat="message in configuration.message" >
+										<div class="panel-heading">
+											<h4 class="panel-title">
+												<a data-toggle="collapse" data-parent="#accordion2" href="#messages{{$index}}" ng-click="$event.preventDefault();"><i class="more-less fa fa-plus-square-o"></i>&nbsp;Messaging to {{message.name}}</a>
+											</h4>
+										</div>
+										<div id="messages{{$index}}" class="panel-collapse collapse">
+											<div >
+												<table class="table table-striped pad0">
+													<tbody >
+														<tr>
+														<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Name</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"><input type="text" ng-model="msg.message[$index].name" ng-value="message.name" /></td>
+														</tr>
+														<tr>
+														<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">url</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"><input type="text" ng-model="msg.message[$index].url" ng-value="message.url" /></td>
+														</tr>
+														<tr>
+														<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">port</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"><input type="text" ng-model="msg.message[$index].port" ng-value="message.port" /></td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Username</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"><input type="text" ng-model="msg.message[$index].username" ng-value="message.username" /></td>
+															
+														</tr>
+														<tr>
+														<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Password</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"><input type="password" ng-model="msg.message[$index].password" ng-value="message.password" /></td>
+														</tr>
+														<tr>
+														<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Protocol</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"><input type="text" ng-model="msg.message[$index].protocol" ng-value="message.protocol"/></td>
+														</tr>
+														
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div >
+					</div>	
+					<h4>Hardware & Protocol</h4>
+					<div id="hardware">
+											<div >
+												<table class="table table-striped pad0" >
+													<tbody>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">OPC</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol1" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol1" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">ZIGBEE</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol2" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol2" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">BLE</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol3" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol3" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">ZWAVE</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol4" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol4" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">WIFI</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol5" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol5" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">THREAD</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol6" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol6" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">MQTT NODES</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol7" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol7" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">CoAP NODES</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol8" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol8" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+				</div>
+				</div>			
+				</form>
+							
+		</div>
+	<div align="left" >	<br>												
+						<button type="button" class="btn btn_act"  ng-click="saveApplication(applicationselectedInfo.id);"  style="height:48px !important;">Edit Configure</button>
+							</div>
+	</div>
+</div>
+
+<!--
+
+		<div class="modal-content">
+		<form class="form-horizontal">
+        <div class="modal-body" id="modal-body">
+            <div class="panel-group" id="accordion2">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title">
+												<a data-toggle="collapse" data-parent="#accordion2" href="#gen_info2" ng-click="$event.preventDefault();"><i class="more-less fa fa-minus-square-o"></i>General Info</a>
+											</h4>
+										</div>
+										<div id="gen_info2" class="panel-collapse collapse in">
+											<div >
+												<table class="table table-striped pad0">
+													<tbody>
+														<tr ng-if="configuration.telemetry.tinterval != ''">
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Telemetry</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">Every <input type="text" ng-model="msg.tinterval" ng-value="{{configuration.telemetry.tinterval}}"/> Minutes</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">HeartBeat</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">N/A</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-default" class="tab-pane fade" >
+										<div class="panel-heading">
+											<h4 class="panel-title">
+												<a data-toggle="collapse" data-parent="#accordion2" href="#messages" ng-click="$event.preventDefault();"><i class="more-less fa fa-plus-square-o"></i>Messaging Interface</a> 
+											</h4>
+										</div>
+									<div id="messages" class="panel-collapse collapse">
+									<div style="margin-left:2%;">
+									<div id="messagesloop" class="panel panel-default" data-ng-repeat="message in configuration.message" >
+										<div class="panel-heading">
+											<h4 class="panel-title">
+												<a data-toggle="collapse" data-parent="#accordion3" href="#messages{{$index}}" ng-click="$event.preventDefault();"><i class="more-less fa fa-plus-square-o"></i>Messaging to {{message.name}}</a>
+											</h4>
+										</div>
+										<div id="messages{{$index}}" class="panel-collapse collapse">
+											<div >
+												<table class="table table-striped pad0">
+													<tbody >
+														<tr>
+														<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Name</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"><input type="text" ng-model="msg.message[$index].name" ng-value="message.name" /></td>
+														</tr>
+														<tr>
+														<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">url</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"><input type="text" ng-model="msg.message[$index].url" ng-value="message.url" /></td>
+														</tr>
+														<tr>
+														<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">port</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"><input type="text" ng-model="msg.message[$index].port" ng-value="message.port" /></td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Username</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"><input type="text" ng-model="msg.message[$index].username" ng-value="message.username" /></td>
+															
+														</tr>
+														<tr>
+														<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Password</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"><input type="password" ng-model="msg.message[$index].password" ng-value="message.password" /></td>
+														</tr>
+														<tr>
+														<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Protocol</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"><input type="text" ng-model="msg.message[$index].protocol" ng-value="message.protocol"/></td>
+														</tr>
+														
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									</div >
+									</div>
+									</div>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title">
+												<a data-toggle="collapse" data-parent="#accordion2" href="#hardware" ng-click="$event.preventDefault();"><i class="more-less fa fa-plus-square-o"></i>Hardware & Protocol</a>
+											</h4>
+										</div>
+										<div id="hardware" class="panel-collapse collapse" ng-show="configuration.protocols_subscribed">
+											<div >
+												<table class="table table-striped pad0" >
+													<tbody>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">OPC</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol1" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol1" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">ZIGBEE</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol2" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol2" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">BLE</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol3" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol3" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">ZWAVE</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol4" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol4" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">WIFI</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol5" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol5" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">THREAD</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol6" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol6" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">MQTT NODES</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol7" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol7" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+														<tr >
+															<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">CoAP NODES</td>
+															<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+															<div>
+															<input type="radio" ng-model="msg.protocol8" value="true"/> <img src="assets/Images/right.gif" width="3%" height="3%" /> &nbsp;
+															<input type="radio" ng-model="msg.protocol8" value="false"/> <img src="assets/Images/wrong.gif" width="3%" height="3%" />
+															</div>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									</div>
+	
+        </div>
+		<div class="form-group"> 
+		<div class="col-sm-offset-2 col-sm-2">
+		<button type="button"  ng-click="closeConfiguration(msg)" ng-disabled="!configuration" class="btn">Update Configuration</button>
+		</div>
+		<br clear="all"/>
+		</div>
+											
+		</form>	
+		</div>	
+-->
+
+		
+		<script type="text/javascript">
+		//	var newPanel='<h3>New section</h3><div>New content</div>';
+//$('#accordion').append(newPanel).accordion('destroy').accordion( /* options */ );
+			function toggleIcon(e) 
+			{
+				$(e.target)
+					.prev('.panel-heading')
+					.find(".more-less")
+					.toggleClass('fa-plus-square-o fa-minus-square-o');
+			}
+			$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+			$('.panel-group').on('shown.bs.collapse', toggleIcon);
+		</script>

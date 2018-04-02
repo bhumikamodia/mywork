@@ -1,0 +1,298 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<div ng-controller="meshAddCtrl">
+  <div >
+    <div class="row">
+      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-7 pad-left0">
+
+        <div ncy-breadcrumb></div>
+
+      </div>	
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-1 text-right">
+<form>
+<button type="submit" class="btn btn_back" title="Back To Gateway List" back-button><i class="fa fa-chevron-left mr-right7" ></i>Back to list</button>
+</form>
+</div>
+
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <hr class="mr-top10" style="border:2px solid #3D6BA9;" />
+      </div>
+    </div>
+
+
+    <form class="form-horizontal" id="formData">
+      <div class="row"  id="deviceTable">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+
+
+
+          <div>
+            <table class="table table-striped pad0">
+              <thead>
+                <tr>
+                  <th class="col-lg-2 col-ms-2 col-sm-2 col-xs-3">Name</th>
+                  <th class="col-lg-10 col-ms-10 col-sm-10 col-xs-9">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mesh Name:</td>
+                  <td>
+
+
+
+                    <div ng-class="{ 'has-error': form.grpname.$dirty && (form.grpname.$error.required || form.grpname.$error.maxlength) }">
+                      <input class="form-control" name="grpname" maxlength="24" ng-model="meshData.name"  placeholder="Add Mesh Name" ng-maxlength="24" required/><span ng-show="form.grpname.$dirty && (form.grpname.$error.required)" class="help-block">Mesh Name is required</span><span ng-show="form.grpname.$dirty" class="help-block">Please Enter Proper Mesh Name!!!</span><span ng-show="form.grpname.$error.maxlength" class="help-block">Name Should Contain within 24 Characters</span></div>
+
+
+
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Description:</td>
+                  <td>
+
+
+                   <div >
+                    <textarea class="form-control" name="groupDesc" maxlength="200" ng-model="meshData.description"  placeholder="Add Mesh Description" ></textarea></div>
+
+
+
+
+                  </td>
+
+
+                </tr>
+                <tr>
+                  <td> Location: </td>
+                  <td>
+
+
+                   <div ng-class="{ 'has-error': form.location.$dirty && (form.location.$error.required || form.location.$error.maxlength) }">
+                    <input class="form-control" name="location"  ng-model="meshData.location"  placeholder="Add Location"  required/><span ng-show="form.location.$dirty && (form.location.$error.required)" class="help-block">Location is required</div>
+
+
+
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td> Network: </td>
+                <td >
+                  <div class="col-sm-10">
+
+
+
+                    <div class="col-sm-4 " >
+                      <div data-ng-repeat="field in choiceSet.choices track by $index" class="pad-bottom45">
+
+                       <input style="float: left" class="form-control mr-leftmin30" name="network"  ng-model="meshData.network[$index]"  placeholder="Add network"  required /><span ng-show="form.network.$dirty && (form.network.$error.required)" class="help-block">network is required</span>
+
+                       <span style="float: left; color: green; margin-top: 3%; " class="glyphicon glyphicon-plus mr-left10" ng-if="$index==0" ng-click="addNewChoice()"/>
+
+                       <span style="float: left; color: red; margin-top: 3%; " class="glyphicon glyphicon-remove mr-left10" ng-if="$index!=0" ng-click="removeChoice($index)" />
+
+                     </div>
+                   </div>
+
+
+
+                 </div>
+               </div>
+
+             </td>
+
+           </tr>
+
+           <tr>
+            <td>Gateways: </td>
+            <td><div class="col-xs-8">
+
+
+
+              <div style=" display: inline-block" ng-repeat="item in gatewaymeshSavedList" id ="item" ng-model="item.displayname">{{item.displayname}}<span ng-if="!$last">,&nbsp;</span></div>
+
+
+              <div ng-if="!editDeviceInfo.id" class="mr-leftmin15"><button class="btn btn-default btn-shadow" data-toggle="modal" data-target="#myModaladdgateway">Add Gateways</button></div>
+
+
+            </div>
+          </td>
+        </tr>
+
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+</div>
+<div class="">
+
+  <SPAN >
+
+
+    <button type="button" ng-if="!editDeviceInfo.id" ng-disabled="dataLoading" class="btn btn_act "   ng-click="addGroups(meshData);" style="margin-left: 250px;height:48px !important;"><i class="fa fa-plus-circle"></i>Add Mesh</button>
+    <button type="submit" ng-if="!editDeviceInfo.id" ng-disabled="dataLoading" class="btn btn_act"  title="Back To Gateway List" back-button style="height:48px !important;">Cancel</button>
+    
+  </SPAN>
+
+  <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+</div>
+</form>
+
+
+</div>
+
+<style>
+
+  .panel-body {
+    border-top: 0px !important;
+  }
+  .panel-group .panel-heading {
+    border-bottom: 0px !important;
+  }
+  .selectionBox option {
+    background-color: #000;
+    color: #fff;
+  }
+  .modal-lg {
+    width: 90%;
+    /* max-width:1100px;*/
+  }
+</style>
+<div class="modal fade " id="myModaladdgateway" role="dialog">				 	 
+  <div class="modal-dialog mr-top10 modal-lg">
+
+    <div class="modal-content">
+
+
+
+      <div class="nav navbar-fixed-top gradient-bg modal-header" style="color:white;">
+        <button type="button"  class="close"  data-dismiss="modal" >&times;</button>
+        <b  class="modal-title" id="modal-title">Add Gateway</b>
+      </div>
+
+
+      <div class="modal-body">
+        <form class="form-horizontal mr-top45">
+          <div >
+
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6 table-responsive mr-top0 border0">
+              <table id="total" class="table table-striped">
+                <thead>
+                  <tr>
+                    <th style="width: 3%"></th>
+                    <th style="width:15%">Display Name</th>
+             
+                    <th style="width: 15%">Mac ID</th>
+                    <th style="width: 15%">Mesh Name</th>
+                    <th style="width: 10%">Network</th>
+              
+                    <th style="width: 5%">Add</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,gateway)" ng-repeat="gateway in filtered = (gatewayList| filter:expression | filter:expression2 | filter:expression3 || undefined) | orderBy:sortType:sortReverse | limitTo:gatewayPerPage">
+
+
+                    <td><div uib-tooltip="Offline" tooltip-placement = "top" ng-if="gateway.connected==false"><div class="orange center-block"></div></div>
+                      <div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+                    </td>
+                    <td>
+                      <div style="cursor:pointer;">{{gateway.displayname}}</div>
+                    </td>
+                  
+
+                    <td><div >{{gateway.gatewaymeta.macid}}</div></td>
+
+                    <td><div>{{gateway.gatewaymeta.meshID}}</div></td>
+                    <td ><div ng-repeat="net in gateway.gatewaymeta.meshNetwork ">{{net}}</div>
+
+</td>
+                    
+                    <td><div>
+
+                      <button  class="btn btn-default" ng-click="getGatewayinfo(gateway)" ng-disabled="alreadyExistsGateway(gateway)">
+                        <i class="glyphicon glyphicon-menu-right"></i>
+                      </button>
+                    </div></td>
+
+                  </tr>
+                  <tr ng-if="dataRuleEngineLoading" class="alert alert-danger">
+                    <td colspan="11">
+                      <div align="center">
+                        <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                      </div>
+                    </td>
+                  </tr>
+                  <tr ng-if="dataLoading" ><td colspan="14"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+                  <tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalItems ==0) && !dataLoading">
+                    <td colspan="11">
+                      <strong>No Record Found.</strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div id="pagination" ng-show="(filtered).length" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+                <div class="col-lg-12 blue-bg pad10" >
+                  <div class="col-lg-8">
+                    <uib-pagination total-items="totalItems" ng-model="currentGatewayPage" ng-change="pageChanged()" items-per-page="gatewayPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+                  </div>
+                  <div class="col-lg-3 text-right">Displaying {{currentGatewayPage}} / {{numPages}} of {{numPages}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mr-top5">
+              <div id="deviceTable">
+                <font color="White" size="4">
+                  <input ng-if="!editDeviceInfo.id" type="text" value=" Added Gateways" style="width:100%;background-color:grey;" readonly/>
+                  <input ng-if="editDeviceInfo.id" type="text" value=" Manage Gateways" style="width:100%;background-color:grey" readonly/>
+
+
+
+
+                </font>
+
+
+                <ul class="list-group" ng-if="gatewaytags.length>0">
+                  <li  class="list-group-item" ng-repeat="item in gatewaytags">{{item.displayname}}<a style="cursor:pointer;" ng-click="removeTags(item);"><i style="float:right;" class="glyphicon glyphicon-remove"></i></a></li>
+                </ul>
+                <ul class="list-group" ng-if="gatewaytags.length==0">
+                  <li><div class="alert alert-danger"><strong>No Record Found.</strong></div></li>
+                </ul>
+              </div>
+            </div>	
+          </div>
+
+          <br clear="all"><br clear="all">
+          <button type="button" class="btn btn_act" ng-click="savemeshGroups(item)">Done</button>
+          <button type="button" class="btn btn_act" ng-click="cleargatewayList()">Clear</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</script>
+
+<script type="text/javascript">
+
+  function toggleIcon(e) 
+  {
+    $(e.target)
+    .prev('.panel-heading')
+    .find(".more-less")
+    .toggleClass('fa-plus-square-o fa-minus-square-o');
+  }
+  $('.panel-group').on('hidden.bs.collapse', toggleIcon);
+  $('.panel-group').on('shown.bs.collapse', toggleIcon);
+</script>

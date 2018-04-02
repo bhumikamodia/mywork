@@ -1,0 +1,1764 @@
+	<script type="text/ng-template" id="modalCreateDocker.html">
+	
+	<div>
+	
+	<!-- Modal content-->
+	<div class="modal-content">
+
+	<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+	<button type="button" class="close" ng-click="cleargatewayUpdate();">&times;</button>
+
+	<div class="modal-title" ng-if="docker.dockerId == undefined">Create Docker</div>
+	<div class="modal-title" ng-if="docker.dockerId != undefined">Edit Docker</div>
+	</div>
+	<div class="modal-body">
+	<form class="form-horizontal" id="form" name="form" style="margin-top:40px;">
+	 <div class="row">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+		<table class="table table-striped pad0">
+		<thead>
+			<tr>
+			<td colspan="12">
+			<div style="float:left;"><h4 ng-if="docker.dockerId != undefined">Edit Docker - {{docker.name}}</h4> <h4 ng-if="docker.dockerId == undefined">Add New Docker</h4></div>
+			<div style=" display: inline-block;float:right;" >
+			<button type="button" ng-click="save(docker.dockerId);" ng-disabled="form.$invalid || dataAddServerLoading" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Save</button>
+			</div>
+			</td>
+			</tr>
+		</thead>			
+		<tbody>
+		<tr>
+			<td width="10%" >Docker Name</td>
+			<td width="15%" class="col-md-3" ng-class="{ 'has-error': form.name.$dirty && (form.name.$error.required || form.name.$error.maxlength || form.name.$error.pattern) }">
+			<input style="width:60%;" type="text" name="name" class="form-control" ng-model="docker.name" ng-pattern="/^[a-zA-Z0-9 _-]+$/" required disallow-spaces ng-maxlength="30"/>
+			<span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Docker Name is required</span>
+			<span ng-show="form.name.$error.maxlength" class="help-block">Docker Name Should Contain within 30 Characters</span>
+			<span ng-show="form.name.$error.pattern" class="help-block" >Docker Name is not valid</span>
+			</td>
+			<td width="10%" >Docker Url</td>
+			<td width="15%" class="col-md-3"  ng-class="{ 'has-error': form.url.$dirty && (form.url.$error.required || form.url.$error.maxlength) }">
+			<input style="width:60%;" type="text" class="form-control" name="url" ng-model="docker.url" required ng-maxlength="100"/>
+			<span ng-show="form.url.$dirty && form.url.$error.required" class="help-block">Url is required</span>
+			<span ng-show="form.url.$error.maxlength" class="help-block">Url Should Contain within 100 Characters</span>
+			</td>
+		</tr>
+		<tr>
+			<td width="10%" >Url Username</td>
+			<td width="15%" class="col-md-3" ng-class="{ 'has-error': form.urlusernm.$dirty && (form.urlusernm.$error.required || form.urlusernm.$error.maxlength) }">
+			<input style="width:60%;" type="text" name="urlusernm" class="form-control" ng-model="docker.username" required ng-maxlength="30"/>
+			<span ng-show="form.urlusernm.$dirty && form.urlusernm.$error.required" class="help-block">Url Username is required</span>
+			<span ng-show="form.urlusernm.$error.maxlength" class="help-block">Url Username Should Contain within 30 Characters</span>
+			</td>
+			<td width="10%" >Url Password</td>
+			<td width="15%" class="col-md-3"  ng-class="{ 'has-error': form.urlpswd.$dirty && (form.urlpswd.$error.required || form.urlpswd.$error.maxlength) }">
+			<input style="width:60%;" type="text" class="form-control" name="urlpswd" ng-model="docker.password" required ng-maxlength="50"/>
+			<span ng-show="form.urlpswd.$dirty && form.urlpswd.$error.required" class="help-block">Url Password is required</span>
+			<span ng-show="form.urlpswd.$error.maxlength" class="help-block">Url Password Should Contain within 50 Characters</span>
+			</td>
+		</tr>
+		<tr>
+			<td width="10%" >Architecture</td>
+			<td width="15%" class="col-md-3" ng-class="{ 'has-error': form.architecture.$dirty && (form.architecture.$error.required || form.architecture.$error.maxlength) }">
+			<input style="width:60%;" type="text" name="architecture" class="form-control" ng-model="docker.architecture" required ng-maxlength="30"/>
+			<span ng-show="form.architecture.$dirty && form.architecture.$error.required" class="help-block">Architecture is required</span>
+			<span ng-show="form.architecture.$error.maxlength" class="help-block">Architecture Should Contain within 30 Characters</span>
+			</td>
+			<td width="10%" >Image Name</td>
+			<td width="15%" class="col-md-3"  ng-class="{ 'has-error': form.imagename.$dirty && (form.imagename.$error.required || form.imagename.$error.maxlength) }">
+			<input style="width:60%;" type="text" class="form-control" name="imagename" ng-model="docker.imagename" required ng-maxlength="100"/>
+			<span ng-show="form.imagename.$dirty && form.imagename.$error.required" class="help-block">This field is required</span>
+			<span ng-show="form.imagename.$error.maxlength" class="help-block">This Field Should Contain within 100 Characters</span>
+			</td>
+			
+		</tr>
+		<tr>
+		<td width="10%" >Entry Point</td>
+			<td colspan="3" width="15%" class="col-md-3"  >
+			<input style="width:60%;" type="text" class="form-control" name="entrypoint" ng-model="docker.entrypoint" />
+			
+		
+			</td>
+		</tr>
+		</tbody>
+		</table>
+	 </div>
+			
+	 
+	 </div>
+	
+	</form> 
+	</div>
+	</div>
+	</script>
+	<script type="text/ng-template" id="modalAddMesh.html">
+	<div >
+	<!-- Modal content-->
+	<div class="modal-content">
+	<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+	<button type="button" class="close" ng-click="clearMesh();">&times;</button>
+	
+	<b class="modal-title" ng-if="meshApp.id">Edit Mesh - {{meshApp.name}}</b>
+	<b class="modal-title" ng-else >Add Mesh</b>
+	
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<form class="form-horizontal" id="form" name="form"  style="margin-top:40px;">
+			
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+			<div   id="deviceTable">
+				<table class="table table-striped pad0">
+				  <thead>
+				  <tr>
+					<td colspan="2">
+			<div style="float:left;"><h4 ng-if="meshApp.id">Edit Mesh</h4> <h4 ng-else>Add Mesh</h4></div>
+			<div style=" display: inline-block;float:right;" >
+			<button type="button" ng-click="save();" ng-disabled="form.$invalid" class="btn btn-primary btn-shadow border0">Save</button>
+			<i ng-if="dataAddMeshLoading" class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+			</div>
+					</td>
+				  </tr>
+					<tr>
+					  <th class="col-lg-2 col-ms-2 col-sm-2 col-xs-3">Name</th>
+					  <th class="col-lg-10 col-ms-10 col-sm-10 col-xs-9">Value</th>
+					</tr>
+				  </thead>
+				  <tbody>
+					<tr>
+					  <td>Mesh Name:</td>
+					  <td>
+
+
+
+						<div ng-class="{ 'has-error': form.grpname.$dirty && (form.grpname.$error.required || form.grpname.$error.maxlength) }">
+						  <input class="form-control" name="grpname" maxlength="24" ng-model="meshData.name"  placeholder="Add Mesh Name" ng-maxlength="24" required/>
+						  <span ng-show="form.grpname.$dirty && (form.grpname.$error.required)" class="help-block">Mesh Name is required</span>
+						  
+						  <span ng-show="form.grpname.$error.maxlength" class="help-block">Name Should Contain within 24 Characters</span>
+						</div>
+
+					  </td>
+					</tr>
+					<tr>
+					  <td>Description:</td>
+					  <td>
+
+					   <div >
+						<textarea class="form-control" name="groupDesc" maxlength="200" ng-model="meshData.description"  placeholder="Add Mesh Description" ></textarea>
+						</div>
+
+
+
+
+					  </td>
+
+
+					</tr>
+					<tr>
+					  <td> Location: </td>
+					  <td>
+
+
+					   <div ng-class="{ 'has-error': form.location.$dirty && (form.location.$error.required || form.location.$error.maxlength) }">
+						<input class="form-control" name="location"  ng-model="meshData.location"  placeholder="Add Location"  required/><span ng-show="form.location.$dirty && (form.location.$error.required)" class="help-block">Location is required</span>
+
+
+
+					  </div>
+					</td>
+				  </tr>
+
+				  <tr>
+					<td> Network: </td>
+					<td >
+					  <div class="col-sm-10">
+
+
+
+						<div class="col-sm-4 " >
+						  <div data-ng-repeat="field in choiceSet.choices track by $index" class="pad-bottom45">
+
+						   <input style="float: left" class="form-control mr-leftmin30" name="network"  ng-model="meshData.network[$index]"  placeholder="Add network"  required /><span ng-show="form.network.$dirty && (form.network.$error.required)" class="help-block">network is required</span>
+
+						   <span style="float: left; color: green; margin-top: 3%; " class="glyphicon glyphicon-plus mr-left10" ng-if="$index==0" ng-click="addNewChoice()"></span>
+
+						   <span style="float: left; color: red; margin-top: 3%; " class="glyphicon glyphicon-remove mr-left10" ng-if="$index!=0" ng-click="removeChoice($index)" ></span>
+
+						 </div>
+					   </div>
+
+
+
+					 </div>
+				 
+
+				 </td>
+
+			   </tr>
+
+
+		  </tbody>
+		</table>
+			</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	</div>
+	</div>
+	</script>
+	<script type="text/ng-template" id="modalMeshHWBoards.html">
+	<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+	<div >
+	<!-- Modal content-->
+	<div class="modal-content" id="meshBoard">
+	<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+	<button type="button" class="close" ng-click="clearMeshHWBoards();">&times;</button>
+	<b class="modal-title">Select Mesh HW Boards - {{MeshApp.name}}</b>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<form class="form-horizontal"  style="margin-top:40px;">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">	
+				<table  class="table table-striped" ng-if="backtoListFlag==true" >
+				<thead>
+				<tr>
+				<td colspan="12">
+				<div style="float:left;"><h4>Physical HW Boards</h4></div>
+				<div style=" display: inline-block;float:right;" >
+				<button type="button" ng-click="createHWBoardFun();" class="btn btn-primary btn-shadow border0">Create Physical HW Board</button>
+				</div>
+				</td>
+				</tr>
+				<tr>
+				
+				<th>Board Name</th>
+				<th>Board Url</th>
+				<th>MacID</th>
+				<th>Vendor</th>
+				<th>Network</th>
+				<th>Status</th>
+				<th>Edit</th>
+				<th>Delete</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr  ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-click="setClickedRowGateway($index,GatewayApps);" ng-repeat="GatewayApp in GatewayApps | limitTo:GatewayAppPerPage">
+					
+						<td><div >{{GatewayApp.name}}</div ></td>
+						<td><div >{{GatewayApp.ip}}</div ></td>
+						<td><div >{{GatewayApp.macid}}</div></td>
+						<td><div >{{GatewayApp.vendor}}</div ></td>
+						<td><div >{{GatewayApp.network}}</div ></td>
+						<td><div >{{GatewayApp.status}}</div ></td>
+						<td><a ng-click="editHWBoardFun(GatewayApp)"><i class="fa fa-edit"></i></a></td>
+						<td id="btn_deactivate"><a ng-click="deleteGateway(GatewayApp,$event)"><i  class="fa fa-trash"></i></a></td>
+						
+				</tr>
+				<tr ng-if="dataGatewayAppLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+				<tr class="alert alert-danger" ng-if="(GatewayApps.length == 0 || GatewayAppsTotalRecords ==0) && !dataGatewayAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+				</tbody>
+				</table>
+			</div>
+			<div id="pagination" ng-if="GatewayApps.length>0 && backtoListFlag==true"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+				<div class="col-lg-12 blue-bg pad10">
+				<div class="col-lg-9">
+
+				<uib-pagination  total-items="GatewayAppsTotalRecords" ng-model="$parent.currentGatewayAppPage" ng-change="pageChanged()" items-per-page="GatewayAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+				boundary-links="true" num-pages="numPages"></uib-pagination>
+
+				</div>
+				<div class="col-lg-3 text-right">Displaying {{$parent.currentGatewayAppPage}} / {{numPages}} of {{numPages}}</div>
+				</div>
+			</div>
+			</form>
+			<form class="form-horizontal" id="form" name="form" style="margin-top:40px;">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">	
+			<table  class="table table-striped" id="softGatewayGrid" ng-if="createHWBoardFlag==true"  >
+			 <thead>
+			 <tr>
+			<td colspan="12">
+			<div style="float:left;"><h4>Create HW Boards</h4></div>
+			<div style=" display: inline-block;float:right;" >
+			<a class="btn btn-primary"  ng-click="backtoList();">Back to list</a>
+			</div>
+			</td>
+			</tr>
+			 </thead>
+						<tbody >
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Display Name</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.gatewayName.$dirty && form.gatewayName.$error.required) || (form.gatewayName.$error.maxlength) || (form.gatewayName.$error.pattern) }">
+									<input type="text" class="form-control" ng-model="gateway.Name" name="gatewayName" id="gatewayName" disallow-spaces  required ng-maxlength="50" ng-pattern="/^[a-zA-Z0-9 _-]+$/">
+									<span ng-show="form.gatewayName.$dirty && form.gatewayName.$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+									<span ng-show="form.gatewayName.$error.maxlength" class="help-block">This field Should Contain within 50 Characters</span>
+									<span ng-show="form.gatewayName.$error.pattern" class="help-block" >This field is not valid</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">MacID</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.gateway_macid.$dirty && form.gateway_macid.$error.required) || (form.gateway_macid.$error.maxlength) }">
+									<input type="text" class="form-control" ng-model="gateway.macid" name="gateway_macid" id="gateway_macid"  required ng-maxlength="30">
+									<span ng-show="form.gateway_macid.$dirty && form.gateway_macid.$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+									<span ng-show="form.gateway_macid.$error.maxlength" class="help-block">This field Should Contain within 30 Characters</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">IP</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.gateway_ip.$dirty) && (form.gateway_ip.$error.pattern) }">
+									<input type="text" class="form-control" ng-model="gateway.ipadd" name="gateway_ip" id="gateway_ip" ng-pattern="/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/" >
+									<span ng-show="form.gateway_ip.$error.pattern" class="help-block" aria-hidden="true">This is not valid</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">UserName</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.gateway_username.$dirty && form.gateway_username.$error.required }">
+									<input type="text" class="form-control" ng-model="gateway.username" name="gateway_username" id="gateway_username"  required>
+									<span ng-show="form.gateway_username.$dirty && form.gateway_username.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Password</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.gateway_password.$dirty && form.gateway_password.$error.required }">
+									<input type="password" class="form-control" ng-model="gateway.password" name="gateway_password" id="gateway_password"  required>
+									<span ng-show="form.gateway_password.$dirty && form.gateway_password.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Vendor</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.gateway_vendor.$dirty && form.gateway_vendor.$error.required }">
+									<select ng-model="gateway.vendor" name="gateway_vendor" required class="form-control">
+									<option value="">Select Vendor</option>
+									<option value="samsung">Samsung</option>
+									<option value="Raspberry Pi">Raspberry Pi</option>
+									<option value="TI Sitara">TI Sitara</option>
+									<option value="BeagleBone">BeagleBone</option>
+									</select>
+									<span ng-show="form.gateway_vendor.$dirty && form.gateway_vendor.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Architecture</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.gateway_architecture.$dirty && form.gateway_architecture.$error.required }">
+									<input type="text" class="form-control" ng-model="gateway.architecture" name="gateway_architecture" id="gateway_architecture"  required>
+									<span ng-show="form.gateway_architecture.$dirty && form.gateway_architecture.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">No of USBs</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.gateway_noofusbs.$dirty && (form.gateway_noofusbs.$error.required || !form.gateway_noofusbs.$valid)) }">
+									
+									<input type="number" class="form-control" ng-model="gateway.noofusbs" name="gateway_noofusbs" id="gateway_noofusbs" min="1" max="8"  required>
+									<span ng-show="form.gateway_noofusbs.$dirty && form.gateway_noofusbs.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+									<span ng-show="form.gateway_noofusbs.$dirty && !form.gateway_noofusbs.$error.required && !form.gateway_noofusbs.$valid" class="help-block" aria-hidden="true">This is not valid number</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Network</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.network.$dirty && (form.network.$error.required)) }">
+								
+									<select id="network" name="network" ng-model="gateway.network" ng-options="net as net for net in MeshApp.network" class="form-control" required>
+									<option value="">-Please Select-</option>
+									</select>
+									<span ng-show="form.network.$dirty && form.network.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+									
+								</div>
+							</td>
+						</tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">&nbsp;</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<input type="button" name="btn_save" value="Save Information" ng-click="createGateway(gateway.id);" ng-disabled="form.$invalid || dataAddServerLoading" class="btn btn-primary"/>
+								<a class="btn btn-primary"  ng-click="backtoList();">Cancel</a>
+							</td>
+						</tr>
+				
+					</table>
+			<table  class="table table-striped" id="softGatewayGrid" ng-if="editHWBoardFlag==true"  >
+			 <thead>
+			 <tr>
+			<td colspan="12">
+			<div style="float:left;"><h4>Create HW Boards</h4></div>
+			<div style=" display: inline-block;float:right;" >
+			<a class="btn btn-primary"  ng-click="backtoList();">Back to list</a>
+			</div>
+			</td>
+			</tr>
+			 </thead>
+						<tbody >
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Display Name</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.gatewayName.$dirty && form.gatewayName.$error.required) || (form.gatewayName.$error.maxlength) || (form.gatewayName.$error.pattern) }">
+									<input type="text" class="form-control" ng-model="gateway.name" name="gatewayName" id="gatewayName" disallow-spaces  required ng-maxlength="50" ng-pattern="/^[a-zA-Z0-9 _-]+$/">
+									<span ng-show="form.gatewayName.$dirty && form.gatewayName.$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+									<span ng-show="form.gatewayName.$error.maxlength" class="help-block">This field Should Contain within 50 Characters</span>
+									<span ng-show="form.gatewayName.$error.pattern" class="help-block" >This field is not valid</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">MacID</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.gateway_macid.$dirty && form.gateway_macid.$error.required) || (form.gateway_macid.$error.maxlength) }">
+									<input type="text" class="form-control" ng-model="gateway.macid" name="gateway_macid" id="gateway_macid"  required ng-maxlength="30">
+									<span ng-show="form.gateway_macid.$dirty && form.gateway_macid.$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+									<span ng-show="form.gateway_macid.$error.maxlength" class="help-block">This field Should Contain within 30 Characters</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">IP</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.gateway_ip.$dirty) || (form.gateway_ip.$error.pattern) }">
+									<input type="text" class="form-control" ng-model="gateway.ip" name="gateway_ip" id="gateway_ip" ng-pattern="/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/" >
+									<span ng-show="form.gateway_ip.$error.pattern" class="help-block" aria-hidden="true">This is not valid</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">UserName</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.gateway_username.$dirty && form.gateway_username.$error.required }">
+									<input type="text" class="form-control" ng-model="gateway.username" name="gateway_username" id="gateway_username"  required>
+									<span ng-show="form.gateway_username.$dirty && form.gateway_username.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Password</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.gateway_password.$dirty && form.gateway_password.$error.required }">
+									<input type="password" class="form-control" ng-model="gateway.password" name="gateway_password" id="gateway_password"  required>
+									<span ng-show="form.gateway_password.$dirty && form.gateway_password.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Vendor</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.gateway_vendor.$dirty && form.gateway_vendor.$error.required }">
+									<select ng-model="gateway.vendor" name="gateway_vendor" required class="form-control">
+									<option value="">Select Vendor</option>
+									<option value="samsung">Samsung</option>
+									<option value="Raspberry Pi">Raspberry Pi</option>
+									<option value="TI Sitara">TI Sitara</option>
+									<option value="BeagleBone">BeagleBone</option>
+									</select>
+									<span ng-show="form.gateway_vendor.$dirty && form.gateway_vendor.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Architecture</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.gateway_architecture.$dirty && form.gateway_architecture.$error.required }">
+									<input type="text" class="form-control" ng-model="gateway.architecture" name="gateway_architecture" id="gateway_architecture"  required>
+									<span ng-show="form.gateway_architecture.$dirty && form.gateway_architecture.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">No of USBs</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.gateway_noofusbs.$dirty && (form.gateway_noofusbs.$error.required || !form.gateway_noofusbs.$valid)) }">
+									
+									<input type="number" class="form-control" ng-model="gateway.noofusbs" name="gateway_noofusbs" id="gateway_noofusbs" min="1" max="8"  required>
+									<span ng-show="form.gateway_noofusbs.$dirty && form.gateway_noofusbs.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+									<span ng-show="form.gateway_noofusbs.$dirty && !form.gateway_noofusbs.$error.required && !form.gateway_noofusbs.$valid" class="help-block" aria-hidden="true">This is not valid number</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Network</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.network.$dirty && (form.network.$error.required)) }">
+								
+									<select id="network" name="network" ng-model="gateway.network" ng-options="net as net for net in MeshApp.network" class="form-control" required>
+									<option value="">-Please Select-</option>
+									</select>
+									<span ng-show="form.network.$dirty && form.network.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+									
+								</div>
+							</td>
+						</tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">&nbsp;</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<input type="button" name="btn_save" value="Save Information" ng-click="createGateway(gateway.id);" ng-disabled="form.$invalid || dataAddServerLoading" class="btn btn-primary"/>
+								<a class="btn btn-primary"  ng-click="backtoList();">Cancel</a>
+							</td>
+						</tr>
+				
+					</table>
+				</div>
+			</form>
+		</div>
+	</div>
+	</div>
+	</div>
+	</script>
+	
+	<script type="text/ng-template" id="modalMeshServer.html">
+	<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+	<div >
+	<!-- Modal content-->
+	<div class="modal-content" id="meshServer">
+
+	<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+	<button type="button" class="close" ng-click="clearMeshServer();">&times;</button>
+	<b class="modal-title">Select Ansible Server - {{MeshApp.name}}</b>
+	</div>
+	<div class="modal-body">
+	
+	 <div class="row">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+	 <form class="form-horizontal" id="form" name="form" style="margin-top:40px;">
+			<table  class="table table-striped" id="softGatewayGrid" ng-if="createServerFlag == true" >
+			 <thead>
+			 <tr>
+			<td colspan="12">
+			<div style="float:left;"><h4>Create Ansible Server</h4></div>
+			<div style=" display: inline-block;float:right;" >
+			<a class="btn btn-primary"  ng-click="backtoList();">Back to list</a>
+			</div>
+			</td>
+			</tr>
+			 </thead>
+			 <tbody >
+				<tr>
+				<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Ansible Server Name</td>
+				<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+				<div  ng-class="{ 'has-error': form.serverName.$dirty && form.serverName.$error.required }">
+				<input type="text" class="form-control" ng-model="createServer.serverName" name="serverName" id="serverName" disallow-spaces required>
+				<span ng-show="form.serverName.$dirty && form.serverName.$error.required" class="help-block ng-hide" aria-hidden="true">Server name is required</span>
+				</div>
+				</td>
+				</tr>
+				<tr>
+				<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">IP Address</td>
+				<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5" >
+				<div  ng-class="{ 'has-error': form.ipa.$dirty && (form.ipa.$error.required || form.ipa.$error.pattern) }">
+
+				<input type="text" class="form-control" ng-model="createServer.ip" name="ipa" id="ipa" ng-pattern="/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/" disallow-spaces required/>
+				<span ng-show="form.ipa.$dirty && form.ipa.$error.required" class="help-block ng-hide" aria-hidden="true">IP Address is required</span>
+				<span ng-if="form.ipa.$dirty && !form.ipa.$error.required && form.ipa.$error.pattern" class="help-block" aria-hidden="true">IP Address is not valid</span>
+				</div>
+				</td>
+				</tr>
+
+				<tr>
+				<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Mac ID</td>
+				<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5" >
+				<div  ng-class="{ 'has-error': form.macid.$dirty && form.macid.$error.required }">
+				<input type="text" class="form-control" ng-model="createServer.macid" id="macid" name="macid" required/>
+				<span ng-show="form.macid.$dirty && form.macid.$error.required" class="help-block ng-hide" aria-hidden="true">Mac ID required</span>
+				<!--<span ng-if="form.macid.$error.pattern" class="help-block" aria-hidden="true">Mac ID is not valid</span>-->
+				</div>
+				</td>
+				</tr>
+				<tr>
+				<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7"> Network </td>
+				<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+				  <div ng-class="{ 'has-error': form.network.$dirty && form.network.$error.required }">
+				   
+
+
+					<div  >
+					  <select name="network" id="network" ng-model= "createServer.network" ng-options="field as field for field in MeshApp.network"  class="form-control">
+						<option>-Please Select-</option>
+						</select>
+					  <!-- <input style="float: left" class="form-control mr-leftmin30" ng-init="createServer.network[$index] = field" name="network"  ng-model="createServer.network[$index]"  ng-change="checkforNetwork(createServer.network[$index],$index)" required /><span ng-show="form.network.$dirty && (form.network.$error.required)" class="help-block" >Network is required</span>
+
+					   <span style="float: left; color: green; margin-top: -4.5%;margin-left: 96% " ><Button id="addInput" style="border: none;background:none"
+					   class="glyphicon glyphicon-plus" ng-show="$index==0" ng-click="addNewChoice()" /></span>
+
+						<span style="float: left; color: red;margin-top: -4.5%;margin-left: 96%"><BUTTON  style="border: none;background:none" class="glyphicon glyphicon-remove" ng-show="$index!=0" ng-click="removeChoice($index);" /></span>
+						<div id="alertDiv" ng-show="networkFlag[$index]==false">
+						-->
+
+						<span ng-show="form.network.$dirty && form.network.$error.required" class="help-block ng-hide" aria-hidden="true">Network is required</span>
+			
+						 
+					   </div>
+					  </div>
+
+					
+
+				</div>
+
+
+				 
+				 </td>
+
+				</tr>
+				<!--<tr>
+				<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Docker Subnet</td>
+				<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5" >
+				<div  ng-class="{ 'has-error': form.subnet.$dirty && form.subnet.$error.required }">
+				<input type="text" class="form-control"  ng-model="createServer.subnet" id="subnet" name="subnet" ng-pattern="/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/" required/>
+				<span ng-show="form.subnet.$dirty && form.subnet.$error.required" class="help-block ng-hide" aria-hidden="true">Docker subnet required</span>
+				<span ng-if="form.subnet.$error.pattern" class="help-block" aria-hidden="true">Docker subnet is not valid</span>
+				</div>
+				</td>
+				</tr>
+
+				<tr>
+				<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Docker IP Range</td>
+				<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5" >
+				<div  ng-class="{ 'has-error': form.ip.$dirty && form.ip.$error.required }">
+				<input type="text" class="form-control"  ng-model="createServer.ip_range" id="ip_range" name="ip_range" ng-pattern="/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/" required/>
+				<span ng-show="form.ip_range.$dirty && form.ip_range.$error.required" class="help-block ng-hide" aria-hidden="true">Docker IP Range required</span>
+				<span ng-if="form.ip_range.$error.pattern" class="help-block" aria-hidden="true">Docker IP Range is not valid</span>
+				</div>
+				</td>
+				</tr>
+
+
+				<tr>
+				<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Docker Network name</td>
+				<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5" >
+				<div  ng-class="{ 'has-error': form.network_name.$dirty && form.network_name.$error.required }">
+				<input type="text" class="form-control" ng-model="createServer.network_name" id="network_name" name="network_name" required/>
+				<span ng-show="form.network_name.$dirty && form.network_name.$error.required" class="help-block ng-hide" aria-hidden="true">Docker network name required</span>
+				</div>
+				</td>
+				</tr>-->
+				
+				<tr>
+									<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Mesh</td>
+									<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+										<div  >
+											<input type="text" class="form-control" disabled="disabled" ng-model="createServer.mesh_name" readonly/>
+										</div>
+									</td>
+								</tr>
+								
+								<tr >
+								<td colspan="2">
+								<button type="button"  ng-click="addServer(createServer);" ng-disabled="form.$invalid || dataAddServerLoading" class="btn btn-primary">Save Information</button>
+								&nbsp;
+								<a class="btn btn-primary"  ng-click="backtoList();">Cancel</a>
+								<img ng-if="dataAddServerLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+	
+								</td></tr>
+			 </tbody>
+			</table>
+			<table  class="table table-striped" id="softGatewayGrid" ng-if="editServerFlag == true" >
+			 <thead>
+			 <tr>
+			<td colspan="12">
+			<div style="float:left;"><h4>Edit Ansible Server - {{createServer.serverName}}</h4></div>
+			<div style=" display: inline-block;float:right;" >
+			<a class="btn btn-primary"  ng-click="backtoList();">Back to list</a>
+			</div>
+			</td>
+			</tr>
+			 </thead>
+			 <tbody >
+				<tr>
+				<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Ansible Server Name</td>
+				<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+				<div  ng-class="{ 'has-error': form.serverName.$dirty && form.serverName.$error.required }">
+				<input type="text" class="form-control" ng-model="createServer.serverName" name="serverName" id="serverName" disallow-spaces required>
+				<span ng-show="form.serverName.$dirty && form.serverName.$error.required" class="help-block ng-hide" aria-hidden="true">Server name is required</span>
+				</div>
+				</td>
+				</tr>
+				<tr>
+				<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">IP Address</td>
+				<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5" >
+					<div  ng-class="{ 'has-error': form.ip.$dirty && (form.ip.$error.required || form.ip.$error.pattern) }">
+
+				<input type="text" class="form-control" ng-model="createServer.ip" name="ip" id="ip" disallow-spaces required ng-pattern="/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/"/>
+				<span ng-show="form.ip.$dirty && form.ip.$error.required" class="help-block ng-hide" aria-hidden="true">IP Address is required</span>
+				<span ng-if="form.ip.$dirty && !form.ip.$error.required && form.ip.$error.pattern" class="help-block" aria-hidden="true">IP Address is not valid</span>
+				</div>
+				</td>
+				</tr>
+
+				<tr>
+				<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Mac ID</td>
+				<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5" >
+				<div  ng-class="{ 'has-error': form.macid.$dirty && form.macid.$error.required }">
+				<input type="text" class="form-control" ng-model="createServer.macid" id="macid" name="macid" required/>
+				<span ng-show="form.macid.$dirty && form.macid.$error.required" class="help-block ng-hide" aria-hidden="true">Mac ID required</span>
+				<!--<span ng-if="form.macid.$error.pattern" class="help-block" aria-hidden="true">Mac ID is not valid</span>-->
+				</div>
+				</td>
+				</tr>
+				<tr>
+				<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7"> Network </td>
+				<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+				  <div ng-class="{ 'has-error': form.network.$dirty && form.network.$error.required }">
+				   
+
+
+					<div  >
+					   <select name="network" id="network" ng-model= "createServer.network" ng-options="field as field for field in MeshApp.network"  class="form-control">
+						<option>-Please Select-</option>
+						</select>
+					<!-- <div data-ng-repeat="field in choiceSet.choices track by $index"  class="pad-bottom45 mr-left15">
+						
+					   <input style="float: left" class="form-control mr-leftmin30" name="network"  ng-model="createServer.network[$index]"  ng-change="checkforNetwork(createServer.network[$index],$index)" required /><span ng-show="form.network.$dirty && (form.network.$error.required)" class="help-block" >Network is required</span>
+
+					   <span style="float: left; color: green; margin-top: -4.5%;margin-left: 96% " ><Button id="addInput" style="border: none;background:none"
+					   class="glyphicon glyphicon-plus" ng-show="$index==0" ng-click="addNewChoice()" /></span>
+
+						<span style="float: left; color: red;margin-top: -4.5%;margin-left: 96%"><BUTTON  style="border: none;background:none" class="glyphicon glyphicon-remove" ng-show="$index!=0" ng-click="removeChoice($index);" /></span>
+
+						<div id="alertDiv" ng-show="networkFlag[$index]==false">
+						<br/>
+				<center class="alert-danger" style="width:90%"> &nbsp; &nbsp; &nbsp;This server network is not supported to this mesh.<br/>
+				Mesh networks are <p style="display: inline" ng-repeat="net in selectedMeshInformation.network">{{net}} </p></center></div>
+
+						 
+					   </div>-->
+					  </div>
+
+					
+
+				</div>
+
+
+				 
+				 </td>
+
+				</tr>
+				
+				
+				<tr>
+									<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Mesh</td>
+									<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+										<div  >
+											<input type="text" class="form-control" disabled="disabled" ng-model="createServer.mesh_name" readonly/>
+										</div>
+									</td>
+								</tr>
+								
+								<tr >
+								<td colspan="2">
+								<button type="button"  ng-click="addServer(createServer);" ng-disabled="form.$invalid || dataAddServerLoading" class="btn btn-primary">Save Information</button>
+								&nbsp;
+								<a class="btn btn-primary"  ng-click="backtoList();">Cancel</a>
+								<img ng-if="dataAddServerLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+	
+								</td></tr>
+			 </tbody>
+			</table>
+				
+	 </form>
+	 <form class="form-horizontal" style="margin-top:40px;">	 
+			<table class="table table-striped" ng-if="backtoListFlag==true"  >
+			<thead>
+			<tr>
+			<td colspan="12">
+			<div style="float:left;"><h4>Ansible Server</h4></div>
+			<div style=" display: inline-block;float:right;" >
+			<a class="btn btn-primary"  ng-click="createServerFun();">Create Ansible Server</a>
+			</div>
+			</td>
+			</tr>
+			<tr>
+				<th width="20%">Ansible Server Name</th>
+				<th width="20%">IP</th>
+				<th width="20%">Mac ID</th>
+				<th width="20%">Network</th>
+
+				<th width="5%">Edit</th>
+				<th width="5%">Delete</th>
+			</tr>
+			</thead>
+
+			<tbody>
+
+			<tr  ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowMesh($index,server)" ng-repeat="server in meshServerList | limitTo:MeshServerPerPage" ng-init="serverIndex=$index;editingmeshFlag[serverIndex]=false;">
+
+				<td>{{server.name}}</td>
+				<td>{{server.ip}}</td>
+				<td>{{server.macid}}</td>
+				<td><div >{{server.ansibleserver_network}}</div></td>
+
+				<td>
+
+				<div ng-if="editingmeshFlag[serverIndex]==false" ng-click="editServerFun(server)"><i class="fa fa-edit"></i> </div>
+
+				</td>
+
+				<td>
+
+					<div ng-if="editingmeshFlag[serverIndex]==false" ng-click="removeServer(server.id,$event);" id="btn_deactivate">
+						<i uib-tooltip="Delete?" class="fa fa-trash"></i></div>
+
+
+				</td>
+			</tr>
+			 <tr ng-if="dataMeshServerLoading" ><td colspan="14"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+
+			<tr class="alert alert-danger" ng-if=" meshServerList ==0 &&!dataMeshServerLoading">
+				<td colspan="11">
+					<strong>No Record Found.</strong>
+				</td>
+			</tr> 
+
+			</tbody>
+
+			</table>
+			<div id="pagination" ng-show="(meshServerList).length>0" ng-if="backtoListFlag==true" >
+				<div class="col-lg-12 blue-bg pad10" >
+					<div class="col-lg-9">
+						<uib-pagination total-items="MeshServerTotalRecords" ng-model="$parent.currentMeshServerPage" ng-change="pageChanged()" items-per-page="MeshServerPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+					</div>
+					<div class="col-lg-3 text-right">Displaying {{currentMeshServerPage}} / {{numPages}} of {{numPages}}</div>
+				</div>
+			</div>
+	 </form>		
+	 </div>
+		
+	 </div>
+	
+	</div>
+	</div>
+	</div>
+	</script>
+	
+	<script type="text/ng-template" id="modalGatewayUpdate.html">
+	<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+
+	<div >
+	<!-- Modal content-->
+	<div class="modal-content">
+
+	<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+	<button type="button" class="close" ng-click="cleargatewayUpdate();">&times;</button>
+
+	<b class="modal-title">Select Gateway For Assign</b>
+	</div>
+	<div class="modal-body">
+	<form class="form-horizontal" style="margin-top:40px;">
+	 <div class="row">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+		
+		<table  class="table table-striped" id="softGatewayGrid"  >
+		<thead>
+		<tr>
+		<td colspan="12">
+		<div style="float:left;"><h4>Select Gateway</h4></div>
+		<div style=" display: inline-block;float:right;" >
+		<button type="button" ng-click="saveGateway();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Save</button>
+		</div>
+		</td>
+		</tr>
+		<tr>
+		<th ><span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAll" ng-click="checkAllSoftwareGateway(selectedAll)" /> <label></label></span></th>
+		<th >Live</th>
+		<th >Display Name</th>
+		<th >Gateway Manager</th>
+		<th >Client Name</th>
+		<th >Hardware</th>
+		<th >Model</th>
+		<th >Static IP</th>
+		
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-click="setClickedRowGateway($index,gateway)" ng-repeat="gateway in gatewayList | limitTo:gatewayPerPage1">
+		<td>
+							<SPAN class="checkbox checkbox-primary">
+							<input type="checkbox" id="{{gateway.id}}" ng-model="gateway.gatewaySelected" ng-checked="arrAssignedGatewaySelection.indexOf(gateway.id) > -1"  value="{{gateway.id}}"  /><label for="gateway.gatewaySelected"></label></SPAN>
+							</td>
+		<td>
+		<div uib-tooltip="Offline" tooltip-placement = "top" ng-if="gateway.connected==false"><div class="orange center-block"></div></div>
+		<div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+		</td>
+		<td>{{gateway.displayname}}</td>
+		<td>{{gateway.gatewaymanager_username}}</td>
+		<td>{{gateway.clientname}}</td>
+		<td>{{gateway.gatewaymeta.hardware}}</td>
+		<td>{{gateway.gatewaymeta.modelname}}</td>
+		<td>{{gateway.gatewaymeta.staticip}}</td>
+		
+		</tr>
+		</tbody>
+		</table>
+		
+		</div>
+		<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+									<div class="col-lg-12 blue-bg pad10">
+									<div class="col-lg-9">
+									
+									<uib-pagination  total-items="totalItems" ng-model="currentGatewayPage1" ng-change="pageChanged2()" items-per-page="gatewayPerPage1" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+		boundary-links="true" num-pages="numPages"></uib-pagination>
+												
+											</div>
+											<div class="col-lg-3 text-right">Displaying {{currentGatewayPage1}} / {{numPages}} of {{numPages}}</div>
+											</div>
+									
+									</div>
+		</div>							
+	</form>
+	</div>
+	</div>
+	</div>
+	</script>
+	
+		
+	<script type="text/ng-template" id="modalCreateServer.html">
+	<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+
+	<div >
+	<!-- Modal content-->
+	<div class="modal-content">
+
+	<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+	<button type="button" class="close" ng-click="cleargatewayUpdate();">&times;</button>
+	
+	<b class="modal-title" ng-if="createServer.id == undefined">Create Server</b>
+	<b class="modal-title" ng-if="createServer.id != undefined">Edit Server</b>
+	</div>
+	<div class="modal-body">
+	<form class="form-horizontal" id="form" name="form" style="margin-top:40px;">
+	 <div class="row">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+	<table  class="table table-striped" id="softGatewayGrid"  >
+	 <tbody >
+		<tr>
+		<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Server Name</td>
+		<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+		<div  ng-class="{ 'has-error': form.serverName.$dirty && form.serverName.$error.required }">
+		<input type="text" class="form-control" ng-model="createServer.serverName" name="serverName" id="serverName" disallow-spaces required>
+		<span ng-show="form.serverName.$dirty && form.serverName.$error.required" class="help-block ng-hide" aria-hidden="true">Server name is required</span>
+		</div>
+		</td>
+		</tr>
+		<tr>
+		<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">IP Address</td>
+		<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5" >
+		<div  ng-class="{ 'has-error': form.ip.$dirty && form.ip.$error.pattern }">
+
+		<input type="text" class="form-control" ng-model="createServer.ip" 
+		name="ip" id="ip"  ng-pattern="/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/"/>
+		
+		<span ng-if="form.ip.$error.pattern" class="help-block" aria-hidden="true">IP is not valid</span>
+		</div>
+		</td>
+		</tr>
+
+		<tr>
+		<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Mac ID</td>
+		<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5" >
+		<div  ng-class="{ 'has-error': form.macid.$dirty && form.macid.$error.required }">
+		<input type="text" class="form-control" ng-model="createServer.macid" id="macid" name="macid" required/>
+		<span ng-show="form.macid.$dirty && form.macid.$error.required" class="help-block ng-hide" aria-hidden="true">Mac ID required</span>
+		<!--<span ng-if="form.macid.$error.pattern" class="help-block" aria-hidden="true">Mac ID is not valid</span>-->
+		</div>
+		</td>
+		</tr>
+
+		<tr>
+		<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Docker Subnet</td>
+		<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5" >
+		<div  ng-class="{ 'has-error': form.subnet.$dirty && form.subnet.$error.required }">
+		<input type="text" class="form-control"  ng-model="createServer.subnet" id="subnet" name="subnet" ng-pattern="/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/" required/>
+		<span ng-show="form.subnet.$dirty && form.subnet.$error.required" class="help-block ng-hide" aria-hidden="true">Docker subnet required</span>
+		<span ng-if="form.subnet.$error.pattern" class="help-block" aria-hidden="true">Docker subnet is not valid</span>
+		</div>
+		</td>
+		</tr>
+
+		<tr>
+		<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Docker IP Range</td>
+		<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5" >
+		<div  ng-class="{ 'has-error': form.ip.$dirty && form.ip.$error.required }">
+		<input type="text" class="form-control"  ng-model="createServer.ip_range" id="ip_range" name="ip_range" ng-pattern="/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/" required/>
+		<span ng-show="form.ip_range.$dirty && form.ip_range.$error.required" class="help-block ng-hide" aria-hidden="true">Docker IP Range required</span>
+		<span ng-if="form.ip_range.$error.pattern" class="help-block" aria-hidden="true">Docker IP Range is not valid</span>
+		</div>
+		</td>
+		</tr>
+
+
+		<tr>
+		<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Docker Network name</td>
+		<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5" >
+		<div  ng-class="{ 'has-error': form.network_name.$dirty && form.network_name.$error.required }">
+		<input type="text" class="form-control" ng-model="createServer.network_name" id="network_name" name="network_name" required/>
+		<span ng-show="form.network_name.$dirty && form.network_name.$error.required" class="help-block ng-hide" aria-hidden="true">Docker network name required</span>
+		</div>
+		</td>
+		</tr>
+		
+		<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Mesh</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.mesh_selection.$dirty && form.mesh_selection.$error.required }">
+									<select name="mesh_selection"  ng-model="createServer.mesh_selection" ng-options="mesh.name as mesh.name for mesh in mesh_array" ng-change="funcMeshNetwork(mesh_array,createServer.mesh_selection);" required class="form-control">
+									<option value="" > Select Mesh </option>
+									</select>
+									<span ng-show="form.mesh_selection.$dirty && form.mesh_selection.$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Mesh Network</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.meshNetwork.$dirty && form.meshNetwork.$error.required }">
+									
+									<select name="meshNetwork" ng-model="createServer.meshNetwork" ng-options="mesh for mesh in meshNetworkData" required class="form-control">
+									<option value="" > Select Network </option>
+									
+									</select>
+									</SPAN>
+									
+									<span ng-show="form.meshNetwork.$dirty && form.meshNetwork.$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+	 </tbody>
+	</table>
+	</table>	
+	 </div>
+	 
+	 </div>
+	 <div class="form-group"> 
+	<div class="col-sm-offset-2 col-sm-6">
+	<button type="button"  ng-click="addServer(createServer);" ng-disabled="form.$invalid || dataAddServerLoading" class="btn btn-primary">Save Information</button>
+	<img ng-if="dataAddServerLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+	</div>
+	<br clear="all"/>
+	</div>	
+	</form> 
+	</div>
+	</div>
+	</script>
+	<script type="text/ng-template" id="ResponseUpdateContent.html">
+	<div >
+	<!-- Modal content-->
+	<div class="modal-content">
+	<form class="form-horizontal" id="form" name="form" >
+	<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+	<button type="button" class="close" ng-click="cleargatewayUpdate();">&times;</button>
+
+	<b class="modal-title">Upgradation Response</b>
+	</div>
+	<div class="modal-body">
+	<div class="row" style="margin-top:40px;">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+	  <table class="table table-striped" id="softGatewayGrid" >
+		<thead>
+		<tr><td colspan="8"><div style="float:left;"><h4>Operation: {{responseData.operation}}</h4></div></td></tr>
+		<tr><th width="2%;">Index</th>
+		<th width="10%;">Gateway Name</th>
+		<th width="40%;">Package Name</th>
+		<th width="40%;">Installed Package Version</th>
+		
+		<th width="15%;">Upgrade Package Version</th>
+		<th width="10%;">Status</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="RD in responseData.output" ng-init="rdIndex = $index;">
+		<td>{{rdIndex+1}}</td>
+		<td>{{RD.displayname}}</td>
+		<td colspan="4">
+		<table class="table table-striped">
+		
+		<tr ng-repeat="ld in RD.packages" ng-init="ldIndex = $index;">
+		<td width="50%;">
+		{{ld.packageName}}
+		</td>
+		<td width="50%;">
+		{{ld.installedPackageVersion}}
+		</td>
+		
+		<td width="50%;">
+		{{ld.upgradePackageVersion}}
+		</td>
+		<td width="50%;"  style="{{(ld.Status == '0')?'color:green':'color:red';}}">
+		<SPAN ng-if="ld.Status == '0'">Success</SPAN>
+		<SPAN ng-if="ld.Status == '1'">Failed</SPAN>
+		<SPAN ng-if="ld.Status == '2'">Not Available</SPAN>
+		<SPAN ng-if="ld.Status == '3'">Host is Unreachable</SPAN>
+		</td>
+		</tr>
+		</table>
+		
+		</td>
+		
+		</tr>
+		</tbody>
+	 </table>
+	 </div>
+	</div>
+   	</div>
+	</div>
+	</div>
+	</script>
+	<script type="text/ng-template" id="ResponseUninstallContent.html">
+	<div >
+	<!-- Modal content-->
+	<div class="modal-content">
+	<form class="form-horizontal" id="form" name="form" >
+	<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+	<button type="button" class="close" ng-click="cleargatewayUpdate();">&times;</button>
+
+	<b class="modal-title">Uninstallation Response</b>
+	</div>
+	<div class="modal-body">
+	<div class="row" style="margin-top:40px;">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+	 <table class="table table-striped" id="softGatewayGrid" ng-show="responseData.output.length>0">
+		<thead>
+		<tr><td colspan="8"><div style="float:left;"><h4>Operation: {{responseData.operation}}</h4></div></td></tr>
+		<tr><th width="2%;">Index</th>
+		<th width="10%;">Gateway Name</th>
+		<th width="40%;">Package Name</th>
+		<th width="40%;">Package Type</th>
+		
+		<th width="15%;">Architecture</th>
+		<th width="10%;">Status</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="RD in responseData.output" ng-init="rdIndex = $index;">
+		<td>{{rdIndex+1}}</td>
+		<td>{{RD.displayname}}</td>
+		<td colspan="4">
+		<table class="table table-striped">
+		
+		<tr ng-repeat="ld in RD.packages" ng-init="ldIndex = $index;">
+		<td width="50%;">
+		{{ld.packageName}}
+		</td>
+		<td width="50%;">
+		{{ld.packageType}}
+		</td>
+		
+		<td width="50%;">
+		{{ld.architecture}}
+		</td>
+		<td width="50%;"  style="{{(ld.Status == '0')?'color:green':'color:red';}}">
+		<SPAN ng-if="ld.Status == '0'">Success</SPAN>
+		<SPAN ng-if="ld.Status == '1'">Failed</SPAN>
+		<SPAN ng-if="ld.Status == '2'">Not Available</SPAN>
+		<SPAN ng-if="ld.Status == '3'">Host is Unreachable</SPAN>
+		</td>
+		</tr>
+		</table>
+		
+		</td>
+		
+		</tr>
+		</tbody>
+	 </table>
+	 </div>
+	</div>
+	</div>
+	</form>
+	</div>
+	</div>
+	</script>
+	<script type="text/ng-template" id="ResponseRemoveContent.html">
+	<div >
+	<!-- Modal content-->
+	<div class="modal-content">
+	<form class="form-horizontal" id="form" name="form" >
+	<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+	<button type="button" class="close" ng-click="cleargatewayUpdate();">&times;</button>
+
+	<b class="modal-title">Provision Remove Response</b>
+	</div>
+	<div class="modal-body">
+	<div class="row" style="margin-top:40px;">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+	 
+	 <table class="table table-striped" id="softGatewayGrid" ng-show="responseData.output.length>0">
+		<thead>
+		<tr><td colspan="8"><div style="float:left;"><h4>Operation: {{responseData.operation}}</h4></div></td></tr>
+		<tr><th width="2%;">Index</th>
+		<th width="10%;">Gateway Name</th>
+		
+		<th width="40%;">BoardID</th>
+		<th width="15%;">BoardIP</th>
+		<th width="10%;">Status</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="RD in responseData.output" ng-init="rdIndex = $index;">
+		<td>{{rdIndex+1}}</td>
+		<td>{{RD.dockerName}}</td>
+	
+		<td>{{RD.boardID}}</td>
+		<td>{{RD.boardIP}}</td>
+		<td style="{{(RD.status == '0')?'color:green':'color:red';}}"><SPAN ng-if="RD.status == '0'">Success</SPAN>
+		<SPAN ng-if="RD.status != '0'">Failed</SPAN></td>
+		</tr>
+		</tbody>
+	 </table>
+	 </div>
+	</div>
+	</div>
+	</form>
+	</div>
+	</div>
+	</script>
+	<script type="text/ng-template" id="ResponseDockerContent.html">
+	<div block-ui="myBlockUI">
+	<!-- Modal content-->
+	<div class="modal-content">
+	<form class="form-horizontal" id="form" name="form" >
+	<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+	<button type="button" class="close" ng-click="cleargatewayUpdate();">&times;</button>
+
+	<b class="modal-title">Provision Docker Response</b>
+	</div>
+	<div class="modal-body">
+	<div class="row" style="margin-top:40px;">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+		
+		<table class="table table-striped" id="softGatewayGrid" ng-show="macDetails.length>0" >
+		<thead>
+		<tr><td colspan="8"><div style="float:left;"><h4>Mac Resolution</h4></div></td></tr>
+		<tr><th>Index</th>
+		<th>Board IP</th>
+		<th>MacID</th>
+		
+		<th>Status</th></tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat ="md in macDetails" ng-init="mdIndex = $index;">
+		<td>{{mdIndex+1}}</td>
+		<td><div ng-if="md.ip !== ''">{{md.ip}}</div>
+		<div ng-if="md.ip === ''">N/A</div>
+		</td>
+		<td>{{md.mac}}</td>
+		
+		<td style="{{(md.status == 200)?'color:green':'color:red';}}"><SPAN ng-if="md.status == 200">Success</SPAN>
+		<SPAN ng-if="md.status != 200">Failed</SPAN>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+	 
+		<table class="table table-striped" id="softGatewayGrid" ng-show="passwordDetails.length>0" >
+		<thead>
+		<tr><td colspan="8"><div style="float:left;"><h4>Change Password</h4></div></td></tr>
+		<tr>
+		<th>Index</th>
+		<th>Display Name</th>
+		<th>Board IP</th>
+		<th>MacID</th>
+		<th>New Password</th>
+		<th>Status</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat ="sd in passwordDetails" ng-init="sdIndex = $index;">
+		<td>{{sdIndex+1}}</td>
+		<td>
+		<div ng-if="sd.displayname !== ''">{{sd.displayname}}</div>
+		<div ng-if="sd.displayname === ''">N/A</div>
+		</td>
+		<td>
+		<div ng-if="sd.ip !== ''">{{sd.ip}}</div>
+		<div ng-if="sd.ip === ''">N/A</div>
+		</td>
+		<td>{{sd.mac}}</td>
+		<td ><div ng-if="sd.newPassword !== undefined" ><div style="float:left;" ng-if="showPass==true">{{sd.newPassword}} </div><div style="float:left;" ng-if="showPass==false">{{decryptData(sd.newPassword)}} </div> <a style="cursor:pointer;" ng-if="showPass==false" ng-click="showPassFun(true);"><i style="float:right;display:inline-block;color:#000;" class="fa fa-eye" aria-hidden="true"></i></a><a style="cursor:pointer;" ng-if="showPass==true" ng-click="showPassFun(false);"><i style="float:right;display:inline-block; color:#000" class="fa fa-eye-slash" aria-hidden="true"></i></a></div>
+		<div ng-if="sd.newPassword === undefined">N/A</div>
+		</td>
+		<td style="{{(sd.status == '0')?'color:green':'color:red';}}"><SPAN ng-if="sd.status == '0'">Success</SPAN>
+		<SPAN ng-if="sd.status != '0'">Failed</SPAN>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+	 
+		<table class="table table-striped" id="softGatewayGrid" ng-show="dockerDetails.length>0">
+		<thead>
+		<tr><td colspan="8"><div style="float:left;"><h4>Docker Create</h4></div></td></tr>
+		<tr><th width="2%;">Index</th>
+		<th width="10%;">Board IP</th>
+		<th width="20%;">Display Name</th>
+		<th width="10%;">MacID</th>
+		<th width="40%;">Docker Name</th>
+		<th width="15%;">Docker Status</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat ="sd in dockerDetails" ng-init="sdIndex = $index;">
+		<td>{{sdIndex+1}}</td>
+		<td>
+		<div ng-if="sd.msg.ip !== ''">{{sd.msg.ip}}</div>
+		<div ng-if="sd.msg.ip === ''">N/A</div>
+		</td>
+		<td>{{sd.msg.displayname}}</td>
+		<td>{{sd.msg.mac}}</td>
+		<td colspan="2">
+		<table class="table table-striped">
+		
+		<tr ng-repeat="ld in sd.msg.dockerInfo" ng-init="ldIndex = $index;">
+		<td width="80%;">
+		{{ld.dockerName}}
+		</td>
+		<td width="15%;"  style="{{(ld.status == '0')?'color:green':'color:red';}}">
+		<SPAN ng-if="ld.status =='0'"> Installed </SPAN>
+		<SPAN ng-if="ld.status !='0'"> Failed </SPAN>
+		</td>
+		</tr>
+		</table>
+		
+		</td>
+		
+		</tr>
+		</tbody>
+		</table>
+		
+		
+	</div>
+	</div>	
+		
+	</div>
+	</div>
+	</form>
+	</div>
+
+	</script>
+	<script type="text/ng-template" id="ResponseContent.html">
+	<div >
+	<!-- Modal content-->
+	<div class="modal-content">
+	<form class="form-horizontal" id="form" name="form" >
+	<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+	<button type="button" class="close" ng-click="cleargatewayUpdate();">&times;</button>
+
+	<b class="modal-title">Package Deployment</b>
+	</div>
+	<div class="modal-body">
+	<div class="row" style="margin-top:40px;">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+	 
+		<table class="table table-striped" id="softGatewayGrid" >
+		<thead>
+		<th>Index</th>
+		<th>Gateway Name</th>
+		<th>Package Name</th>
+		<th>Package Status</th>
+		<th>Gateway Response</th>
+		</thead>
+		<tbody>
+		<tr ng-repeat ="sd in socketData" ng-init="sdIndex = $index;">
+		<td>{{sdIndex+1}}</td>
+		<td>{{sd.msg.displayname}}</td>
+		<td colspan="2">
+		<table class="table table-striped">
+		
+		<tr ng-repeat="ld in sd.msg.packages" ng-init="ldIndex = $index;">
+		<td width="50%;">
+		{{ld.packageName}}
+		</td>
+		<td width="50%;"  style="{{(ld.Status == 'INSTALLED')?'color:green':'color:red';}}">
+		{{ld.Status}}
+		</td>
+		</tr>
+		</table>
+		
+		</td>
+		<td>{{sd.msg.responsecode}}</td>
+		</tr>
+		</tbody>
+		</table>
+		
+		<!--<div ng-repeat="sd in socketData" ng-init="sdIndex = $index;">
+		
+		<div ng-if="sd.msg.displayname != null && sd.msg.responsecode==200">
+		<div>{{sd.msg.displayname}}</div>
+		</div>
+		<div ng-if="sd.msg.displayname != null && sd.msg.responsecode!=200">
+		<div>{{sd.msg.displayname}}</div>
+		</div>
+		<div ng-repeat="ld in sd.msg.packages" ng-init="ldIndex = $index;">
+		
+		<div >
+		<div ng-if="ld.Status == 'INSTALLED'">
+		<div>{{ld.packageName}} Successfully installed in {{sd.msg.displayname}}</div>
+		</div>
+		<div ng-if="ld.Status !== 'INSTALLED'">
+		<div>{{ld.packageName}} Failed installed in {{sd.msg.displayname}}</div>
+		</div>
+		</div>
+
+		</div>
+		</div>-->
+	</div>
+	</div>	
+		
+	</div>
+	</div>
+	</form>
+	</div>
+
+	</script>
+	
+	
+	<script type="text/ng-template" id="modalCreateGateway.html">
+	<div >
+	<!-- Modal content-->
+	<div class="modal-content">
+	<form class="form-horizontal" id="form" name="form" >
+		<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+		<button type="button" class="close" ng-click="cleargatewayUpdate();">&times;</button>
+
+		<b class="modal-title" ng-if="gateway.id == undefined">Create Physical HW Board</b>
+		<b class="modal-title" ng-if="gateway.id != undefined">Edit Physical HW Board</b>
+		</div>
+		<div class="modal-body">
+			<div class="row" style="margin-top:40px;">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+					<table  class="table table-striped" id="softGatewayGrid"  >
+						<tbody >
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Display Name</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.gatewayName.$dirty && form.gatewayName.$error.required) || (form.gatewayName.$error.maxlength) || (form.gatewayName.$error.pattern) }">
+									<input type="text" class="form-control" ng-model="gateway.Name" name="gatewayName" id="gatewayName" disallow-spaces  required ng-maxlength="50" ng-pattern="/^[a-zA-Z0-9 _-]+$/">
+									<span ng-show="form.gatewayName.$dirty && form.gatewayName.$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+									<span ng-show="form.gatewayName.$error.maxlength" class="help-block">This field Should Contain within 50 Characters</span>
+									<span ng-show="form.gatewayName.$error.pattern" class="help-block" >This field is not valid</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">MacID</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.gateway_macid.$dirty && form.gateway_macid.$error.required) || (form.gateway_macid.$error.maxlength) }">
+									<input type="text" class="form-control" ng-model="gateway.macid" name="gateway_macid" id="gateway_macid"  required ng-maxlength="30">
+									<span ng-show="form.gateway_macid.$dirty && form.gateway_macid.$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+									<span ng-show="form.gateway_macid.$error.maxlength" class="help-block">This field Should Contain within 30 Characters</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">IP</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.gateway_ip.$dirty) || (form.gateway_ip.$error.pattern) }">
+									<input type="text" class="form-control" ng-model="gateway.ipadd" name="gateway_ip" id="gateway_ip" ng-pattern="/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/" >
+									<span ng-show="form.gateway_ip.$error.pattern" class="help-block" aria-hidden="true">This is not valid</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">UserName</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.gateway_username.$dirty && form.gateway_username.$error.required }">
+									<input type="text" class="form-control" ng-model="gateway.username" name="gateway_username" id="gateway_username"  required>
+									<span ng-show="form.gateway_username.$dirty && form.gateway_username.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Password</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.gateway_password.$dirty && form.gateway_password.$error.required }">
+									<input type="password" class="form-control" ng-model="gateway.password" name="gateway_password" id="gateway_password"  required>
+									<span ng-show="form.gateway_password.$dirty && form.gateway_password.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Vendor</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.gateway_vendor.$dirty && form.gateway_vendor.$error.required }">
+									<select ng-model="gateway.vendor" name="gateway_vendor" required class="form-control">
+									<option value="">Select Vendor</option>
+									<option value="samsung">Samsung</option>
+									<option value="Raspberry Pi">Raspberry Pi</option>
+									<option value="TI Sitara">TI Sitara</option>
+									<option value="BeagleBone">BeagleBone</option>
+									</select>
+									<span ng-show="form.gateway_vendor.$dirty && form.gateway_vendor.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Architecture</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.gateway_architecture.$dirty && form.gateway_architecture.$error.required }">
+									<input type="text" class="form-control" ng-model="gateway.architecture" name="gateway_architecture" id="gateway_architecture"  required>
+									<span ng-show="form.gateway_architecture.$dirty && form.gateway_architecture.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">No of USBs</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': (form.gateway_noofusbs.$dirty && (form.gateway_noofusbs.$error.required || !form.gateway_noofusbs.$valid)) }">
+									
+									<input type="number" class="form-control" ng-model="gateway.noofusbs" name="gateway_noofusbs" id="gateway_noofusbs" min="1" max="8"  required>
+									<span ng-show="form.gateway_noofusbs.$dirty && form.gateway_noofusbs.$error.required" class="help-block" aria-hidden="true">This field is required</span>
+									<span ng-show="form.gateway_noofusbs.$dirty && !form.gateway_noofusbs.$valid" class="help-block" aria-hidden="true">This is not valid number</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Mesh</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.mesh_selection.$dirty && form.mesh_selection.$error.required }">
+									<select name="mesh_selection"  ng-model="gateway.mesh_selection" ng-options="mesh.name as mesh.name for mesh in mesh_array" ng-change="funcMeshNetwork(mesh_array,gateway.mesh_selection);" required class="form-control">
+									<option value="" > Select Mesh </option>
+									</select>
+									<span ng-show="form.mesh_selection.$dirty && form.mesh_selection.$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Mesh Network</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<div  ng-class="{ 'has-error': form.meshNetwork.$dirty && form.meshNetwork.$error.required }">
+									
+									<select name="meshNetwork" ng-model="gateway.meshNetwork" ng-selected="gateway.meshNetwork" ng-options="mesh for mesh in meshNetworkData" required class="form-control">
+									<option value="" > Select Network </option>
+									
+									</select>
+									</SPAN>
+									
+									<span ng-show="form.meshNetwork.$dirty && form.meshNetwork.$error.required" class="help-block ng-hide" aria-hidden="true">This field is required</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">&nbsp;</td>
+							<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+								<input type="button" name="btn_save" value="Save Information" ng-click="createGateway(gateway.id);" ng-disabled="form.$invalid || dataAddServerLoading" class="btn btn-primary"/>
+							</td>
+						</tr>
+				
+					</table>
+				
+				</div>
+			</div>	
+			
+		</div>
+	</form>
+	</div>
+	
+	</div>
+
+	</script>
+	
+	
+	<script type="text/ng-template" id="ConfigResponseContent.html">
+	<div >
+	<!-- Modal content-->
+	<div class="modal-content">
+	<form class="form-horizontal" id="form" name="form" >
+	<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+	<button type="button" class="close" ng-click="cleargatewayUpdate();">&times;</button>
+
+	<b class="modal-title">Configuration Output</b>
+	</div>
+	<div class="modal-body">
+	<div class="row" style="margin-top:40px;">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+	
+		<table class="table table-striped" id="softGatewayGrid" >
+		<thead>
+		<th>Index</th>
+		<th>Gateway Name</th>
+		<th>Status</th>
+		<th>Gateway Configuration</th>
+		
+		
+		</thead>
+		<tbody>
+		<tr ng-repeat ="sd in socketData" ng-init="sdIndex = $index;">
+		<td>{{sdIndex+1}}</td>
+		<td>{{sd.displayname}}</td>
+		<td style="{{(sd.status == 0)?'color:green':'color:red';}}">
+		<div ng-if="sd.status ==0">
+			Success
+			</div>
+			<div ng-if="sd.status ==1">
+			Failed
+			</div>
+		</td>
+		<td colspan="2">
+		
+		<table class="table table-striped" ng-if="sd.GatewayConfiguration.AzureIoTHubConfiguration != undefined">
+		<tbody>
+		<th> IOT Hub Name</th>
+		<th> Primary Connection String</th>
+		<th> Secondary Connection String</th>
+		<th> Status</th>
+		</tbody>
+		<tbody>
+		<tr>
+		<td width="50%;">
+		{{sd.GatewayConfiguration.AzureIoTHubConfiguration.IoTHubName}}
+		</td>
+		<td width="50%;">
+		{{sd.GatewayConfiguration.AzureIoTHubConfiguration.PrimaryConnectionString}}
+		</td>
+		<td width="50%;">
+		{{sd.GatewayConfiguration.AzureIoTHubConfiguration.SecondaryConnectionString}}
+		</td>
+		<td width="50%;"  style="{{(sd.GatewayConfiguration.AzureIoTHubConfiguration.status == 0)?'color:green':'color:red';}}">
+			<div ng-if="sd.GatewayConfiguration.AzureIoTHubConfiguration.status ==0">
+			Success
+			</div>
+			<div ng-if="sd.GatewayConfiguration.AzureIoTHubConfiguration.status ==1">
+			Failed
+			</div>
+		</td>
+		
+		</tr>
+		</tbody>
+		</table>
+		<table class="table table-striped" ng-if="sd.GatewayConfiguration.usbConfiguration != undefined">
+		<thead>
+		<th> Usb Ports</th>
+		<th> Status</th>
+		</thead>
+		<tbody>
+		<tr >
+		<td width="50%;">
+		{{sd.GatewayConfiguration.usbConfiguration.noofusbs}}
+		</td>
+		
+		<td width="50%;"  style="{{(sd.GatewayConfiguration.usbConfiguration.status == 0)?'color:green':'color:red';}}">
+			<div ng-if="sd.GatewayConfiguration.usbConfiguration.status ==0">
+			Success
+			</div>
+			<div ng-if="sd.GatewayConfiguration.usbConfiguration.status ==1">
+			Failed
+			</div>
+		</td>
+		
+		</tr>
+		</tbody>
+		</table>
+		<table class="table table-striped" ng-if="sd.GatewayConfiguration.baseurlConfiguration != undefined">
+		<thead>
+		<th>Base Url</th>
+		<th> Status</th>
+		</thead>
+		<tbody>
+		<tr >
+		<td width="50%;">
+		{{sd.GatewayConfiguration.baseurlConfiguration.baseurl}}
+		</td>
+		
+		<td width="50%;"  style="{{(sd.GatewayConfiguration.baseurlConfiguration.status == 0)?'color:green':'color:red';}}">
+			<div ng-if="sd.GatewayConfiguration.baseurlConfiguration.status ==0">
+			Success
+			</div>
+			<div ng-if="sd.GatewayConfiguration.baseurlConfiguration.status ==1">
+			Failed
+			</div>
+		</td>
+		
+		</tr>
+		</tbody>
+		</table>
+		<table class="table table-striped" ng-if="sd.GatewayConfiguration.CloudConnectivityConfiguration != undefined">
+		<thead>
+		<th>Protocol</th>
+		<th>Broker</th>
+		<th>Url</th>
+		<th>Username</th>
+		<th>Password</th>
+		<th>Port</th>
+		<th>Management Type</th>
+		<th>Data Type</th>
+		<th> Status</th>
+		</thead>
+		<tbody>
+		<tr ng-repeat="ld in sd.GatewayConfiguration.CloudConnectivityConfiguration" ng-init="ldIndex = $index;">
+		<td width="50%;">
+		{{ld.protocol}}
+		</td>
+		<td width="50%;">
+		{{ld.broker}}
+		</td>
+		<td width="50%;">
+		{{ld.url}}
+		</td>
+		<td width="50%;">
+		{{ld.username}}
+		</td>
+		<td width="50%;">
+		{{ld.password}}
+		</td>
+		<td width="50%;">
+		{{ld.port}}
+		</td>
+		<td width="50%;">
+		{{ld.type.management}}
+		</td>
+		<td width="50%;">
+		{{ld.type.data}}
+		</td>
+		<td width="50%;"  style="{{(ld.status == 0)?'color:green':'color:red';}}">
+			<div ng-if="ld.status ==0">
+			Success
+			</div>
+			<div ng-if="ld.status ==1">
+			Failed
+			</div>
+		</td>
+		
+		</tr>
+		</tbody>
+		</table>
+		</td>
+		
+		</tr>
+		</tbody>
+		</table>
+		
+		<!--<div ng-repeat="sd in socketData" ng-init="sdIndex = $index;">
+		
+		<div ng-if="sd.msg.displayname != null && sd.msg.responsecode==200">
+		<div>{{sd.msg.displayname}}</div>
+		</div>
+		<div ng-if="sd.msg.displayname != null && sd.msg.responsecode!=200">
+		<div>{{sd.msg.displayname}}</div>
+		</div>
+		<div ng-repeat="ld in sd.msg.packages" ng-init="ldIndex = $index;">
+		
+		<div >
+		<div ng-if="ld.Status == 'INSTALLED'">
+		<div>{{ld.packageName}} Successfully installed in {{sd.msg.displayname}}</div>
+		</div>
+		<div ng-if="ld.Status !== 'INSTALLED'">
+		<div>{{ld.packageName}} Failed installed in {{sd.msg.displayname}}</div>
+		</div>
+		</div>
+
+		</div>
+		</div>-->
+	</div>
+	</div>	
+		
+	</div>
+	</div>
+	</form>
+	</div>
+
+	</script>
+	

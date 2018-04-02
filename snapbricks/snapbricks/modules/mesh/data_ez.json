@@ -1,0 +1,85 @@
+{
+   "Data":[
+      {
+         "gatewayname":"ExperienceZone_Gateway#1",
+         "networks":[
+            "ez-einfochips"
+         ],
+         "gateway_info": {
+            "serialnumber" : "N/A",
+            "staticip" : "10.100.17.205",
+            "CPU_count" : "4",
+            "harddisk" : "46G",
+            "longitude" : 0,
+            "macid" : "98:40:bb:18:17:a6",
+            "hardware" : "Intel(R)",
+            "latitude" : 0,
+            "modelname" : "Intel(R) Core(TM) i3-5005U CPU @ 2.00GHz",
+            "ram" : "8GiB",
+            "address" : "",
+            "usb" : 3,
+            "os" : "Ubuntu 16.04.3 LTS",
+            "architecture" : "x86_64"
+         },
+         "cloud_connectivity":"No cloud connectivity",
+         "connected_to": "ExperienceZone_Gateway#2",
+         "re_installed" : true
+      },
+      {
+         "gatewayname":"ExperienceZone_Gateway#2",
+         "networks":[
+            "ez-einfochips"
+         ],
+         "gateway_info": {
+            "serialnumber" : " 710MWBAD10000324",
+            "staticip" : "10.107.2.137",
+            "CPU_count" : "8",
+            "harddisk" : "3.5G",
+            "longitude" : 0,
+            "macid" : "8e:66:75:5a:c9:e2",
+            "hardware" : "Samsung",
+            "latitude" : 0,
+            "modelname" : "Samsung artik710 raptor board based on s5p6818",
+            "ram" : "957MiB",
+            "address" : "",
+            "usb" : 3,
+            "os" : "Ubuntu 16.04.2 LTS",
+            "architecture" : "armv7l"
+         },
+         "cloud_connectivity":"MQTT",
+         "re_installed" : false
+      },
+      {
+         "gatewayname":"ExperienceZone_Gateway#3",
+         "networks":[
+            "ez-einfochips"            
+         ],
+         "gateway_info": {
+            "modelname" : "intel I3",
+            "serialnumber" : "",
+            "harddisk" : "25 GB",
+            "sdcard" : "N/A",
+            "hardware" : "Virtual Gateway",
+            "modelid" : "",
+            "usb" : "4 slots",
+            "altitude" : 30.3,
+            "provider" : "Airtel",
+            "latitude" : 0,
+            "ram" : 7.717155456542969,
+            "simcard" : "",
+            "address" : "",
+            "interface" : "",
+            "useraccount" : "urvisha",
+            "staticip" : "10.115.2.11",
+            "longitude" : 0,
+            "macid" : "64:00:6a:27:8d:76",
+            "connection" : "Wifi",
+            "architecture" : "x86_64",
+            "cpu" : "1.2 GHz 64/32-bit quad-core ARM Cortex-A53"
+         },
+         "cloud_connectivity":"No cloud connectivity",
+         "connected_to": "ExperienceZone_Gateway#2",
+         "re_installed" : true
+      }
+   ]
+}

@@ -1,0 +1,250 @@
+
+ <SPAN ng-if="provisionWizard == true">
+ 
+
+
+  <div class="stepwizard "  >
+		<div class="stepwizard-row setup-panel">
+		<div class="stepwizard-step">
+		  <SPAN ng-if="provisionWizardmeshSelection === 'ON' || provisionWizardserverSelection === 'ON' || provisionWizardgatewaySelection == 'ON' || provisionWizarddockerSelection == 'ON' || provisionWizardconfigureSelection =='ON' || provisionWizardconfirmSelection =='ON'">
+			<a href="#step-1" ng-click="provisionWizardmesh();$event.preventDefault();" type="button" class="btn btn-primary btn-circle">1</a>
+			<p>Select Mesh</p>
+		  </SPAN>
+		  </div>
+		  <div class="stepwizard-step">
+		  <SPAN ng-if="provisionWizardserverSelection == 'OFF' && provisionWizardgatewaySelection == 'OFF' && provisionWizarddockerSelection=='OFF' && provisionWizardconfigureSelection=='OFF'  && provisionWizardconfirmSelection=='OFF'">
+			<a href="#step-2" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+			<p>Select Ansible Server</p>
+			</SPAN>
+		  <SPAN ng-if="provisionWizardserverSelection === 'ON' || provisionWizardgatewaySelection == 'ON' || provisionWizarddockerSelection == 'ON' || provisionWizardconfigureSelection =='ON' || provisionWizardconfirmSelection =='ON'">
+			<a href="#step-1" ng-click="provisionWizardServer();$event.preventDefault();" type="button" class="btn btn-primary btn-circle">2</a>
+			<p>Select Ansible Server</p>
+		  </SPAN>
+		  </div>
+		  <div class="stepwizard-step">
+		  <SPAN ng-if="provisionWizardgatewaySelection == 'OFF' && provisionWizarddockerSelection == 'OFF' && provisionWizardconfigureSelection=='OFF' && provisionWizardconfirmSelection=='OFF'">
+			<a href="#step-3" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+			</SPAN>
+			<SPAN ng-if="provisionWizardgatewaySelection == 'ON' || provisionWizarddockerSelection == 'ON' || provisionWizardconfigureSelection =='ON' || provisionWizardconfirmSelection=='ON'">
+				<a href="#step-3" ng-click="provisionWizardGateway();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >3</a>
+			</SPAN>
+			<p>Select Board</p>
+		  </div>
+		   <div class="stepwizard-step">
+		  <SPAN ng-if="provisionWizarddockerSelection == 'OFF' && provisionWizardconfigureSelection == 'OFF' && provisionWizardconfirmSelection =='OFF'">
+			<a href="#step-4" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+			</SPAN>
+			<SPAN ng-if="provisionWizarddockerSelection == 'ON' || provisionWizardconfigureSelection=='ON' || provisionWizardconfirmSelection=='ON'">
+				<a href="#step-4" ng-click="provisionWizardDocker();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >4</a>
+			</SPAN>
+			<p>Select Docker</p>
+		  </div>
+		  <div class="stepwizard-step">
+		  <SPAN ng-if="provisionWizardconfigureSelection == 'OFF' && provisionWizardconfirmSelection == 'OFF'">
+			<a href="#step-5" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+			</SPAN>
+			<SPAN ng-if="provisionWizardconfigureSelection == 'ON' || provisionWizardconfirmSelection=='ON'">
+				<a href="#step-5" ng-click="provisionWizardConfiguration();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >5</a>
+			</SPAN>
+			<p>Select Configuration</p>
+		  </div>
+		   <div class="stepwizard-step">
+		   <SPAN ng-if="provisionWizardconfirmSelection =='OFF'">
+			<a href="#step-6" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">6</a>
+			</SPAN>
+			<SPAN ng-if="provisionWizardconfirmSelection=='ON'">
+				<a href="#step-6" ng-click="$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >6</a>
+			</SPAN>
+			<p>Confirm</p>
+		  </div>
+		</div>
+	</div>
+	
+   </SPAN>
+  <SPAN ng-if="provisionTrashWizard == true">
+ <div class="stepwizard"  >
+		<div class="stepwizard-row setup-panel">
+		<div class="stepwizard-step">
+		  <SPAN ng-if="provisionTrashWizardmeshSelection === 'ON' || provisionTrashWizardserverSelection === 'ON' || provisionTrashWizardgatewaySelection == 'ON' || provisionTrashWizardconfirmSelection =='ON'">
+			<a href="#step-1" ng-click="provisionTrashWizardMesh();$event.preventDefault();" type="button" class="btn btn-primary btn-circle">1</a>
+			<p>Select Mesh</p>
+		  </SPAN>
+		  </div>
+		  <div class="stepwizard-step">
+		  <SPAN ng-if="provisionTrashWizardserverSelection == 'OFF' && provisionTrashWizardgatewaySelection == 'OFF' && provisionTrashWizardconfirmSelection=='OFF'">
+			<a href="#step-2" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+			<p>Select Ansible Server</p>
+			</SPAN>
+		  <SPAN ng-if="provisionTrashWizardserverSelection === 'ON' || provisionTrashWizardgatewaySelection == 'ON' || provisionTrashWizardconfirmSelection =='ON'">
+			<a href="#step-1" ng-click="provisionTrashWizardServer();$event.preventDefault();" type="button" class="btn btn-primary btn-circle">2</a>
+			<p>Select Ansible Server</p>
+		  </SPAN>
+		  </div>
+		  <div class="stepwizard-step">
+		  <SPAN ng-if="provisionTrashWizardgatewaySelection == 'OFF' && provisionTrashWizardconfirmSelection=='OFF'">
+			<a href="#step-2" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+			</SPAN>
+			<SPAN ng-if="provisionTrashWizardgatewaySelection == 'ON' || provisionTrashWizardconfirmSelection=='ON'">
+				<a href="#step-2" ng-click="provisionTrashWizardGateway();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >3</a>
+			</SPAN>
+			<p>Select Gateway</p>
+		  </div>
+		  
+		  
+		   <div class="stepwizard-step">
+		   <SPAN ng-if="provisionTrashWizardconfirmSelection =='OFF'">
+			<a href="#step-4" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+			</SPAN>
+			<SPAN ng-if="provisionTrashWizardconfirmSelection=='ON'">
+				<a href="#step-4" ng-click="$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >4</a>
+			</SPAN>
+			<p>Confirm</p>
+		  </div>
+		</div>
+	</div>
+	</SPAN>
+  <SPAN ng-if="installationWizard == true">
+	<div class="stepwizard"  >
+											<div class="stepwizard-row setup-panel">
+											<div class="stepwizard-step">
+												<a href="#step-1" ng-click="meshSelection('ON');$event.preventDefault();" type="button" class="btn btn-primary btn-circle">1</a>
+												<p>Select Mesh</p>
+											  </div>
+											  <div class="stepwizard-step">
+												<SPAN ng-if="serverSelectionOption == 'OFF' && gatewaySelectionOption !== 'ON' && appSelectionOption !== 'ON' && confirmSelectionOption !== 'ON'">
+												<a href="#step-2" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle">2</a>
+												<p>Select Ansible Server</p>
+												</SPAN>
+												<SPAN ng-if="serverSelectionOption == 'ON' || gatewaySelectionOption == 'ON' || appSelectionOption == 'ON' || confirmSelectionOption == 'ON'">
+												<a href="#step-2" ng-click="serverSelection('ON');$event.preventDefault();" type="button" class="btn btn-primary btn-circle">2</a>
+												<p>Select Ansible Server</p>
+												</SPAN>
+											  </div>
+											  <div class="stepwizard-step">
+											  <SPAN ng-if="gatewaySelectionOption == 'OFF' && appSelectionOption !== 'ON' && confirmSelectionOption !== 'ON'">
+												<a href="#step-3" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+												</SPAN>
+												<SPAN ng-if="gatewaySelectionOption == 'ON' || appSelectionOption == 'ON' || confirmSelectionOption == 'ON'">
+												<a href="#step-2" ng-click="gatewaySelection('ON');$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >3</a>
+												</SPAN>
+												<p>Select Gateway</p>
+											  </div>
+											  
+											  <div class="stepwizard-step">
+												<SPAN ng-if="appSelectionOption == 'OFF' && confirmSelectionOption !== 'ON'">
+												<a href="#step-2" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle"  disabled="disabled">4</a>
+												</SPAN>
+												<SPAN ng-if="appSelectionOption == 'ON' || confirmSelectionOption == 'ON'">
+												<a href="#step-2" ng-click="appSelection('ON');$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >4</a>
+												</SPAN>
+												<p>Select App</p>
+											  </div>
+											  
+											   <div class="stepwizard-step">
+											   <SPAN ng-if="confirmSelectionOption == 'OFF'">
+												<a href="#step-4" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+												</SPAN>
+												<SPAN ng-if="confirmSelectionOption == 'ON'">
+												<a href="#step-2" ng-click="confirmSelectionOption='ON';$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >5</a>
+												</SPAN>
+												<p>Confirm</p>
+											  </div>
+											</div>
+	</div>
+  </SPAN>
+  <SPAN ng-if="uninstallWizard == true">
+  <div class="stepwizard"  >
+											<div class="stepwizard-row setup-panel">
+											  <div class="stepwizard-step">
+												<a href="#step-1" ng-click="uninstallWizardMesh();$event.preventDefault();" type="button" class="btn btn-primary btn-circle">1</a>
+												<p>Select Mesh</p>
+											  </div>
+											  <div class="stepwizard-step">
+											  <SPAN ng-if="uninstallWizardServerSelection == 'OFF' && uninstallWizardAppSelection == 'OFF' && uninstallWizardGatewaySelection =='OFF' && uninstallWizardConfirmSelection =='OFF'">
+												<a href="#step-2" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+												</SPAN>
+												<SPAN ng-if="uninstallWizardServerSelection == 'ON' || uninstallWizardAppSelection == 'ON' || uninstallWizardGatewaySelection == 'ON' || uninstallWizardConfirmSelection =='ON' ">
+												<a href="#step-2" ng-click="uninstallWizardServer();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >2</a>
+												</SPAN>
+												<p>Select Server</p>
+											  </div>
+											  
+											  <div class="stepwizard-step">
+												<SPAN ng-if="uninstallWizardAppSelection == 'OFF' && uninstallWizardGatewaySelection =='OFF' && uninstallWizardConfirmSelection =='OFF' ">
+												<a href="#step-3" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle"  disabled="disabled">3</a>
+												</SPAN>
+												<SPAN ng-if="uninstallWizardAppSelection == 'ON' || uninstallWizardGatewaySelection == 'ON' || uninstallWizardConfirmSelection =='ON'">
+												<a href="#step-3" ng-click="uninstallWizardApp();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >3</a>
+												</SPAN>
+												<p>Select App</p>
+											  </div>
+											   <div class="stepwizard-step">
+												<SPAN ng-if="uninstallWizardGatewaySelection == 'OFF' && uninstallWizardConfirmSelection == 'OFF' ">
+												<a href="#step-4" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle"  disabled="disabled">4</a>
+												</SPAN>
+												<SPAN ng-if="uninstallWizardGatewaySelection == 'ON' || uninstallWizardConfirmSelection == 'ON'">
+												<a href="#step-4" ng-click="uninstallWizardGateway();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >4</a>
+												</SPAN>
+												<p>Select Gateway</p>
+											  </div>
+											   <div class="stepwizard-step">
+											   <SPAN ng-if="uninstallWizardConfirmSelection == 'OFF'">
+												<a href="#step-5" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+												</SPAN>
+												<SPAN ng-if="uninstallWizardConfirmSelection == 'ON'">
+												<a href="#step-5" ng-click="$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >5</a>
+												</SPAN>
+												<p>Confirm</p>
+											  </div>
+											</div>
+		</div>
+  
+  </SPAN>
+<SPAN ng-if="upgradationWizard == true">
+  <div class="stepwizard" >
+											<div class="stepwizard-row setup-panel">
+											  <div class="stepwizard-step">
+												<a href="#step-1" ng-click="upgradationMeshSelection();$event.preventDefault();" type="button" class="btn btn-primary btn-circle">1</a>
+												<p>Select Mesh</p>
+											  </div>
+											  <div class="stepwizard-step">
+											  <SPAN ng-if="upgradationServerOption == 'OFF' && upgradationAppOption == 'OFF' && upgradationGatewayOption =='OFF' && upgradationConfirmOption =='OFF'">
+												<a href="#step-2" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+												</SPAN>
+												<SPAN ng-if="upgradationServerOption == 'ON' || upgradationAppOption == 'ON' || upgradationGatewayOption =='ON' || upgradationConfirmOption =='ON' ">
+												<a href="#step-2" ng-click="upgradationServerSelection();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >2</a>
+												</SPAN>
+												<p>Select Server</p>
+											  </div>
+											  
+											  <div class="stepwizard-step">
+												<SPAN ng-if="upgradationAppOption == 'OFF' && upgradationGatewayOption == 'OFF' && upgradationConfirmOption =='OFF'">
+												<a href="#step-3" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle"  disabled="disabled">3</a>
+												</SPAN>
+												<SPAN ng-if="upgradationAppOption == 'ON' || upgradationGatewayOption == 'ON' || upgradationConfirmOption =='ON'">
+												<a href="#step-3" ng-click="upgradationAppSelection();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >3</a>
+												</SPAN>
+												<p>Select App</p>
+											  </div>
+											  <div class="stepwizard-step">
+												<SPAN ng-if="upgradationGatewayOption == 'OFF' && upgradationConfirmOption == 'OFF' ">
+												<a href="#step-4" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle"  disabled="disabled">4</a>
+												</SPAN>
+												<SPAN ng-if="upgradationGatewayOption == 'ON' || upgradationConfirmOption == 'ON'">
+												<a href="#step-4" ng-click="upgradationGatewaySelection();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >4</a>
+												</SPAN>
+												<p>Select Gateway</p>
+											  </div>
+											   <div class="stepwizard-step">
+											   <SPAN ng-if="upgradationConfirmOption == 'OFF'">
+												<a href="#step-5" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+												</SPAN>
+												<SPAN ng-if="upgradationConfirmOption == 'ON'">
+												<a href="#step-5" ng-click="$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >5</a>
+												</SPAN>
+												<p>Confirm</p>
+											  </div>
+											</div>
+		</div>
+  
+  </SPAN>

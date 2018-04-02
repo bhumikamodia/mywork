@@ -1,0 +1,84 @@
+<div class="row row_margin_0">
+	<div class="col-lg-4 col-md-6 col-sm-12 " id="sidebar">
+						<div class="list-group" >
+						  <a href="#" ng-click="$event.preventDefault();" class="list-group-item active">Rules Added</a>
+						  <div class="list-group-item pad0" style="height:150px;overflow-y:scroll">
+						  <table class="table table-striped">
+							  <tr ng-repeat="rulearr in sessionAddRules" ng-init="RulesAddedIndex = $index;">
+								<td class="wordwrap" > {{rulearr.ruleName}}</td>
+								<td width="20%"><button  class="btn btn-default" ng-click="viewSessionRule($index)" ><i class="glyphicon glyphicon-menu-right"></i></button>
+								</td>
+							  </tr>
+						  </table>
+						  </div>
+						  <div ng-if="dataFilterSelectedDevices.length<=0"> 
+							<div class="alert alert-danger">NO RECORD FOUND.</div>
+						   </div>
+						</div>
+	</div><!--/.sidebar-offcanvas-->
+	<div class="col-lg-8 col-md-12 col-sm-12 ">
+	<div ng-repeat="data in viewsessionData">
+		<table id="total" class="table table-striped" cellpadding="1">
+		<tbody>
+			<tr>
+				<td style="background-color:#337ab7;color:#FFF;" colspan="2"><b>Rule Information</b></td>
+						
+			</tr>
+			<tr>
+				<td class="c_cls">Rule Name </td>
+				<td>{{data.ruleName}}</td>			
+			</tr>
+			<tr>
+				<td class="c_cls">Rule Description </td>
+				<td>{{data.ruleDesc}}</td>			
+			</tr>
+			<tr style="cursor:pointer;" >
+					
+						<td class="c_cls" width="12%"><div align="left">CONDITIONS</div></td>
+						<td>	
+							<div  ng-repeat="ifcdata in data.ifCondition" class="gray_border2  pad-top5">
+								<div  ng-repeat="itemdata in ifcdata.ifc" class="pad-left3">
+									<div class="row" >
+										<div class="col-xs-6 col-sm-6" >{{itemdata.item.gatewayDisplayname}}/{{itemdata.item.displayname}}/{{itemdata.item.defination.definitionName}}<br/>
+														<span ng-show="itemdata.filter_operation != '' && itemdata.filter_duration != ''" class="fileter_blue">
+															{{itemdata.filter_operation}}&nbsp;&nbsp;{{itemdata.filter_duration}}
+														</span>
+										</div>
+										<div class="col-xs-1 col-sm-1">{{itemdata.operator}}</div>
+										<div class="col-xs-5 col-sm-5">{{itemdata.sel_val}}</div>
+									</div>
+									<div class="row" style="text-align:center;padding-left:45px;"><span class="view_sub_con" ng-show="itemdata.sub_ope != ''" >{{itemdata.sub_ope}}</span></div>
+								</div>
+								<div class="row row_margin_0 view_main_con" style="padding-left:45px;"><span ng-show="itemdata.main_ope != ''">{{ifcdata.main_ope}}</span></div>
+							</div>			
+						</td>
+			</tr>
+			<tr  style="cursor:pointer;" >
+						<td class="c_cls" ><div align="left">DO ACTION</div></td>
+						<td>
+							<div  ng-repeat="itemdata in data.thenCondition" class="gray_border2 doaction pad-top5">
+								<div class="row pad-left3">
+									<div class="col-xs-6 col-sm-6">{{itemdata.item.gatewayDisplayname}}/{{itemdata.item.displayname}}/{{itemdata.item.defination.definitionName}}</div>
+									<div class="col-xs-1 col-sm-1">{{itemdata.operator}}</div>
+									<div class="col-xs-5 col-sm-5">{{itemdata.sel_val}}</div>
+								</div>						
+							</div>
+						</td>				
+			</tr>
+			<tr  style="cursor:pointer;" >
+						<td class="c_cls" ><div align="left">ELSE ACTION</div></td>
+						<td>
+							<div  ng-repeat="itemdata in data.elseCondition" class="gray_border2 elseaction pad-top5">
+									<div class="row pad-left3">
+										<div class="col-xs-6 col-sm-6">{{itemdata.item.gatewayDisplayname}}/{{itemdata.item.displayname}}/{{itemdata.item.defination.definitionName}}</div>
+										<div class="col-xs-1 col-sm-1">{{itemdata.operator}}</div>
+										<div class="col-xs-5 col-sm-5">{{itemdata.sel_val}}</div>
+									</div>														
+							</div>
+						</td>				
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	</div>
+</div>

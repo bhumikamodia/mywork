@@ -1,0 +1,360 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<div ng-controller="meshConnectionCtrl">
+    <div>
+        <div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+<div ncy-breadcrumb></div>
+
+<button style="float:right;display:inline" type="submit" class="btn btn_back mr-topmin45" title="Back To Gateway List" back-button><i class="fa fa-chevron-left mr-right7" ></i>Back to list</button>
+
+</div>  
+
+</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <hr class="mr-top10" style="border:2px solid #3D6BA9;" />
+            <div id="device">
+                <div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20">
+                    <button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshDirectedGraph(graphdata,graphname,true)"><i class="fa fa-refresh"></i>Refresh</button>
+                    <div class="dropdown display-inline">
+                        <button type="button" class="btn btn-default btn-shadow border0         dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-share-square-o"></i>Export<span class=""></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-export">
+                            <li><a export-Excel attrname="device" attrpageno="{{currentDevicePage}}"><i class="fa fa-file-excel-o mr-right7"></i>Export to Excel</a></li>
+                            <li class="divider"></li>
+                            <li><a export-Csv attrname="device" attrpageno="{{currentDevicePage}}"><i class="fa fa-file-o mr-right7"></i>Export to CSV</a></li>
+                        </ul>
+                    </div>
+                    <div style="display: inline-block;">
+                        <button id=addGroup ng-click="ot_bus_button();" type="button" class="btn btn-default btn-shadow border0"> OT Bus </button>
+                    </div>
+                    <div style="display: inline-block;">
+                        <button id=addGroup ng-click="it_bus_button();" type="button" class="btn btn-default btn-shadow border0"> IT Bus </button>
+                    </div>
+                    <div style="display: inline-block;">
+                        <button id=addGroup ng-click="re_app_button();" type="button" class="btn btn-default btn-shadow border0"> RE App </button>
+                    </div>
+                    <div style="display: inline-block;">
+                        <button id=addGroup ng-click="app_transfer();" type="button" class="btn btn-default btn-shadow border0">App Transfer </button>
+                    </div>
+                    <div style="display: inline-block;">
+                        <button id=addGroup ng-click="add_redundancy();" type="button" class="btn btn-default btn-shadow border0">Add Redundancy </button>
+                    </div>
+                    <div style="display: inline-block;">
+                        <button id=addGroup ng-click="kill_app();" type="button" class="btn btn-default btn-shadow border0">Kill App </button>
+                    </div>
+                    <div class="mr-right30" style="display: inline-block; float:right;" ng-show="it_bus_button_clicked || ot_bus_button_clicked || re_app_button_clicked">
+                        <div class="mr-right10" style="display: inline-block;">
+                            <h4><b class="pad-left10">Focus at...</b></h4>
+                        </div>
+                        <div style="display: inline-block;">
+                            <select ng-model="nodeValue" class="form-control width200" ng-options="data.label for data in focus.nodes | filter:{'shape' :'dot'}" ng-change="focusNode(nodeValue.id)">
+                                <option value="" selected>Select Gateway</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="div_main" style=" height:620px">
+        <link href="assets/CSS/vis-network.min.css" rel="stylesheet" type="text/css" />
+        <h1 ng-if="ot_bus_button_clicked" ng-init="refreshDirectedGraph(ot_data,'ot',false)"> OT Bus Connections</h1>
+        <h1 ng-if="it_bus_button_clicked" ng-init="refreshDirectedGraph(it_data,'it',false)"> IT Bus Connections</h1>
+        <h1 ng-if="re_app_button_clicked" ng-init="refreshDirectedGraph(re_data,'re',false)"> RE Connections</h1>
+        <div style="width: 100%; display: block; float: left;">
+            <div id="mynetwork" ng-show="it_bus_button_clicked || ot_bus_button_clicked || re_app_button_clicked" style="display: block; float: left; width: 75%; height: 500px; background: white; border: 8px solid #E1E1E1;">
+            </div>
+            <div ng-if="gateway_selected" style="overflow-y: auto; margin-left:3%; display: block; float: left; width: 22%; height: 500px; background: white; border: 8px solid #E1E1E1;">
+                <div ng-repeat="(key, value) in gateway_details">
+                    <h3 class="text-center">{{key}}</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="(k, v) in value">
+                                <td>
+                                    <h5>{{k}}</h5></td>
+                                <td>
+                                    <h5>{{v}}</h5></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div ng-if="ot_bus_button_clicked" class="pad5" style="width: 100%; display: block; float: left;">
+            <h4 class="mr-left20" style="display:inline-flex;position: relative; top: 50%; transform: translateY(+40%);">
+                <a class="a-mesh-chart" ng-click="refreshDirectedGraph(ot_data,'ot',false)">All</a>
+            </h4> &nbsp;&nbsp;
+            <div ng-repeat="d in ot_data.nodes | filter:{'shape' :'star'} | orderBy:'type'" style="display:inline-flex; width: auto;">
+                <div class="mr-left20" style="position: relative; top: 50%; transform: translateY(+50%); width: 20px; height: 20px; border:1px black solid; background-color: {{d.color}}"></div>
+                &nbsp;&nbsp;
+                <h4 class="text-center">
+                    <a class="a-mesh-chart" ng-click="redrawFilteredGraph(ot_data,'ot',d.type)">{{d.type}}</a>
+               </h4> &nbsp;&nbsp;
+                <h4 style="color: black;" ng-init="count=countNetwork(ot_data.nodes,d.type)">({{count}})</h4>
+            </div>
+        </div>
+        <div ng-if="it_bus_button_clicked" style="width: 100%; display: block; float: left; padding: 5px">
+            <h4 class="mr-left20" style="display:inline-flex;position: relative; top: 50%; transform: translateY(+40%);">
+                <a class="a-mesh-chart" ng-click="refreshDirectedGraph(it_data,'it',false)">All</a>
+            </h4> &nbsp;&nbsp;
+            <div ng-repeat="d in it_data.nodes | filter:{'shape' :'star'} | orderBy:'type'" style="display:inline-flex; width: auto;">
+                <div class="mr-left20" style="position: relative; top: 50%; transform: translateY(+50%); width: 20px; height: 20px;border:1px black solid; background-color: {{d.color}}"></div>
+                &nbsp;&nbsp;
+                <h4 class="text-center">
+                    <a class="a-mesh-chart" ng-click="redrawFilteredGraph(it_data,'it',d.type)">{{d.type}}</a>
+               </h4> &nbsp;&nbsp;
+                <h4 style="color: black;" ng-init="count=countNetwork(it_data.nodes,d.type)">({{count}})</h4>
+            </div>
+            <div style="display:inline-flex; width: auto;">
+                <div class="mr-left20" style="position: relative; top: 50%; transform: translateY(+50%); width: 20px; height: 20px;border:1px black solid; background-color: green"></div>
+                &nbsp;&nbsp;
+                <h4 class="text-center">
+                    <a class="a-mesh-chart" ng-click="redrawFilteredGraphWithType(it_data,'it',true)">Cloud Connectivity</a>
+               </h4> &nbsp;&nbsp;
+                <h4 style="color: black;" ng-init="countTrue=countType(it_data.nodes,'it',true)">({{countTrue}})</h4>
+            </div>
+            <div style="display:inline-flex; width: auto;">
+                <div class="mr-left20" style="position: relative; top: 50%; transform: translateY(+50%); width: 20px; height: 20px; border:1px black solid; background-color: red"></div>
+                &nbsp;&nbsp;
+                <h4 class="text-center">
+                    <a class="a-mesh-chart" ng-click="redrawFilteredGraphWithType(it_data,'it',false)">No Cloud Connectivity</a>
+               </h4> &nbsp;&nbsp;
+                <h4 style="color: black;" ng-init="countFalse=countType(it_data.nodes,'it',false)">({{countFalse}})</h4>
+            </div>
+        </div>
+        <div ng-if="re_app_button_clicked" class="pad5" style="width: 100%; display: block; float: left;">
+            <h4 class="mr-left20" style="display:inline-flex;position: relative; top: 50%; transform: translateY(+40%);">
+                <a class="a-mesh-chart" ng-click="refreshDirectedGraph(re_data,'re',false)">All</a>
+            </h4> &nbsp;&nbsp;
+            <div ng-repeat="d in re_data.nodes | filter:{'shape' :'star'} | orderBy:'type'" style="display:inline-flex; width: auto;">
+                <div class="mr-left20" style="position: relative; top: 50%; transform: translateY(+50%); width: 20px; height: 20px;border:1px black solid; background-color: {{d.color}}"></div>
+                &nbsp;&nbsp;
+                <h4 class="text-center">
+                    <a class="a-mesh-chart" ng-click="redrawFilteredGraph(re_data,'re',d.type)">{{d.type}}</a>
+               </h4> &nbsp;&nbsp;
+                <h4 style="color: black;" ng-init="count=countNetwork(re_data.nodes,d.type)">({{count}})</h4>
+            </div>
+            <!--             <br/> -->
+            <div style="display:inline-flex; width: auto;">
+                <div class="mr-left20" style="position: relative; top: 50%; transform: translateY(+50%); width: 20px; height: 20px; border:1px black solid; background-color: green"></div>
+                &nbsp;&nbsp;
+                <h4 class="text-center">
+                    <a class="a-mesh-chart" ng-click="redrawFilteredGraphWithType(re_data,'re',true)">RE installed</a>
+               </h4> &nbsp;&nbsp;
+                <h4 style="color: black;" ng-init="countTrue=countType(re_data.nodes,'re',true)">({{countTrue}})</h4>
+            </div>
+            <div style="display:inline-flex; width: auto;">
+                <div class="mr-left20" style="position: relative; top: 50%; transform: translateY(+50%); width: 20px; height: 20px;border:1px black solid; background-color: red"></div>
+                &nbsp;&nbsp;
+                <h4 class="text-center">
+                    <a class="a-mesh-chart" ng-click="redrawFilteredGraphWithType(re_data,'re',false)">RE not installed</a>
+               </h4> &nbsp;&nbsp;
+                <h4 style="color: black;" ng-init="countFalse=countType(re_data.nodes,'re',false)">({{countFalse}})</h4>
+            </div>
+        </div>
+        <div ng-show="app_transfer_clicked">
+             <h1 style="display:inline-block;" >App Transfer</h1>
+            <div class="row">
+                <div id="deviceTable">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive border0 ">
+                        <form class="form-horizontal" id="main_form" name="main_form">
+                            <table class="table table-striped pad0">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     <tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Select App: </div>
+                                </td>
+                                <td>
+                                   <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{'has-error': (main_form.app.$dirty && (main_form.app.$error.required))}">
+                                        <select name="app" id="app" ng-model="appname" class="form-control"><option value="" selected>Select Any App</option>
+                                            <option value="RuleengineApp">Rule Engine App</option> <option value="schedulerApp">Scheduler App</option></select>
+                                        <span class="help-block error_red" ng-show="main_form.app.$error.required && main_form.parent_rule_name.$dirty">This field is required</span>
+                                      
+                                    </div>
+                                </td>
+                            </tr>
+                               <tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">From: </div>
+                                </td>
+                                <td>
+                                   <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{'has-error': (main_form.gateway1.$dirty && (main_form.gateway1.$error.required))}">
+                                        <select name="gateway1" id="gateway1" ng-model="fromgateway" class="form-control"><option value="" selected>Select Gateway</option>
+                                            <option value="{{gateway.gatewayname}}" ng-repeat="gateway in meshpath.Data| filter:{re_installed:'true'}"> {{gateway.gatewayname}}</option> 
+                                        <span class="help-block error_red" ng-show="main_form.gateway1.$error.required && main_form.gateway1.$dirty">This field is required</span>
+                                      
+                                    </div>
+                                </td>
+                            </tr>
+
+                             <tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">To: </div>
+                                </td>
+                                <td>
+                                   <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{'has-error': (main_form.gateway2.$dirty && (main_form.gateway2.$error.required))}">
+                                        <select ng-model="togateway" class="form-control"><option value="" selected>Select Gateway</option>
+                                             <option value="{{gateway.gatewayname}}" ng-repeat="gateway in meshpath.Data| filter:{re_installed:'false'}"> {{gateway.gatewayname}}</option> 
+                                        <span class="help-block error_red" ng-show="main_form.gateway2.$error.required && main_form.gateway2.$dirty">This field is required</span>
+                                      
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr >
+                            <td colspan="5">
+                            <div style="display: inline-block;" >
+                                <button type="button" class="btn btn-primary btn-shadow border0" ng-disabled="main_form.$invalid" ng-click="transferApp(appname,fromgateway,togateway)" >Transfer App</button>
+                                </div>
+                            </td>
+                            </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="add_redundancy_clicked">
+            <h1 style="display:inline-block;">App Redundancy</h1>
+                  <div class="row">
+                <div id="deviceTable">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive border0">
+                        <form class="form-horizontal" id="main_form1" name="main_form1">
+                            <table class="table table-striped pad0">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     <tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Select App: </div>
+                                </td>
+                                <td>
+                                   <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{'has-error': (main_form1.app.$dirty && (main_form1.app.$error.required))}">
+                                        <select name="app" id="app" ng-model="redundantapp" class="form-control"><option value="" selected>Select Any App</option>
+                                            <option value="mqtt">MQTT App</option> </select>
+                                        <span class="help-block error_red" ng-show="main_form1.app.$error.required && main_form1.parent_rule_name.$dirty">This field is required</span>
+                                      
+                                    </div>
+                                </td>
+                            </tr>
+                               <tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Exists in: </div>
+                                </td>
+                                <td>
+                                   <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{'has-error': (main_form1.gateway1.$dirty && (main_form1.gateway1.$error.required))}">
+                                        <select name="gateway1" id="gateway1" ng-model="existsgateway" class="form-control"><option value="" selected>Select Gateway</option>
+                                           <option value="{{gateway.gatewayname}}" ng-repeat="gateway in meshpath.Data| filter:{cloud_connectivity:'MQTT'}"> {{gateway.gatewayname}}</option> 
+                                        <span class="help-block error_red" ng-show="main_form1.gateway1.$error.required && main_form.gateway1.$dirty">This field is required</span>
+                                      
+                                    </div>
+                                </td>
+                            </tr>
+
+                             <tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Add here: </div>
+                                </td>
+                                <td>
+                                   <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{'has-error': (main_form1.gateway2.$dirty && (main_form1.gateway2.$error.required))}">
+                                        <select ng-model="addgateway" class="form-control"><option value="" selected>Select Gateway</option>
+                                            <option value="{{gateway.gatewayname}}" ng-repeat="gateway in meshpath.Data| filter:{cloud_connectivity:'No cloud connectivity'}"> {{gateway.gatewayname}}</option> 
+                                        <span class="help-block error_red" ng-show="main_form1.gateway2.$error.required && main_form1.gateway2.$dirty">This field is required</span>
+                                      
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr >
+                            <td colspan="5">
+                            <div style="display: inline-block;" >
+                                <button type="button" class="btn btn-primary btn-shadow border0" ng-disabled="main_form1.$invalid" ng-click="addRedundancy(redundantapp,existsgateway,addgateway)" >Add Redundancy</button>
+                                </div>
+                            </td>
+                            </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+  <div ng-show="kill_app_clicked">
+    <h1 style="display:inline-block;" >Kill App</h1>
+                  <div class="row">
+                <div id="deviceTable">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive border0">
+                        <form class="form-horizontal" id="main_form1" name="main_form1">
+                            <table class="table table-striped pad0">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     <tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Select App: </div>
+                                </td>
+                                <td>
+                                   <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{'has-error': (main_form1.app.$dirty && (main_form1.app.$error.required))}">
+                                        <select name="app" id="app" ng-model="killapp" class="form-control"><option value="" selected>Select Any App</option>
+                                            <option value="mqtt">MQTT App</option> </select>
+                                        <span class="help-block error_red" ng-show="main_form1.app.$error.required && main_form1.parent_rule_name.$dirty">This field is required</span>
+                                      
+                                    </div>
+                                </td>
+                            </tr>
+                               <tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;"> From : </div>
+                                </td>
+                                <td>
+                                   <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{'has-error': (main_form1.gateway1.$dirty && (main_form1.gateway1.$error.required))}">
+                                        <select name="gateway1" id="gateway1" ng-model="fromkillgateway" class="form-control"><option value="" selected>Select Gateway</option>
+                                           <option value="{{gateway.gatewayname}}" ng-repeat="gateway in meshpath.Data| filter:{cloud_connectivity:'MQTT'}"> {{gateway.gatewayname}}</option> 
+                                        <span class="help-block error_red" ng-show="main_form1.gateway1.$error.required && main_form.gateway1.$dirty">This field is required</span>
+                                      
+                                    </div>
+                                </td>
+                            </tr>
+
+                           
+                            <tr >
+                            <td colspan="5">
+                            <div style="display: inline-block;" >
+                                <button type="button" class="btn btn-primary btn-shadow border0" ng-disabled="main_form1.$invalid" ng-click="killApp(killapp,fromkillgateway)" > Kill App</button>
+                                </div>
+                            </td>
+                            </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="row">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div ncy-breadcrumb></div>
+			 <button style="float:right;display:inline;" type="submit" class="btn btn_back" title="Back to list" back-button>
+                <i class="fa fa-chevron-left mr-right7"></i>Back to list
+            </button>
+        </div>
+
+</div>
+<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+
+<form class="form-horizontal" id="form" name="form" role="form" >
+<div ng-controller="ramleditproCtrl">
+	<div class="row row_margin_0">
+		<div class="col-lg-12" style="text-align:right;margin-bottom:5px;"><button type="button" ng-disabled="form.$invalid"  ng-click="editRAMLSave()" class="btn btn-primary">SAVE </button></div>
+	</div>
+	<table class="table table-striped pad0">
+		<tbody>
+				<tr>
+					<td class="col-xs-3 c_cls">Definition Name:</td>
+					<td>
+						<div ng-class="{ 'has-error': main_form.deviceName.$dirty && (main_form.deviceName.$error.required || main_form.deviceName.$error.maxlength) }" >
+						   <input type="text"  class="form-control" name="deviceName" ng-model="editraml.name" required ng-maxlength="30" />
+							<span ng-show="main_form.deviceName.$dirty && (main_form.deviceName.$error.required)" class="help-block">Definition Name is required</span>
+							<span ng-show="main_form.deviceName.$error.maxlength" class="help-block">Definition Name Should Contain within 30 Characters</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="c_cls">Description:</td>
+					<td class="">
+						<div ng-class="{'has-error': main_form.deviceDesc.$dirty && main_form.deviceDesc.$error.required }" >
+						  <textarea placeholder="Description"  rows="2" name="deviceDesc" required ng-model="editraml.description" class="form-control" ></textarea> 
+						  <span ng-show="main_form.deviceDesc.$dirty && form.deviceDesc.$error.required" class="help-block">Description is required</span>
+						</div>
+					</td>
+				</tr>								
+				
+		</tbody>
+	</table>
+	<div id="deviceTable" >
+		<div  ng-include="'modules/ramlproperties/views/rmlTemplatePropertyadd.html'"></div>
+	</div>
+</div>
+</form>

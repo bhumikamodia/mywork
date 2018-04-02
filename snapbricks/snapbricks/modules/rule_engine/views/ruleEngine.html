@@ -1,0 +1,107 @@
+<div class="row">
+    <div >
+        <div ncy-breadcrumb></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	
+        <hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+        <div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20">
+            <button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFunc();">
+                <i class="fa fa-refresh"></i> Refresh
+            </button><!-- ng-show="can('create_rule')" -->
+            <button type="button"   class="btn btn-default btn-shadow border0" ng-click="create()">
+                <i class="fa fa-plus-circle"></i> Add
+            </button>
+            <!--<button id="btn_deactivate" type="button" class="btn btn-default btn-shadow border0" ng-click="openRegisterInfo('activation',selectedRowGateway)"><i class="fa fa-ban"></i> Deactivate</button><button type="button" class="btn btn-default btn-shadow border0" ng-click="openRegisterInfo('activation',selectedRowGateway)"><i class="fa fa-check-circle"></i> Activate</button>-->
+        </div>
+    </div>
+    <div style="display: inline-flex;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-top20" >
+
+        <label class="pad-right10">Filter By: </label>&nbsp; &nbsp; &nbsp; &nbsp; 
+
+                                          <md-radio-group ng-model="mode"  class="pad-right10" ng-click="getDataList(mode)" layout="row">
+                                                <md-radio-button value=" Standalone" class="md-primary"> Standalone mode </md-radio-button>
+                                                <md-radio-button value="Mesh" class="md-primary">Mesh mode</md-radio-button>
+                                                 <md-radio-button value="all" class="md-primary">All</md-radio-button>
+                                          </md-radio-group>
+                                    </div>
+                                     <div style="display: inline-flex;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-top20" >
+                                  <label ng-show="mode=='Mesh'" class="pad-right10"> Select Mesh :</label>
+                                   <label ng-show="mode=='Standalone'" class="pad-right10"> Select Gateway : </label>
+                                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                   
+                                   <select class="form-control " ng-model="mesh" ng-show="mode=='Mesh'|| mode =='Standalone'" ng-change="getRuleList(mesh.id,1)" ng-options="mesh.name for mesh in dataList">
+                                   <option value="" selected>Select Any</option></select>
+                               </div>
+  </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+        <table id="total" class="table table-striped">
+            <thead>
+
+                <tr>
+                  <!--  <th>
+                        <input type="checkbox" ng-model="selectedAll" ng-click="checkAll(selectedAll)" />
+                    </th> -->
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Creator</th>
+                    <th>Edit</th>
+                    <th>Delete </th>                   
+                </tr>
+            </thead>
+            <tbody>
+                <!--<tr style="cursor:pointer;" ><td><input type="checkbox" ng-model="discover1"   /></td><td>Oven data consolidation
+						</td><td><div >This collects 30 seconds data</div></td><td><div>Abhishek Sikka</div></td><td><div><i class="fa fa-edit"></i></div></td><td><div><i class="fa fa-check-circle"></i></div></td><td><div ><a id="btn_deactivate"><i  class="fa fa-ban"></i></a></div></td><td><div><a id="btn_deactivate"><i  class="fa fa-trash"></i></a></div></td><td><div></div></td></tr>-->
+                <tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,ruleEngine)" ng-repeat="ruleEngine in filtered = (ruleEngineList| filter:expression | filter:expression2 | filter:expression3 || undefined) | orderBy:sortType:sortReverse | limitTo:ruleEnginePerPage">
+                    <!--<td>
+                        <input type="checkbox" ng-model="ruleEngine.Selected" ng-change="checkStatus(ruleEngine);" />
+                    </td>-->
+                    <td>{{ruleEngine.metadata.rulename}}
+                    </td>
+                    <td>
+                        <div>{{ruleEngine.metadata.description}}</div>
+                    </td>
+                    <td>
+                        <div>{{ruleEngine.metadata.createdby}}</div>
+                    </td>
+                    <td>
+                        <div>
+                            <a ng-click="editData(ruleEngine)">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <a id="btn_deactivate" ng-click="deleteData(ruleEngine)">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                    
+                </tr>
+                <tr ng-if="dataRuleEngineLoading" >
+                    <td colspan="11">
+                        <div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+                    </td>
+                </tr>
+                <tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalruleEngineItems ==0) && !dataRuleEngineLoading">
+                    <td colspan="11">
+                        <strong>No Record Found.</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(filtered).length">
+        <div class="col-lg-12 blue-bg pad10">
+            <div class="col-lg-9">
+                <uib-pagination total-items="totalruleEngineItems" ng-model="currentruleEnginePage" ng-change="pageChanged()" items-per-page="ruleEnginePerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+            </div>
+            <div class="col-lg-3 text-right">Displaying {{currentruleEnginePage}} / {{numPages}} of {{numPages}}</div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+<!---- code added by Gpatel -->	
+<div  ng-repeat="(thenkey, item1) in selectedRuleEngineData[1].data"  ng-init="thenSelectedIndex = $index;" class="doaction"> 
+	<div class="gray_border2">
+		<div class="row row_margin_0"  >
+			<div  class="row row_margin_0 rule_option">
+				<div class="col-xs-5" >
+					{{item1.item.gatewayDisplayname}}/{{item1.item.displayname}}/{{item1.item.defination.definitionName}}	
+				</div>
+				<div class="col-xs-1">
+					<input type="hidden" ng-init="item1.operator='==';" />
+					<select ng-model="item1.operator" >
+						<option  value="==">==</option>
+						
+					</select>
+				</div>
+				<div class="col-xs-5">
+					<div  ng-repeat="opr in item1.item.defination.properties" class="row row_margin_0" ng-init="thenseleIFC =$index;">	
+							<div ng-if="(opr.operations.indexOf('post') !== -1)"> 
+									<span ng-if="item1.item.defination.properties.length >= 2">{{opr.propertyName}}:<br/></span>
+									<div ng-if="opr.maximum >= 0" ng-class="{ 'has-error': form.then_range_{{thenkey}}.$dirty && (form.then_range_{{thenkey}}.$error.required) }">
+											<span style="vertical-align:top">{{opr.minimum}}</span>
+											<input type="range"  name="then_range_{{thenkey}}" min="{{opr.minimum}}" max="{{opr.maximum}}" value="{{item1.sel_val}}" 
+											ng-model="item1.sel_val" class="inline_block" ng-init="" required />
+											<span style="vertical-align:top">{{opr.maximum}}</span>
+											
+											<span class="help-block" ng-show="form.then_range_{{thenkey}}.$error.required">This field is required</span>
+											<br clear="all"/>
+											<span style="vertical-align:top;">{{item1.sel_val}}</span>
+									</div>
+									<div ng-else-if="opr.enum.length >0">
+											<select class="form-control width80"  ng-model="item1.sel_val" ng-init="item1.sel_val=opr.enum[0]">
+															<option value="">Select Any one</option>
+															<option ng-repeat="oper in opr.enum" value="{{oper}}" >{{oper}}</option>
+											</select>
+									</div>
+									<div ng-else-if="(opr.type == 'boolean')" ng-class="{ 'has-error': form.then_radio_{{thenkey}}.$dirty && (form.then_radio_{{thenkey}}.$error.required) }">
+										<input type="radio" name="then_radio_{{thenkey}}" ng-value="true" ng-model="item1.sel_val" required/>True &nbsp;
+										<input type="radio" name="then_radio_{{thenkey}}" ng-value="false" ng-model="item1.sel_val" required/>False &nbsp;
+										<span class="help-block" ng-show="form.then_radio_{{thenkey}}.$error.required">This field is required</span>
+									</div>
+									<div ng-else-if="opr.type == 'number'" ng-class="{ 'has-error': form.then_number_{{thenkey}}.$dirty && (form.then_number_{{thenkey}}.$error.required) }">
+											<input type="text" name="then_number_{{thenkey}}" ng-model="item1.sel_val" class="form-control width80" required/>{{opr.units}}
+											<span class="help-block" ng-show="form.then_number_{{thenkey}}.$error.required">This field is required</span>
+									</div>
+									<div ng-else-if="opr.type == 'integer'" ng-class="{ 'has-error': form.then_integer_{{thenkey}}.$dirty && (form.then_integer_{{thenkey}}.$error.required) }">
+											<input type="text" name="then_integer_{{thenkey}}" ng-model="item1.sel_val" class="form-control width80" required/>{{opr.units}}								
+											<span class="help-block" ng-show="form.then_integer_{{thenkey}}.$error.required">This field is required</span>
+									</div>
+									<div ng-else-if="opr.type == 'float'" ng-class="{ 'has-error': form.then_float_{{thenkey}}.$dirty && (form.then_float_{{thenkey}}.$error.required) }">
+											<input type="text" name="then_float_{{thenkey}}" ng-model="item1.sel_val" class="form-control width80" required/>{{opr.units}}								
+											<span class="help-block" ng-show="form.then_float_{{thenkey}}.$error.required">This field is required</span>
+									</div>
+									<div ng-else-if="opr.type == 'string'" ng-class="{ 'has-error': form.then_string_{{thenkey}}.$dirty && (form.then_string_{{thenkey}}.$error.required) }">
+											<input type="text" name="then_string_{{thenkey}}" ng-model="item1.sel_val" class="form-control width80" required/>{{opr.units}}								
+											<span class="help-block" ng-show="form.then_string_{{thenkey}}.$error.required">This field is required</span>
+									</div>
+									<div ng-else ng-class="{ 'has-error': form.then_else_{{thenkey}}.$dirty && (form.then_else_{{thenkey}}.$error.required) }">
+											<input type="text" name="then_else_{{thenkey}}" ng-model="item1.sel_val" class="form-control width80" required/>
+											<span class="help-block" ng-show="form.then_else_{{thenkey}}.$error.required">This field is required</span>
+									</div>	
+						 </div> <!--- completed POST if condition-->
+					</div><!--- completed properties block-->
+				</div>
+				<div class="col-xs-1">
+					<a href="javascript:void(0)" ng-click="setThenDeleteBlock($index)" id="setThenDeleteBlock"><span class="fa-stack fa-lg pull-left"><i class="fa fa-close fa-stack-1x red" ></i></span></a>	
+				</div>
+			</div>	<!--- completed rule_option block-->	
+		</div>
+	</div><!--- completed border block-->
+</div> <!--- completed data condtion-->
+					<!------------------- end of Gpatel --->

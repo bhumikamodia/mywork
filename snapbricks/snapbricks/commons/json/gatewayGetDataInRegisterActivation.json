@@ -1,0 +1,186 @@
+{
+	"gatewaysData": [ 
+				{
+				    "gatewayid":"1", 
+				    "gatewayname":"eI-IoT 1",
+
+				    "metadata":{
+				        "hardware":"Arduino",
+				        "mac": "345221",
+				        "os":"Linux"
+				        
+				       
+				    },
+				   
+				    "create_ts": "Nov 11,2016 2:44:54 PM",
+				    "modified_ts":"Nov 11,2016 3:44:54 PM",
+				    "last_event_time":"Nov 11,2016 2:45:54 PM",
+				    "status":"Disconnected",
+				    "ipaddress":"100.90.90.1,100.90.91.1,100.90.90.2",
+					"location":"AP"
+
+				},
+				{
+				    "gatewayid":"2", 
+				    "gatewayname":"eI-IoT 2",
+
+				    "metadata":{
+				        "hardware":"Raspeberry-Pi",
+				        "mac": "345223",
+				        "os":"Win 10"
+				    },
+				   
+				    "create_ts": "Nov 11,2016 2:44:54 PM",
+				    "modified_ts":"Nov 11,2016 3:44:54 PM",
+				    "last_event_time":"Nov 11,2016 2:45:54 PM",
+				    "status":"Disconnected",
+				    "ipaddress":"100.90.92.1,100.90.93.1,100.90.92.2",
+					"location":"NP"
+				   
+				},
+				{
+				    "gatewayid":"3", 
+				    "gatewayname":"eI-IoT 3",
+
+				    "metadata":{
+				        "hardware":"Arduino",
+				        "mac": "345223",
+				        "os":"Win 10"
+				    },
+				   
+				    "create_ts": "Nov 11,2016 2:44:54 PM",
+				    "modified_ts":"Nov 11,2016 3:44:54 PM",
+				    "last_event_time":"Nov 11,2016 2:45:54 PM",
+				    "status":"Connected",
+				    "ipaddress":"100.92.92.1,100.92.93.1,100.92.92.2",
+					"location":"MP"
+				   
+				},
+				{
+				    "gatewayid":"4", 
+				    "gatewayname":"eI-IoT 4",
+
+				    "metadata":{
+				        "hardware":"Raspeberry-Pi",
+				        "mac": "345227",
+				        "os":"Win 8"
+				    },
+				   
+				    "create_ts": "Nov 11,2016 2:44:54 PM",
+				    "modified_ts":"Nov 11,2016 3:44:54 PM",
+				    "last_event_time":"Nov 11,2016 2:45:54 PM",
+				    "status":"Connected",
+				    "ipaddress":"100.92.92.1,100.92.93.1,100.92.92.2",
+					"location":"AP"
+				   
+				},
+				{
+				    "gatewayid":"5", 
+				    "gatewayname":"eI-IoT 5",
+
+				    "metadata":{
+				        "hardware":"Arduino",
+				        "mac": "345227",
+				        "os":"Win 10"
+				    },
+				   
+				    "create_ts": "Nov 11,2016 2:44:54 PM",
+				    "modified_ts":"Nov 11,2016 3:44:54 PM",
+				    "last_event_time":"Nov 11,2016 2:45:54 PM",
+				    "status":"Connected",
+				    "ipaddress":"100.92.92.1,100.92.93.1,100.92.92.2",
+					"location":"MP"
+				   
+				},
+				{
+				    "gatewayid":"6", 
+				    "gatewayname":"eI-IoT 6",
+
+				    "metadata":{
+				        "hardware":"Arduino",
+				        "mac": "345228",
+				        "os":"Linux"
+				    },
+				   
+				    "create_ts": "Nov 11,2016 2:44:54 PM",
+				    "modified_ts":"Nov 11,2016 3:44:54 PM",
+				    "last_event_time":"Nov 11,2016 2:45:54 PM",
+				    "status":"Disconnected",
+				    "ipaddress":"100.11.92.1,100.11.93.1,100.11.92.2",
+					"location":"AP"
+				   
+				},
+				{
+				    "gatewayid":"7", 
+				    "gatewayname":"eI-IoT 7",
+
+				    "metadata":{
+				        "hardware":"Arduino",
+				        "mac": "345229",
+				        "os":"Win 10"
+				    },
+				   
+				    "create_ts": "Nov 11,2016 3:44:54 PM",
+				    "modified_ts":"Nov 11,2016 5:44:54 PM",
+				    "last_event_time":"Nov 11,2016 4:45:54 PM",
+				    "status":"Connected",
+				    "ipaddress":"100.11.92.1,100.11.93.1,100.11.92.2",
+					"location":"KP"
+				   
+				},
+				{
+				    "gatewayid":"8", 
+				    "gatewayname":"eI-IoT 8",
+
+				    "metadata":{
+				        "hardware":"Raspeberry-Pi",
+				        "mac": "345230",
+				        "os":"Linux"
+				    },
+				   
+				    "create_ts": "Nov 11,2016 3:44:54 PM",
+				    "modified_ts":"Nov 11,2016 5:44:54 PM",
+				    "last_event_time":"Nov 11,2016 4:45:54 PM",
+				    "status":"Disconnected",
+				    "ipaddress":"100.11.92.1,100.11.93.1,100.11.92.2",
+					"location":"MP"
+				   
+				},
+				{
+				    "gatewayid":"9", 
+				    "gatewayname":"Test",
+
+				    "metadata":{
+				        "hardware":"Raspeberry-Pi",
+				        "mac": "345230",
+				        "os":"Linux"
+				    },
+				   
+				    "create_ts": "Nov 11,2016 3:44:54 PM",
+				    "modified_ts":"Nov 11,2016 5:44:54 PM",
+				    "last_event_time":"Nov 11,2016 4:45:54 PM",
+				    "status":"Disconnected",
+				    "ipaddress":"100.11.92.1,100.11.93.1,100.11.92.2",
+					"location":"KP"
+				   
+				},
+				{
+				    "gatewayid":"10", 
+				    "gatewayname":"AaT",
+
+				    "metadata":{
+				        "hardware":"Raspeberry-Pi",
+				        "mac": "345231",
+				        "os":"Win 10"
+				    },
+				   
+				    "create_ts": "Nov 11,2016 3:44:54 PM",
+				    "modified_ts":"Nov 11,2016 5:44:54 PM",
+				    "last_event_time":"Nov 11,2016 4:45:54 PM",
+				    "status":"Disconnected",
+				    "ipaddress":"100.11.92.1,100.11.93.1,100.11.92.2",
+					"location":"NP"
+				   
+				}
+			]
+}

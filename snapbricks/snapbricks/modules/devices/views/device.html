@@ -1,0 +1,1385 @@
+<div class="row">
+	
+		<div ncy-breadcrumb></div>
+	
+</div>
+
+
+<div class="row" ng-controller="deviceCtrl">
+
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<ul class="nav nav-tabs font15">
+<!--<li class="active"><a data-toggle="tab" href="#device" ng-click="$event.preventDefault();"><i class="fa fa-table mr-right7"></i>Table</a></li>
+<!--<li><a data-toggle="tab" href="#map" ng-click="$event.preventDefault();"><i class="fa fa-map-marker mr-right7"></i>Map</a></li>-->
+		</ul>
+
+		<div class="tab-content">
+<div id="device" class="tab-pane fade in active">
+	<div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	 
+		<button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFunc();"><i class="fa fa-refresh"></i>Refresh</button>
+		<div class="dropdown display-inline">
+		<button type="button" class="btn btn-default btn-shadow border0 dropdown-toggle" data-toggle="dropdown">
+		<i class="fa fa-share-square-o"></i>Export<span class=""></span></button>
+		<ul class="dropdown-menu dropdown-export">
+			<li><a export-Excel attrname="deviceGrid" attrpageno="{{currentDevicePage}}"><i class="fa fa-file-excel-o mr-right7"></i>Export to Excel</a></li>
+			<li class="divider"></li>
+			<li><a export-Csv attrname="deviceGrid" attrpageno="{{currentDevicePage}}"><i class="fa fa-file-o mr-right7"></i>Export to CSV</a></li>
+		</ul>
+		</div>
+		<div style="display: inline-block;" tooltip-enable="selectedRowDevice.device_status!='NEW SENSOR'" uib-tooltip="Please Select Device" ><button ng-show="can('device_register')" type="button" class="btn btn-default btn-shadow border0"  ng-disabled="selectedRowDevice.device_status!='NEW SENSOR' " ng-click="deviceDeregister('register',selectedRowDevice)"><i class="fa fa-plus-circle"></i>Register</button></div>
+		
+		<div style="display: inline-block;" tooltip-enable="(selectedRowDevice.device_status != 'REGISTER' && selectedRowDevice.device_status != 'DEACTIVE')" uib-tooltip="Please Select Device" ><button ng-show="can('activate_device')" type="button" class="btn btn-default btn-shadow border0"  ng-disabled="(selectedRowDevice.device_status != 'REGISTER' && selectedRowDevice.device_status != 'DEACTIVE')" ng-click="deviceDeactivate('activate',selectedRowDevice)"><i class="fa fa-check-circle"></i>Activate</button></div>
+		
+		<!--<div style="display: inline-block;" tooltip-enable="!selectedRowDevice" uib-tooltip="Please Select Device" ><button ng-show="can('device_livedata')" type="buttton" class="btn btn-default btn-shadow border0" ng-disabled="!selectedRowDevice" ng-click="openLiveInfo(selectedRowDevice)"><i class="fa fa-line-chart"></i>Live</button></div>-->
+		
+		<!--<button ng-show="can('delete_device')" type="submit" class="btn btn-default btn-shadow border0"  id="btn_deregister"><i class="fa  fa-circle-o-notch"></i>Reboot</button>
+		<button ng-show="can('device_discovery')" type="submit" class="btn btn-default btn-shadow border0"  id="btn_deactivate"><i class="fa fa-empire"></i>Discover</button>-->
+		
+		<div style="display: inline-block;" tooltip-enable="(selectedRowDevice.device_status != 'ACTIVE') || selectedRowDevice.device_status == 'REGISTER'" uib-tooltip="Please Select Device" ><button ng-show="can('activate_device')" type="button" class="btn btn-default btn-shadow border0" ng-disabled="(selectedRowDevice.device_status != 'ACTIVE') || selectedRowDevice.device_status == 'REGISTER'" ng-click="deviceDeactivate('deactivate',selectedRowDevice);" id="btn_deactivate"><i class="fa fa-ban"></i>Deactivate</button></div>
+		<div style="display: inline-block;" tooltip-enable="(selectedRowDevice.device_status == 'NEW SENSOR' || selectedRowDevice.device_status == 'UNREGISTER' || !selectedRowDevice)" uib-tooltip="Please Select Device" ><button ng-show="can('device_register')" type="button" class="btn btn-default btn-shadow border0" ng-disabled="(selectedRowDevice.device_status == 'NEW SENSOR' || selectedRowDevice.device_status == 'UNREGISTER' || !selectedRowDevice)" ng-click="deviceDeregister('deregister',selectedRowDevice);" id="btn_deregister"><i class="fa fa-trash"></i>Deregister</button></div>
+		
+		
+
+		
+		<button type="button" class="btn btn-default btn-shadow border0" data-toggle="modal" data-target="#myAllRAML"><i class="fa fa-cubes"></i>Actions</button>
+		
+		<div style="display: inline-block;" tooltip-enable="!gatewayId" uib-tooltip="Please Select Device" ><button type="button" class="btn btn-default btn-shadow border0" ng-disabled="!gatewayId" ng-show="can('device_discovery')" ng-click="openDiscoverInfo(gatewayInfo)" id="discoverID"  ><i class="fa fa-search"></i>Discover</button></div>
+		
+		
+
+		<img ng-if="dataDeviceLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+		
+		<!--<span align="right"  style="float:right;padding-right: 5%;">
+		<label for="search">Search :</label>
+		
+		<input ng-model="searchGateway" id="searchGateway" ng-change="filterData()" style="width:150px;" placeholder="Search Gateway">
+	</span>-->
+	</div>
+	<!-- <a href="#" ng-click="sortType = 'last_event_time';sortReverse = !sortReverse;$event.preventDefault();"> <span ng-show="sortType == 'last_event_time'" class="fa" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span></a>-->
+	<div id="myAllRAML" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+		
+		<!-- Modal content-->
+		<div class="modal-content">
+		<div class="nav  gradient-bg modal-header" style="color:white;">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4 class="modal-title">Actions</h4>
+		</div>
+		  
+		  <div class="modal-body">
+			<p>
+				<form class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-lg-3" > Select App:</label>
+					<div class="col-lg-5">
+						<select class="form-control" id="appName" ng-model="appName" ng-init="appName=getAppnames[0].AppName" ng-options="gateway.AppName as gateway.AppName for gateway in getAppnames | filter:{AppType:'APP'}">
+						
+						</select>
+					</div>
+					<SPAN ng-if="dataLoadingActions" ><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></SPAN>
+				</div>
+				
+				</form>
+			</p>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" ng-click="deviceDeregisterAll(gatewayId,'REGISTER',appName)">Register All</button>
+			<button type="button" class="btn btn-default" ng-click="deviceDeactivateAll(gatewayInfo.id,'ACTIVATE',appName)">Activate All</button>
+			<button type="button" class="btn btn-default" ng-click="deviceDeactivateAll(gatewayInfo.id,'DEACTIVATE',appName)">Deactivate All</button>
+			<button type="button" class="btn btn-default" ng-click="deviceDeregisterAll(gatewayId,'DEREGISTER',appName)">Deregister All</button>
+			<button type="button" class="btn btn-default" ng-click="getAllRAMLFunc(gatewayId,appName,'GETRAML');">GET All RAML</button>
+			
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+	<div class="row">
+	<div id="deviceTable" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+		 <div >
+<table  class="table table-striped" id="deviceGrid">
+	<thead>
+		<tr>
+
+<th>Live</th>
+<th>Display Name</th>
+<th>Mac ID</th>
+<th>Gateway</th>
+<th>Gateway Manager</th>
+
+<th>Status</th>
+<th>Protocol</th>
+<th >Lookup  
+<script type="text/ng-template" id="modaldeviceVendorSelection.html" >
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+
+<div  id="vendor" role="dialog">
+<div  style="color:black;"  >
+<!-- Modal content-->
+<div class="modal-content ">
+<div id= "btn_group" class="nav navbar-fixed-top gradient-bg " style="color:white;">
+<button type="button" class="close" ng-click="clearVendorSelection();">&times;</button>
+
+<b>Lookup Selection</b> - &nbsp;  {{selectedRowDevice.displayname}}
+</div>
+<div class="modal-body">
+	<form class="form-horizontal mr-top40" id="form" name="form" >
+	 <div class="row">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+	 <table  class="table table-striped" id="softGatewayGrid"  >
+	 <tbody>
+		<tr>
+		<td class="col-lg-3 col-md-5 col-sm-5 col-xs-7">Vendor : </td>
+		<td><div ng-class="{ 'has-error': form.vendor.$dirty && form.vendor.$error.required }"><select name="vendor" id="vendor" class="form-control" ng-model="selVendor" ng-options="data.vendor as data.vendor for data in getDisplayVendorModelID | unique: 'vendor'" ng-change="funcGetModelid(selVendor,$index)">
+		<option value="">Select Vendor</option>
+		</select></div></td>
+		</tr>
+		<tr>
+		<td class="col-lg-3 col-md-5 col-sm-5 col-xs-7">Model ID : </td>
+		<td> <div ng-class="{ 'has-error': form.model.$dirty && form.model.$error.required }"><select class="form-control" ng-model="selModelId" name="model" id="model" ng-options="data.modelid as (data.modelid +' ('+ data.devicename+')') for data in getDisplayModelID[$index].data | unique: 'modelid'">
+		<option value="">Select ModelId</option>
+		</select></div></td>
+		</tr>
+		
+		
+	 </tbody>
+	</table>	
+	 </div>
+	 
+	 </div>
+	 <div class="form-group"> 
+	<div class="col-sm-offset-2 col-sm-6">
+	<button type="button"  ng-click="setDeviceVendorinfo(selVendor,selModelId,selectedRowDevice.id,selectedRowDevice.appid);" ng-disabled="!(selVendor.length>0 && selModelId.length>0);" class="btn btn-primary">Save Information</button>
+	<img ng-if="setDeviceVendorLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+	</div>
+	<br clear="all"/>
+	</div>	
+	</form> 
+	</div>
+	</div>
+
+</script>
+
+</th>
+
+<th><i >Control Panel</i>
+<script type="text/ng-template" id="modaldeviceControlPanel.html" >
+		<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+
+		<div  id="controlPanelResponsive" role="dialog">
+<div  style="color:black;"  >
+	<!-- Modal content-->
+	<div class="modal-content ">
+		<div id= "btn_group" class="nav  gradient-bg " style="color:white;">
+<button type="button" class="close" ng-click="clearControlPanel();">&times;</button>
+
+<b>Control Panel</b> -   {{selectedRowDevice.displayname}}
+
+
+		</div>
+
+		<div >
+
+<div class="modal-body" >
+
+	<!-- <div class="modal-body"> -->
+	<form name="form" class="form-horizontal ">
+
+		<div class="col-md-12" >
+<div class="mr-leftmin30 mr-rightmin30 panel panel-default" style="border-radius:0px;">
+	<div class="row outer">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+			<table  ng-if = "regPropsDefinitionArray.length==0 && !dataControlPanelLoading"  style="margin-left:4%;" class="col-md-10"  >
+				<tr >
+					<td ><div class="alert alert-danger" align="center">No Record Found.</div>
+					 
+					<div style="display: inline-block;font-size:20px;" align="right"  >
+					Please Get RAML First
+					<button type="button" class="btn btn-primary btn-shadow border0" ng-disabled="GETRAMLLOADING" tooltip-enable="regPropsDefinitionArray.length==0" uib-tooltip="Click here" ng-click="getRAMLFunc(selectedRowDevice,'GET');"><i class="fa fa-cubes"></i>Get RAML</button>
+					<SPAN ng-if="GETRAMLLOADING" ><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></SPAN>
+					</div>
+
+					</td>
+				</tr>
+			</table>
+			<SPAN ng-if="dataControlPanelLoading" ><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></SPAN>
+		</div>
+		
+		
+		<div class="col-md-2">
+		<div ng-if="regPropsDefinitionArray.length>0">
+     
+        
+		
+    
+	
+	<div class="list-group" >
+	  <a  class="list-group-item active">
+		Active Properies
+	  </a>
+	  <div  ng-class="activeFlag >=5?'deviceTableControlPanel':'';">
+	  <div ng-repeat="properties in regPropsDefinitionArray |filter:{properties:{status:'!InActive'}}"  ng-init="propertiesTestIndex = 'a'+$index;" style="cursor:pointer;" ng-click="setClickedRowProp(propertiesTestIndex)">
+		
+		<SPAN ng-if="$index ==0">
+		<a ng-init="setFlag('Active')" ng-class="$index == selectedRowProp?'list-group-item active_controlpanel':'list-group-item';" ng-click="toggleDeviceProperty(properties,propertiesTestIndex);refreshSlider();dataVideoStreaming();">{{properties.definitionName}}</a>
+	 
+		</SPAN>
+		<SPAN ng-if="$index !=0">
+		<a  ng-init="setFlag('Active')" class="list-group-item" ng-class="propertiesTestIndex == selectedRowProp?'list-group-item active_controlpanel':'list-group-item';" ng-click="toggleDeviceProperty(properties,propertiesTestIndex);refreshSlider();dataVideoStreaming();">{{properties.definitionName}}</a>
+		</SPAN>
+		
+		</div>
+		 <span ng-if="activeFlag==0 && flgActiveLoading == false" >
+            <strong>No Properties Found..</strong>
+        </span>
+		<span ng-if="flgActiveLoading" ><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></span>
+	  </div>
+	 
+	</div>
+	
+	<div class="list-group">
+	  <a  class="list-group-item active">
+		Inactive Properies
+	  </a>
+	   <div ng-class="inactiveFlag >=5?'deviceTableControlPanel':'';"   >
+	  <div ng-repeat="properties in regPropsDefinitionArray |filter:{properties:{status:'InActive'}}"  ng-init="propertiesTestIndex1 = 'i'+$index;dataCount= getCountProperties('InActive',properties.definitionName,regPropsDefinitionArray);" style="cursor:pointer;" ng-click="setClickedRowProp(propertiesTestIndex1)">
+		
+		<SPAN >
+		<a ng-init="setFlag('InActive')" class="list-group-item" ng-class="propertiesTestIndex1 == selectedRowProp?'list-group-item active_controlpanel':'list-group-item';" ng-click="toggleDeviceProperty(properties,propertiesTestIndex1);refreshSlider();dataVideoStreaming();">{{properties.definitionName}}</a>
+		</SPAN>
+		
+	  </div>
+	  <span ng-if="inactiveFlag==0 && flgInactiveLoading == false">
+           <strong >No Properties Found..</strong>
+        </span>
+		<span ng-if="flgInactiveLoading" ><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></span>
+	  </div>
+	  
+	</div>
+	
+</div>
+
+		</div>
+
+		<div class="col-md-9" style="margin-top: 5%;">
+<div ng-if = "regPropsDefinitionArray.length>0">
+	<table class="table table-striped pad0">
+
+		<tr  >
+
+
+<td> 
+	<div ng-repeat="properties in regPropsDefinitionArray" ng-class="{'selectedProp':$index == selectedRowProp}">
+
+		<div ng-show="(selectedRowProperty.Selected == true && regPropsDefinitionArray[$index]==selectedRowProperty)  " >
+<!-- aaaaaaaaaaaaaaaaa -->
+<table class="table table-striped pad0" ng-repeat="defName in properties.properties" ng-init="propIndex=$index">
+
+
+	<!-- <tr ng-if="defName.operations.indexof('get')!==-1 "> -->
+	<tr ng-if="checkForPostOperation(defName.operations)==false || checkForPostOperation(defName.operations)==true">
+
+		<td class="transforms" width="50%">{{defName.propertyName}} Reported Value 
+		</td>
+		<td width="50%">
+<div ng-repeat="(shadowKey,shadowValue) in shadowArray">
+	<div ng-if="shadowKey==defName.propertyName && shadowValue.reported_value!=undefined">
+		<p id="{{defName.propertyName+selectedRowProp}}">{{shadowValue.reported_value}} </p>
+	</div>
+	<div ng-if="shadowKey==defName.propertyName&&shadowValue.reported_value==undefined"><p id="{{defName.propertyName+selectedRowProp}}">NIL</p>
+	</div>
+</div>
+		</td> 
+
+	</tr>
+
+	<!-- <tr  ng-if="defName.operations.indexof('post')!==-1"> -->
+	<tr ng-if="checkForPostOperation(defName.operations)==true">
+
+        <td class="transforms" width="50%">
+{{defName.propertyName}}   Desired Value </td>
+<td width="50%">
+    <div ng-repeat="(shadowKey,shadowValue) in shadowArray" >
+        <div ng-if="shadowKey==defName.propertyName && shadowValue.desired_value.length!=0" id="propertyval">
+
+<!-- a-{{shadowValue.desired_value}} -->
+<span ng-repeat="desiredValue in shadowValue.desired_value" id="{{properties.definitionName}}">
+
+    <a style="cursor:pointer;" ng-click="getRequestJob(desiredValue.JOBID)" >{{desiredValue.value}}&nbsp;&nbsp;&nbsp;</a>
+    <!--  {{mydesiredValue}} -->
+</span>
+        </div>
+        
+
+        <div ng-if="shadowKey==defName.propertyName && (shadowValue.desired_value.length==0)" id="propertyval">
+NIL
+        </div>
+    </div>
+</td>
+        </tr>
+
+		<tr ng-if="defName.units!=undefined"><td class="transforms">Units </td>
+<td ng-if="defName.units!=undefined"> {{defName.units}} </td> 
+		</tr>
+		<tr>
+<td>
+<!-- {{defName.operations}} {{defName.type}} {{$index}}
+	{{defName.minimum}}   {{defName.maximum}} -->
+
+	<div  ng-init="defName.value==NaN?defName.value=0:defName.value=defName.value
+	;" >  
+
+
+	<div ng-repeat = "operation in defName.operations">
+
+		<div ng-if="operation =='get' && (defName.type == 'number' || defName.type == 'integer' || (defName.type == 'string' && defName.enum==null))">
+
+<!-- Value is: 27 -->
+
+<!-- 
+ <rzslider data-rz-slider-model="properties.reported_value" rz-slider-options="getSlider.options" 
+> 
+</rzslider>
+-->
+<!-- <input type="checkbox" id="chkDisabled" style="display:none" ng-model="getSlider.options.disabled"> -->
+</div>
+
+<div ng-if="operation =='get' && (defName.type == 'boolean')" >
+
+
+	<div style="pointer-events:none;">
+		<!-- <toggle ng-init="getToggelValue()" ng-model="on"  on={{defName.value}} off="off" onstyle="btn-success" offstyle="btn-danger">off</toggle>tttt -->
+	</div>
+
+
+
+</div>
+
+<div  ng-if="operation =='notify'">
+	Notify My Value Here 
+</div>
+
+<div ng-if="operation =='post'">
+<!-- {{defName.type}}
+-->
+<button type="button" ng-hide="editingProperty==true" ng-click="editingProperty=true " class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit"></span></button>
+
+<button style="float: right" type="button" ng-show="editingProperty" ng-click="editingProperty=false;" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+<div ng-if="editingProperty==true">
+	<div ng-if="operation =='post'" ng-class="{ 'has-error': form.textField.$dirty && (form.textField.$error.required || form.textField.$error.maxlength) }"> 
+
+		<SPAN ng-if="defName.enum.length >0 " >
+
+<select class="form-control" ng-model="defName.value" ng-change="onValueChange(defName.value,properties.properties[propIndex].propertyName)"  >
+	
+	<option ng-repeat="oper in defName.enum"  value="{{oper}}" >{{oper}}</option>
+</select>
+
+		</SPAN>
+
+		<!-- <SPAN ng-if="defName.type == 'number' || defName.type == 'integer' || (defName.type == 'string' && defName.enum == null)"> -->
+		<div  ng-if="(defName.type == 'number' || defName.type == 'integer') && (defName.maximum!=undefined &&defName.minimum!=undefined && defName.enum == null)" ng-init="propValue=checkSelectedValue(properties.properties[propIndex].propertyName);max=defName.maximum;min=defName.minimum" >
+<!-- {{defName}} -->
+<!-- <input type="range" ng-model="defName.value" /> -->
+<!-- {{propIndex}}{{properties.properties[propIndex].propertyName}} -->
+<!-- {{min}}-{{max}} -->
+<rzslider  data-rz-slider-model="propValue"  rz-slider-options="{floor:min,ceil:max,onChange:onValueChange(propValue,properties.properties[propIndex].propertyName)}" ></rzslider>
+
+<!-- <input type="{{propinputType}}" id="textField" name="textField" type="defName.type" ng-minlength="defName.minimum" ng-maxlength="defName.maximum" class="form-control"  ng-model="defName.value
+" required><span ng-show="form.textField.$dirty && (form.textField.$error.required)" class="help-block">Textbox is required</span><span ng-show="form.textField.$error.maxlength" class="help-block">Textbox Should between {{defName.minimum}} - {{defName.maximum}}</span>
+-->
+
+
+
+</div>
+
+<center>
+	<SPAN ng-if="defName.type =='boolean'">
+<div class="btn-group" data-toggle="buttons">
+		<label class="btn btn-default" ng-class="{'active':(defName.value == true)}" ng-click="onValueChange(true,properties.properties[propIndex].propertyName)" role="button" >
+<input name="propertyValue" name="propertyValue" ng-model="defName.value" ng-value="true" required type="radio">True
+		</label>
+		<label class="btn btn-default" ng-class="{'active':(defName.value == false)}" ng-click="onValueChange(false,properties.properties[propIndex].propertyName)" role="button" >
+<input name="propertyValue" name="propertyValue" ng-model="defName.value" ng-value="false" required type="radio">False
+		</label>
+		
+	</div>
+		
+		<!--<input type="radio" id="propertyValue" name="propertyValue"  ng-model="defName.value" ng-value="true"  ng-change="onValueChange(defName.value,properties.properties[propIndex].propertyName)"  required/> True &nbsp; &nbsp; &nbsp;
+		<input type="radio" id="propertyValue" name="propertyValue" ng-model="defName.value" ng-value="false" ng-change="onValueChange(defName.value,properties.properties[propIndex].propertyName)" required/> False-->
+	</SPAN>  </center>
+
+	<span ng-if="(defName.type == 'number' || defName.type == 'integer') && (defName.maximum==undefined &&defName.minimum==undefined && defName.enum == null)">
+
+		<input type="number" class="form-control" ng-model="propValue" ng-init="propValue=checkSelectedValue(properties.properties[propIndex].propertyName)" ng-change="onValueChange(propValue,properties.properties[propIndex].propertyName)"/>
+
+	</span>
+
+	<span ng-if="defName.type == 'string' && (defName.enum==undefined  && defName.enum == null)">
+
+		<input type="text" class="form-control" ng-model="propValue" ng-init="propValue=checkSelectedValue(properties.properties[propIndex].propertyName)" ng-change="onValueChange(propValue,properties.properties[propIndex].propertyName)"/>
+
+	</span>
+<!--<div style="width:300px;">	
+Reported Value: {{data.regproperties[$index].value}}<br>
+Units: {{operation.constrains.units}}
+</div>-->
+</div>	
+</div>
+</div>
+</div>
+<!-- <table class="table table-striped pad0" ng-if="defName.units!= null" >
+<tr><td class="transforms"> Units </td>
+<td> {{defName.units}} </td> 
+
+</tr>
+</table> -->		
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</div> -->
+</td>
+<td></td>
+</tr>
+<tr style="background-color:#FFF !important;"><td>&nbsp;</td><td></td></tr>
+<tr style="background-color:#FFF !important;">
+	<td colspan="11" class="mr-left130">
+	<span class="mr-left130" ng-if="defName.lock.indexOf('get')==-1">
+	<button type="button" ng-click="refreshProperties(defName.propertyName,selectedRowProperty,propertiesTestIndex);" ng-disabled="defName.operations.indexOf('get')==-1 || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">GET</button>
+</span>
+
+	<span class="mr-left130" ng-if="defName.lock.indexOf('get')!=-1">
+		<button  type="button" ng-disabled="defName.lock.indexOf('get')!=-1 || dataDeviceLoadingProperties" class="btn btn-danger" >GET <img class="img-lockAccess" src="assets/Images/lock_new.png"></button>
+	</span>	
+
+	<span ng-if="defName.lock.indexOf('write')==-1">
+
+		<button type="button" ng-click="setProperties(selectedRowProperty
+		,propertiesTestIndex);" ng-disabled=" defName.operations.indexOf('post')==-1 || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">POST</button> </span>
+
+
+		<span ng-if="defName.lock.indexOf('write')!=-1">
+<button  type="button" ng-disabled="defName.lock.indexOf('write')!=-1 || dataDeviceLoadingProperties" class="btn btn-danger">POST<img class="img-lockAccess" src="assets/Images/lock_new.png"></button>
+		</span>
+
+<span>
+
+		<button type="button"  ng-click="putBtn();"  ng-disabled=" true" id="btnCustomTest" class="btn btn-primary">PUT</button> </span>
+
+
+		
+
+
+		<span ng-if="defName.lock.indexOf('delete')==-1">
+
+		<button type="button"  ng-click="putBtn();"  ng-disabled=" defName.operations.indexOf('delete')==-1  || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">DELETE</button> </span>
+
+
+		<span ng-if="defName.lock.indexOf('delete')!=-1">
+<button  type="button" ng-disabled="defName.lock.indexOf('delete')!=-1 || dataDeviceLoadingProperties" class="btn btn-danger">DELETE <img class="img-lockAccess" src="assets/Images/lock_new.png"></button>
+		</span>
+
+	<span ng-if="defName.lock.indexOf('notify')==-1">
+
+		<button uib-tooltip="This is device initiated" type="button"  ng-click="deleteBtn();"  ng-disabled="defName.operations.indexOf('notify')==-1  || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">NOTIFY</button> </span>
+
+
+		<span ng-if="defName.lock.indexOf('notify')!=-1">
+<button  type="button" ng-disabled="defName.lock.indexOf('notify')!=-1 || dataDeviceLoadingProperties" class="btn btn-danger">NOTIFY <img class="img-lockAccess" src="assets/Images/lock_new.png"></button>
+		</span>
+				<img ng-if="dataDeviceLoadingProperties" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+	</td>
+</tr>
+<!---->
+</table>
+</center>
+<br>
+<br>
+</div>
+</div>
+</div>
+</td>
+</tr>
+
+
+</table>
+
+</div>
+
+<!--<div ng-if="vdoStreaming"><div id="vxg_media_player1" class="vxgplayer" url="{{vdo_rtsp_url}}"  aspect-ratio latency="{{vdo_latency}}" autostart controls avsync></div><div id="runtimePlayers"></div></div>-->
+
+</div></div></div>
+
+
+
+</div>
+
+
+</form>
+
+</div>
+</div>
+
+
+
+</div>
+</div>
+</div>
+
+
+
+
+</script>
+<script type="text/ng-template" id="dialog.html">
+
+<div  role="dialog">
+<div style="color:black;">
+<!-- Modal content-->
+<div class="modal-content ">
+<div id= "btn_group" class="nav navbar-fixed-top gradient-bg " style="color:white;">
+<button type="button" class="close" ng-click="clearmodel();">&times;</button>
+
+<b>JOB Details</b>
+</div>
+<div class="modal-body">
+	<form class="form-horizontal mr-top40" id="form" name="form" >
+	 <div class="row">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+	 <table  class="table table-striped" id="softGatewayGrid"  >
+	  <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+	 <tbody>
+		<tr>
+		<td>Job Request: </td>
+		<td  ng-repeat="(subpropKey,subpropValue) in jobDetails.job_request.subproperties">
+		<div ng-if="subpropValue.length>0" ng-repeat="(key,value) in subpropValue">
+		<div ng-if="key=jobid">{{value}}</div>
+		</div>
+		</td>
+		<td ng-if="jobDetails.job_request.properties.length>0" ng-repeat="prop in jobDetails.job_request.properties">{{prop}}</td>
+
+		</tr>
+		
+		<tr>
+		<td >Job Status: </td>
+		<td >{{jobDetails.job_status |lowercase}}</td>
+		
+		</tr>
+
+		<tr>
+		<td >Job Requested By: </td>
+		<td >{{jobDetails.requested_by.originator}} ({{jobDetails.requested_by.username}})</td>
+		
+		</tr>
+		<tr>
+		<td >-------{{createdAt}} -----</td>
+		<td >{{createdAt}}</td>
+		
+		</tr>
+		
+		
+	 </tbody>
+	</table>	
+	 </div>
+	 
+	 </div>
+
+	</form> 
+	</div>
+
+	</div>
+	</div>
+	</div>
+
+
+</script>
+</th>
+<th>
+<!--  -->
+<script>
+var addclass = 'color';
+var $cols = $('.divs.grad.col-lg-30').click(function(e) {
+    $cols.removeClass(addclass);
+    $(this).addClass(addclass);
+});
+</script>
+<i >History</i>
+<script type="text/ng-template" id="modaldeviceHistoryPanel.html">
+
+
+<div  id="controlPanelResponsive" role="dialog">
+
+<div  style="color:black;"  >
+<!-- Modal content-->
+<div class="modal-content ">
+<div id= "btn_group" class="nav  gradient-bg " style="color:white;">
+<button type="button" class="close" ng-click="clearControlPanel();">&times;</button>
+
+<b>{{selectedRowDevice.displayname}} Transaction History </b> 
+
+
+</div>
+
+
+<div class="modal-body" >
+
+<!-- <div class="modal-body"> -->
+<form name="form" class="form-horizontal ">
+
+
+  
+  <!-- <div class="col-md-2">
+   <div id="">
+   
+    <div class="list-group">
+	   <a  class="list-group-item active">
+		Transaction Detail
+	  </a>
+	  <div >
+	  
+	  <a style="cursor:pointer;" ng-class="showEvent == true?'list-group-item active_controlpanel':'list-group-item';" ng-click="toggleEvents(selectedRowDevice);">Events</a>
+	  <a style="cursor:pointer;" class="list-group-item" ng-class="showRequest == true?'list-group-item active_controlpanel':'list-group-item';" ng-click="toggleRequests(selectedRowDevice);">Blob</a>
+	  </div>
+	</div>
+   
+
+</div>
+
+	
+
+	</div>-->
+<div class="row">	
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+<table class="table table-striped ">
+<tbody>
+<tr>
+<td >
+
+<div id="Requests" ng-if="showRequest">
+<div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<div class="form-group">
+	
+	<div class="col-lg-4" >
+	<div  >Time : 
+	<select id="timeReq" name="time" class="form-control">
+		
+		<option selected="selected" value="Last_30_min">Last 30 Min</option>
+		<option value="Last_45_min">Last 45 Min</option>
+		<option value="Last_1_hour">Last 1 Hour</option>
+		<option value="Last_12_hour">Last 12 Hour</option>
+		<option value="Last_24_hour">Last 24 Hour</option>
+		<option value="Last_Week">Last Week</option>
+	</select>
+	</div>
+	</div>
+	<div class="col-lg-4" >
+	<div >&nbsp;</div>
+	<div >
+	<button id="btn_submit" ng-click="btnSubmitDataReq(selectedRowDevice.gateway.id,selectedRowDevice.id);" class = "btn btn-default">Search</button>
+	<SPAN id="dataLoadingGatewayLive" style="display:none;"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></SPAN>
+
+	</div>
+	
+	</div>
+
+</div>
+</div>
+<div class="row">
+
+<div id="" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+		 <div >
+		 <table id="requestmanagerGrid" class="table table-striped">
+	<thead>
+		<tr>
+<th style="width:5%;">Blob ID</th>
+<th style="width:20%;">Description</th>
+<th style="width:20%;">Status</th>
+<th style="width:20%;">Time</th>
+
+<!--<th style="width:10%;">Details</th>-->
+		</tr>
+	</thead>
+		<tbody >
+		<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowGroup($index,requestManager);" ng-repeat="requestManager in requestManagerData | limitTo:requestPerPage">
+                		<td><div >{{requestManager.request.id}}</div ></td>
+<td><div ng-if="requestManager.request.taskid =='1'">Activate Gateway</div >
+<div ng-if="requestManager.request.taskid =='2'">Discover Mount</div >
+<div ng-if="requestManager.request.taskid =='3'">Register Mount</div >
+<div ng-if="requestManager.request.taskid =='4'">Discover Thing</div >
+<div ng-if="requestManager.request.taskid =='5'">Register Thing</div >
+<div ng-if="requestManager.request.taskid =='6'">Activate Thing</div >
+<div ng-if="requestManager.request.taskid =='7'">Read Gateway Live</div >
+<div ng-if="requestManager.request.taskid =='9'">Read From Things</div >
+<div ng-if="requestManager.request.taskid =='11'">Stop Read Gateway Live</div >
+<div ng-if="requestManager.request.taskid =='13'">Deactivate Things</div >
+<div ng-if="requestManager.request.taskid =='14'">Deregister Thing</div >
+<div ng-if="requestManager.request.taskid =='15'">Deregister Mount</div >
+<div ng-if="requestManager.request.taskid =='16'">Deactivate Gateway</div >
+<div ng-if="requestManager.request.taskid =='17'">Config Gateway</div >
+<div ng-if="requestManager.request.taskid =='18'">Reboot Gateway</div >
+<div ng-if="requestManager.request.taskid =='20'">Live Data</div >
+<div ng-if="requestManager.request.taskid =='21'">Assign Gateway</div >
+<div ng-if="requestManager.request.taskid =='22'">Refresh Apps</div >
+<div ng-if="requestManager.request.taskid =='23'">End Apps</div >
+<div ng-if="requestManager.request.taskid =='24'">Restart Apps</div >
+<div ng-if="requestManager.request.taskid =='25'">Add Gateway Configuration</div >
+<div ng-if="requestManager.request.taskid =='26'">Edit Gateway Configuration</div >
+<div ng-if="requestManager.request.taskid =='27'">Refresh Gateway Configuration</div >
+<div ng-if="requestManager.request.taskid =='28'">Device Configuration</div >
+<div ng-if="requestManager.request.taskid =='29'">Refresh Package</div >
+<div ng-if="requestManager.request.taskid =='30'">Install New Package</div >
+<div ng-if="requestManager.request.taskid =='31'">Uninstall Package</div >
+<div ng-if="requestManager.request.taskid =='32'">Update Package</div >
+<div ng-if="requestManager.request.taskid =='33'">Start App</div >
+<div ng-if="requestManager.request.taskid =='34'">Restart App</div >
+<div ng-if="requestManager.request.taskid =='35'">Kill App</div >
+<div ng-if="requestManager.request.taskid =='36'">Refresh App</div >
+
+</td>
+                        <td><div >{{requestManager.request.status}}</div ></td>
+<td><div >{{requestManager.created_ts | utcToLocal:'dd-MM-yyyy hh:mm:ss'}}</div ></td>
+
+
+
+</td>
+<!--<td ><div ><a ng-disabled="requestManager.request.status!='COMPLETED'" ng-click="detailsManagerPage(requestManager.request.status,requestManager.request.resdata)"><i class="fa fa-file-text-o"></i></a></div></td>-->
+                    </tr>
+		<tr ng-if="dataLoadingRequestManager" class="alert alert-danger"><td colspan="5"><div align="center"><img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></div></td></tr>
+		<tr class="alert alert-danger" ng-if="requestManagerData.length == 0 || totalRequestItems ==0"><td colspan="12"><strong>No Record Found.</strong></td></tr>
+		</tbody>
+		</table>
+		 </div>
+		</div>
+		<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+		<div class="col-lg-12 blue-bg pad10">
+		<div class="col-lg-9">
+		<uib-pagination  total-items="totalRequestItems" ng-model="$parent.currentRequestPage" ng-change="pageChanged()" max-size="5" force-ellipses="true" items-per-page="requestPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+    boundary-links="true" num-pages="numPages"></uib-pagination>
+		
+	</div>
+	<div class="col-lg-3 text-right">Displaying {{currentRequestPage}} / {{numPages}} of {{numPages}}</div>
+	</div>
+		
+</div>	
+	</div>
+
+</div>
+
+
+
+
+</div>
+
+
+
+</td>
+</tr>
+</tbody>
+</table>
+	
+	</div>
+  </div>
+
+
+
+
+</form>
+</div>
+</div>
+</div>
+</div>
+</script>
+</th>
+
+
+<th>
+
+
+<i>Access control</i>
+
+
+</th>
+
+<!--<th>RAML</th>-->
+<th><!--  -->
+	<i class="fa fa-filter" data-toggle="modal" data-target="#myModalDevice" ></i>
+	<!-- Modal -->
+	<div class="modal fade" id="myModalDevice" role="dialog">
+		<div class="modal-dialog mr-top80">
+		  <!-- Modal content-->
+<div class="modal-content black-bg">
+	<div class="modal-header border0">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4 class="modal-title">Filter Devices</h4>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+<div class="form-group">
+	<label class="control-label col-lg-5" for="dname">Gateway:</label>
+	<div class="col-lg-5">
+	
+		<select class="form-control filter-control" id="gateway" ng-model="gateway" ng-init="gateway=gatewayId">
+<!--<option value="">All</option>-->
+<option ng-repeat="gateway in gateway_all | unique: 'gateway'" value="{{gateway.gateway.id}}">{{gateway.gateway.displayname}}
+		</select>
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-lg-5" for="gman">Gateway Manager:</label>
+	<div class="col-lg-5">
+	<select class="form-control filter-control" id="gmanSearch" ng-model="gmanSearch" ng-init="gmanSearch==''">
+<option value="">All</option>
+<option ng-repeat="gatewaymanagerlist in gatewaymanager_all | unique: 'gateway.gatewaymanager'" value="{{gatewaymanagerlist.gateway.gatewaymanager}}">{{gatewaymanagerlist.gateway.gatewaymanager_username}}
+		</select>
+		
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-lg-5" for="status">Status:</label>
+	<div class="col-lg-5">
+		<select class="form-control filter-control" id="statusSearch" ng-model="statusSearch" ng-init="statusSearch==''">
+<option value="">All</option>
+<option ng-repeat="gateway in gatewaystatus_all | unique: 'device_status'" value="{{gateway.device_status}}">{{gateway.device_status}}
+
+		</select>
+	</div>
+</div>
+
+<div class="form-group"> 
+	<div class="col-sm-offset-5 col-sm-5">
+		<button type="submit" ng-click="searchFeaturesSubmit();" data-dismiss='modal' class="btn btn-filter">Apply Filter</button>
+	</div>
+</div>
+		</form>
+	</div>
+</div>
+		</div>
+	</div>
+	
+	
+</th>
+
+
+</tr>
+</thead>
+<tbody >
+
+<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,device)"  ng-repeat="device in filtered = (deviceList | filter:expression | filter:expression3 || undefined) | limitTo:devicePerPage">
+
+
+<td><div uib-tooltip="Offline" tooltip-placement = "top" ng-if="device.connected==false"><div class="orange center-block"></div></div>
+<div uib-tooltip="Online" tooltip-placement = "top" ng-if="device.connected==true"><div class="green center-block"></div></div>
+</td>
+<td>
+<div style="cursor:pointer;">{{device.displayname}}</div>
+</td>
+<td><div>{{device.macid}}</div></td>
+<td><div>{{device.gateway.displayname}}</div></td>
+<td><div>{{device.gateway.gatewaymanager_username}}</div></td>
+
+
+<td><div>{{device.device_status}}</div></td>
+<td><div >{{device.protocol}}</div>
+
+</td>
+<td><div ng-if="device.protocol=='MODBUS' || device.protocol=='ZWAVE'"><a ng-click="selectedVendorSelection(device)" >View</a></div>
+<div ng-if="device.protocol!='MODBUS' && device.protocol!='ZWAVE'"><a  >-</a></div>
+</td>
+
+<td><div ng-if="device.device_status=='ACTIVE'"><a  ng-click="selectedControlPanel(device)" >View</a></div>
+<div ng-if="device.device_status!='ACTIVE'"><a  uib-tooltip="Please Activate Device"> -</a></div></td> 
+
+
+
+
+<td><div ng-if="device.device_status=='ACTIVE'"><a ng-click="selectedHistoryPanel(device)" >View</a></div>
+<div ng-if="device.device_status!='ACTIVE'"><a  uib-tooltip="Please Activate Device"> -</a></div></td>
+
+
+<td><div ng-if="device.device_status=='ACTIVE'"><a ng-click="selectedPropertiesPanel(device)">View</a></div>
+<div ng-if="device.device_status!='ACTIVE'"><a  uib-tooltip="Please Activate Device"> -</a></div></td>
+
+
+
+<!--<td><div ng-if="device.device_status=='ACTIVE'"><a ng-click="selectedDeviceProperties(device)" >View</a></div>
+<div ng-if="device.device_status!='ACTIVE'"><a  uib-tooltip="Please Activate Device"> -</a></div>
+</td>-->
+
+
+
+<!--<td><a  class="pointer" ng-click="openRAMLGenerator(device)" ><div>View</div></a></td>-->
+<td></td>
+ 
+</tr>
+<tr ng-if="dataLoading" ><td colspan="14"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+<tr class="alert alert-danger" ng-if="totalItems ==0 && !dataLoading"><td colspan="13"><strong>No Record Found.</strong></td></tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+<div class="col-lg-12 blue-bg pad10">
+<div class="col-lg-9">
+<uib-pagination  total-items="totalItems" ng-model="currentDevicePage" ng-change="pageChanged()" max-size="5" force-ellipses="true" items-per-page="devicePerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+boundary-links="true" num-pages="numPages"></uib-pagination>
+
+</div>
+<div class="col-lg-3 text-right">Displaying {{currentDevicePage}} / {{numPages}} of {{numPages}}</div>
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+</div>
+<!--<div id="map" class="tab-pane fade">
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10">
+<iframe src="map.html" scrolling="no" style="width: 1300px; height: 600px;"  frameborder="0"></iframe> 
+</div>
+</div>	
+</div>-->
+</div>
+</div>
+</div>
+
+
+<script type="text/ng-template" id="modalPropertiesPanel.html">
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css">
+
+<div class="modal-content">
+
+<div class="nav gradient-bg modal-header" style="color: white;">
+	<button type="button" class="close" ng-click="cleardeviceProperties();">&times;</button>
+	<b class="modal-title">Device Access control- {{dispname}}</b>
+</div>
+
+
+<div class="row">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive border0 ">
+		<div class="modal-body"> 
+		<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+<form id="btn_group" class="form-horizontal mr-topmin20"  >
+
+<button class="mr-topmin10 btn btn-default btn-shadow border0 fa fa-save"  ng-click="updatePropertyLock(deviceId)"> Save</button>
+<button class="mr-topmin10 btn btn-default btn-shadow border0 fa fa-times"   ng-click="cleardeviceProperties()" > Close<!-- {{accessArray}}  --></button>
+<img ng-if="propertyAccessLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+
+
+</form>
+
+
+
+
+<form class="form-horizontal pad-top10 pad-bottom10" >
+
+<table class="table  table-striped pad0">
+<thead>
+<th>Property</th>
+<th>Status</th>
+<th>READ</th>
+<th>WRITE</th>
+<th>DELETE</th>
+<th>NOTIFY</th>
+</thead>
+
+
+<tbody ng-repeat="proAccess in resData.properties" ng-init="checkCombineProperty(proAccess)">
+
+
+	<tr ng-repeat="property  in proAccess.properties">
+		<td>{{proAccess.definitionName}} 
+
+</td>
+<td>
+	 <md-switch ng-model="property.status" aria-label="Active / InActive" ng-change="funcPropStatus(property.status,proAccess.definitionName,resData.properties)" ng-true-value="'Active'" ng-false-value="'InActive'" class="md-primary" style="margin-top:-4px;" >
+     {{ proAccess.status }}
+  </md-switch>
+</td>
+
+<td >
+
+<span ng-show="property.operations.indexOf('get')==-1" >
+
+<i class="fa fa-close"></i>
+</span>
+
+<span ng-show="property.operations.indexOf('get')!=-1">
+
+
+	<SPAN ng-show="property.status =='Active'">
+	<div  ng-class="(property.lock.length ==0) || (property.lock.indexOf('get') == -1)? 'div-block' : 'div-none'">
+		<i class="fa fa-unlock" style="font-size:30px;color:green" aria-hidden="true" ng-click="pushMethods(property.lock,'get',proAccess.definitionName,resData.properties);"></i>
+	
+    </div>
+   
+    <div  ng-class="property.lock.length !=0 && property.lock.indexOf('get') != -1? 'div-block' : 'div-none'" >
+		<i class="fa fa-lock" style="font-size:30px;color:red" aria-hidden="true" ng-click="popMethods(property.lock,'get',proAccess.definitionName,resData.properties);"></i>
+
+    </div>
+	</SPAN>
+	<SPAN ng-if="property.status =='InActive'">
+	<div  ng-class="(property.lock.length ==0) || (property.lock.indexOf('get') == -1)? 'div-block' : 'div-none'">
+		<i class="fa fa-unlock" style="font-size:30px;color:grey" aria-hidden="true" ></i>
+		
+    </div>
+   
+    <div  ng-class="property.lock.length !=0 && property.lock.indexOf('get') != -1? 'div-block' : 'div-none'" >
+		<i class="fa fa-lock" style="font-size:30px;color:grey" aria-hidden="true" ></i>
+	
+    </div>
+	</SPAN>
+
+
+
+</span>
+
+
+</td>
+
+<td >
+
+<span ng-show="property.operations.indexOf('post')==-1 && property.operations.indexOf('put')==-1 " >
+
+<i class="fa fa-close"></i>
+</span>
+
+<span ng-show="property.operations.indexOf('post')!=-1 ||property.operations.indexOf('put')!=-1">
+
+
+	<SPAN ng-show="property.status =='Active'">
+	<div  ng-class="(property.lock.length ==0) || (property.lock.indexOf('write') == -1)? 'div-block' : 'div-none'">
+		<i class="fa fa-unlock" style="font-size:30px;color:green" aria-hidden="true" ng-click="pushMethods(property.lock,'write',proAccess.definitionName,resData.properties);"></i>
+	
+    </div>
+   
+    <div  ng-class="property.lock.length !=0 && property.lock.indexOf('write') != -1? 'div-block' : 'div-none'" >
+		<i class="fa fa-lock" style="font-size:30px;color:red" aria-hidden="true" ng-click="popMethods(property.lock,'write',proAccess.definitionName,resData.properties);"></i>
+
+    </div>
+	</SPAN>
+	<SPAN ng-if="property.status =='InActive'">
+	<div  ng-class="(property.lock.length ==0) || (property.lock.indexOf('write') == -1)? 'div-block' : 'div-none'">
+		<i class="fa fa-unlock" style="font-size:30px;color:grey" aria-hidden="true" ></i>
+		
+    </div>
+   
+    <div  ng-class="property.lock.length !=0 && property.lock.indexOf('write') != -1? 'div-block' : 'div-none'" >
+		<i class="fa fa-lock" style="font-size:30px;color:grey" aria-hidden="true" ></i>
+	
+    </div>
+	</SPAN>
+
+
+
+</span>
+
+
+</td>
+<td >
+
+<span ng-show="property.operations.indexOf('delete')==-1" >
+
+<i class="fa fa-close"></i>
+</span>
+
+<span ng-show="property.operations.indexOf('delete')!=-1 ">
+
+
+	<SPAN ng-show="property.status =='Active'">
+	<div  ng-class="(property.lock.length ==0) || (property.lock.indexOf('delete') == -1)? 'div-block' : 'div-none'">
+		<i class="fa fa-unlock" style="font-size:30px;color:green" aria-hidden="true" ng-click="pushMethods(property.lock,'delete',proAccess.definitionName,resData.properties);"></i>
+	
+    </div>
+   
+    <div  ng-class="property.lock.length !=0 && property.lock.indexOf('delete') != -1? 'div-block' : 'div-none'" >
+		<i class="fa fa-lock" style="font-size:30px;color:red" aria-hidden="true" ng-click="popMethods(property.lock,'delete',proAccess.definitionName,resData.properties);"></i>
+
+    </div>
+	</SPAN>
+	<SPAN ng-if="property.status =='InActive'">
+	<div  ng-class="(property.lock.length ==0) || (property.lock.indexOf('delete') == -1)? 'div-block' : 'div-none'">
+		<i class="fa fa-unlock" style="font-size:30px;color:grey" aria-hidden="true" ></i>
+		
+    </div>
+   
+    <div  ng-class="property.lock.length !=0 && property.lock.indexOf('delete') != -1? 'div-block' : 'div-none'" >
+		<i class="fa fa-lock" style="font-size:30px;color:grey" aria-hidden="true" ></i>
+	
+    </div>
+	</SPAN>
+
+
+
+</span>
+
+
+</td>
+<td >
+
+<span ng-show="property.operations.indexOf('notify')==-1" >
+
+<i class="fa fa-close"></i>
+</span>
+
+<span ng-show="property.operations.indexOf('notify')!=-1 ">
+
+
+	<SPAN ng-show="property.status =='Active'">
+	<div  ng-class="(property.lock.length ==0) || (property.lock.indexOf('notify') == -1)? 'div-block' : 'div-none'">
+		<i class="fa fa-unlock" style="font-size:30px;color:green" aria-hidden="true" ng-click="pushMethods(property.lock,'notify',proAccess.definitionName,resData.properties);"></i>
+	
+    </div>
+   
+    <div  ng-class="property.lock.length !=0 && property.lock.indexOf('notify') != -1? 'div-block' : 'div-none'" >
+		<i class="fa fa-lock" style="font-size:30px;color:red" aria-hidden="true" ng-click="popMethods(property.lock,'notify',proAccess.definitionName,resData.properties);"></i>
+
+    </div>
+	</SPAN>
+	<SPAN ng-if="property.status =='InActive'">
+	<div  ng-class="(property.lock.length ==0) || (property.lock.indexOf('notify') == -1)? 'div-block' : 'div-none'">
+		<i class="fa fa-unlock" style="font-size:30px;color:grey" aria-hidden="true" ></i>
+		
+    </div>
+   
+    <div  ng-class="property.lock.length !=0 && property.lock.indexOf('notify') != -1? 'div-block' : 'div-none'" >
+		<i class="fa fa-lock" style="font-size:30px;color:grey" aria-hidden="true" ></i>
+	
+    </div>
+	</SPAN>
+
+
+
+</span>
+
+
+</td>
+	</tr>
+</tbody>
+
+
+</table>
+
+
+</form>
+
+
+
+
+
+
+
+</div>
+</div></div>
+
+</div>
+</div> 
+
+</script>
+
+
+
+
+
+
+
+<script type="text/ng-template" id="modalDeviceProperties.html">
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+
+<div class="modal-dialog mr-top10 modal-lg">
+<!-- Modal content-->
+<div class="modal-content">
+
+<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+<button type="button" class="close" ng-click="cleardeviceProperties();">&times;</button>
+
+<b class="modal-title">Select Device Properties</b>
+</div>
+<div class="modal-body">
+<form class="form-horizontal mr-top40" >
+
+<table id="totalProperties" class="table table-striped" >
+<thead>
+<tr>
+<!-- <th><div class="checkbox checkbox-primary"><input type="checkbox" ng-model="selectedAll"  ng-click="checkAll(selectedAll)"/><label for="selectedAll"></label></div> </th> -->
+<th >Property Name</th>
+<th >Actions</th>
+</tr>
+</thead>
+
+
+<tbody >
+
+
+
+<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,property)" ng-repeat="property in propertyList1 ">  
+
+
+<!-- <td> <div class="checkbox checkbox-primary">
+
+<input type="checkbox" ng-model="property.propertySelected" ng-change="checkStatus(property);"/><label for="property.propertySelected"></label></div></td> -->
+<td>{{property.definitionName}}  </td>     
+
+<td>
+<select ng-model="property.type" class="form-control">
+<option value="EVENT">Events</option>
+<option value="CONTINUOUS">Continuous</option>
+<option value="NOTIFICATION">Notifications</option>
+</select>
+
+</td>
+
+</tr>
+<tr class="alert alert-danger" ng-if="(propertyList1.length == 0 || totalpropertyListItems ==0)"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+</tbody>
+</table>
+
+<br clear="all"><br clear="all">
+<button type="button" class="btn btn_act" ng-click="savedeviceProperties(propertyList1,property.type);">Save</button>
+<button type="button" class="btn btn_act" ng-click="cleardeviceProperties();">Clear</button>
+</form>
+</div>
+</div>
+</div>
+
+</script>
+
+
+
+
+
+<script type="text/ng-template" id="jobdialog.html">
+
+<div  role="dialog">
+<div style="color:black;">
+<!-- Modal content-->
+<div class="modal-content ">
+<div id= "btn_group" class="nav navbar-fixed-top gradient-bg " style="color:white;">
+<button type="button" class="close" ng-click="clearmodel();">&times;</button>
+
+<b>JOB Details</b>
+</div>
+<div class="modal-body">
+	<form class="form-horizontal mr-top40" id="form" name="form" >
+	 <div class="row">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+	 <table  class="table table-striped" id="softGatewayGrid"  >
+	  <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+	 <tbody>
+		<tr>
+		<td>Job Request: </td>
+		<td  ng-repeat="(subpropKey,subpropValue) in jobDetails.job_request.subproperties">
+		<div ng-if="subpropValue.length>0" ng-repeat="(key,value) in subpropValue">
+		<div ng-if="key=jobid">{{value}}</div>
+		</div>
+		</td>
+		<td ng-if="jobDetails.job_request.properties.length>0" ng-repeat="prop in jobDetails.job_request.properties">{{prop}}</td>
+
+		</tr>
+		
+		<tr>
+		<td >Job Status: </td>
+		<td >{{jobDetails.job_status |lowercase}}</td>
+		
+		</tr>
+
+		<tr>
+		<td >Job Requested By: </td>
+		<td >{{jobDetails.requested_by.originator}} ({{jobDetails.requested_by.username}})</td>
+		
+		</tr>
+		<tr>
+		<td >Created At</td>
+		<td >{{createdAt}}</td>
+		
+		</tr>
+		
+		
+	 </tbody>
+	</table>	
+	 </div>
+	 
+	 </div>
+
+	</form> 
+	</div>
+
+	</div>
+	</div>
+	</div>
+
+
+</script>
+<script type="text/ng-template" id="GetRAMLResponseContent.html">
+<div  role="dialog">
+<div style="color:black;">
+<!-- Modal content-->
+<div class="modal-content ">
+<div id= "btn_group" class="nav navbar-fixed-top gradient-bg " style="color:white;">
+<button type="button" class="close" ng-click="clearmodel();">&times;</button>
+
+<b>Get All RAML Response</b>
+</div>
+<div class="modal-body">
+	<form class="form-horizontal mr-top40" id="form" name="form" >
+	 <div class="row">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 mr-top20 border0">
+	 <h3>{{getAllRAMLObject[0].consumer_message}}</h3>
+	  <table  class="table table-striped" id="softGatewayGrid" ng-if="getAllRAMLObject[0].config_panel_object.length>0"  >
+	  <thead>
+		<tr>
+		<td colspan="2"><b>Configure Panel</b></td>
+		</tr>
+		<tr>
+			<th >Definition Name</th>
+			<th> Properties </th>
+			
+		</tr>
+	  </thead>
+	 <tbody>
+		<tr ng-repeat="config in getAllRAMLObject[0].config_panel_object">
+		<td>{{config.definitionName}}</td>
+		<td>{{config.properties}}</td>
+		</tr>
+	 </tbody>
+     </table>	 
+	  <table  class="table table-striped" id="softGatewayGrid" ng-if="getAllRAMLObject[0].control_panel_object.length>0" >
+	  <thead>
+		<tr>
+		<td colspan="2"><b>Control Panel</b></td>
+		</tr>
+		<tr>
+			<th >Definition Name</th>
+			<th> Properties </th>
+			
+		</tr>
+	  </thead>
+	 <tbody>
+		<tr ng-repeat="config in getAllRAMLObject[0].control_panel_object">
+		<td>{{config.definitionName}}</td>
+		<td>{{config.properties}}</td>
+		</tr>
+	 </tbody>
+     </table>
+	 
+	 </div>
+	 </div>
+	</form>
+</div>
+</div>	
+</div>
+</div>			
+</script>

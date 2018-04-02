@@ -1,0 +1,141 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<div class="row">
+<div >
+
+<div ncy-breadcrumb></div>
+
+</div>	
+
+</div>
+<div class="row" id="home">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+<div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20">
+<button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFunc();"><i class="fa fa-refresh"></i>Refresh</button>
+<div class="dropdown display-inline">
+<button type="button" class="btn btn-default btn-shadow border0 dropdown-toggle" data-toggle="dropdown">
+<i class="fa fa-share-square-o"></i>Export<span class=""></span></button>
+<ul class="dropdown-menu dropdown-export">
+<li><a  export-Excel attrname="usersGrid" attrpageno="{{currentuserPage}}"><i class="fa fa-file-excel-o mr-right7"></i>Export to Excel</a></li>
+<li class="divider"></li>
+<li><a  export-Csv attrname="usersGrid" attrpageno="{{currentuserPage}}"><i class="fa fa-file-o mr-right7"></i>Export to CSV</a></li>
+
+</ul>
+</div>
+<button ng-show="can('create_user')" type="button" class="btn btn-default btn-shadow border0" ng-click="create()"><i class="fa fa-plus-circle"></i>Add User</button>
+<div style="display: inline-block;" tooltip-enable="!(arrCheckboxSelection.length>0)" uib-tooltip="Please Select User" tooltip-placement = "top" ><button ng-show="can('activate_users')" type="button" class="btn btn-default btn-shadow border0" ng-disabled="!(arrCheckboxSelection.length>0)" ng-click="openInfo('activate',filtered,'',$event)"><i class="fa fa-check-circle"></i>Activate</button></div>
+<div style="display: inline-block;" tooltip-enable="!(arrCheckboxSelection.length>0)" uib-tooltip="Please Select User" tooltip-placement = "top" ><button ng-show="can('deactivate_users')" id="btn_deactivate" type="button" class="btn btn-default btn-shadow border0" ng-disabled="!(arrCheckboxSelection.length>0)" ng-click="openInfo('deactivate',filtered,'',$event)"><i class="fa fa-ban"></i>Deactivate</button></div>
+<div style="display: inline-block;" tooltip-enable="!(arrCheckboxSelection.length>0)" uib-tooltip="Please Select User" tooltip-placement = "top" ><button ng-show="can('destroy_user')" id="btn_deactivate" type="button" class="btn btn-default btn-shadow border0" ng-disabled="!(arrCheckboxSelection.length>0)" ng-click="openInfo('delete',filtered,'',$event)"><i class="fa fa-trash-o"></i>Delete</button></div>
+
+</div>
+</div>
+<div id="deviceTable" >					
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+<table id="usersGrid" class="table table-striped">
+<thead>
+
+<tr>
+
+<th>
+<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAll" ng-click="checkAll(selectedAll)" /> <label></label></span> 
+</th>
+
+
+
+<!--<th ><SPAN class="checkbox checkbox-primary"><input type="checkbox" ng-model="selectedAll"  ng-click="checkAll(selectedAll)"/><label>&nbsp;</label></SPAN></th>-->
+<th >User Name</th>
+<th >First Name</th>
+<th >Last Name</th>
+<th >Email</th>
+<th >Designation</th>
+<th >Created On</th>
+<th >Status</th>
+<th ng-show="can('retrieve_user')">Edit </th>
+<th ng-show="can('destroy_user')">Delete </th>
+<th >
+<i class="fa fa-filter" data-toggle="modal" data-target="#myModal" ></i>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+<div class="modal-dialog mr-top80">
+<!-- Modal content-->
+<div class="modal-content black-bg">
+<div class="modal-header border0">
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+<h4 class="modal-title">Filter Users</h4>
+</div>
+
+<div class="modal-body">
+<form class="form-horizontal">
+<div class="form-group">
+<label class="control-label col-lg-5" for="uname">Username:</label>
+<div class="col-lg-5">
+<input type="text" class="form-control search-input filter-control" id="unameSearch" ng-model="unameSearch" ng-keyup="completeUnameSearch()" placeholder="Type User Name">
+
+</div>
+</div>
+
+<div class="form-group">
+<label class="control-label col-lg-5" for="designation">Designation:</label>
+<div class="col-lg-5">
+<select class="form-control filter-control" id="designationSearch" ng-model="designationSearch" ng-init="designationSearch==''">
+<option value="">All</option>
+<option ng-repeat="designation in designation_all | unique:'designation'" value="{{designation.designation}}">{{designation.designation}}
+</option>
+
+</select>
+</div>
+</div>
+
+<div class="form-group"> 
+<div class="col-sm-offset-5 col-sm-5">
+<button type="submit" ng-click="searchFeaturesSubmit();" data-dismiss='modal' class="btn btn-filter">Apply Filter</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</th>
+</tr>
+</thead>
+<tbody >
+
+<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,user)" ng-repeat="user in filtered = (userList || undefined) | orderBy:sortType:sortReverse | limitTo:userPerPage">
+
+<td><SPAN class="checkbox checkbox-primary">
+<input type="checkbox" ng-model="user.userSelected" ng-change="checkStatus(user);"  /><label for="user.userSelected"></label></SPAN>
+</td>
+<td>{{user.username}}</td>
+<td>{{user.firstname}}</td>
+<td>{{user.lastname}}</td>
+<td>{{user.email}}</td>
+<td><div >{{user.designation}}</div></td>
+<td><div>{{user.createdts | date:'dd-MM-yyyy hh:mm:ss'}}</div></td>
+<td><div ng-if="user.is_active==true" uib-tooltip="Activate" tooltip-placement = "top"><div class="green center-block"></div></div>
+<div ng-if="user.is_active==false" uib-tooltip="Deactivate" tooltip-placement = "top"><div class="orange center-block"></div></div>
+</td>
+<td ng-show="can('retrieve_user')"><div><a ng-click="create(user)"><i class="fa fa-edit"></i></a></div></td>
+
+<td ng-show="can('destroy_user')"><div><a ng-click="openInfo('delete',filtered,user.id,$event)" id="btn_deactivate"><i  class="fa fa-trash"></i></a></div></td>
+<td><div></div></td>
+</tr>
+<tr ng-if="datausersLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+<tr class="alert alert-danger" ng-if="(filtered.length == 0 || totaluserItems ==0) && !datausersLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+</tbody>
+</table>			
+</div>
+<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(filtered).length">
+<div class="col-lg-12 blue-bg pad10">
+<div class="col-lg-9">
+
+<uib-pagination  total-items="totaluserItems" ng-model="currentuserPage" ng-change="pageChanged()" items-per-page="userPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+boundary-links="true" num-pages="numPages"></uib-pagination>
+
+</div>
+<div class="col-lg-3 text-right">Displaying {{currentuserPage}} / {{numPages}} of {{numPages}}</div>
+</div>
+
+</div>
+</div>
+</div>

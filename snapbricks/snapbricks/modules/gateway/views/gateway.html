@@ -1,0 +1,187 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<div class="row">
+	
+		<div ncy-breadcrumb></div>
+	
+</div>
+<div class="row" >
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<!--<ul class="nav nav-tabs font15">
+<li class="active"><a data-toggle="tab" href="#home" ng-click="$event.preventDefault();"><i class="fa fa-table mr-right7"></i>Table</a></li>
+<li><a data-toggle="tab" href="#map" ng-click="$event.preventDefault();"><i class="fa fa-map-marker mr-right7"></i>Map</a></li>
+		</ul>-->
+ <div ng-cloak>
+  <md-content>
+    <md-tabs md-dynamic-height md-border-bottom >
+      <md-tab label="Gateways" ng-click="$event.preventDefault();">
+        <md-content id="home" class="md-padding">
+		 <hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+		<div id="btn_group" class="mr-topmin20" >
+		<button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFunc();"><i class="fa fa-refresh"></i>Refresh</button>
+		<!--<button type="button" class="btn btn-default btn-shadow border0" ng-show="can('retrieve_gatewayassignee')" ng-click="openRegisterInfo('register',selectedRowGateway)"><i class="fa fa-plus-circle"></i>Register</button>
+		<button type="button" class="btn btn-default btn-shadow border0" ng-show="can('activate_gateway')" ng-click="openRegisterInfo('activation',selectedRowGateway)"><i class="fa fa-check-circle"></i>Activate</button>-->
+
+		<div class="dropdown display-inline">
+		<button type="button" class="btn btn-default btn-shadow border0 dropdown-toggle" data-toggle="dropdown">
+<i class="fa fa-share-square-o"></i>Export<span class=""></span></button>
+<ul class="dropdown-menu dropdown-export">
+	<li><a  export-Excel attrname="gatewayGrid" attrpageno="{{currentGatewayPage}}"><i class="fa fa-file-excel-o mr-right7"></i>Export to Excel</a></li>
+	<li class="divider"></li>
+	<li><a  export-Csv attrname="gatewayGrid" attrpageno="{{currentGatewayPage}}"><i class="fa fa-file-o mr-right7"></i>Export to CSV</a></li>
+	
+</ul>
+		</div>
+		<div style="display: inline-block;" tooltip-enable="!selectedRowGateway" uib-tooltip="Please Select Gateway" ><button type="button" class="btn btn-default btn-shadow border0" ng-disabled="!selectedRowGateway" ng-show="can('list_devices')" ng-click="openDeviceInfo(selectedRowGateway)"   ><i class="fa fa-desktop"></i>Devices</button></div>
+		<!--<div style="display: inline-block;" tooltip-enable="!selectedRowGateway" uib-tooltip="Please Select Gateway" ><button type="button" class="btn btn-default btn-shadow border0" ng-disabled="!selectedRowGateway" ng-show="can('device_discovery')" ng-click="openDiscoverInfo(selectedRowGateway)" id="discoverID"  ><i class="fa fa-search"></i>Discover</button></div>-->
+		<div style="display: inline-block;" tooltip-enable="!selectedRowGateway" uib-tooltip="Please Select Gateway" ><button type="button" class="btn btn-default btn-shadow border0" ng-disabled="!selectedRowGateway" ng-show="can('reboot_gateway')" ng-click="rebootGateway(selectedRowGateway,'REBOOT_GATEWAY')" id="btn_deregister"><i class="fa fa-circle-o-notch"></i>Reboot</button></div>
+		<div style="display: inline-block;" tooltip-enable="!selectedRowGateway" uib-tooltip="Please Select Gateway" ><button type="button" class="btn btn-default btn-shadow border0" ng-disabled="!selectedRowGateway"  ng-click="rebootGateway(selectedRowGateway,'TURNOFF_GATEWAY')" id="btn_deregister"><i class="fa fa-power-off"></i>Turn Off</button></div>
+		<!--<button type="button" class="btn btn-default btn-shadow border0" ng-show="can('retrieve_gatewayassignee')" ng-click="openRegisterInfo('deregister',selectedRowGateway)" id="btn_deregister"><i class="fa fa-minus-circle"></i>Deregister</button>
+		<button type="button" class="btn btn-default btn-shadow border0" ng-show="can('activate_gateway')" ng-click="openRegisterInfo('deactivate',selectedRowGateway)" id="btn_deactivate"><i class="fa fa-ban"></i>Deactivate</button>-->
+		<div style="display: inline-block;" tooltip-enable="!selectedRowGateway" uib-tooltip="Please Select Gateway" ><button  type="button" class="btn btn-default btn-shadow border0" ng-disabled="!selectedRowGateway" ng-click="trashGateway(selectedRowGateway)" id="btn_deactivate"><i class="fa fa-trash-o"></i>Trash</button></div>
+		<!--<div style="display: inline-block;" tooltip-enable="!selectedRowGateway" uib-tooltip="Please Select Gateway" ><button type="button" class="btn btn-default btn-shadow border0" ng-show="can('retrieve_gatewaygroup')" ng-disabled="!selectedRowGateway" ng-click="assignGroup(selectedRowGateway)" ><i class="fa fa-sitemap"></i>Groups</button></div>-->
+		<img ng-if="dataLoadingDiscovery"  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+		
+		
+		
+	</div>
+		<div id="deviceTable">
+	<div  >
+		<div >
+		 <div class="table-responsive mr-top10 border0">
+		
+<table id="gatewayGrid" class="table table-striped">
+	<thead>
+		<tr>
+<th style="width:4%;">Live</th>
+<th >Display Name</th>
+<th >Gateway Manager</th>
+<th >Status</th>
+<th >Hardware</th>
+<th >MAC ID</th>
+<!--<th >Serial No.</th>-->
+
+<th ><!--  -->
+	<i class="fa fa-filter" data-toggle="modal" data-target="#myModal" ></i>
+	<!-- Modal -->
+	<div class="modal fade" style=" z-index: 100000;" id="myModal" role="dialog">
+		<div class="modal-dialog mr-top80">
+		  <!-- Modal content-->
+<div class="modal-content black-bg">
+	<div class="modal-header border0">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4 class="modal-title">Filter Gateways</h4>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+<div class="form-group">
+	<label class="control-label col-lg-5" for="dname">Display Name:</label>
+	<div class="col-lg-5">
+	
+		<input type="text" class="form-control search-input filter-control" id="dnameSearch" ng-model="dnameSearch" ng-keyup="completeDnameSearch()" placeholder="Type Display Name">
+	
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-lg-5" for="gman">Gateway Manager:</label>
+	<div class="col-lg-5">
+	<select class="form-control filter-control" id="gmanSearch" ng-model="gmanSearch" ng-init="gmanSearch==''">
+<option value="">All</option>
+<option ng-repeat="gatewaymanager in gatewaymanager_all" value="{{gatewaymanager.gatewaymanager}}">{{gatewaymanager.gatewaymanager_username}}
+		</select>
+		
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-lg-5" for="status">Status:</label>
+	<div class="col-lg-5">
+		<select class="form-control filter-control" id="statusSearch" ng-model="statusSearch" ng-init="statusSearch==''">
+<option value="">All</option>
+<option ng-repeat="gatewaystatus in gatewaystatus_all" value="{{gatewaystatus.gateway_status}}">{{gatewaystatus.gateway_status}}
+
+		</select>
+	</div>
+</div>
+
+
+<div class="form-group"> 
+	<div class="col-sm-offset-5 col-sm-5">
+		<button type="submit" ng-click="searchFeaturesSubmit();" data-dismiss='modal' class="btn btn-filter">Apply Filter</button>
+	</div>
+</div>
+		</form>
+	</div>
+</div>
+		</div>
+	</div>
+	
+	
+</th>
+		</tr>
+	</thead>
+	<tbody >
+	
+		<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,gateway)" ng-repeat="gateway in filtered = (gatewayList| filter:expression | filter:expression2 | filter:expression3 || undefined) | orderBy:sortType:sortReverse | limitTo:gatewayPerPage">
+                     
+<td>
+<div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+</td>
+                        <td><a ng-if="gateway.gateway_status!='REGISTERED'" style="cursor:pointer;" ng-click="openDisplayInfo(gateway);" class="pointer">{{gateway.displayname}}</a>
+<div ng-if="gateway.gateway_status=='REGISTERED'" style="cursor:pointer;">{{gateway.displayname}}</div>
+</td>
+ 
+<td><div >{{gateway.gatewaymanager_username}}</div></td>
+<td><div>{{gateway.gateway_status}}</div></td>
+                      
+                       
+                        <td><div>{{gateway.gatewaymeta.hardware}}</div></td>
+<td><div>{{gateway.gatewaymeta.macid}}</div></td>
+
+
+                        <td></td>
+                    </tr>
+		<tr ng-if="dataLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+		<tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalItems ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+		</tbody>
+		</table>
+		</div>
+		</div>
+		
+		
+		
+		<div id="pagination" class="mr-topmin15">
+		<div class="col-lg-12 blue-bg pad10">
+		<div class="col-lg-9">
+		
+		<uib-pagination  total-items="totalItems" ng-model="currentGatewayPage" ng-change="pageChanged()" items-per-page="gatewayPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+    boundary-links="true" num-pages="numPages"></uib-pagination>
+		
+	</div>
+	<div class="col-lg-3 text-right">Displaying {{currentGatewayPage}} / {{numPages}} of {{numPages}}</div>
+	</div>
+		
+		</div>
+
+
+		</div>
+	</div>
+	
+
+
+		 </md-content>
+      </md-tab>
+	   <md-tab label="Map" ng-click="$event.preventDefault();">
+        <md-content id="map" class="md-padding">
+		<div class="row">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10">
+	
+
+	<iframe id="myIframe"  scrolling="no" style="width: 100%; height: 600px;"  frameborder="0"></iframe> 
+	
+	</div></div>
+		 </md-content>
+      </md-tab>
+	</md-tabs>
+  </md-content>
+ </div>  
+		
+</div>

@@ -1,0 +1,16 @@
+{
+	"nodes":[
+	    {"id": 1, "label":"Gateway 1", "color":"blue","title": "Gateway 1 : MQTT","type":"MQTT"},
+	    {"id": 2, "label":"Gateway 2", "color":"orange","title": "Gateway 2 : AMQP","type":"AMQP"},
+	    {"id": 3, "label":"Gateway 3", "color":"blue","title": "Gateway 3 : MQTT","type":"MQTT"},
+	    {"id": 4, "label":"Gateway 4", "color":"red","title": "Gateway 4 : No Cloud Connectivity","type":"No Cloud Connectivity"},
+	    {"id": 5, "label":"Gateway 5", "color":"blue","title": "Gateway 5 : MQTT","type":"MQTT"},
+	    {"id": 6, "label":"Gateway 6", "color":"orange","title": "Gateway 6 : AMQP","type":"AMQP"},
+	    {"id": 7, "label":"Gateway 7", "color":"red","title": "Gateway 7 : No Cloud Connectivity","type":"No Cloud Connectivity"},
+	    {"id": 8, "label":"Gateway 8", "color":"blue","title": "Gateway 8 : MQTT","type":"MQTT"}
+  ],
+	"edges":[
+	    {"from": 4, "to": 2, "color":{"inherit":"to"}},
+	    {"from": 7, "to": 8, "color":{"inherit":"to"}}
+  ]
+}

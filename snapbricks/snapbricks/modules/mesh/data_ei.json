@@ -1,0 +1,155 @@
+{
+   "Data":[
+      {
+         "gatewayname":"AP Bldg.1-Ground Floor",
+         "networks":[
+            "e-infochip"
+         ],
+         "gateway_info": {
+            "serialnumber" : "N/A",
+            "staticip" : "10.115.3.64",
+            "CPU_count" : "4",
+            "harddisk" : "9.8G",
+            "longitude" : 0,
+            "macid" : "b8:27:eb:32:ef:aa",
+            "hardware" : "ARMv7",
+            "latitude" : 0,
+            "modelname" : "ARMv7 Processor rev 4 (v7l)",
+            "ram" : "925MiB",
+            "address" : "",
+            "usb" : 1,
+            "os" : "Ubuntu 16.04.2 LTS",
+            "architecture" : "armv7l"
+         },
+         "cloud_connectivity":"MQTT",
+         "re_installed" : false
+      },
+      {
+         "gatewayname":"AP Bldg.2-Bay 1",
+         "networks":[
+            "e-infochip"
+         ],
+         "gateway_info": {
+            "serialnumber" : " 710MWBAD10000335",
+            "staticip" : "172.17.0.3",
+            "CPU_count" : "8",
+            "harddisk" : "3.5G",
+            "longitude" : 0,
+            "macid" : "02:42:ac:11:00:03",
+            "hardware" : "Samsung",
+            "latitude" : 0,
+            "modelname" : "Samsung artik710 raptor board based on s5p6818",
+            "ram" : "957MiB",
+            "address" : "",
+            "usb" : 3,
+            "os" : "Ubuntu 16.04.2 LTS",
+            "architecture" : "armv7l"
+         },
+         "cloud_connectivity":"MQTT",
+         "re_installed" : true
+      },
+      {
+         "gatewayname":"AP Bldg.1-Bay 2",
+         "networks":[
+            "e-infochip"
+         ],
+         "gateway_info": {
+            "serialnumber" : "N/A",
+            "staticip" : "10.100.21.12",
+            "meshID" : "5982f6581d41c82d24bbe58",
+            "harddisk" : "46G",
+            "CPU_count" : "4",
+            "longitude" : 0,
+            "macid" : "74:e6:e2:2c:f7:98",
+            "hardware" : "Intel(R)",
+            "latitude" : 0,
+            "modelname" : "Intel(R) Core(TM) i3-4005U CPU @ 1.70GHz",
+            "ram" : "8GiB",
+            "address" : "",
+            "usb" : 3,
+            "os" : "Ubuntu 16.04.2 LTS",
+            "architecture" : "x86_64"
+         },
+         "cloud_connectivity":"No cloud connectivity",
+         "connected_to": "AP Bldg.1-Ground Floor",
+         "re_installed" : false
+      },
+      {
+         "gatewayname":"AP Bldg.2-Bay 2",
+         "networks":[
+            "e-infochip"
+         ],
+         "gateway_info": {
+            "serialnumber" : "N/A",
+            "staticip" : "10.100.21.13",
+            "meshID" : "5982f6581d41c82d24bbe58",
+            "harddisk" : "46G",
+            "CPU_count" : "4",
+            "longitude" : 0,
+            "macid" : "74:e6:e2:2c:f7:98",
+            "hardware" : "Intel(R)",
+            "latitude" : 0,
+            "modelname" : "Intel(R) Core(TM) i3-4005U CPU @ 1.70GHz",
+            "ram" : "8GiB",
+            "address" : "",
+            "usb" : 3,
+            "os" : "Ubuntu 16.04.2 LTS",
+            "architecture" : "x86_64"
+         },
+         "cloud_connectivity":"No cloud connectivity",
+         "connected_to": "AP Bldg.2-Bay 1",
+         "re_installed" : true
+      },
+      {
+         "gatewayname":"AP Bldg.15-Bay 2",
+         "networks":[
+            "e-infochip"
+         ],
+         "gateway_info": {
+            "serialnumber" : "N/A",
+            "staticip" : "10.100.21.15",
+            "meshID" : "5982f6581d41c82d24bbe58",
+            "harddisk" : "46G",
+            "CPU_count" : "4",
+            "longitude" : 0,
+            "macid" : "74:e6:e2:2c:f7:98",
+            "hardware" : "Intel(R)",
+            "latitude" : 0,
+            "modelname" : "Intel(R) Core(TM) i3-4005U CPU @ 1.70GHz",
+            "ram" : "8GiB",
+            "address" : "",
+            "usb" : 3,
+            "os" : "Ubuntu 16.04.2 LTS",
+            "architecture" : "x86_64"
+         },
+         "cloud_connectivity":"No cloud connectivity",
+         "connected_to": "AP Bldg.2-Bay 1",
+         "re_installed" : true
+      },
+      {
+         "gatewayname":"AP Bldg.7- Ground Floor",
+         "networks":[
+            "e-infochip"            
+         ],
+         "gateway_info": {
+            "serialnumber" : "N/A",
+            "staticip" : "10.100.21.19",
+            "meshID" : "5982f6581d41c82d24bbe58",
+            "harddisk" : "46G",
+            "CPU_count" : "4",
+            "longitude" : 0,
+            "macid" : "74:e6:e2:2c:f7:98",
+            "hardware" : "Intel(R)",
+            "latitude" : 0,
+            "modelname" : "Intel(R) Core(TM) i3-4005U CPU @ 1.70GHz",
+            "ram" : "8GiB",
+            "address" : "",
+            "usb" : 3,
+            "os" : "Ubuntu 16.04.2 LTS",
+            "architecture" : "x86_64"
+         },
+         "cloud_connectivity":"MQTT",
+         "re_installed" : true
+      }
+   ]
+}

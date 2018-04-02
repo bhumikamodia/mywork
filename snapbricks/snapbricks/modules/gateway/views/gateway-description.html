@@ -1,0 +1,1157 @@
+<style>
+.selected {
+background-color:#C2DFFF !important; 
+
+
+}
+.btn-group .active 
+{ background-color: #3d6ba9 ; color: white; }
+.btn.btn-default.active.focus
+{
+ background-color: #3d6ba9 ; color: white;
+}
+</style>
+
+<div ng-controller="gatewayDescCtrl" >
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+<div ncy-breadcrumb></div>
+
+<button style="float:right;display:inline;" type="submit" class="btn btn_back" title="Back To Gateway List" back-button><i class="fa fa-chevron-left mr-right7" ></i>Back to list</button>
+
+</div>	
+
+</div>
+
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<div ng-cloak>
+  <md-content>
+	<md-tabs md-dynamic-height md-border-bottom >
+	 
+	  <md-tab  label="Description"  ng-click="$event.preventDefault();">
+		<md-content id="desc" class="md-padding">
+		<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+		<div id="desc_content"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-top10 pad0 mr-topmin20">
+		<div class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Name</div>
+		<div class="col-lg-7 col-md-5 col-sm-5 col-xs-5 pad-left0">Value</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pad0 mr-top10">
+		
+			<div class="panel-group" id="accordion">
+			<div class="panel panel-default">
+			<div class="panel-heading">
+			<h4 class="panel-title">
+			<a data-toggle="collapse" data-parent="#accordion" href="#gen_info" ng-click="$event.preventDefault();"><i class="more-less fa fa-minus-square-o"></i>General Info</a>
+
+			</h4>
+			</div>
+			<div id="gen_info" class="panel-collapse collapse in">
+			<div class="panel-body pad0">
+			<table class="table table-striped pad0">
+			<tbody>
+			<tr>
+			<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Status</td>
+			<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">{{gatewayDesc.gateway_status}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">Display Name</td>
+			<td class="col-lg-7">{{gatewayDesc.displayname}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">Connection Status</td>
+			<td class="col-lg-7"><div ng-if="gatewayDesc.connected == true" style="float:left;">CONNECTED</div>
+			<div ng-if="gatewayDesc.connected == false" style="float:left;">DISCONNECTED</div>
+			<div ng-if="gatewayDesc.connected==false" style="float:left;margin-left:1%;" ><div class="orange center-block" ></div></div>
+			<div ng-if="gatewayDesc.connected==true" style="float:left;margin-left:1%;"><div class="green center-block" ></div></div>
+
+			</td>
+			</tr>
+
+			<tr ng-if="gatewayDesc.connected==false">
+			<td class="col-lg-5">Downtime</td>
+			<td class="col-lg-7"><div ng-if="!timeDiff"><b>From {{diff_date}} days</b></div>
+			<div ng-if="timeDiff"><b>From {{timeDiff}} hours</b></div>
+			</td>
+			</tr>
+			</tbody>
+			</table>
+			</div>
+			</div>
+			</div>
+			<div class="panel panel-default">
+			<div class="panel-heading">
+			<h4 class="panel-title">
+			<a data-toggle="collapse" data-parent="#accordion" href="#gps_info" ng-click="$event.preventDefault();"><i class="more-less fa fa-plus-square-o"></i>GPS information</a>
+			</h4>
+			</div>
+			<div id="gps_info" class="panel-collapse collapse">
+			<div class="panel-body pad0">
+			<table class="table table-striped pad0">
+			<tbody>
+			<tr>
+			<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Latitude</td>
+			<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">{{gatewayDesc.gatewaymeta.latitude}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">Longitude</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.longitude}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">Altitude</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.altitude}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">Address</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.address}}</td>
+			</tr>
+			</tbody>
+			</table>
+			</div>
+			</div>
+			</div>
+			<div class="panel panel-default">
+			<div class="panel-heading">
+			<h4 class="panel-title">
+			<a data-toggle="collapse" data-parent="#accordion" href="#hw_info" ng-click="$event.preventDefault();"><i class="more-less fa fa-plus-square-o"></i>Hardware information</a>
+			</h4>
+			</div>
+			<div id="hw_info" class="panel-collapse collapse">
+			<div class="panel-body pad0">
+
+			<table class="table table-striped pad0">
+			<tbody>
+			<tr>
+			<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">CPU Model Name</td>
+			<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">{{gatewayDesc.gatewaymeta.modelname}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">Model ID</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.modelid}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">Mac ID</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.macid}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">Serial Number</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.serialnumber}}</td>
+			</tr>
+			<!--<tr>
+			<td class="col-lg-5">CPU</td>
+			<td class="col-lg-7">{{gateway.gatewaymeta.cpu}}</td>
+			</tr>-->
+			<tr>
+			<td class="col-lg-5">Hard Disk</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.harddisk}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">RAM</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.ram}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">USB</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.usb}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">Architecture</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.architecture}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">IP Address</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.staticip}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">SD Card</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.sdcard}}</td>
+			</tr>
+			</tbody>
+			</table>
+			</div>
+			</div>
+			</div>
+			<div class="panel panel-default">
+			<div class="panel-heading">
+			<h4 class="panel-title">
+			<a data-toggle="collapse" data-parent="#accordion" href="#modem_info" ng-click="$event.preventDefault();"><i class="more-less fa fa-plus-square-o"></i>Modem & Network information</a>
+			</h4>
+			</div>
+			<div id="modem_info" class="panel-collapse collapse">
+			<div class="panel-body pad0">
+			<table class="table table-striped pad0">
+			<tbody>
+			<tr>
+			<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Connection</td>
+			<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">{{gatewayDesc.gatewaymeta.connection}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">Provider</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.provider}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">User Account</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.useraccount}}</td>
+			</tr>
+			<tr>
+			<td class="col-lg-5">SIM Card</td>
+			<td class="col-lg-7">{{gatewayDesc.gatewaymeta.simcard}}</td>
+			</tr>
+
+
+			<tr>
+			<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Interface</td>
+			<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">{{gatewayDesc.gatewaymeta.interface}}</td>
+			</tr>
+			</tbody>
+			</table>
+			</div>
+			</div>
+			</div>
+			
+			</div> 
+			 
+			</div>
+<script type="text/javascript">
+
+	function toggleIcon(e) 
+	{
+	$(e.target)
+	.prev('.panel-heading')
+	.find(".more-less")
+	.toggleClass('fa-plus-square-o fa-minus-square-o');
+	}
+	$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+	$('.panel-group').on('shown.bs.collapse', toggleIcon);
+</script>
+		</md-content>
+	  </md-tab>
+    
+	 
+  <md-tab  label="Mesh Information"  ng-click="meshInfoFlag=true;$event.preventDefault();meshGroupList(1)" ng-if="gateway.gatewaymeta.mode=='Mesh'" >
+
+    <md-content id="meshInfo" class="md-padding">
+    <div ng-if="meshInfoFlag==true">
+
+    <div id="desc_content" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-top10 pad0">
+    <div class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Name</div>
+    <div class="col-lg-7 col-md-5 col-sm-5 col-xs-5 pad-left0">Value</div>
+
+    </div>
+    
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pad0 mr-top10" >
+<div class="panel-group" id="accordion">
+<div class="panel panel-default">
+<div class="panel-heading">
+<h4 class="panel-title">
+<a data-toggle="collapse" data-parent="#accordion" href="#gen_info" ng-click="$event.preventDefault();">Mesh Information</a>
+<SPAN style="float:right;">
+                        <img ng-if="datageneralInfoLoading"
+                                                     src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+<button type="button" ng-if="editingMeshInfo==false"  ng-click="edit()"  class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit"></span></button>
+<button type="button" ng-if="editingMeshInfo==true" ng-click="postMeshInfo(gatewayDesc,mesh,networkname)" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-ok"></span></button>
+<button type="button" ng-if="editingMeshInfo==true" ng-click="editingMeshInfo=false;" class="btn btn-danger btn-xs"><span
+ class="glyphicon glyphicon-remove"></span></button>
+</SPAN>
+</h4>
+</div>
+<div id="mesh_info" class="panel-collapse collapse in" ng-if="editingMeshInfo==false">
+<div class="panel-body pad0">
+<table class="table table-striped pad0">
+<tbody>
+<tr>
+<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Mesh Name</td>
+<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"><div>{{meshData.name}}</div>
+</td>
+
+</tr>
+<tr>
+<td class="col-lg-5">Network</td>
+<td class="col-lg-7" >{{gatewayDesc.gatewaymeta.meshNetwork}}</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+
+<div  class="panel-collapse collapse in" ng-show="editingMeshInfo==true">
+<div class="panel-body pad0">
+<table class="table table-striped pad0">
+<tbody>
+<tr>
+<td class="col-lg-5">Mesh name</td>
+
+<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">
+  <select ng-init="mesh=meshData.name"  ng-model="mesh" class="btn btn-default btn-shadow border0 fa fa-caret-down" ng-change="dropDownData(mesh)"  ng-options="meshobj.name for meshobj in meshList">
+
+<option value="" selected>Select Any </option>
+</select>
+</td>
+</tr>
+<tr>
+<td class="col-lg-5">Network</td>
+<td class="col-lg-7">
+  <select  ng-model="networkname" class="btn btn-default btn-shadow border0 fa fa-caret-down"   ng-options="meshobj for meshobj in meshNetworkList">
+
+<option value="" selected>Select Any </option>
+</select>
+</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+
+
+</div>
+
+</div> 
+</div>
+
+
+    </div>
+    </md-content>
+     </md-tab>
+	    <md-tab ng-if="can('list_event')" label="Events"  ng-click="$event.preventDefault();getEventsCall(gateway.id,1)">
+		<md-content id="events" class="md-padding">
+		<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+		<div id="btn_group"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20">
+		<button type="button" ng-click="refreshEvents();" class="btn btn-default btn-shadow border0"><i class="fa fa-refresh"></i> Refresh</button>
+
+		<div class="dropdown display-inline">
+		<button type="button" class="btn btn-default btn-shadow border0 dropdown-toggle" data-toggle="dropdown">
+		<i class="fa fa-share-square-o"></i>Export<span class=""></span></button>
+		<ul class="dropdown-menu dropdown-export">
+		<li><a href="#" ng-click="$event.preventDefault();exportToExcel('#exportable');"><i class="fa fa-file-excel-o mr-right7"></i>Export to Excel</a></li>
+		<li class="divider"></li>
+		<li><a href="#" ng-click="$event.preventDefault();exportToExcel('#exportable');"><i class="fa fa-file-o mr-right7"></i>Export to CSV</a></li>
+		</ul>
+		</div>
+		</div>
+		<div class="row">
+		<div id="deviceTable" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+		<div id="exportable">
+		<table id="total" class="table table-striped">
+		<thead>
+		<tr>
+		<th>Event Received on</th>
+		<th>Event Type</th>
+		<th>Event Message</th>
+		<th>Details </th>
+
+		</tr>
+		</thead>
+		<tbody >
+
+		<tr  ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowPackage($index,event);" ng-repeat="event in gatewayEvents | limitTo:eventsperpage">
+		<td><div >{{event.created_ts | date:'MM/dd/yyyy HH:mm:ss'}}</div ></td>
+		<td><div >{{event.event_type}}</div ></td>
+		<td><div >{{event.description}}</div></td>
+		<td><div><i class="fa fa-file-text-o"></i></div></td>
+
+		</tr>
+
+		<tr class="alert alert-danger" ng-if="gatewayEvents.length == 0 || totalGatewayEvents ==0"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+		</tbody>
+		</table>
+		</div>
+		</div>
+		<div id="pagination" ng-if="gatewayEvents.length>0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+		<div class="col-lg-12 blue-bg pad10">
+		<div class="col-lg-9">
+		<uib-pagination  total-items="totalGatewayEvents" ng-model="currentEventPage" ng-change="pageChanged()" items-per-page="eventsperpage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+		boundary-links="true" num-pages="numPages"></uib-pagination>
+
+		</div>
+		<div class="col-lg-3 text-right">Displaying {{currentEventPage}} / {{numPages}} of {{numPages}}</div>
+		</div>
+
+		</div>
+		</div>
+		</div>		
+		</md-content>
+		</md-tab>
+		<md-tab ng-if="can('retrieve_packagegateway')"  label="Packages"  ng-click="$event.preventDefault();getPackageCalls()">
+		<md-content id="packages" class="md-padding">
+		<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+		<div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20">
+
+		<button type="button" ng-disabled="datarefreshPackagesLoading" class="btn btn-default btn-shadow border0" ng-click="packageAction(gatewayId,orgid,'GET_PACKAGE');"><i class="fa fa-refresh"></i> Refresh</button>
+		<button type="button" ng-disabled="datarefreshPackagesLoading" class="btn btn-default btn-shadow border0" ng-click="packageInstall(gatewayId,orgid,'INSTALL_NEW_PACKAGE');"><i class="fa fa-ge"></i> Install</button>
+		<button type="button" ng-disabled="datarefreshPackagesLoading" class="btn btn-default btn-shadow border0" ng-click="packageInstall(gatewayId,orgid,'UPDATE_PACKAGE',selectedRowPackage);"><i class="fa fa-chevron-circle-up"></i> Upgrade</button>
+		<button type="button" ng-disabled="datarefreshPackagesLoading" class="btn btn-default btn-shadow border0" ng-click="packageAction(gatewayId,orgid,'UNINSTALL_PACKAGE',selectedRowPackage);"><i class="fa fa-ban"></i> Uninstall</button>
+		<img ng-if="datarefreshPackagesLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+		</div>
+		<div class="row">
+		<div id="deviceTable">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+		<div id="exportable">
+		<table id="total" class="table table-striped">
+		<thead>
+		<tr>
+		<!--<th>
+		<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAllPackage" ng-click="checkAllPackage(selectedAllPackage)" /> <label></label></span> 
+		</th>-->
+		<th>Name</th>
+		<th>Version</th>
+		<th>Type</th>
+		<th>Updates Available</th>
+		<th>Status</th>
+		</tr>
+		</thead>
+		<tbody >
+		<tr  ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowPackageData($index,package);" ng-repeat="package in packagesData | startFrom:(currentPackagePage - 1) * packagesperpage | limitTo:packagesperpage">
+		<!--<td><SPAN class="checkbox checkbox-primary">
+		<input type="checkbox" ng-model="package.packageSelected" ng-change="checkStatusPackage(package);"  /><label for="packageData.packageDataSelected"></label></SPAN>
+		</td>-->
+		<td><div >{{package.packageName}}</div ></td>
+		<td><div >{{package.version}}</div ></td>
+		<td><div >{{package.packageType}}</div ></td>
+		<td><div>{{package.updatesavailable}}</div></td>
+		<td><div ng-if="package.status=='INSTALLED'"><uib-progressbar animate="false" value="100" type="success">{{package.status}}<i ng-show="showWarning">!!! Watch out !!!</i></uib-progressbar></div>
+		<div ng-if="package.status!=='INSTALLED'"><uib-progressbar class="progress-striped active" value="100" type="{{package.status}}">{{package.status}}<i ng-show="showWarning">!!! Watch out !!!</i></uib-progressbar></div>
+		</td>
+		</tr>
+
+
+		<tr class="alert alert-danger" ng-if="packagesData.length == 0"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+		</tbody>
+		</table>
+		</div>
+		</div>
+		<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+		<div class="col-lg-12 blue-bg pad10">
+		<div class="col-lg-9">
+		<uib-pagination  total-items="packagesData.length" ng-model="currentPackagePage" ng-change="pageChanged()" items-per-page="packagesperpage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+		boundary-links="true" num-pages="numPages"></uib-pagination>
+
+		</div>
+		<div class="col-lg-3 text-right">Displaying {{currentGatewayPage}} / {{numPages}} of {{numPages}}</div>
+		</div>
+
+		</div>
+		</div>
+		</div>
+
+
+		</md-content>
+		</md-tab>
+		
+		<md-tab  ng-if="can('retrieve_vpn')" label="Vpn"  ng-click="$event.preventDefault();">
+		<md-content id="vpn" class="md-padding">
+		
+		</md-content>
+		</md-tab>
+		<md-tab ng-if="can('retrieve_history')" label="Request Manager" ng-click="$event.preventDefault();">
+		<md-content id="request_manager" class="md-padding">
+		<div ng-controller="gatewayDescriptionRequestManagerCtrl">
+		 <hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+		<div id="btn_group"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20">
+		<button type="button" ng-click="requestManagerRefresh('request_manager');" class="btn btn-default btn-shadow border0"><i class="fa fa-refresh"></i> Refresh</button>
+
+		<div class="dropdown display-inline">
+		<button type="button" class="btn btn-default btn-shadow border0 dropdown-toggle" data-toggle="dropdown">
+		<i class="fa fa-share-square-o"></i>Export<span class=""></span></button>
+		<ul class="dropdown-menu dropdown-export">
+		<li><a  export-Excel attrname="requestmanagerGrid" attrpageno="{{currentRequestPage}}"><i class="fa fa-file-excel-o mr-right7"></i>Export to Excel</a></li>
+		<li class="divider"></li>
+		<li><a  export-Csv attrname="requestmanagerGrid" attrpageno="{{currentRequestPage}}"><i class="fa fa-file-o mr-right7"></i>Export to CSV</a></li>
+
+		</ul>
+		</div>
+		</div>
+		<div class="row">
+
+		<div id="deviceTable" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+		<div >
+		<table id="requestmanagerGrid" class="table table-striped">
+		<thead>
+		<tr>
+		<th style="width:5%;">Request ID</th>
+		<th style="width:20%;">Description</th>
+		<th style="width:20%;">Status</th>
+		<th style="width:20%;">Time</th>
+		<th style="width:10%;">Details</th>
+		</tr>
+		</thead>
+		<tbody >
+		<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowGroup($index,requestManager);" ng-repeat="requestManager in requestManagerData | limitTo:requestPerPage">
+		<td><div >{{requestManager.request.id}}</div ></td>
+		<td><div ng-if="requestManager.request.taskid =='1'">Activate Gateway</div >
+		<div ng-if="requestManager.request.taskid =='2'">Discover Mount</div >
+		<div ng-if="requestManager.request.taskid =='3'">Register Mount</div >
+		<div ng-if="requestManager.request.taskid =='4'">Discover Thing</div >
+		<div ng-if="requestManager.request.taskid =='5'">Register Thing</div >
+		<div ng-if="requestManager.request.taskid =='6'">Activate Thing</div >
+		<div ng-if="requestManager.request.taskid =='7'">Read Gateway Live</div >
+		<div ng-if="requestManager.request.taskid =='9'">Read From Things</div >
+		<div ng-if="requestManager.request.taskid =='11'">Stop Read Gateway Live</div >
+		<div ng-if="requestManager.request.taskid =='13'">Deactivate Things</div >
+		<div ng-if="requestManager.request.taskid =='14'">Deregister Thing</div >
+		<div ng-if="requestManager.request.taskid =='15'">Deregister Mount</div >
+		<div ng-if="requestManager.request.taskid =='16'">Deactivate Gateway</div >
+		<div ng-if="requestManager.request.taskid =='17'">Config Gateway</div >
+		<div ng-if="requestManager.request.taskid =='18'">Reboot Gateway</div >
+		<div ng-if="requestManager.request.taskid =='20'">Live Data</div >
+		<div ng-if="requestManager.request.taskid =='21'">Assign Gateway</div >
+		<div ng-if="requestManager.request.taskid =='22'">Refresh Apps</div >
+		<div ng-if="requestManager.request.taskid =='23'">End Apps</div >
+		<div ng-if="requestManager.request.taskid =='24'">Restart Apps</div >
+		<div ng-if="requestManager.request.taskid =='25'">Add Gateway Configuration</div >
+		<div ng-if="requestManager.request.taskid =='26'">Edit Gateway Configuration</div >
+		<div ng-if="requestManager.request.taskid =='27'">Refresh Gateway Configuration</div >
+		<div ng-if="requestManager.request.taskid =='28'">Device Configuration</div >
+		<div ng-if="requestManager.request.taskid =='29'">Refresh Package</div >
+		<div ng-if="requestManager.request.taskid =='30'">Install New Package</div >
+		<div ng-if="requestManager.request.taskid =='31'">Uninstall Package</div >
+		<div ng-if="requestManager.request.taskid =='32'">Update Package</div >
+		<div ng-if="requestManager.request.taskid =='33'">Start App</div >
+		<div ng-if="requestManager.request.taskid =='34'">Restart App</div >
+		<div ng-if="requestManager.request.taskid =='35'">Kill App</div >
+		<div ng-if="requestManager.request.taskid =='36'">Refresh App</div >
+
+		</td>
+		<td><div >{{requestManager.request.status}}</div ></td>
+		<td><div >{{requestManager.created_ts | utcToLocal:'dd-MM-yyyy hh:mm:ss'}}</div ></td>
+		<td ><div ><a ng-disabled="requestManager.request.status!='COMPLETED'" ng-click="detailsManagerPage(requestManager.request.status,requestManager.request.resdata)"><i class="fa fa-file-text-o"></i></a></div></td>
+		</tr>
+		<tr ng-if="dataLoadingRequestManager" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+		<tr class="alert alert-danger" ng-if="!dataLoadingRequestManager && totalRequestItems ==0"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+		</tbody>
+		</table>
+		</div>
+		</div>
+		<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+		<div class="col-lg-12 blue-bg pad10">
+		<div class="col-lg-9">
+		<uib-pagination  total-items="totalRequestItems" ng-model="currentRequestPage" ng-change="pageChanged()" max-size="5" force-ellipses="true" items-per-page="requestPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+		boundary-links="true" num-pages="numPages"></uib-pagination>
+
+		</div>
+		<div class="col-lg-3 text-right">Displaying {{currentRequestPage}} / {{numPages}} of {{numPages}}</div>
+		</div>
+
+		</div>	
+		</div>
+
+		</div>
+		</div>
+		</md-content>
+		</md-tab>
+		<md-tab  label="Apps"  ng-click="getTaskDetails(gateway.id);$event.preventDefault();">
+		<md-content id="task_manager" class="md-padding">
+		 <hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+		<div ng-controller="taskManagerCtrl">
+		
+		<div id="btn_group"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20">
+		<button type="button"  ng-disabled="datarefreshTaskLoading" class="btn btn-default btn-shadow border0" ng-click="refresh();actionTask('GET_APP');"><i class="fa fa-refresh"></i> Refresh</button>
+		<button type="button"  ng-disabled="datarefreshTaskLoading" class="btn btn-default btn-shadow border0" ><i class="fa fa-external-link"></i> Export</button>
+		<!-- <button type="button" ng-disabled="datarefreshPackagesLoading" class="btn btn-default btn-shadow border0" ng-click="install('ON'); getAppsCall(1);" ><i class="fa fa-refresh"></i></i> Install</button>
+		<button type="button"  ng-disabled="datarefreshTaskLoading" class="btn btn-default btn-shadow border0" ng-click="update('ON');"><i class="fa  fa-plus-square-o"></i> Update</button>
+		<button type="button"  ng-disabled="datarefreshTaskLoading" class="btn btn-default btn-shadow border0" ng-click="packageAction(gateway.id,gateway.orgid,'UNINSTALL_PACKAGE',selectedRowTask);"" tooltip-enable="!selectedRow" uib-tooltip="Please Select Device"><i class="fa fa-trash"></i>Uninstall</button> -->
+		<button type="button"  ng-disabled="datarefreshTaskLoading;selectedRowTask.Status=='Running'" class="btn btn-default btn-shadow border0" ng-click="actionApp('START_APP',selectedRowTask);"><i class="fa fa-refresh"></i> Start </button>
+		<button type="button"  ng-disabled="datarefreshTaskLoading;selectedRowTask.Status=='Not Running';selectedRowTask.Status=='NotRunning'" class="btn btn-default btn-shadow border0" ng-click="actionApp('RESTART_APP',selectedRowTask);"><i class="fa fa-undo"></i> Restart </button>
+		<button type="button"  ng-disabled="datarefreshTaskLoading;selectedRowTask.Status=='Not Running';selectedRowTask.Status=='NotRunning'" class="btn btn-default btn-shadow border0" ng-init="val = (selectedRowTask.Status=='Not Running' && selectedRowTask.Status=='NotRunning')" ng-click="actionApp('KILL_APP',selectedRowTask);"><i class="fa  fa-trash"></i> Kill </button>
+		<button type="button"  ng-disabled="datarefreshTaskLoading;" class="btn btn-default btn-shadow border0" ng-click="duplicateApp('DUPLICATE_APP',selectedRowTask);"><i class="fa fa-clone"></i> Duplicate </button>
+		
+
+		<img ng-if="datarefreshTaskLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+
+		</div>
+		<div id="deviceTable">
+		<div class="row" ng-if="installSelectionOption == 'ON'">
+
+		<div  >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+		<div  >  <span style=" position: relative; float: right;margin-right: 30px;"><i style="position: absolute;
+
+		pointer-events: none;margin-top: 14px; transform: scale(1.5,1.5);" class="fa fa-search"></i></span>
+		<input type="text" name="search" placeholder="    Search APPs Here" ng-model="searchText" style="border:4px solid #25549C;width:100%; height: 40px; margin-bottom: 20px; font-size: 17px;color: blue; padding:15px"></i>
+		</div>
+		<div >
+		<form class="form-horizontal" style="margin-top: 3px;" id="form" name="form" role="form">
+		<div >
+		<table id="total" class="table table-striped">
+		<thead>
+		<tr>
+
+		<th></th>
+		<th>Name</th>
+		<th>Version</th>
+		<th>Configuration</th>
+		<th>Dependencies</th>
+		<th>Status</th>
+							
+		</tr>
+		</thead>
+		<tbody >
+		<tr  ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowPackage($index,packageInstall);" ng-repeat="packageInstall in packageApps | limitTo:packageAppPerPage |filter:searchText">
+		<!--<td><SPAN class="checkbox checkbox-primary">
+		<input type="checkbox" ng-model="packageInstall.packageInstallSelected" ng-change="checkStatus(packageInstall);"  /><label for="packageInstall.packageInstallSelected"></label></SPAN>
+		</td>-->
+		<td>   <span class="checkbox checkbox-primary" > <input ng-class="{'selected':$index == selectedRow}" type="checkbox" ng-model="selectedrow" ng-click="checkAll($index)" /> <label></label></span> </td>
+		<td><div >{{packageInstall.packageName}}</div ></td>
+		<td><div >{{packageInstall.version}}</div ></td>
+		<td><div ><a href="" style="color: black">Click Here</a></div></td>
+		<td><div ><a href="" style="color: black">Click Here</a></div></td>
+
+		<td><div>
+
+		<div ng-show="packageInstall.install_status==0">
+		<!-- 	<button type="button" class="btn btn-default btn-shadow border0" ng-show="selectedRow == $index" ng-disabled="dataInstallNewPackagesLoading[packageInstall.id]" ng-click="InstallNew(packageInstall.id)" style="color:#25549C ">Install</button> -->
+		<a  ng-click="$event.preventDefault();installButton('true');InstallNew(packageInstall.id);"  style="color: #25549C">Install</a>
+
+		</div>
+		<div  ng-show="packageInstall.install_status==1">
+		<!-- <button type="button" class="btn btn-default btn-shadow border0" ng-disabled="true">open</button> -->
+		<a href="" style="color: #25549C">Open</a>
+		</div>
+		<div id="installPkg" ng-if="dataInstallNewPackagesLoading[packageInstall.id]"><uib-progressbar class="progress-striped active" value="100" type="{{package.status}}">Installing<i ng-show="showWarning">!!! Watch out !!!</i></uib-progressbar></div>
+		<!-- <img  ng-if="dataInstallNewPackagesLoading[packageInstall.id]" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
+		</div></td>
+
+		</tr>
+
+
+
+		<tr class="alert alert-danger" ng-if="(packageApps.length == 0 || packageAppsTotalRecords ==0) && !dataPackageAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+		</tbody>
+		</table>
+
+		</div>
+		</form>
+		</div>
+
+		</div>
+
+		<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+		<div class="col-lg-12 blue-bg pad10">
+		<div class="col-lg-9">
+
+		<uib-pagination  total-items="packageAppsTotalRecords" ng-model="$parent.currentPackageAppPage" ng-change="pageChanged()" items-per-page="packageAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+		boundary-links="true" num-pages="numPages"></uib-pagination>
+
+		</div>
+		<div class="col-lg-3 text-right">Displaying {{currentPackageAppPage}} / {{numPages}} of {{numPages}}</div>
+		</div>
+
+		</div>
+
+		<!-- <div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+		<div class="col-lg-12 blue-bg pad10">
+		<div class="col-lg-9">
+
+		<uib-pagination  total-items="packageAppsTotalRecords" ng-model="$parent.currentPackageAppPage" ng-change="pageChanged()" items-per-page="packageAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+		boundary-links="true" num-pages="numPages"></uib-pagination>
+
+		</div>
+		<div class="col-lg-3 text-right">Displaying {{currentPackageAppPage}} / {{numPages}} of {{numPages}}</div>
+		</div>
+
+		</div> -->
+		</div>
+		</div>
+
+		<!-- 
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Update div%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+		<div class="row" ng-if="updateSelectionOption == 'ON'">
+
+		<div  >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+		<div  >  <span style=" position: relative; float: right;margin-right: 30px;">
+		<i style="position: absolute;pointer-events: none;margin-top: 14px; transform: scale(1.5,1.5);" class="fa fa-search"></i></span>
+		<input type="text" name="search" placeholder="    Search APPs Here" ng-model="searchText" style="border:4px solid #25549C;width:100%; height: 40px; margin-bottom: 20px; font-size: 17px;color: blue; padding:15px">
+		</div>
+		<div >
+		<form class="form-horizontal" style="margin-top: 3px;" id="form" name="form" role="form">
+		<div >
+		<table id="gatewayGrid" class="table table-striped">
+		<thead>
+
+		<tr>
+
+		<th></th>
+		<th>Name</th>
+		<th>Version</th>
+		<th>Configuration</th>
+		<th>Dependencies</th>
+		<th>Status</th>
+
+		</tr>
+		</thead>
+		<tbody >
+		<tr  ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowPackage($index,packageInstall);" ng-repeat="packageInstall in packagesGatewayData | limitTo:packageAppPerPage |filter:searchText">
+		<!--<td><SPAN class="checkbox checkbox-primary">
+		<input type="checkbox" ng-model="packageInstall.packageInstallSelected" ng-change="checkStatus(packageInstall);"  /><label for="packageInstall.packageInstallSelected"></label></SPAN>
+		</td>-->
+		<td>   <span class="checkbox checkbox-primary" > <input ng-class="{'selected':$index == selectedRow}" type="checkbox" ng-model="selectedrow" ng-click="checkAll($index)" /> <label></label></span> </td>
+		<td><div >{{packageInstall.packageName}}</div ></td>
+		<td><div >{{packageInstall.version}}</div ></td>
+		<td><div ><a href="" style="color: black">Click Here</a></div></td>
+		<td><div ><a href="" style="color: black">Click Here</a></div></td>
+		<td ><div >
+		<SPAN >
+		<a href="" style="color: #25549C" ng-if="packageInstall.updatesavailable=='NA'">Open</a></SPAN>
+		<SPAN>
+		<a href="" style="color: #25549C" ng-if="packageInstall.updatesavailable
+		!='NA'">Update</a>
+		</SPAN>
+
+		<img  ng-if="dataInstallNewPackagesLoading[packageInstall.id]" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+		</div></td>
+
+		</tr>
+
+
+		<tr ng-if="dataPackageAppLoading" class="alert alert-danger"><td colspan="7"><div align="center"><img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></div></td></tr>
+		<tr class="alert alert-danger" ng-if="(packageApps.length == 0 || packageAppsTotalRecords ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+		</tbody>
+		</table>
+
+
+		</div>
+		</form>
+		</div>
+		<!-- <div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+		<div class="col-lg-12 blue-bg pad10">
+		<div class="col-lg-9">
+
+		<uib-pagination  total-items="packageAppsTotalRecords" ng-model="$parent.currentPackageAppPage" ng-change="pageChanged()" items-per-page="packageAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+		boundary-links="true" num-pages="numPages"></uib-pagination>
+
+		</div>
+		<div class="col-lg-3 text-right">Displaying {{currentPackageAppPage}} / {{numPages}} of {{numPages}}</div>
+		</div>
+
+		</div> -->
+
+		</div>
+		</div>
+		</div>
+
+		<!-- 
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% default div%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+		<div id="updatePackage" class="row" ng-if="task_running.length==0 && task_idle.length==0 &&installSelectionOption=='OFF' && updateSelectionOption=='OFF'">
+		<div id="deviceTable">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+		<p style="font-size: 30px" > *No APPs are installed.<br>If you want to install,please visit <a href=""><u>einfochips APP store</u></a></p>
+		</div>
+		</div>
+		</div>
+
+<div class="active" class="row" ng-if="installSelectionOption == 'OFF' && updateSelectionOption=='OFF' && appsdiv=='ON'">
+
+		<div >
+
+		<div style="overflow: auto;" class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+
+		<div style="width:100%;height:8%;background:#29AD4E;padding-top: 1%">
+
+		<p style="color: white;margin-left:2%;">Running APPs</p>
+
+		</div>
+
+		<table  ng-if ="task_running.length==0" style="margin-top: 30px;margin-left:4%;" class="col-md-10"  >
+
+		<tr >
+		<td class="alert alert-danger"><div align="center">No Record Found.</div></td>
+		</tr>
+		</table>		
+		<table id="total" class="table table-striped">
+
+
+
+
+		<!--<th style="width:5%;"> <span class="checkbox checkbox-primary"><input type="checkbox" ng-model="selectedAllTask"  ng-click="checkAllTask(selectedAllTask)"/><label></label></span></th>-->
+		<!-- <th style="width:15%;">Apps</th>
+		<th style="width:15%;">CPU</th>
+		<th style="width:15%;">RAM</th>
+
+		<th style="width:15%;">PID</th>
+		<th style="width:10%;">AppType</th>
+		<th style="width:15%;">Status</th> -->
+
+
+				
+
+		<tr ng-class="{'selected':Rindex == selectedRow}" style="cursor:pointer;display: inline-block;" ng-click="setClickedRowTask(Rindex,task);" ng-init="Rindex='R'+$index" ng-repeat="task in task_running">
+
+
+
+
+		<td>
+
+		<div  style="border:4px solid #25549C;width:166px; height: 220px; position: relative;">
+		<div ng-show="dataUpdatePackagesLoading[task.AppName]">
+		<p style="color: #25549C;text-align: center;vertical-align: middle;"> Uninstall: In progress</p>
+		</div>
+		<div ng-show="dataStartPackagesLoading[task.AppName]">
+		<p style="color: #25549C;text-align: center;vertical-align: middle;"> Start: In progress</p>
+		</div>
+		<div ng-show="dataKillPackagesLoading[task.AppName]">
+		<p style="color: #25549C;text-align: center;vertical-align: middle;"> Kill: In progress</p>
+		</div>
+		<div ng-show="dataRestartPackagesLoading[task.AppName]">
+		<p style="color: #25549C;text-align: center;vertical-align: middle;"> Restart: In progress</p>
+		</div>
+		<div style="width: 140px;height: 140px;
+		-webkit-border-radius: 70px;-moz-border-radius: 70px;border-radius: 70px;background: #25549C;position: absolute; margin:0;top: 50%;left: 50%;margin-right: -50%;transform: translate(-50%, -50%) ">		
+		<img src="assets/Images/apps.png" style="position: absolute;height: 70px; width: 140px; display:block; margin:0;top: 50%;left: 50%;margin-right: -50%;transform: translate(-50%, -50%);" 	>
+
+		</div> 
+		<div ng-if="task.AppName=='DeviceMgmt'" >
+		<p  style="color: #25549C;text-align: center;vertical-align: middle;margin-top: 175px;"> <a ng-click="openDeviceInfo1(gateway)" >{{task.AppName}}</a></p>
+		</div>
+		<div ng-if="task.AppName!='DeviceMgmt'">
+		<p  style="color: #25549C;text-align: center;vertical-align: middle;margin-top: 110%;"> {{task.AppName}}</p>
+		</div>
+		</div>
+
+		<div style="border-left:4px solid #25549C;border-bottom:4px solid #25549C;border-right:4px solid #25549C;width:166px; height: 25px; position: relative;color: red;">
+		<div style="float: left;width:84px ;color:#F11A22;font-size: 12px
+		;border-right:4px solid #25549C;height:100% ;"><p style="text-align: center;margin-top: 2px" align="center"><b>RAM: {{task.ram}}</b></p></div>
+		<div style="width: 84 px: color:#F11A22; font-size: 12px;text-align: center;"><p style="text-align: center; padding-top: 2px" align="center"><b>CPU: {{task.CPU}}</b></p></div>
+		</div>
+		</td>
+		</tr>
+
+
+		<!--<td><SPAN class="checkbox checkbox-primary">
+		<input type="checkbox" ng-model="task.taskSelected" ng-change="checkStatus(task);"  /><label for="task.taskSelected"></label>
+		</SPAN></td>-->
+		<!-- <td><div >{{task.AppName}}</div ></td>
+		<td><div >{{task.CPU}}</div ></td>
+		<td><div >{{task.ram}}</div></td>
+
+		<td><div >{{task.PID}}</div></td>
+		<td><div >{{task.AppType}}</div></td>
+		<td>
+		<div ng-if="task.status !=='Running'"><uib-progressbar animate="false" value="100">{{task.Status}}<i ng-show="showWarning">!!! Watch out !!!</i></uib-progressbar></div>
+		<div ng-if="task.status =='Running'"><uib-progressbar class="progress-striped active" value="100" type="{{task.Status}}">{{task.Status}}<i ng-show="showWarning">!!! Watch out !!!</i></uib-progressbar></div></td>
+		</tr>
+		<tr class="alert alert-danger" ng-if="tasksData.length == 0"><td colspan="11"><strong>No Record Found.</strong></td></tr> -->
+
+		</table>
+
+		<div style="width:100%;height:8%;background:#F11A22;padding-top: 1%">
+
+		<p style="color: white;margin-left:2%;">Idle APPs</p>
+
+		</div>
+		<table  ng-if ="task_idle.length==0" style="margin-top: 30px;margin-left:4%;" class="col-md-10"  >
+
+		<tr >
+		<td class="alert alert-danger"><div align="center">No Record Found.</div></td>
+		</tr>
+		</table>
+		<table id="total" class="table table-striped"  >
+		<tr  ng-class="{'selected':Iindex == selectedRow}"  style="cursor:pointer;display: inline-block;" ng-click="setClickedRowTask(Iindex,task);" ng-init="Iindex='I'+$index"  ng-repeat="task in task_idle">
+
+
+		<td>
+
+		<div  style="border:4px solid #25549C;width:166px; height: 220px; position: relative;">
+		<div ng-show="dataUpdatePackagesLoading[task.AppName]">
+		<p style="color: #25549C;text-align: center;vertical-align: middle;"> Uninstall: In progress</p>
+		</div>
+		<div ng-show="dataStartPackagesLoading[task.AppName]">
+		<p style="color: #25549C;text-align: center;vertical-align: middle;"> Start: In progress</p>
+		</div>
+		<div ng-show="dataKillPackagesLoading[task.AppName]">
+		<p style="color: #25549C;text-align: center;vertical-align: middle;"> Kill: In progress</p>
+		</div>
+		<div ng-show="dataRestartPackagesLoading[task.AppName]">
+		<p style="color: #25549C;text-align: center;vertical-align: middle;"> Restart: In progress</p>
+		</div>
+		<div style="width: 140px;height: 140px;
+		-webkit-border-radius: 70px;-moz-border-radius: 70px;border-radius: 70px;background: #25549C;position: absolute; margin:0;top: 50%;left: 50%;margin-right: -50%;transform: translate(-50%, -50%) ">		
+		<img src="assets/Images/apps.png" style="position: absolute;height: 90px; width: 160px; display:block; margin:0;top: 50%;left: 50%;margin-right: -50%;transform: translate(-50%, -50%) " 	>
+
+		</div>
+
+		<p  style="color: #25549C;text-align: center;vertical-align: middle;margin-top: 175px"> <a href="" ng-click="openDeviceInfo(selectedRowGateway)" >{{task.AppName}}</a></p>
+		</div>
+
+		<div style="border-left:4px solid #25549C;border-bottom:4px solid #25549C;border-right:4px solid #25549C;width:166px; height: 25px; position: relative;color: red;">
+		<div style="float: left;width:84px ;color:red;font-size: 11px
+		;border-right:4px solid #25549C;text-align: center;position: relative;vertical-align: middle;height:100%"><center><b>RAM: {{task.ram}}</b></center></div>
+		<div style="width: 84 px: color:red; font-size: 11px;text-align: center;vertical-align: middle;"><center><b>CPU: {{task.CPU}}</b></center></div>
+		</div>
+		</td>
+		</tr>
+		</table>
+		</div>
+		</div>
+		</div>
+<!-- <div ng-if="installSelectionOption == 'OFF' && updateSelectionOption=='OFF'&& appsdiv=='OFF'"> 
+<div class="alert alert-info"><div align="center" style="font-size: 19px">App is : {{selectedRowTask.AppName}}</div>
+<button style="float: right" class="btn btn_back mr-topmin33" title="Back To Gateway List" ng-click="backButton()" ><i class="fa fa-chevron-left mr-right7" ></i>Back</button>
+</div>
+<div ng-include="'modules/gateway/views/configurations.html'"><
+       </div>
+</div> -->
+</div>
+</div>
+		</md-content>
+		</md-tab>
+		<md-tab  label="Configuration" ng-click="$event.preventDefault();init()">
+		<md-content id="configuration" class="md-padding">
+		<div ng-controller="gatewayConfigurationCtrl">
+		 <hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+	
+
+	<!-- ==================================================== -->
+
+
+		<div ng-include="'modules/gateway/views/configurations.html'"></div>
+<script>
+function toggleIcon(e) {
+    $(e.target)
+        .prev('.panel-heading')
+        .find(".more-less")
+        .toggleClass('fa-plus-square-o fa-minus-square-o');
+}
+$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+$('.panel-group').on('shown.bs.collapse', toggleIcon);
+</script>
+
+
+
+	<!-- ==================================================== -->
+		</div>
+		</md-content>
+		</md-tab>	
+	</md-tabs>
+  </md-content>
+</div>  
+
+
+</div>
+</div>
+</div>
+<script	type="text/ng-template" id="duplicateApp.html">
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<div class="row" >
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+<div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;"><button type="button" class="close" ng-click="closeApps();">&times;</button>
+<b class="modal-title" >Duplicate App</b>
+
+</div>		
+<div class="modal-body">
+<div class="row" style="margin-top:40px;">
+<form class="form-horizontal" id="form" name="form" role="form">
+<div>
+<table class="table table-striped pad0">
+<tbody >
+<tr>
+<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">App Name</td>
+<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5" >
+{{task.AppName}}
+
+</td>
+</tr>
+<tr>
+<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Duplicate App Name</td>
+<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"  ng-class="{ 'has-error': form.appName.$dirty && (form.appName.$error.required || form.appName.$error.maxlength || form.appName.$error.pattern) }">
+
+<input type="text" class="form-control" id="appName" name="appName" ng-model="appName" required ng-maxlength="30" ng-pattern="/^[a-zA-Z0-9\_]*$/"/>
+<span ng-show="form.appName.$dirty && form.appName.$error.required" class="help-block">App Name is required</span>
+<span ng-show="form.appName.$error.pattern" class="help-block">Invalid Name (Special characters not allowed)</span>
+<span ng-show="form.appName.$error.maxlength" class="help-block">appName Should Contain within 30 Characters</span>
+
+</td>
+</tr>
+<tr>
+<td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Protocol Name</td>
+<td class="col-lg-7 col-md-5 col-sm-5 col-xs-5"  ng-class="{ 'has-error': form.protocol.$dirty && (form.protocol.$error.required || form.protocol.$error.maxlength || form.protocol.$error.pattern) }">
+
+<select type="text" class="form-control" id="protocol" name="protocol" ng-model="protocol" required ng-maxlength="30" ng-pattern="/^[a-zA-Z0-9\_]*$/">
+
+<option>ZIGBEE</option>
+<option>ZWAVE</option>
+<option>BLE</option>
+<option>MODBUS</option>
+<option>LORA</option>
+<option>MQTT</option>
+<option>COAP</option>
+<option>SIGFOX</option>
+<option>WIFI</option>
+<option>THREAD</option>
+
+</select><span ng-show="form.protocol.$dirty && form.protocol.$error.required" class="help-block">Protocol is required</span>
+
+</td>
+</tr>
+
+</tbody>
+</table>
+<div class="form-group"> 
+<div class="col-sm-offset-2 col-sm-6">
+<button type="button"  ng-click="addDuplicateApp(appName,protocol);" ng-disabled="form.$invalid || dataAddMessageLoading" class="btn btn-primary">Add Duplicate App</button>
+<img ng-if="dataDupAppLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+</div>
+<br clear="all"/>
+</div>	
+</div>
+</form>
+</div>
+</div>
+</div>		
+</div>
+</script>
+<script type="text/ng-template" id="installPackage.html">
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<div class="row" >
+<div  ng-if="action=='INSTALL_NEW_PACKAGE'">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+<div  class="modal-header">
+<div class="nav navbar-fixed-top gradient-bg modal-header" style="color:white;"><button type="button"  class="close" ng-click="closePackages();">&times;</button>
+<b class="modal-title" id="modal-title">Install New Packages</b>
+</div>	
+</div>		
+<div >
+<form class="form-horizontal" style="margin-top: 3px;" id="form" name="form" role="form">
+<div >
+<table id="total" class="table table-striped">
+<thead>
+<tr>
+<!--<th>
+<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAll" ng-click="checkAll(selectedAll)" /> <label></label></span> 
+</th>-->
+<th>Name</th>
+<th>Version</th>
+<th>Description</th>
+<th>Type</th>
+<th>Created On</th>
+<th>Action</th>
+
+</tr>
+</thead>
+<tbody >
+<tr  ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowPackage($index,packageInstall);" ng-repeat="packageInstall in packageApps | limitTo:packageAppPerPage">
+<!--<td><SPAN class="checkbox checkbox-primary">
+<input type="checkbox" ng-model="packageInstall.packageInstallSelected" ng-change="checkStatus(packageInstall);"  /><label for="packageInstall.packageInstallSelected"></label></SPAN>
+</td>-->
+<td><div >{{packageInstall.packageName}}</div ></td>
+<td><div >{{packageInstall.version}}</div ></td>
+<td><div >{{packageInstall.description}}</div></td>
+<td><div >{{packageInstall.packageType}}</div></td>
+<td><div >{{packageInstall.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+<td><div>
+<SPAN ng-show="packageInstall.install_status==0">
+<button type="button" class="btn btn-default btn-shadow border0" ng-show="selectedRow == $index" ng-disabled="dataInstallNewPackagesLoading[packageInstall.id]" ng-click="InstallNew(packageInstall.id)">Install</button>
+</SPAN>
+<SPAN ng-show="packageInstall.install_status==1">
+<button type="button" class="btn btn-default btn-shadow border0" ng-disabled="true">Installed</button>
+</SPAN>
+<img  ng-if="dataInstallNewPackagesLoading[packageInstall.id]" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+</div></td>
+
+</tr>
+
+
+<tr ng-if="dataPackageAppLoading" class="alert alert-danger"><td colspan="7"><div align="center"><img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></div></td></tr>
+<tr class="alert alert-danger" ng-if="(packageApps.length == 0 || packageAppsTotalRecords ==0) && !dataPackageAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+</tbody>
+</table>
+
+</div>
+</form>
+</div>
+
+</div>
+<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+<div class="col-lg-12 blue-bg pad10">
+<div class="col-lg-9">
+
+<uib-pagination  total-items="packageAppsTotalRecords" ng-model="$parent.currentPackageAppPage" ng-change="pageChanged()" items-per-page="packageAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+boundary-links="true" num-pages="numPages"></uib-pagination>
+
+</div>
+<div class="col-lg-3 text-right">Displaying {{currentPackageAppPage}} / {{numPages}} of {{numPages}}</div>
+</div>
+
+</div>
+</div>
+<div  ng-if="action=='UPDATE_PACKAGE'">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+<div class="modal-header"><div class="nav navbar-fixed-top gradient-bg modal-header" style="color:white;"><button type="button"  class="close" ng-click="closePackages();">&times;</button>
+<b class="modal-title" id="modal-title">Upgrade Packages</b>
+</div>
+
+</div>		
+<div >
+<form class="form-horizontal" style="margin-top: 3px;" id="form" name="form" role="form">
+<div >
+<table id="total" class="table table-striped">
+<thead>
+<tr>
+<!--<th>
+<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAll" ng-click="checkAll(selectedAll)" /> <label></label></span> 
+</th>-->
+<th>Name</th>
+<th>Version</th>
+<th>Description</th>
+<th>Type</th>
+<th>Created On</th>
+<th>Action</th>
+
+</tr>
+</thead>
+<tbody >
+<tr  ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowPackage($index,packageInstall);" ng-repeat="packageInstall in packageApps | limitTo:packageAppPerPage">
+<!--<td><SPAN class="checkbox checkbox-primary">
+<input type="checkbox" ng-model="packageInstall.packageInstallSelected" ng-change="checkStatus(packageInstall);"  /><label for="packageInstall.packageInstallSelected"></label></SPAN>
+</td>-->
+<td><div >{{packageInstall.packageName}}</div ></td>
+<td><div >{{packageInstall.version}}</div ></td>
+<td><div >{{packageInstall.description}}</div></td>
+<td><div >{{packageInstall.packageType}}</div></td>
+<td><div >{{packageInstall.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+<td ><div >
+<SPAN ng-show="packageInstall.install_status==0">
+<button type="button" ng-show="selectedRow == $index"  class="btn btn-default"  ng-disabled="dataInstallNewPackagesLoading[packageInstall.id]"  ng-click="upgradePackage(packageInstall.id,Package.packageId)">Upgrade</button>
+</SPAN>
+<SPAN ng-show="packageInstall.install_status==1">
+<button type="button" class="btn btn-default btn-shadow border0" ng-disabled="true">Installed</button>
+</SPAN>
+<img  ng-if="dataInstallNewPackagesLoading[packageInstall.id]" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+</div></td>
+
+</tr>
+
+
+<tr ng-if="dataPackageAppLoading" class="alert alert-danger"><td colspan="7"><div align="center"><img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></div></td></tr>
+<tr class="alert alert-danger" ng-if="(packageApps.length == 0 || packageAppsTotalRecords ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+</tbody>
+</table>
+
+</div>
+</form>
+</div>
+
+</div>
+<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+<div class="col-lg-12 blue-bg pad10">
+<div class="col-lg-9">
+
+<uib-pagination  total-items="packageAppsTotalRecords" ng-model="$parent.currentPackageAppPage" ng-change="pageChanged()" items-per-page="packageAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+boundary-links="true" num-pages="numPages"></uib-pagination>
+
+</div>
+<div class="col-lg-3 text-right">Displaying {{currentPackageAppPage}} / {{numPages}} of {{numPages}}</div>
+</div>
+
+</div>
+</div>
+</div>
+</script>

@@ -1,0 +1,261 @@
+<link rel="stylesheet" type="text/css" href="assets/CSS/default/style.css">
+<div ng-controller="ApplicationCreateEditCtrl">
+<div class="row">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div ncy-breadcrumb></div>
+			 <button style="float:right;display:inline;" type="submit" class="btn btn_back" title="Back to list" back-button>
+                <i class="fa fa-chevron-left mr-right7"></i>Back to list
+            </button>
+        </div>
+</div>
+
+<div >
+<div class="row">
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+<h2 style="color:dodgerblue; font-weight: bold !important;" ng-if="!applicationselectedInfo.orgname">Add Client Admin</h2>
+<h2 style="color:dodgerblue; font-weight: bold !important;" ng-if="applicationselectedInfo.orgname">{{applicationselectedInfo.orgname}}</h2>
+					<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+					
+				</div>
+
+</div>
+
+
+<div class="row">
+<form class="form-horizontal" id="form" name="form" role="form" ng-submit="saveApplication();" > 
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">	
+<div id="deviceTable" >
+
+	
+						<table class="table table-striped pad0" >
+							<thead>
+								<tr>
+									<th class="col-lg-2 col-ms-2 col-sm-2 col-xs-3">Name</th>
+									<th class="col-lg-8 col-ms-10 col-sm-10 col-xs-9">Value</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Applicant Name:</div></td>
+									<td><div class="col-xs-4" ng-class="{ 'has-error': form.orgname.$dirty && (form.orgname.$error.required || form.orgname.$error.maxlength) }"><input uib-tooltip="Enter an Organization Name" name="orgname" id="orgname" tooltip-placement = "top" data-trigger ="hover"  type="text" class="form-control" ng-model="organisationData.orgname" placeholder="Name of the applicant" ng-maxlength="100" required/><span ng-show="form.orgname.$dirty && form.orgname.$error.required" class="help-block">Name of Applicant is required</span><span ng-show="form.orgname.$error.maxlength" class="help-block">Your Name Should Contain within 100 Characters</span></div>
+										
+									</td>
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Applicant Email:</div></td>
+									<td><div class="col-xs-4" ng-class="{ 'has-error': form.email.$dirty && (form.email.$error.required || form.$error.pattern || form.email.$error.maxlength) }">
+									<input uib-tooltip="Enter an Organization Email" tooltip-placement = "top" data-trigger ="hover" ng-pattern="emailFormat" type="text" class="form-control" ng-model="organisationData.email" name="email" id="email" placeholder="Email of the applicant" ng-maxlength="100" required/><span ng-show="form.email.$dirty && (form.email.$error.required)" class="help-block">Email of the applicant is required</span><span ng-show="form.email.$dirty && (form.email.$error.pattern)" class="help-block">Please Enter Validate Email!!!</span><span ng-show="form.email.$error.maxlength" class="help-block">Your Email Should Contain within 100 Characters</span>
+									</div>
+									
+									</td>
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Applicant Address:</div></td>
+									<td> <div class="col-sm-8" ng-class="{ 'has-error': form.address.$dirty && (form.address.$error.required || form.address.$error.maxlength) }">
+									<textarea uib-tooltip="Enter an Organization Address" tooltip-placement = "top" data-trigger ="hover" class="form-control" name="address" id="address" ng-model="organisationData.address" placeholder="Address of the applicant" ng-maxlength="500"  required></textarea><span ng-show="form.address.$dirty && form.address.$error.required" class="help-block">Address of the applicant is required</span><span ng-show="form.address.$error.maxlength" class="help-block">Your Address Should Contain within 500 Characters</span>
+									</div>
+									</td>
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Applicant Description:</div></td>
+									<td> <div class="col-sm-8" ng-class="{ 'has-error': form.description.$dirty && (form.description.$error.required || form.description.$error.maxlength) }">
+									<textarea uib-tooltip="Enter an Organization Description" tooltip-placement = "top" data-trigger ="hover" class="form-control" name="description" id="description" ng-model="organisationData.description" placeholder="Description of the applicant" ng-maxlength="500" required></textarea><span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">Description of the applicant is required</span><span ng-show="form.description.$error.maxlength" class="help-block">Your Description Should Contain within 500 Characters</span>
+									</div>
+									</td>
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Applicant Url Server:</div></td>
+									<td> 
+									<div class="col-xs-4" ng-class="{ 'has-error': form.ruleMgmt.$dirty && (form.ruleMgmt.$error.required || form.ruleMgmt.$error.maxlength) }">
+									Rule Management :<input uib-tooltip="Enter an Organization Url Server" name="ruleMgmt" id="ruleMgmt" tooltip-placement = "top" data-trigger ="hover"  type="text" class="form-control" ng-model="organisationData.url_server.ruleMgmt" placeholder="Url Server of the applicant" ng-maxlength="100" required/>
+									<span ng-show="form.ruleMgmt.$dirty && form.ruleMgmt.$error.required" class="help-block">Url Server of Applicant is required</span>
+									<span ng-show="form.ruleMgmt.$error.maxlength" class="help-block">Url Server Should Contain within 100 Characters</span>
+									</div>
+									<div class="col-xs-4" ng-class="{ 'has-error': form.deviceMgmt.$dirty && (form.deviceMgmt.$error.required || form.deviceMgmt.$error.maxlength) }">
+									Device Management : <input uib-tooltip="Enter an Organization Url Server" name="deviceMgmt" id="deviceMgmt" tooltip-placement = "top" data-trigger ="hover"  type="text" class="form-control" ng-model="organisationData.url_server.deviceMgmt" placeholder="Url Server of the applicant" ng-maxlength="100" required/>
+									<span ng-show="form.deviceMgmt.$dirty && form.deviceMgmt.$error.required" class="help-block">Url Server of Applicant is required</span>
+									<span ng-show="form.deviceMgmt.$error.maxlength" class="help-block">Url Server Should Contain within 100 Characters</span>
+									</div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+									<SPAN><b>DB Details</b></SPAN>
+									
+									<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">NAME:</div></td>
+									<td> 
+									<div class="col-xs-4" ng-class="{ 'has-error': form.dbname.$dirty && (form.dbname.$error.required || form.dbname.$error.maxlength) }"><input uib-tooltip="Enter Database Detail Name" name="dbname" id="dbname" tooltip-placement = "top" data-trigger ="hover"  type="text" class="form-control" ng-model="organisationData.dbdetails.NAME" placeholder="Url Server of the applicant" ng-maxlength="100" required/><span ng-show="form.dbname.$dirty && form.dbname.$error.required" class="help-block">Database name is required</span><span ng-show="form.dbname.$error.maxlength" class="help-block">Database Should Contain within 100 Characters</span>
+									</div>
+									</td>
+
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">DBTYPE:</div></td>
+									<td> 
+									<div class="col-xs-2" >
+									<select ng-model="organisationData.dbdetails.DBTYPE" class="form-control" ng-init="organisationData.dbdetails.DBTYPE='mongo'" >
+									<option value="mongo">MongoDB</option>
+									
+									</select>
+									</div>
+									</td>
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">HOST:</div></td>
+									<td> 
+									<div class="col-xs-3" ng-class="{ 'has-error': form.dbhost.$dirty && (form.dbhost.$error.required || form.dbhost.$error.maxlength) }"><input uib-tooltip="Enter Database Detail Host" name="dbhost" id="dbhost" tooltip-placement = "top" data-trigger ="hover"  type="text" class="form-control" ng-model="organisationData.dbdetails.HOST" placeholder="Database host of the applicant" ng-maxlength="100" required/><span ng-show="form.dbhost.$dirty && form.dbhost.$error.required" class="help-block">Database Host is required</span><span ng-show="form.dbhost.$error.maxlength" class="help-block">Database Host Should Contain within 100 Characters</span>
+									</div>
+									</td>
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">USER:</div></td>
+									<td> 
+									<div class="col-xs-3" ng-class="{ 'has-error': form.dbuser.$dirty && (form.dbuser.$error.required || form.dbuser.$error.maxlength) }"><input uib-tooltip="Enter Database Detail User" name="dbuser" id="dbuser" tooltip-placement = "top" data-trigger ="hover"  type="text" class="form-control" ng-model="organisationData.dbdetails.USER" placeholder="Database user of the applicant" ng-maxlength="100" required/><span ng-show="form.dbuser.$dirty && form.dbuser.$error.required" class="help-block">Database User is required</span><span ng-show="form.dbuser.$error.maxlength" class="help-block">Database User Should Contain within 100 Characters</span>
+									</div>
+									</td>
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">PASSWORD:</div></td>
+									<td> 
+									<div class="col-xs-3" ng-class="{ 'has-error': form.dbpassword.$dirty && (form.dbpassword.$error.required || form.dbpassword.$error.maxlength) }"><input uib-tooltip="Enter Database Detail Password" name="dbpassword" id="dbpassword" tooltip-placement = "top" data-trigger ="hover"  type="text" class="form-control" ng-model="organisationData.dbdetails.PASSWORD" placeholder="Database Password of the applicant" ng-maxlength="100" required/><span ng-show="form.dbpassword.$dirty && form.dbpassword.$error.required" class="help-block">Database Password is required</span><span ng-show="form.dbpassword.$error.maxlength" class="help-block">Database Password Should Contain within 100 Characters</span>
+									</div>
+									</td>
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">PORT:</div></td>
+									<td> 
+									<div class="col-xs-2" ng-class="{ 'has-error': form.dbport.$dirty && (form.dbport.$error.required || form.dbport.$error.maxlength) }"><input uib-tooltip="Enter an Organization Url Server" name="dbport" id="dbport" tooltip-placement = "top" data-trigger ="hover"  type="text" class="form-control" ng-model="organisationData.dbdetails.PORT" placeholder="Url Server of the applicant" ng-maxlength="100" required/><span ng-show="form.dbport.$dirty && form.dbport.$error.required" class="help-block">Database Port is required</span><span ng-show="form.dbport.$error.maxlength" class="help-block">Database Port Should Contain within 10 Characters</span>
+									</div>
+									</td>
+								</tr>
+									</td>
+								</tr>
+								<tr><td colspan="2">
+								
+	
+							
+							
+							<table id="total" class="table table-striped" ng-show="(subscriptionList).length">
+										<thead>
+											<tr>
+												<th ><SPAN class="checkbox checkbox-primary"><input type="checkbox" ng-model="selectedAll" ng-click="checkAll(selectedAll)"/><label for="selectedAll"></label></SPAN> </th>
+												<th >Subscription Name</th>
+												<th > Alias</th>
+												<!-- <th > Visibility</th> -->
+												<th ><div >Features <SPAN style="font-size:12px;">(Name - Request Method)</SPAN></div></th>
+												
+											</tr>
+										</thead>
+										<tbody >
+	
+					<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,subscription);" ng-repeat="subscription in subscriptionList | limitTo:subscriptionPerPage">
+                       <!-- ng-disabled="subscription.checked" -->
+						<td><SPAN class="checkbox checkbox-primary"><input type="checkbox" ng-model="subscription.subscriptionSelected"   ng-change="checkStatus(subscription);"  /><label for="subscription.subscriptionSelected"></label></SPAN>
+						</td>
+                        <td><div>{{subscription.displayname}}
+						</div>
+						</td>
+						 <td><div>{{subscription.alias}}
+						</div>
+						</td>
+						<!-- <td><div>{{subscription.visibility}}
+						</div> -->
+						</td>
+						<td><div ng-if="subscription.apis.length>0">
+						<div ng-repeat="apis in subscription.apis">
+						({{apis.displayname}} - {{apis.requestmethod}} )
+						</div>
+						</div>
+						<div ng-if="subscription.apis.length<=0">No Features Exist.</div>
+						</td>
+                        
+                    </tr>
+					
+					<tr class="alert alert-danger" ng-if="(subscriptionList.length == 0 || totalSubscriptionItems ==0) && !dataSubscriptionLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+
+					</tbody>
+					</table>
+					
+					
+					<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(subscriptionList).length">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+								
+								<uib-pagination  total-items="totalSubscriptionItems" ng-model="$parent.currentSubscriptionPage" ng-change="pageChanged()" items-per-page="subscriptionPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+    boundary-links="true" num-pages="numPages"></uib-pagination>
+											
+										</div>
+										<div class="col-lg-3 text-right">Displaying {{currentSubscriptionPage}} / {{numPages}} of {{numPages}}</div>
+										</div>
+								
+					</div>
+								</td></tr>
+								<!--<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">First Name:</div></td>
+									<td><div class="col-xs-4">
+									<input type="text" class="form-control" placeholder="First name of the applicant"/>
+									</div>
+									
+									</td>
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Last Name:</div></td>
+									<td><div class="col-xs-4">
+									<input type="text" class="form-control" placeholder="Last name of the applicant"/>
+									</div>
+									
+									</td>
+								</tr>
+								
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Gender:</div></td>
+									<td><div class="col-sm-12">
+									<div class="form-check">
+									<input type="radio" class="form-check-input" ng-model="gender" value="Male"/> Male &nbsp;
+									<input type="radio" class="form-check-input" ng-model="gender" value="Female"/> Female &nbsp;
+									</div>
+									</div>
+									
+									</td>
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Designation:</div></td>
+									<td><div class="col-sm-3">
+									<input type="text" class="form-control" placeholder="Designation"/>
+									</div>
+									
+									</td>
+								</tr>
+								<tr>
+									<td><div style="float:left;margin-left:1%;margin-top:2%;">Role:</div></td>
+									<td><div class="col-sm-2">
+									<input type="text" class="form-control" placeholder="Role"/>
+									</div>
+									
+									</td>
+								</tr>-->
+							</tbody>
+						</table>
+																			
+						
+
+
+</div>
+
+	
+													
+						<button ng-if="!applicationselectedInfo.id" type="button" ng-show="can('create_organisation')" class="btn btn_act" ng-disabled="form.$invalid || dataLoading" ng-click="saveApplication(subscriptionList);"  style="height:48px !important;">Add Application</button>
+							
+																	
+						<button ng-if="applicationselectedInfo.id" type="button" ng-show="can('update_organisation')" class="btn btn_act" ng-disabled="form.$invalid || applicationselectedInfo.id == orgid || dataLoading" ng-click="saveApplication(subscriptionList,applicationselectedInfo.id);"  style="height:48px !important;">Edit Application</button>
+					<img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />		
+</div>	</form>
+							
+</div>
+</div>
+
+
+</div>

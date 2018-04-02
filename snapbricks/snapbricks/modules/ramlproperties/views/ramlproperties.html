@@ -1,0 +1,243 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<div class="row">
+    <div ncy-breadcrumb></div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <!--<ul class="nav nav-tabs font15">
+      <li class="active"><a data-toggle="tab" href="#definitions" ng-click="$event.preventDefault();"><i class="fa fa-table mr-right7"></i>Definitions</a></li>
+      <li><a data-toggle="tab" href="#devices" ng-click="$event.preventDefault();"><i class="fa fa-table mr-right7"></i>Devices</a></li>
+   </ul>-->
+        <div ng-cloak>
+            <md-content>
+                <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab label="Definition Templates" ng-click="$event.preventDefault();">
+                        <md-content id="definitions" class="md-padding">
+						<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+                            <div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20" >
+                                <button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFuncDefinition();"><i class="fa fa-refresh"></i>Refresh </button>
+                                <!--
+         <div class="dropdown display-inline">
+      <button type="button" class="btn btn-default btn-shadow border0 dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-share-square-o"></i>Export<span class=""></span>
+      </button>
+      <ul class="dropdown-menu dropdown-export">
+        <li><a  export-Excel attrname="ramlDevicesTable" attrpageno="{{currentGatewayPage}}"><i class="fa fa-file-excel-o mr-right7"></i>Export to Excel</a></li>
+        <li class="divider"></li>
+        <li><a  export-Csv attrname="ramlDevicesTable" attrpageno="{{currentGatewayPage}}"><i class="fa fa-file-o mr-right7"></i>Export to CSV</a></li>
+                  
+      </ul>
+       </div> -->
+                                <!--<button type="button" class="btn btn-default btn-shadow border0" ng-click="createRAML()"><i class="fa fa-plus-circle"></i> Add</button> -->
+                                <button type="button" class="btn btn-default btn-shadow border0" ng-click="createTemplateRAML()"><i class="fa fa-plus-circle"></i> Add Template</button>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+                                    <table id="ramlDefinitionTable" class="table table-striped">
+                                        <tr>
+                                            <thead>
+                                                <th>Definition Name</th>
+                                                <th>Description</th>
+                                                <th>Created Date</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+                                            </thead>
+                                        </tr>
+                                        <!-- ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowScheduleDevice($index,schdl)" ng-repeat="schdl in getSchDevData | limitTo:deviceSchPerPage" -->
+                                        <tr ng-class="{'selected':$index == selectedRow}" style="cursor: pointer;" ng-click="setClickedRowRAMLDefinition($index,ramll)" ng-repeat="ramll in getRAMList | limitTo:RAMLPerPage">
+                                            <td>{{ramll.name}}</td>
+                                            <td>{{ramll.description}}</td>
+                                            <td>{{ramll.created_ts}}</td>
+                                            <td ng-click="editRAML(ramll)"><a><i class="fa fa-edit"></i></a></td>
+                                            <td id="btn_deactivate" ng-click="deleteRamlDefinition(ramll.id)"><i class="fa fa-trash"></i></td>
+                                        </tr>
+                                        <tr ng-if="dataLoading">
+                                            <td colspan="11">
+                                                <div align="center"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+                                            </td>
+                                        </tr>
+                                        <tr class="alert alert-danger" ng-if="totalItems==0">
+                                            <td colspan="8"><strong>No Record Found.</strong></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+                                    <div class="col-lg-12 blue-bg pad10">
+                                        <div class="col-lg-9">
+                                            <uib-pagination total-items="totalItems" ng-model="currentRAMLPage" ng-change="pageChanged()" items-per-page="RAMLPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+                                        </div>
+                                        <div class="col-lg-3 text-right">Displaying {{currentRAMLPage}} / {{numPages}} of {{numPages}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Device Templates" ng-click="$event.preventDefault();">
+                        <md-content id="devices" class="md-padding">
+						<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+                            <div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20" >
+                                <button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFuncDevices();"><i class="fa fa-refresh"></i> Refresh</button>
+                                <!--
+         <div class="dropdown display-inline">
+      <button type="button" class="btn btn-default btn-shadow border0 dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-share-square-o"></i>Export<span class=""></span>
+      </button>
+      <ul class="dropdown-menu dropdown-export">
+        <li><a  export-Excel attrname="ramlDefinitionTable" attrpageno="{{currentGatewayPage}}"><i class="fa fa-file-excel-o mr-right7"></i>Export to Excel</a></li>
+        <li class="divider"></li>
+        <li><a  export-Csv attrname="ramlDefinitionTable" attrpageno="{{currentGatewayPage}}"><i class="fa fa-file-o mr-right7"></i>Export to CSV</a></li>
+                  
+      </ul>
+       </div> -->
+                                <button type="button" class="btn btn-default btn-shadow border0" ng-click="createRAMLDevice();"><i class="fa fa-plus-circle"></i> Add</button>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+                                    <table id="ramlDevicesTable" class="table table-striped">
+                                        <tr>
+                                            <thead>
+                                                <th>Device Classification</th>
+                                                <th>Description</th>
+                                                <th>Keywords</th>
+                                                <th>Created Date</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+                                            </thead>
+                                        </tr>
+                                        <tr ng-class="{'selected':$index == selectedRow}" style="cursor: pointer;" ng-click="setClickedRowRAMLDevice($index,ramllDev)" ng-repeat="ramllDev in getRAMList1 | limitTo:RAMLPerPage">
+                                            <td>{{ramllDev.devicename}}</td>
+                                            <td>{{ramllDev.description}}</td>
+                                            <td>{{ramllDev.keywords}}</td>
+                                            <td>{{ramllDev.created_ts}}</td>
+                                            <td ng-click="editRamlDevice(ramllDev.id)"><a><i class="fa fa-edit"></i></a></td>
+                                            <td id="btn_deactivate" ng-click="deleteRamlDevice(ramllDev.id)"><i class="fa fa-trash"></i></td>
+                                        </tr>
+                                        <tr class="alert alert-danger" ng-if="totalItemsDev==0 || getRAMList1.length==0||totalItemsDev==null ">
+                                            <td colspan="9"><strong>No Record Found.</strong></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+                                    <div class="col-lg-12 blue-bg pad10">
+                                        <div class="col-lg-9">
+                                            <uib-pagination total-items="totalItemsDev" ng-model="$parent.currentRAMLPage" ng-change="pageChanged1()" items-per-page="RAMLPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+                                        </div>
+                                        <div class="col-lg-3 text-right">Displaying {{currentRAMLPage}} / {{numPages}} of {{numPages}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Devices" ng-click="actualDevice=true;$event.preventDefault();">
+                        <md-content id="devices" class="md-padding">
+						<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+                            <div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20">
+                                <button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFuncDevices();"><i class="fa fa-refresh"></i> Refresh</button>
+                                <button type="button" class="btn btn-default btn-shadow border0" ng-click="setDeviceraml();" ng-disabled="arrdevId.length==0"><i class="fa fa-cubes" ></i> Set RAML</button>
+                            </div>
+                            <div class="row">
+                                <div id="deviceTable">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+                                        <table id="ramlDevicesTable" class="table table-striped">
+                                            <tbody>
+												<tr>
+                                                    <td style="width: 15%">Mesh Selection : </td>
+                                                    <td colspan="5">
+                                                        <div >
+                                                            
+															 <select name="gMesh" ng-model="gMesh"  class="form-control" required ng-change="getGatewayFromMesh(gMesh)">
+																<option value="">--Select Mesh--</option>
+																<option ng-repeat="meshdata in meshlist" value={{meshdata.id}}>{{meshdata.name}}</option>
+															</select>
+														
+														</div>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="jsonFormatData.length>0">
+                                                    <td style="width: 15%">Gateway Selection : </td>
+                                                    <td colspan="5">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control search-input " id="gSearch" ng-model="gSearch" ng-keyup="completegSearch()" placeholder="Type Display Name"><span class="input-group-addon"><i class="fa fa-search"></i></span></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="5">
+                                                        <h3>Devices</h3></td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                             <table id="ramlDevicesTable" class="table table-striped"><thead>
+                                                <tr>
+                                                    <th style="width: 5%"></th>
+                                                    <th style="width: 5%">Live</th>
+                                                    <th style="width: 15%">Display Name</th>
+                                                    <th style="width: 15%">Mac ID</th>
+                                                    <th style="width: 15%">Gateway</th>
+                                                    <th style="width: 15%">Gateway Manager</th>
+                                                    <th style="width: 15%">Status</th>
+                                                    <th style="width: 15%">Protocol</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowDevice($index,device)" ng-repeat="device in deviceList | limitTo:devicePerPage">
+                                                    <td>
+                                                        <SPAN class="checkbox checkbox-primary">
+                                                        <input type="checkbox" id="{{device.id}}" ng-checked="arrayObjectIndexOf(arrdevIdTemp,device.id) > -1"  value="{{device}}"  />
+                                                        <label for="device.gatewaySelected"></label>
+                                                        </SPAN>
+                                                    </td>
+                                                    <td>
+                                                        <div uib-tooltip="Offline" tooltip-placement="top" ng-if="device.connected==false">
+                                                            <div class="orange center-block"></div>
+                                                        </div>
+                                                        <div uib-tooltip="Online" tooltip-placement="top" ng-if="device.connected==true">
+                                                            <div class="green center-block"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div style="cursor:pointer;">{{device.displayname}}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div>{{device.macid}}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div>{{device.gateway.displayname}}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div>{{device.gateway.gatewaymanager_username}}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div>{{device.device_status}}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div>{{device.protocol}}</div>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="dataLoading">
+                                                    <td colspan="14">
+                                                        <div align="center"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="alert alert-danger" ng-if="deviceList.length ==0 && !dataLoading">
+                                                    <td colspan="13"><strong>No Record Found.</strong></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="deviceList.length>0">
+                                        <div class="col-lg-12 blue-bg pad10">
+                                            <div class="col-lg-9">
+                                                <uib-pagination total-items="totalDevices" ng-model="currentDevicePage" ng-change="pageChanged5()" max-size="5" force-ellipses="true" items-per-page="devicePerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+                                            </div>
+                                            <div class="col-lg-3 text-right">Displaying {{currentDevicePage}} / {{numPages}} of {{numPages}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+            </md-content>
+        </div>
+    </div>
+</div>

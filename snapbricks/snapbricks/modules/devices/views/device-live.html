@@ -1,0 +1,251 @@
+<div  ng-controller="deviceLiveCtrl">
+
+<script>
+								
+//$(document).ready(function(){
+//	//InitChart();
+//	
+//	  $.ajax({url: "http://localhost/IOTGraphs/realdatagenerator",dataType: "json", success: function(result){
+//	        //alert(""+result);
+//	        //InitChart(result);
+//	        
+//	        
+//		  createChartData(result);
+//	        
+//	    }});
+//	
+//	
+//});
+
+
+$(document).ready(function(){
+
+/*$('#address').on('change', function() {
+		var selected = $(this).val();
+		$("#sen_id option").each(function(item){
+			console.log(selected) ;  
+			var element =  $(this) ; 
+			console.log(element.data("tag")) ; 
+			if (element.data("tag") != selected){
+				element.hide() ; 
+			}else{
+				element.show();
+			}
+		}) ; 
+		
+		$("#sen_id").val($("#sen_id option:visible:first").val());
+});*/
+$("#btn_submit").click(function(event)
+		{
+			
+  });
+});
+
+								</script>
+<!--<script id="live-form.html" type="text/ng-template">
+
+								<style>
+								 .modal-dialog {
+  width: 1000px;
+}
+								</style>								
+									<div class="modal-dialog mr-top80"><div class="modal-content">
+									<form class="form-horizontal">
+											
+											<div  class="modal-body">
+												<div class="form-group">
+													<div class="col-lg-8" >
+													<div  ><h4 class="modal-title">Filter Gateway Sensors </h4>
+											</div>
+													</div>
+												</div>
+												
+												
+												<div class="form-group" >
+												<div class="col-lg-8" >
+													<div class="modal-body">
+													<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+													 <table id="total" class="table table-striped">
+										
+					<tbody >
+					<tr  >
+                		<td><div >Add Sensor: </div ></td>
+                        <td><div ><select class="form-control filter-control" id="gmanSearch" ng-model="gmanSearch1">
+																					<option>--Select--</option>
+																				</select></div ></td>
+						<td><div ><input type="text" class="form-control filter-control"></div></td>
+                        <td><div><button type="submit"  data-dismiss='modal' class="btn btn-filter">Add</button></div></td>
+                        
+                    </tr>
+					<tr  >
+                		<td><div >Add Sensor: </div ></td>
+                        <td><div ><select class="form-control filter-control" id="gmanSearch" ng-model="gmanSearch2">
+																					<option>--Select--</option>
+																				</select></div ></td>
+						<td><div ><input type="text" class="form-control filter-control"></div></td>
+                        <td><div><button type="submit"  data-dismiss='modal' class="btn btn-filter">Add</button></div></td>
+                        
+                    </tr>
+					<tr  >
+                		<td><div >Add Sensor: </div ></td>
+                        <td><div ><select class="form-control filter-control" id="gmanSearch" ng-model="gmanSearch3">
+																					<option>--Select--</option>
+																				</select></div ></td>
+						<td><div ><input type="text" class="form-control filter-control"></div></td>
+                        <td><div><button type="submit"  data-dismiss='modal' class="btn btn-filter">Add</button></div></td>
+                        
+                    </tr>
+					<tr  >
+                		<td><div >Add Sensor: </div ></td>
+                        <td><div ><select class="form-control filter-control" id="gmanSearch" ng-model="gmanSearch4">
+																					<option>--Select--</option>
+																				</select></div ></td>
+						<td><div ><input type="text" class="form-control filter-control"></div></td>
+                        <td><div><button type="submit"  data-dismiss='modal' class="btn btn-filter">Add</button></div></td>
+                        
+                    </tr>
+					
+					</tbody>
+					</table><button type="submit"  data-dismiss='modal' class="btn btn-filter">Add More</button>
+					<br><br><br>
+					<button type="button"  ng-click="closeFilterInfo()" style="height:48px !important;" class="btn  btn-filter"><i class="fa fa-plus-circle"></i>Apply Filter</button>
+														<button type="button" style="background-color:#DC143C !important;height:48px !important;"  ng-click="closeFilterInfo()" class="btn  btn-filter"><i class="fa fa-trash"></i>Cancel</button>
+					</div>
+																	
+																</div>
+													</div>
+												</div>
+												
+											
+											</div></div>
+											</form>	
+									</div>
+								 </script>-->
+			<div class="row">
+				<div >
+					
+						<div ncy-breadcrumb></div>
+					
+				</div>	
+				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-1 text-right">
+					<button type="submit" class="btn btn_back" title="Back to list" back-button><i class="fa fa-chevron-left mr-right7"></i>Back to list</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+				</div>
+			</div>
+			
+			<div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20" >
+			<div class="form-group">
+													
+													
+													
+													<div class="col-lg-2" >
+													<div  >Property : 
+														<select id="propertyid" name="propertyid" ng-model="selectedpropertyid"  class="form-control" ng-options="json.name as json.name for json in properties" ng-change="changeSelectedsenId()">
+														<option value="">--Select--</option>
+														
+														</select>
+													</div>
+													</div>
+													<div class="col-lg-2" >
+													<div  >Time : 
+													<select id="time" name="time" class="form-control">
+														<option value="Last_30_min">Last 30 Min</option>
+														<option value="Last_45_min">Last 45 Min</option>
+														<option value="Last_1_hour">Last 1 Hour</option>
+														<option value="Last_12_hour">Last 12 Hour</option>
+														<option value="Last_24_hour">Last 24 Hour</option>
+														<option value="Last_Week">Last Week</option>
+														<option value="Last_Month">Last Month</option>
+													</select>
+													</div>
+													</div>
+													<div class="col-lg-2" >
+													<div >&nbsp;</div>
+													<div >
+													<button id="btn_submit" ng-click="btnSubmitData($event);" class = "btn btn-default">Search</button>
+													<SPAN id="dataLoadingGatewayLive" style="display:none;"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></SPAN>
+													</div>
+													</div>
+			</div>
+			</div>
+			
+			<div class="row" >
+			 
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+				<br clear="all"/><label class="" for="gateway"><div align="left" id="labeldisplay"></div></label>
+				<div id="chart" style="background-color:#ffffff;width:100%;" ></div>
+				</div>
+			</div>	
+			<!--<div class="row" >
+			 
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+					
+						<div class="form-group">
+							
+							<div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">-->
+								
+													
+					<!--								
+													<label>Gateway :</label>
+			<select id="gateway_id" name="gateway_id">
+				<option value="GW_123456">GW_123456</option>
+				<option value="58464f5929a3a330cdeb4f04">58464f5929a3a330cdeb4f04</option>
+				<option value="58464f5929a3a330cdeb4f05">58464f5929a3a330cdeb4f05</option>
+			</select>
+		
+			
+		<label>Mac : id :</label>
+			<select id="mac_id" name="mac_id">
+				<option value="APG522">APG522</option>
+				<option value="APG522">APG522</option>
+				<option value="APG522">APG522</option>
+			</select>
+		
+		
+		<label>Time :</label>
+			<select id="time" name="time">
+				<option value="Last_30_min">Last 30 Min</option>
+				<option value="Last_45_min">Last 45 Min</option>
+				<option value="Last_1_hour">Last 1 Hour</option>
+				<option value="Last_12_hour">Last 12 Hour</option>
+				<option value="Last_24_hour">Last 24 Hour</option>
+				<option value="Last_Week">Last Week</option>
+				<option value="Last_Month">Last Month</option>
+			</select><br><br><br>-->
+				<!--								</div>
+								
+							</div>
+						</div>
+					
+					<div>
+					
+					</div>
+					
+					
+				</div></div>-->
+			
+			
+			
+			
+			
+			
+			
+		</div>
+   
+
+<script type="text/javascript">
+			
+			function toggleIcon(e) 
+			{
+				$(e.target)
+					.prev('.panel-heading')
+					.find(".more-less")
+					.toggleClass('fa-plus-square-o fa-minus-square-o');
+			}
+			$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+			$('.panel-group').on('shown.bs.collapse', toggleIcon);
+		</script>

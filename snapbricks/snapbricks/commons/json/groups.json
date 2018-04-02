@@ -1,0 +1,53 @@
+{
+  "total_records": 5,
+  "message": "Data fetched successfully",
+  "Data": [
+    {
+      "id": "5877495d421aa91294332fc2",
+      "groupname": "India",
+      "description": "Main Group",
+      "created_ts": "2017-01-12T14:44:19.371000",
+      "modified_ts": "2017-01-12T14:44:19.371000",
+      "is_deleted": false,
+      "parent": null
+    },
+    {
+      "id": "5877498d421aa91294332fc3",
+      "groupname": "Gujarat",
+      "description": "Great India is my parent",
+      "created_ts": "2017-01-12T14:44:19.371000",
+      "modified_ts": "2017-01-12T14:44:19.371000",
+      "is_deleted": true,
+      "parent": "5877495d421aa91294332fc2"
+    },
+    {
+      "id": "58774a3c421aa91294332fc4",
+      "groupname": "AHM",
+      "description": "Great India is my parent",
+      "created_ts": "2017-01-12T14:44:19.371000",
+      "modified_ts": "2017-01-12T14:44:19.371000",
+      "is_deleted": true,
+      "parent": "5877498d421aa91294332fc3"
+    },
+    {
+      "id": "58774a44421aa91294332fc5",
+      "groupname": "KTC",
+      "description": "Great India is my parent",
+      "created_ts": "2017-01-12T14:44:19.371000",
+      "modified_ts": "2017-01-12T14:44:19.371000",
+      "is_deleted": true,
+      "parent": "5877498d421aa91294332fc3"
+    },
+    {
+      "id": "58774c9f421aa91294332fc6",
+      "groupname": "Baroda",
+      "description": "Great India is my parent",
+      "created_ts": "2017-01-12T14:44:19.371000",
+      "modified_ts": "2017-01-12T14:44:19.371000",
+      "is_deleted": false,
+      "parent": "5877498d421aa91294332fc3"
+    }
+  ],
+  "previous_page": null,
+  "next_page": null
+}

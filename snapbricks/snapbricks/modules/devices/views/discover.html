@@ -1,0 +1,668 @@
+<div  ng-controller="gatewayDiscoverCtrl">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div ncy-breadcrumb></div>
+			 <button style="float:right;display:inline;" type="submit" class="btn btn_back" title="Back to list" back-button>
+                <i class="fa fa-chevron-left mr-right7"></i>Back to list
+            </button>
+        </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<hr class="mr-top10" style="border:2px solid #3D6BA9;" />
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20" >
+				 <div ng-cloak>
+					  <md-content>
+						<md-tabs md-dynamic-height md-border-bottom >
+						<md-tab label="OPC" ng-if="OPCSTATUS" ng-click="$event.preventDefault();">
+						<md-content id="OPC" class="md-padding">
+						<div id="deviceTable">
+						<md-content>
+						<md-tabs md-dynamic-height md-border-bottom  md-selected="-1">
+						<md-tab  ng-click="moveToOneTab('online');">Online Discover</md-tab>
+						<md-tab  ng-click="moveToOneTab('offline');refreshClickOPC();">Offline Discover</md-tab>
+						</md-tabs>
+						</md-content>
+							
+								<div ng-if="discoverOption=='online'">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+								<table id="discoverGridOption" class="table table-striped">
+								<tbody>
+								<tr><td>App Name:</td>
+								<td><div class = "col-lg-6">
+								<div class = "input-group">
+
+								   <select id="appName" name="appName" class="form-control"  ng-model="appName" ng-init="appName=getAppnames[0].AppName"  ng-options="gateway.AppName as gateway.AppName for gateway in getAppnames | filter:{AppType:'APP'}" >
+									
+								   </select>
+								</div>
+								</div><!-- /.col-lg-6 --></td></tr>
+								<tr><td>Enter OPC URL:</td>
+								<td><div class = "col-lg-6">
+								<div class = "input-group">
+								  <input type = "text" class= "form-control" ng-model="OPCURL" >
+								   <span class = "input-group-btn">
+									  <button class = "btn btn-default" style="margin-top:0.5%;" type = "button" ng-click="OPCDiscover(OPCURL,appName,'OPC');">
+										 Discover
+									  </button>
+									  <img ng-if="dataOPCLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+								   </span>
+								   
+								</div>
+								</div></td>
+								
+								</tr>
+								</tbody>
+								</table>
+								</div>
+									</div>
+								<div  ng-if="discoverOption=='online'">
+								<tr-row-gateway-offline-discover gatewayid="gatewayInfo.id" optionselection="'online'" appname="appName" optionfield="'OPC'" tabledata="discoverList" limit-todata="10"  selectedallofflinemodel="selectedAll"  totalitems="totalOPCItems" currentofflinepage="$parent.currentOPCPage" offlineperpage="OPCPerPage" ></tr-row-gateway-offline-discover>
+								
+						
+								</div>
+						
+						<div  ng-if="discoverOption=='offline'">
+						<tr-row-gateway-offline-discover gatewayid="gatewayInfo.id" optionselection="'offline'" appname="appName" optionfield="'OPC'" tabledata="offlineOPCList" limit-todata="10"  selectedallofflinemodel="selectedAllOfflineOPC"  totalitems="totalOfflineOPCItems" currentofflinepage="$parent.currentofflineOPCPage" offlineperpage="offlineOPCPerPage" ></tr-row-gateway-offline-discover>
+								
+						
+						</div>
+						
+						</div>
+			
+						</md-content>
+						</md-tab>
+						<md-tab label="ZIGBEE" ng-if="ZIGBEESTATUS" ng-click="$event.preventDefault();">
+							<md-content id="ZIGBEE" class="md-padding">
+							<div id="deviceTable">
+							<md-content>
+							<md-tabs md-dynamic-height md-border-bottom  md-selected="-1">
+							<md-tab  ng-click="moveToOneTabZigbee('online')">Online Discover</md-tab>
+							<md-tab  ng-click="moveToOneTabZigbee('offline');refreshClickZigbee();">Offline Discover</md-tab>
+							</md-tabs>
+							</md-content>
+								
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0" ng-if="zigbeediscoverOption =='online'">
+									<table id="discoverGridOption" class="table table-striped">
+									<tbody>
+									<tr><td>App Name:</td>
+									<td><div class = "col-lg-6">
+									<div class = "input-group">
+
+									  <select id="appName" name="appName" class="form-control"  ng-model="appName" ng-init="appName=getAppnames[0].AppName" ng-options="gateway.AppName as gateway.AppName for gateway in getAppnames | filter:{AppType:'APP'}" >
+										
+									   </select>
+									</div>
+									</div><!-- /.col-lg-6 -->
+									<button class="btn btn-default" type="button" ng-click="ZIGBEEDiscover(appName,'ZIGBEE');">Discover</button>
+										<img ng-if="dataZiGBEELoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+									
+									</td></tr>
+									
+									</tbody>
+									</table>
+								</div>
+								<div ng-if="zigbeediscoverOption =='offline'">
+								<tr-row-gateway-offline-discover gatewayid="gatewayInfo.id" optionselection="'offline'" appname="appName" optionfield="'ZIGBEE'" tabledata="zigbeeOFFLINEdiscoverList" limit-todata="10"  selectedallofflinemodel="selectedAllzigbee"  totalitems="totalOfflineOPCItems" currentofflinepage="$parent.currentOFFLINEZigbeePage" offlineperpage="ZigbeeOFFLINEPerPage" ></tr-row-gateway-offline-discover>
+									
+							
+								</div>
+								<div ng-if="zigbeediscoverOption =='online'">
+								<tr-row-gateway-offline-discover gatewayid="gatewayInfo.id" optionselection="'online'" appname="appName" optionfield="'ZIGBEE'" tabledata="zigbeediscoverList" limit-todata="10"  selectedallofflinemodel="selectedAllzigbee"  totalitems="totalOPCItems" currentofflinepage="$parent.currentZigbeePage" offlineperpage="ZigbeePerPage" ></tr-row-gateway-offline-discover>
+									
+							
+								</div>
+							</div>
+						
+							</md-content>
+						</md-tab>
+						<md-tab label="BLE" ng-if="BLESTATUS" ng-click="$event.preventDefault();">
+						<md-content id="BLE" class="md-padding">
+						<div id="deviceTable">
+							<md-content>
+								<md-tabs md-dynamic-height md-border-bottom  md-selected="-1">
+								<md-tab  ng-click="moveToOneTabBLE('online');">Online Discover</md-tab>
+								<md-tab  ng-click="moveToOneTabBLE('offline');refreshClickBLE();">Offline Discover</md-tab>
+								</md-tabs>
+							</md-content>
+						
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0" ng-if="BLEdiscoverOption =='online'">
+							<table id="discoverGridOption" class="table table-striped">
+							<tbody>
+							<tr><td>App Name:</td>
+							<td><div class = "col-lg-6">
+							<div class = "input-group">
+
+							  <select id="appName" name="appName" class="form-control"  ng-model="appName" ng-init="appName=getAppnames[0].AppName" ng-options="gateway.AppName as gateway.AppName for gateway in getAppnames | filter:{AppType:'APP'}" >
+								
+							   </select>
+							</div>
+							</div><!-- /.col-lg-6 -->
+							<button class="btn btn-default" type="button" ng-click="BLEDiscover(appName,'BLE');">Discover</button>
+								<img ng-if="dataBLELoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+							
+							</td></tr>
+							
+							</tbody>
+							</table>
+						</div>
+							<div ng-if="BLEdiscoverOption =='offline'">
+							<tr-row-gateway-offline-discover gatewayid="gatewayInfo.id" appname="appName" optionselection="'offline'" optionfield="'BLE'" tabledata="BLEOFFLINEdiscoverList" limit-todata="10"  selectedallofflinemodel="selectedAllzigbee"  totalitems="totalBLEOFFLINEItems" currentofflinepage="$parent.currentOfflineBLEPage" offlineperpage="BLEPerPage" ></tr-row-gateway-offline-discover>
+							
+						
+							</div>
+							<div ng-if="BLEdiscoverOption =='online'">
+							<tr-row-gateway-offline-discover gatewayid="gatewayInfo.id" appname="appName" optionselection="'online'" optionfield="'BLE'" tabledata="BLEdiscoverList" limit-todata="10"  selectedallofflinemodel="selectedAllzigbee"  totalitems="totalBLEItems" currentofflinepage="$parent.currentBLEPage" offlineperpage="BLEPerPage" ></tr-row-gateway-offline-discover>
+							
+						
+							</div>
+							</div>
+						
+						</md-content>
+						</md-tab>
+						<md-tab label="ZWAVE" ng-if="ZWAVESTATUS" ng-click="$event.preventDefault();">
+						<md-content id="ZWAVE" class="md-padding">
+						<div id="deviceTable">
+							<md-content>
+								<md-tabs md-dynamic-height md-border-bottom  md-selected="-1">
+								<md-tab  ng-click="moveToZWAVETabBLE('online');">Online Discover</md-tab>
+								<md-tab  ng-click="moveToZWAVETabBLE('offline');refreshClickZWAVE();">Offline Discover</md-tab>
+								</md-tabs>
+							</md-content>
+							
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0" ng-if="ZWAVEdiscoverOption =='online'">
+								<table id="discoverGridOption" class="table table-striped">
+								<tbody>
+								<tr><td>App Name:</td>
+								<td><div class = "col-lg-6">
+								<div class = "input-group">
+
+								 <select id="appName" name="appName" class="form-control"  ng-model="appName" ng-init="appName=getAppnames[0].AppName"  ng-options="gateway.AppName as gateway.AppName for gateway in getAppnames | filter:{AppType:'APP'}" >
+								
+							   </select>
+								</div>
+								</div><!-- /.col-lg-6 -->
+								<button class="btn btn-default" type="button" ng-click="BLEDiscover(appName,'ZWAVE');">Discover</button>
+								<img ng-if="dataBLELoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+							
+								</td></tr>
+								
+								</tbody>
+								</table>
+							</div>
+							<div ng-if="ZWAVEdiscoverOption =='offline'">
+							<!--<tr-row-gateway-offline-discover gatewayid="gatewayInfo.id" optionselection="'offline'" optionfield="'ZWAVE'" tabledata="ZWAVEOFFLINEdiscoverList" limit-todata="10"  selectedallofflinemodel="selectedAllzwave"  totalitems="totalZWAVEOFFLINEItems" currentofflinepage="$parent.currentOfflineZWAVEPage" offlineperpage="ZWAVEPerPage" ></tr-row-gateway-offline-discover>-->
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+							<table id="total" class="table table-striped"  ><thead><tr>
+							<th style="width:15%;">Display Name</th>
+							<th >MACID</th>
+							<th >AppId</th>
+							<th >Vendor</th>
+							<th >Protocol</th>
+							<th >Status</th>
+							<th>Vendor</th>
+							<th>ModelId</th>
+							<th>&nbsp;</th>
+							</tr></thead><tbody >
+							<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,discover);" ng-repeat="discover in ZWAVEOFFLINEdiscoverList | limitTo:ZWAVEPerPage">
+							<td><a style="cursor:pointer;" ng-click="openDisplayInfo(discover);" class="pointer">{{discover.displayname}}</a></td>
+							<td><div>{{discover.macid}}</div></td>
+							<td><div>{{discover.appid}}</div></td>
+							<td><div>{{discover.vendor}}</div></td>
+							<td><div>{{discover.protocol}}</div></td>
+							<td><div>{{discover.device_status}}</div></td>
+							<td><select class="form-control" ng-model="selVendor" ng-options="data.vendor as data.vendor for data in getDisplayVendorModelID | unique: 'vendor'" ng-change="funcGetModelid(selVendor,$index)">
+								<option value="">Select Vendor</option>
+								</select></td>
+							<td><select class="form-control" ng-model="selModelId" ng-options="data.modelid as (data.modelid +' ('+ data.devicename+')') for data in getDisplayModelID[$index].data | unique: 'modelid'">
+								<option value="">Select ModelId</option>
+								</select></td>
+							<td><button class="btn btn-default" ng-click="setDeviceinfo(selVendor,selModelId,discover.id,discover.appid)" ><i class="glyphicon glyphicon-menu-right"></i></button></td>	
+							</tr>
+							<tr class="alert alert-danger" ng-if="(ZWAVEOFFLINEdiscoverList.length == 0 || totalZWAVEOFFLINEItems ==0)"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody></table></div>
+							<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(ZWAVEOFFLINEdiscoverList).length"><div class="col-lg-12 blue-bg pad10"><div class="col-lg-9"><uib-pagination  total-items="totalZWAVEOFFLINEItems" ng-model="$parent.currentOfflineZWAVEPage" ng-change="pageChanged()" items-per-page="ZWAVEPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination></div><div class="col-lg-3 text-right">Displaying {{currentofflinepage}} / {{numPages}} of {{numPages}}</div></div></div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0"><div ng-show="(ZWAVEOFFLINEdiscoverList).length" >
+							<div class="form-group"><button type="button" ng-disabled="(selectedRowDiscover.device_status=='REGISTER' || selectedRowDiscover.device_status=='ACTIVE' || selectedRowDiscover.device_status=='DEACTIVE') && selectedRowDiscover.device_status != 'NEW SENSOR'" ng-show="can('device_register')" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,selectedRowDiscover,ZWAVEdiscoverOption,'ZWAVE','REGISTER')" ><i class="fa fa-plus-circle"></i>Register</button> 
+							<button type="button" ng-disabled="(selectedRowDiscover.device_status != 'REGISTER' && selectedRowDiscover.device_status != 'DEACTIVE')" ng-show="can('activate_device')" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,selectedRowDiscover,ZWAVEdiscoverOption,'ZWAVE','ACTIVATE');" ><i class="fa fa-check-circle"></i>Activate</button>
+							<button type="button" ng-disabled="(selectedRowDiscover.device_status != 'ACTIVE') || selectedRowDiscover.device_status == 'REGISTER'" ng-show="can('activate_device')" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,selectedRowDiscover,ZWAVEdiscoverOption,'ZWAVE','DEACTIVATE');" style="background-color:#d9534f !important;"><i class="fa fa-ban"></i>Deactivate</button>
+							<button type="button" ng-disabled="selectedRowDiscover.device_status == 'NEW SENSOR' || selectedRowDiscover.device_status == 'UNREGISTER'" ng-show="can('device_register')" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,selectedRowDiscover,ZWAVEdiscoverOption,'ZWAVE','DEREGISTER')" style="background-color:#d9534f !important;"><i class="fa fa-trash"></i>Deregister</button>
+							<img ng-if="$parent.dataOPCRegisterLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+							<img ng-if="$parent.dataOPCActivationLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+							</div></div></div>
+						
+							</div>
+							<div ng-if="ZWAVEdiscoverOption =='online'">
+							<!--<tr-row-gateway-offline-discover gatewayid="gatewayInfo.id" optionselection="'online'" optionfield="'ZWAVE'" tabledata="ZWAVEdiscoverList" limit-todata="10"  selectedallofflinemodel="selectedAllzwave"  totalitems="totalZWAVEItems" currentofflinepage="$parent.currentZWAVEPage" offlineperpage="ZWAVEPerPage" ></tr-row-gateway-offline-discover>-->
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+							<table id="total" class="table table-striped" ng-show="ZWAVEdiscoverList.length" ><thead><tr>
+							<th style="width:15%;">Display Name</th>
+							<th >MACID</th>
+							<th >AppId</th>
+							<th >Vendor</th>
+							<th >Protocol</th>
+							<th >Status</th>
+							<th>Vendor</th>
+							<th>ModelId</th>
+							<th>&nbsp;</th>
+							</tr></thead><tbody >
+							<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,discover);" ng-repeat="discover in ZWAVEdiscoverList | limitTo:ZWAVEPerPage">
+							<td><a style="cursor:pointer;" ng-click="openDisplayInfo(discover);" class="pointer">{{discover.displayname}}</a></td>
+							<td><div>{{discover.macid}}</div></td>
+							<td><div>{{discover.appid}}</div></td>
+							<td><div>{{discover.vendor}}</div></td>
+							<td><div>{{discover.protocol}}</div></td>
+							<td><div>{{discover.device_status}}</div></td>
+							<td><select class="form-control" ng-model="selVendor" ng-options="data.vendor as data.vendor for data in getDisplayVendorModelID | unique: 'vendor'" ng-change="funcGetModelid(selVendor,$index)">
+								<option value="">Select Vendor</option>
+								</select></td>
+							<td><select class="form-control" ng-model="selModelId" ng-options="data.modelid as (data.modelid +' ('+ data.devicename+')') for data in getDisplayModelID[$index].data | unique: 'modelid'">
+								<option value="">Select ModelId</option>
+								</select></td>
+							<td><button class="btn btn-default" ng-click="setDeviceinfo(selVendor,selModelId,discover.id,discover.appid)" ><i class="glyphicon glyphicon-menu-right"></i></button></td>	
+							</tr>
+							<tr class="alert alert-danger" ng-if="(ZWAVEdiscoverList.length == 0 || totalitems ==0)"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody></table></div>
+							<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(ZWAVEdiscoverList).length"><div class="col-lg-12 blue-bg pad10"><div class="col-lg-9"><uib-pagination  total-items="totalitems" ng-model="currentofflinepage" ng-change="pageChanged()" items-per-page="offlineperpage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination></div><div class="col-lg-3 text-right">Displaying {{currentofflinepage}} / {{numPages}} of {{numPages}}</div></div></div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0"><div ng-show="(ZWAVEdiscoverList).length" >
+							<div class="form-group"><button type="button" ng-disabled="(selectedRowDiscover.device_status=='REGISTER' || selectedRowDiscover.device_status=='ACTIVE' || selectedRowDiscover.device_status=='DEACTIVE') && selectedRowDiscover.device_status != 'NEW SENSOR'" ng-show="can('device_register')" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,selectedRowDiscover,ZWAVEdiscoverOption,'ZWAVE','REGISTER')" style=""><i class="fa fa-plus-circle"></i>Register</button> 
+							<button type="button" ng-disabled="(selectedRowDiscover.device_status != 'REGISTER' && selectedRowDiscover.device_status != 'DEACTIVE')" ng-show="can('activate_device')" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,selectedRowDiscover,ZWAVEdiscoverOption,'ZWAVE','ACTIVATE');" style=""><i class="fa fa-check-circle"></i>Activate</button>
+							<button type="button" ng-disabled="(selectedRowDiscover.device_status != 'ACTIVE') || selectedRowDiscover.device_status == 'REGISTER'" ng-show="can('activate_device')" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,selectedRowDiscover,ZWAVEdiscoverOption,'ZWAVE','DEACTIVATE');" style="background-color:#d9534f !important;"><i class="fa fa-ban"></i>Deactivate</button>
+							<button type="button" ng-disabled="selectedRowDiscover.device_status == 'NEW SENSOR' || selectedRowDiscover.device_status == 'UNREGISTER'" ng-show="can('device_register')" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,selectedRowDiscover,ZWAVEdiscoverOption,'ZWAVE','DEREGISTER')" style="background-color:#d9534f !important;"><i class="fa fa-trash"></i>Deregister</button>
+							
+							<button style="" ng-show="can('activate_device')" type="button" class="btn btn_act" ng-disabled="!gatewayInfo.id" ng-click="deviceDeactivateAll(gatewayInfo.id,'ZWAVE','ACTIVATE',appName)"><i class="fa fa-check-circle"></i>Activate All</button> 
+							<button style="background-color:#d9534f !important;" ng-show="can('activate_device')" type="button" class="btn btn_act" ng-disabled="!gatewayInfo.id" ng-show="can('activate_device')" ng-click="deviceDeactivateAll(gatewayInfo.id,'ZWAVE','DEACTIVATE',appName);"  ><i class="fa fa-ban"></i>Deactivate All</button> 
+							<button type="button"  ng-show="can('device_register')" class="btn btn_act" ng-click="deviceDeregisterAll(gatewayInfo.id,'ZWAVE','REGISTER',appName)" style=""><i class="fa fa-plus-circle"></i>Register All</button> 
+							<button type="button"  class="btn btn_act" ng-click="deviceDeregisterAll(gatewayInfo.id,'ZWAVE','DEREGISTER',appName)" style="background-color:#d9534f !important;"><i class="fa fa-trash"></i>Deregister All</button>
+							<button type="button" ng-disabled="$parent.dataOPCRegisterLoading" ng-if="appName && ZWAVEdiscoverOption=='online'" class="btn btn_act"  ng-click="getAllRAMLFunc(gatewayInfo.id,appName,'GETRAML')"><i class="fa fa-cubes"></i>Get All RAML</button>
+							<img ng-if="$parent.dataOPCRegisterLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+							<img ng-if="$parent.dataOPCActivationLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+							</div></div></div>
+							</div>
+							</div>
+				
+						</md-content>
+						</md-tab>
+						<md-tab label="MODBUS" ng-if="MODBUSSTATUS" ng-click="$event.preventDefault();">
+						<md-content id="MODBUS" class="md-padding">
+						<div id="deviceTable">
+							<md-content>
+								<md-tabs md-dynamic-height md-border-bottom  md-selected="-1">
+								<md-tab  ng-click="moveToMODBUSTabBLE('online');">Online Discover</md-tab>
+								<md-tab  ng-click="moveToMODBUSTabBLE('offline');refreshClickMODBUS();">Offline Discover</md-tab>
+								</md-tabs>
+							</md-content>
+							
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0" ng-if="MODBUSdiscoverOption =='online'">
+								<form name="form" id="form">
+								<table id="discoverGridOption" class="table table-striped" ng-init="modbusObj = {};">
+								<tbody>
+								<tr><td width="10%">App Name:</td>
+								<td width="30%"><div class = "col-lg-6">
+								<div class = "input-group">
+
+								 <select id="appName" name="appName" class="form-control"  ng-model="modbusObj.appName" ng-init="modbusObj.appName=getAppnames[0].AppName"  ng-options="gateway.AppName as gateway.AppName for gateway in getAppnames | filter:{AppType:'APP'}" >
+								
+							   </select>
+								</div>
+								</div><!-- /.col-lg-6 -->
+								
+								</td>
+								<td width="10%">
+								Connection Mode
+								</td>
+								<td width="30%" ng-class="{ 'has-error': form.rdoConnectionMode.$error.required }">
+								<input type="radio" name="rdoConnectionMode" ng-model="modbusObj.rdoConnectionMode"  value="TCP" required/> TCP
+								<input type="radio" name="rdoConnectionMode" ng-model="modbusObj.rdoConnectionMode"  value="RTU" required/> RTU
+								
+
+								</td>
+								</tr>
+								
+								<tr><td  ng-init="modbusObj.rdoSlave =1;">
+								<input type="radio"  ng-model="modbusObj.rdoSlave"  ng-value="1"  />
+								Slave Range
+								</td>
+								<td colspan="3" ng-class="{ 'has-error': (form.slaveRange.$error.required || form.slaveRange2.$error.required) || (!form.slaveRange.$valid || !form.slaveRange2.$valid) }">
+								<div  ng-if="modbusObj.rdoSlave==1">
+								<div style="float:left;" class = "col-md-2"><input type="number"   ng-model="modbusObj.slaveRange" class="form-control" name="slaveRange" min="1" max="247" ng-required="modbusObj.rdoSlave==1"  /> </div><div style="display:inline;" class = "col-md-2">  <input  type="number" ng-model="modbusObj.slaveRange2" class="form-control" name="slaveRange2" min="1" max="247" ng-required="modbusObj.rdoSlave==1"  /></div>
+								</div>
+								</td>
+								</tr>
+								<tr>
+								<td>
+								<input type="radio" ng-model="modbusObj.rdoSlave"  ng-value="2"/>
+								Slave ID
+								</td>
+								<td colspan="3" ng-class="{ 'has-error': form.slaveID.$error.required }">
+								<div class = "col-sm-6" ng-if="modbusObj.rdoSlave==2">
+								<input type="text" ng-model="modbusObj.slaveID" name="slaveID" class="form-control" ng-required="modbusObj.rdoSlave==2" />
+								</div>
+								</td></tr>
+								
+								<tr><td colspan="4">
+								<div align="center">
+								<button class="btn btn-default" type="button" ng-click="MODBUSDiscover(modbusObj,'MODBUS');">Discover</button>
+								<img ng-if="dataMODBUSLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+								</div>
+								</td></tr>
+								
+								</tbody>
+								</table>
+								</form>
+							</div>
+							<div ng-if="MODBUSdiscoverOption =='offline'">
+							
+							
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+							<table id="total" class="table table-striped"  ><thead><tr>
+							<th style="width:15%;">Display Name</th>
+							<th >MACID</th>
+							<th >AppId</th>
+							<th >Vendor</th>
+							<th >Protocol</th>
+							<th >Status</th>
+							<th>Vendor</th>
+							<th>ModelId</th>
+							<th>&nbsp;</th>
+							</tr></thead><tbody >
+							<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,discover);" ng-repeat="discover in offlineMODBUSList | limitTo:offlineMODBUSPerPage">
+							<td><a style="cursor:pointer;" ng-click="openDisplayInfo(discover);" class="pointer">{{discover.displayname}}</a></td>
+							<td><div>{{discover.macid}}</div></td>
+							<td><div>{{discover.appid}}</div></td>
+							<td><div>{{discover.vendor}}</div></td>
+							<td><div>{{discover.protocol}}</div></td>
+							<td><div>{{discover.device_status}}</div></td>
+							<td><select class="form-control" ng-model="selectedRowDiscover.selVendor" ng-options="data.vendor as data.vendor for data in getDisplayVendorModelID | unique: 'vendor'" ng-change="funcGetModelid(selVendor,$index)">
+								<option value="">Select Vendor</option>
+								</select></td>
+							<td><select class="form-control" ng-model="selectedRowDiscover.selModelId" ng-options="data.modelid as (data.modelid +' ('+ data.devicename+')') for data in getDisplayModelID[$index].data | unique: 'modelid'">
+								<option value="">Select ModelId</option>
+								</select></td>
+							<td><button class="btn btn-default" ng-click="setDeviceinfo(selectedRowDiscover.selVendor,selectedRowDiscover.selModelId,discover.id,discover.appid)" ><i class="glyphicon glyphicon-menu-right"></i></button></td>	
+							</tr>
+							<tr class="alert alert-danger" ng-if="(offlineMODBUSList.length == 0 || totalOfflineMODBUSItems ==0)"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody></table></div>
+							<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(offlineMODBUSList).length">
+							<div class="col-lg-12 blue-bg pad10"><div class="col-lg-9">
+							<uib-pagination  total-items="totalOfflineMODBUSItems" ng-model="$parent.currentofflineMODBUSPage" ng-change="pageChanged()" items-per-page="offlineMODBUSPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+							</div>
+							<div class="col-lg-3 text-right">Displaying {{currentofflineMODBUSPage}} / {{numPages}} of {{numPages}}</div>
+							</div>
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0"><div ng-show="(offlineMODBUSList).length" >
+							<div class="form-group"><button type="button" ng-disabled="(selectedRowDiscover.selVendor == undefined || selectedRowDiscover.selModelId == undefined) || (selectedRowDiscover.device_status=='REGISTER' || selectedRowDiscover.device_status=='ACTIVE' || selectedRowDiscover.device_status=='DEACTIVE') && selectedRowDiscover.device_status != 'NEW SENSOR'" ng-show="can('device_register')" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,selectedRowDiscover,MODBUSdiscoverOption,'MODBUS','REGISTER')" style=""><i class="fa fa-plus-circle"></i>Register</button> 
+							<button type="button" ng-disabled="(selectedRowDiscover.device_status != 'REGISTER' && selectedRowDiscover.device_status != 'DEACTIVE')" ng-show="can('activate_device')" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,selectedRowDiscover,MODBUSdiscoverOption,'MODBUS','ACTIVATE');" style=""><i class="fa fa-check-circle"></i>Activate</button>
+							<button type="button" ng-disabled="(selectedRowDiscover.device_status != 'ACTIVE') || selectedRowDiscover.device_status == 'REGISTER'" ng-show="can('activate_device')" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,selectedRowDiscover,MODBUSdiscoverOption,'MODBUS','DEACTIVATE');" style="background-color:#d9534f !important;"><i class="fa fa-ban"></i>Deactivate</button>
+							<button type="button" ng-disabled="selectedRowDiscover.device_status == 'NEW SENSOR' || selectedRowDiscover.device_status == 'UNREGISTER'" ng-show="can('device_register')" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,selectedRowDiscover,MODBUSdiscoverOption,'MODBUS','DEREGISTER')" style="background-color:#d9534f !important;"><i class="fa fa-trash"></i>Deregister</button>
+							
+							
+							
+							<img ng-if="$parent.dataOPCRegisterLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+							<img ng-if="$parent.dataOPCActivationLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+							</div></div></div>
+							
+							
+						
+							</div>
+							<div ng-if="MODBUSdiscoverOption =='online'">
+							
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+							<table id="total" class="table table-striped" ng-show="MODBUSdiscoverList.length" ><thead><tr>
+							<th style="width:15%;">Display Name</th>
+							<th >MACID</th>
+							<th >AppId</th>
+							<th >Vendor</th>
+							<th >Protocol</th>
+							<th >Status</th>
+							<th>Vendor</th>
+							<th>ModelId</th>
+							<th>&nbsp;</th>
+							</tr></thead><tbody >
+							<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,discover);" ng-repeat="discover in MODBUSdiscoverList | limitTo:MODBUSPerPage">
+							<td><a style="cursor:pointer;" ng-click="openDisplayInfo(discover);" class="pointer">{{discover.displayname}}</a></td>
+							<td><div>{{discover.macid}}</div></td>
+							<td><div>{{discover.appid}}</div></td>
+							<td><div>{{discover.vendor}}</div></td>
+							<td><div>{{discover.protocol}}</div></td>
+							<td><div>{{discover.device_status}}</div></td>
+							<td><select class="form-control" ng-model="selVendor" ng-options="data.vendor as data.vendor for data in getDisplayVendorModelID | unique: 'vendor'" ng-change="funcGetModelid(selVendor,$index)">
+								<option value="">Select Vendor</option>
+								</select></td>
+							<td><select class="form-control" ng-model="selModelId" ng-options="data.modelid as (data.modelid +' ('+ data.devicename+')') for data in getDisplayModelID[$index].data | unique: 'modelid'">
+								<option value="">Select ModelId</option>
+								</select></td>
+							<td><button class="btn btn-default" ng-click="setDeviceinfo(selVendor,selModelId,discover.id,discover.appid)" ><i class="glyphicon glyphicon-menu-right"></i></button></td>	
+							</tr>
+							<tr class="alert alert-danger" ng-if="(MODBUSdiscoverList.length == 0 || totalitems ==0)"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody></table></div>
+							<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(MODBUSdiscoverList).length"><div class="col-lg-12 blue-bg pad10"><div class="col-lg-9"><uib-pagination  total-items="totalitems" ng-model="currentMODBUSPage" ng-change="pageChanged()" items-per-page="MODBUSPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination></div><div class="col-lg-3 text-right">Displaying {{currentMODBUSPage}} / {{numPages}} of {{numPages}}</div></div></div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0"><div ng-show="(MODBUSdiscoverList).length" >
+							<div class="form-group"><button type="button" ng-disabled="(selectedRowDiscover.device_status=='REGISTER' || selectedRowDiscover.device_status=='ACTIVE' || selectedRowDiscover.device_status=='DEACTIVE') && selectedRowDiscover.device_status != 'NEW SENSOR'" ng-show="can('device_register')" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,selectedRowDiscover,MODBUSdiscoverOption,'MODBUS','REGISTER')" style=""><i class="fa fa-plus-circle"></i>Register</button> 
+							<button type="button" ng-disabled="(selectedRowDiscover.device_status != 'REGISTER' && selectedRowDiscover.device_status != 'DEACTIVE')" ng-show="can('activate_device')" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,selectedRowDiscover,MODBUSdiscoverOption,'MODBUS','ACTIVATE');" style=""><i class="fa fa-check-circle"></i>Activate</button>
+							<button type="button" ng-disabled="(selectedRowDiscover.device_status != 'ACTIVE') || selectedRowDiscover.device_status == 'REGISTER'" ng-show="can('activate_device')" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,selectedRowDiscover,MODBUSdiscoverOption,'MODBUS','DEACTIVATE');" style="background-color:#d9534f !important;"><i class="fa fa-ban"></i>Deactivate</button>
+							<button type="button" ng-disabled="selectedRowDiscover.device_status == 'NEW SENSOR' || selectedRowDiscover.device_status == 'UNREGISTER'" ng-show="can('device_register')" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,selectedRowDiscover,MODBUSdiscoverOption,'MODBUS','DEREGISTER')" style="background-color:#d9534f !important;"><i class="fa fa-trash"></i>Deregister</button>
+							
+							<button style="" ng-show="can('activate_device')" type="button" class="btn btn_act" ng-disabled="!gatewayInfo.id" ng-click="deviceDeactivateAll(gatewayInfo.id,'MODBUS','ACTIVATE',appName)"><i class="fa fa-check-circle"></i>Activate All</button> 
+							<button style="background-color:#d9534f !important;" ng-show="can('activate_device')" type="button" class="btn btn_act" ng-disabled="!gatewayInfo.id" ng-show="can('activate_device')" ng-click="deviceDeactivateAll(gatewayInfo.id,'MODBUS','DEACTIVATE',appName);"  ><i class="fa fa-ban"></i>Deactivate All</button> 
+							<button type="button"  ng-show="can('device_register')" class="btn btn_act" ng-click="deviceDeregisterAll(gatewayInfo.id,'MODBUS','REGISTER',appName)" style=""><i class="fa fa-plus-circle"></i>Register All</button> 
+							<button type="button"  class="btn btn_act" ng-click="deviceDeregisterAll(gatewayInfo.id,'MODBUS','DEREGISTER',appName)" style="background-color:#d9534f !important;"><i class="fa fa-trash"></i>Deregister All</button>
+							<button type="button" ng-disabled="$parent.dataOPCRegisterLoading" ng-if="appName && MODBUSdiscoverOption=='online'" class="btn btn_act"  ng-click="getAllRAMLFunc(gatewayInfo.id,appName,'GETRAML')"><i class="fa fa-cubes"></i>Get All RAML</button>
+							
+							<img ng-if="$parent.dataOPCRegisterLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+							<img ng-if="$parent.dataOPCActivationLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+							</div></div></div>
+							
+							</div>
+							</div>
+	
+						</md-content>
+						</md-tab>
+						<md-tab label="MQTT-PTL" ng-if="MQTTPTLSTATUS" ng-click="$event.preventDefault();">
+						<md-content id="MQTT-PTL" class="md-padding">
+						<div id="deviceTable">
+							<md-content>
+								<md-tabs md-dynamic-height md-border-bottom  md-selected="-1">
+								<md-tab  ng-click="moveToOneTabMQTTPTL('online');">Online Discover</md-tab>
+								<md-tab  ng-click="moveToOneTabMQTTPTL('offline');refreshClickMQTTPTL();">Offline Discover</md-tab>
+								</md-tabs>
+							</md-content>
+							
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0" ng-if="MQTTPTLdiscoverOption =='online'">
+							<table id="discoverGridOption" class="table table-striped">
+							<tbody>
+							<tr><td>App Name:</td>
+							<td><div class = "col-lg-6">
+							<div class = "input-group">
+
+							  <select id="appName" name="appName" class="form-control"  ng-model="appName" ng-init="appName=getAppnames[0].AppName" ng-options="gateway.AppName as gateway.AppName for gateway in getAppnames | filter:{AppType:'APP'}" >
+								
+							   </select>
+							</div>
+							</div><!-- /.col-lg-6 -->
+							<button class="btn btn-default" type="button" ng-click="BLEDiscover(appName,'MQTT');">Discover</button>
+								<img ng-if="dataBLELoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+							
+							</td></tr>
+							
+							</tbody>
+							</table>
+						</div>
+							<div ng-if="MQTTPTLdiscoverOption =='offline'">
+							<tr-row-gateway-offline-discover gatewayid="gatewayInfo.id" optionselection="'offline'" appname="appName" optionfield="'MQTT'" tabledata="BLEOFFLINEdiscoverList" limit-todata="10"  selectedallofflinemodel="selectedAllzigbee"  totalitems="totalBLEOFFLINEItems" currentofflinepage="$parent.currentOfflineBLEPage" offlineperpage="BLEPerPage" ></tr-row-gateway-offline-discover>
+							
+						
+							</div>
+							<div ng-if="MQTTPTLdiscoverOption =='online'">
+							<tr-row-gateway-offline-discover gatewayid="gatewayInfo.id" optionselection="'online'" appname="appName" optionfield="'MQTT'" tabledata="BLEdiscoverList" limit-todata="10"  selectedallofflinemodel="selectedAllzigbee"  totalitems="totalBLEItems" currentofflinepage="$parent.currentBLEPage" offlineperpage="BLEPerPage" ></tr-row-gateway-offline-discover>
+							
+						
+							</div>
+							</div>
+		
+						</md-content>
+						</md-tab>
+						<md-tab label="WIFI" ng-if="WIFISTATUS" ng-click="$event.preventDefault();">
+						<md-content id="WIFI" class="md-padding">
+						
+						</md-content>
+						</md-tab>
+						<md-tab label="THREAD" ng-if="THREADSTATUS" ng-click="$event.preventDefault();">
+						<md-content id="THREAD" class="md-padding">
+						
+						</md-content>
+						</md-tab>
+						<md-tab label="MQTT-NODES" ng-if="MQTTNODESSTATUS" ng-click="$event.preventDefault();">
+						<md-content id="MQTT-NODES" class="md-padding">
+						
+						</md-content>
+						</md-tab>
+						<md-tab label="CoAP-NODES" ng-if="CoAPNODESSTATUS" ng-click="$event.preventDefault();">
+						<md-content id="CoAP-NODES" class="md-padding">
+						
+						</md-content>
+						</md-tab>
+						</md-tabs>
+					  </md-content>
+					 </div> 
+					<!--<ul class="nav nav-tabs font13">
+						<li ng-if="OPCSTATUS" class="active"><a data-toggle="tab" href="#OPC" ng-click="$event.preventDefault();"><i class="fa fa-search mr-right7"></i>OPC</a></li>
+						<li ng-if="ZIGBEESTATUS"><a data-toggle="tab" href="#ZIGBEE" ng-click="$event.preventDefault();"><i class="fa fa-search mr-right7"></i>ZIGBEE</a></li>
+						<li ng-if="BLESTATUS"><a data-toggle="tab" href="#BLE" ng-click="$event.preventDefault();"><i class="fa fa-bluetooth mr-right7"></i>BLE</a></li>
+						<li ng-if="ZWAVESTATUS"><a data-toggle="tab" href="#ZWAVE" ng-click="$event.preventDefault();"><i class="fa fa-search mr-right7"></i>ZWAVE</a></li>
+						<li ng-if="MODBUSSTATUS"><a data-toggle="tab" href="#MODBUS" ng-click="$event.preventDefault();"><i class="fa fa-search mr-right7"></i>MODBUS</a></li>
+						<li ng-if="WIFISTATUS"><a data-toggle="tab" href="#WIFI" ng-click="$event.preventDefault();"><i class="fa  fa-wifi mr-right7"></i>WIFI</a></li>
+						<li ng-if="THREADSTATUS"><a data-toggle="tab" href="#THREAD" ng-click="$event.preventDefault();"><i class="fa fa-search mr-right7"></i>THREAD</a></li>
+						<li ng-if="MQTTPTLSTATUS"><a data-toggle="tab" href="#MQTT-PTL" ng-click="$event.preventDefault();"><i class="fa fa-search mr-right7"></i>MQTT PTL</a></li>
+						<li ng-if="MQTTNODESSTATUS"><a data-toggle="tab" href="#MQTT-NODES" ng-click="$event.preventDefault();"><i class="fa fa-search mr-right7"></i>MQTT NODES</a></li>
+						<li ng-if="CoAPNODESSTATUS"><a data-toggle="tab" href="#CoAP-NODES" ng-click="$event.preventDefault();"><i class="fa fa-search mr-right7"></i>CoAP NODES</a></li>
+						
+					</ul>
+					
+					<div class="tab-content">
+				
+						<div id="OPC" ng-if="OPCSTATUS" class="tab-pane fade in active">
+						
+									
+						</div>
+						<div id="ZIGBEE" ng-if="ZIGBEESTATUS" class="tab-pane fade">
+						</div>
+						<div id="BLE" ng-if="BLESTATUS" class="tab-pane fade">
+						</div>
+						<div id="ZWAVE" ng-if="ZWAVESTATUS" class="tab-pane fade">
+						
+						</div>
+						<div id="MODBUS" ng-if="MODBUSSTATUS" class="tab-pane fade">
+						
+						</div>
+						<div id="WIFI" ng-if="WIFISTATUS" class="tab-pane fade">
+							
+						</div>
+						<div id="THREAD" class="tab-pane fade">
+							
+						</div>
+						<div id="MQTT-PTL" class="tab-pane fade">
+						
+						</div>
+						<div id="MQTT-NODES" class="tab-pane fade">
+							
+						</div>
+						<div id="CoAP-NODES" class="tab-pane fade">
+							
+						</div>
+				
+				</div>
+					-->
+					
+				</div>
+			</div>	
+				
+				
+			
+			
+			<div class="row" style="display:none;">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+			<form class="form-horizontal" id="formData">
+						<div class="form-group">
+
+							
+						</div>
+			</form>	
+					
+					
+					
+			</div>
+				
+				<br clear="all"><br clear="all">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="form-group">
+						<button type="button" class="btn btn_act" ng-click="discoverRegister();" style=""><i class="fa fa-plus-circle"></i>Register</button>
+				</div>
+				</div>
+			</div>
+			
+</div>
+ <script type="text/ng-template" id="GetRAMLResponseContent.html">
+<div  role="dialog">
+<div style="color:black;">
+<!-- Modal content-->
+<div class="modal-content ">
+<div id= "btn_group" class="nav navbar-fixed-top gradient-bg " style="color:white;">
+<button type="button" class="close" ng-click="clearmodel();">&times;</button>
+
+<b>Get All RAML Response</b>
+</div>
+<div class="modal-body">
+	<form class="form-horizontal mr-top40" id="form" name="form" >
+	 <div class="row">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 mr-top20 border0">
+	 <h3>{{getAllRAMLObject[0].message}}</h3>
+	  <table  class="table table-striped" id="softGatewayGrid" ng-if="getAllRAMLObject[0].config_panel_object.length>0"  >
+	  <thead>
+		<tr>
+		<td colspan="2"><b>Configure Panel</b></td>
+		</tr>
+		<tr>
+			<th >Definition Name</th>
+			<th> Properties </th>
+			
+		</tr>
+	  </thead>
+	 <tbody>
+		<tr ng-repeat="config in getAllRAMLObject[0].config_panel_object">
+		<td>{{config.definitionName}}</td>
+		<td>{{config.properties}}</td>
+		</tr>
+	 </tbody>
+     </table>	 
+	  <table  class="table table-striped" id="softGatewayGrid" ng-if="getAllRAMLObject[0].control_panel_object.length>0" >
+	  <thead>
+		<tr>
+		<td colspan="2"><b>Control Panel</b></td>
+		</tr>
+		<tr>
+			<th >Definition Name</th>
+			<th> Properties </th>
+			
+		</tr>
+	  </thead>
+	 <tbody>
+		<tr ng-repeat="config in getAllRAMLObject[0].control_panel_object">
+		<td>{{config.definitionName}}</td>
+		<td>{{config.properties}}</td>
+		</tr>
+	 </tbody>
+     </table>
+	 
+	 </div>
+	 </div>
+	</form>
+</div>
+</div>	
+</div>
+</div>			
+</script>

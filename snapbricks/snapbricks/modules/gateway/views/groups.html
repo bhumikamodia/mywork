@@ -1,0 +1,38 @@
+
+<div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<button type="button" ng-click="groupsRefresh('groups');" class="btn btn-default btn-shadow border0"><i class="fa fa-refresh"></i> Refresh</button>
+								<button type="button" ng-click="editGroup(selectedRowGroup)" class="btn btn-default btn-shadow border0"><i class="fa fa-edit"></i> Edit</button>
+								
+						</div>
+						
+						<div class="row">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+								 <div id="exportable">
+								 <table id="total" class="table table-striped">
+										<thead>
+											<tr>
+												
+												<th>Group Name</th>
+												<th>Total Gateways</th>
+												<th>Total Devices</th>
+												<th>Description</th>
+												<th>Is Deleted</th>
+											</tr>
+										</thead>
+					<tbody >
+					<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowGroup($index,group);" ng-repeat="group in groupDetails">
+                		
+						<td><div >{{group.groupname}}</div ></td>
+                        <td><div >{{group.totalgateways}}</div ></td>
+						<td><div >{{group.totaldevices}}</div ></td>
+						<td style="width:60%;"><div >{{group.description}}</div ></td>
+						<td ><div ng-if="group.is_deleted ==false">No</div ><div ng-if="group.is_deleted ==true">Yes</div ></td>
+                    </tr>
+					<tr ng-if="dataLoadingGroup" class="alert alert-danger"><td colspan="5"><div align="center"><img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></div></td></tr>
+					<tr class="alert alert-danger" ng-if="totalItemsGroups == 0"><td colspan="5"><strong>No Record Found.</strong></td></tr>
+					</tbody>
+					</table>
+								 </div>
+								</div>
+								
+						</div>

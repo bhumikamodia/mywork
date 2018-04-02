@@ -1,0 +1,313 @@
+<div class="row">
+  
+    <div ncy-breadcrumb></div>
+  
+</div>
+<div id="mesh" class="row">
+ <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10">
+  <hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+
+  <div id="device" class="mr-topmin20"  >
+    <div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <button type="button" class="btn btn-default btn-shadow border0" ng-click="meshGroupList(1)"><i class="fa fa-refresh"></i>Refresh</button>
+      <!--<button type="button" class="btn btn-default btn-shadow border0" ng-disabled="!selectedRowMesh" ng-click="funConfig(selectedRowMesh)"><i class="fa fa-eye"></i>Configuration</button>-->
+	  <div class="dropdown display-inline">
+        <button type="button" class="btn btn-default btn-shadow border0 dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-share-square-o"></i>Export<span class=""></span></button>
+          <ul class="dropdown-menu dropdown-export">
+            <li><a export-Excel attrname="meshGrid" attrpageno="{{currentDevicePage}}"><i class="fa fa-file-excel-o mr-right7"></i>Export to Excel</a></li>
+            <li class="divider"></li>
+            <li><a export-Csv attrname="meshGrid" attrpageno="{{currentDevicePage}}"><i class="fa fa-file-o mr-right7"></i>Export to CSV</a></li>
+          </ul>
+        </div>
+
+        
+       <img ng-if="dataLoadingMesh"  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0 active">   
+    <form class="form-horizontal" id="formData">
+      <table  class="table table-striped" id="meshGrid">
+        <thead>
+          <tr>
+
+            <th style="width:15%">Display Name</th>
+            <th style="width:10%">Location</th>
+            <th style="width:10%">Network</th>
+            <th style="width:10%">Gateways</th>
+            <script type="text/ng-template" src="modules/mesh/views/
+            meshaddGateway.html" />
+            <th style="width:10%">Devices</th>
+            <script type="text/ng-template" src="modules/mesh/views/
+            meshDevices.html" >
+          </script>
+          <th style="width:10%">Ansible servers</th>
+          <script type="text/ng-template" src="modules/mesh/views/
+          meshaddAnsibleServer.html" >
+        </script>
+       
+        <th style="width:10%">Device Groups</th>
+        <th style="width:10%">Bird Eye View</th>
+      
+
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="mesh in meshList | limitTo:meshPerPage" ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,mesh)">
+
+       <td>{{mesh.name}}</td>
+       <td>{{mesh.location}}</td>
+       <td><div ng-repeat="network in mesh.network">{{network}}</div></td>
+       <td><a href="" ng-click="selectedgateway(mesh)">View</a></td>
+       <td><a href="" ng-click="selectedDevices(mesh)">View</a></td>
+       <td><a href="" ng-click="selectedmeshServer(mesh)">View</a></td>
+     
+       <td><a href="" ng-click="viewdeviceGroups(mesh)">View</a></td>
+       <td><a href="" ng-click="meshConnections(mesh)">View</a></td>
+       <!-- <td><a ng-click="editMesh(mesh)"><i class="fa fa-edit" id=editGroup></i></a></td>
+
+       <td id="btn_deactivate"><a ng-click="deleteMesh(mesh)"><i  class="fa fa-trash"></i></a></td>
+ -->
+
+     </tr>
+     <tr ng-if="dataLoading" ><td colspan="14"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+
+     <tr class="alert alert-danger" ng-if=" meshList.length ==0 && !dataLoading">
+      <td colspan="11">
+        <strong>No Record Found.</strong>
+      </td>
+    </tr> 
+  </tbody>
+</table>
+
+</form>
+</div>
+<div id="pagination" ng-show="totalmeshrecords>0"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+  <div class="col-lg-12 blue-bg pad10" >
+    <div class="col-lg-9">
+      <uib-pagination total-items="totalmeshrecords" ng-model="currentMeshPage" ng-change="pageChanged()" items-per-page="meshPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+    </div>
+    <div class="col-lg-3 text-right">Displaying {{currentMeshPage}} / {{numPages}} of {{numPages}}</div>
+  </div>
+</div>
+</div>
+</div>
+<script type="text/ng-template" id="modaleditMesh.html">
+
+  <div role="dialog">                   
+   <div  style="color:black;"  >
+    <!-- Modal content-->
+    <div class="modal-content ">
+
+      <div id= "btn_group" class="nav navbar-fixed-top gradient-bg " style="color:white;">
+        <button type="button" class="close" ng-click="clearaddInstance();">&times;</button>
+
+        <b>{{selectedRowMesh.name}}- Edit Mesh</b> 
+      </div>
+<div class="modal-body">
+                    <form class="form-horizontal mr-top40" id="form" name="form"  >
+
+                    <div class="container col-md-12" >
+                       <div class="panel panel-default mr-leftmin30 mr-rightmin30" style="border-radius:0px;">
+    <div class="row outer">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                           <table class="table table-striped pad0">
+<thead>
+<tr>
+<th class="col-lg-2 col-ms-2 col-sm-2 col-xs-3">Name</th>
+<th class="col-lg-10 col-ms-10 col-sm-10 col-xs-9">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mesh Name:</td>
+<td>
+
+
+<div ng-class="{ 'has-error': form.grpname.$dirty && (form.grpname.$error.required || form.grpname.$error.maxlength) }">
+<input class="form-control" name="grpname" maxlength="24" ng-model="selectedRowMesh.name"  placeholder="Add Mesh Name" ng-maxlength="24" required/><span ng-show="form.grpname.$dirty && (form.grpname.$error.required)" class="help-block">Mesh Name is required</span><span ng-show="form.grpname.$dirty" class="help-block">Please Enter Proper Mesh Name!!!</span><span ng-show="form.grpname.$error.maxlength" class="help-block">Name Should Contain within 24 Characters</span></div>
+
+
+
+</div>
+</td>
+</tr>
+<tr>
+<td>Description:</td>
+<td>
+
+
+ <div >
+<textarea class="form-control" name="groupDesc" maxlength="200" ng-model="selectedRowMesh.description"  placeholder="Add Mesh Description" ></textarea></div>
+
+
+
+
+</td>
+
+
+</tr>
+<tr>
+<td> Location: </td>
+<td>
+
+
+ <div ng-class="{ 'has-error': form.location.$dirty && (form.location.$error.required || form.location.$error.maxlength) }">
+<input class="form-control" name="location"  ng-model="selectedRowMesh.location"  placeholder="Add Location"  required/><span ng-show="form.location.$dirty && (form.location.$error.required)" class="help-block">Location is required</div>
+
+
+
+</div>
+</td>
+</tr>
+
+<tr>
+<td> Network: </td>
+<td >
+  <div class="col-sm-10">
+   
+
+
+    <div class="col-sm-4 " >
+      <div data-ng-repeat="field in choiceSet.choices track by $index" class="pad-bottom45">
+
+       <input style="float: left" class="form-control mr-leftmin30" name="network"  ng-model="selectedRowMesh.network[$index]"  placeholder="Add network"  required /><span ng-show="form.network.$dirty && (form.network.$error.required)" class="help-block">network is required</span>
+
+       <span style="float: left; color: green; margin-top: 3%;" class="glyphicon glyphicon-plus mr-left10" ng-if="$index==0" ng-click="addNewChoice()"/>
+
+        <span style="float: left; color: red; margin-top: 3%;" class="glyphicon glyphicon-remove mr-left10" ng-if="$index!=0" ng-click="removeChoice($index)" />
+         
+       </div>
+      </div>
+
+    
+
+</div>
+</div>
+ 
+    
+ </td>
+
+</tr>
+</tbody>
+</table>
+
+                           
+                       
+                    <div class="">
+
+<SPAN >
+
+
+
+<button type="button" ng-disabled="dataLoading" class="btn btn_act"  ng-click="editmeshGroups(selectedRowMesh);" style="margin-left: 235px;height:48px !important;"><i class="fa fa-plus-circle"></i>Edit Mesh</button>
+<button type="button" ng-disabled="dataLoading" class="btn btn_act"  ng-click="clearaddInstance()" style="height:48px !important;">Cancel</button>
+</SPAN> 
+
+<img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+</div>
+ </div>
+                    </div>
+                </form> 
+                </div>
+
+
+
+
+    </div>
+</div>
+</div>
+</script>
+<script type="text/ng-template" id="meshConfig.html">
+<div  role="dialog">
+<div style="color:black;">
+<!-- Modal content-->
+<div class="modal-content ">
+<div id= "btn_group" class="nav gradient-bg " style="color:white;">
+<button type="button" class="close" ng-click="clearmodel();">&times;</button>
+
+<b>Mesh Gateway Configuration</b>
+</div>
+<div class="modal-body">
+	<form class="form-horizontal" id="form" name="form" >
+	 <div class="row">
+	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+<table id="meshGrid" class="table table-striped"  >
+
+<thead>
+<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Apps</h4>
+							</div>
+							<div style=" display: inline-block;float:right;" >
+							<button type="button" ng-click="saveInformation();" class="btn btn-primary btn-shadow border0">Save</button>
+							</div>
+							</td>
+							</tr>
+<tr>
+<th width="1%">Live</th>
+<th width="15%">Display Name</th>
+<th width="15%" colspan="4"> <SPAN class="checkbox checkbox-primary" >
+															<input type="checkbox" ng-model="checkedAllOption"  ng-click="checkAllApps(checkedAllOption)" /><label for="checkedAllOption" style="padding: 0 20px;">Selected All</label></SPAN> </th>
+
+
+<!-- 
+<th width="5%">Delete</th> -->
+</tr>
+</thead>
+
+<tbody>
+
+<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;"  ng-repeat="gateway in meshGatewayList  | limitTo:devicePerPage" ng-init="gIndex=$index;">
+<td><div uib-tooltip="Offline" tooltip-placement = "top" ng-if="gateway.connected==false"><div class="orange center-block"></div></div>
+<div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+</td>
+<td>
+<div style="cursor:pointer;">{{gateway.displayname}}</div>
+</td>
+<td>
+
+
+
+<SPAN ng-repeat="task in gateway.tasks">
+<SPAN class="checkbox checkbox-primary" style="float:left;"><input type="checkbox" ng-model="taskSelection" ng-click="checkedSelectionApp(gateway.id,task.AppName,taskSelection)" ng-checked="arrayObjectIndexOf(arrCheckboxSelection,task.AppName) > -1" value="{{task.AppName}}"/>
+<label for="taskSelection" style="padding: 0 20px;">{{task.AppName}}</label></SPAN>
+</SPAN>
+
+
+
+</td>
+</tr>
+ <tr ng-if="dataLoading" ><td colspan="14"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+ <tr class="alert alert-danger" ng-if=" meshGatewayTotalRecords ==0 &&!dataLoading ">
+                <td colspan="11">
+                        <strong>No Record Found.</strong>
+                </td>
+                                </tr> 
+
+</tbody>
+
+</table>
+</div>
+<div id="pagination" ng-show="meshGatewayList.length" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+<div class="col-lg-12 blue-bg pad10" >
+<div class="col-lg-9">
+<uib-pagination total-items="meshGatewayTotalRecords" ng-model="currentDevicePage" items-per-page="devicePerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+</div>
+<div class="col-lg-3 text-right">Displaying {{currentDevicePage}} / {{numPages}} of {{numPages}}</div>
+
+</div>
+</div>
+	 </div>
+	</form>
+</div>
+</div>	
+</div>
+</div>			
+</script>
+

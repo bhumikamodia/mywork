@@ -1,0 +1,86 @@
+<!-- 
+	Developed In : EI
+	Employee Code : 11001708
+-->
+ 
+	 <div id="sidebar-wrapper">
+	
+	
+
+		   <ul class="sidebar-nav nav-pills nav-stacked " id="menu">
+				
+                
+                <li   ng-class="menuClass('home')"  ui-sref-active="active">
+                   <a ui-sref="home" ><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
+                </li>
+                <li   ng-class="menuClass('mesh')" ui-sref-active="active">
+				<a ui-sref="mesh" ><span class="fa-stack fa-lg pull-left"><i class="fa fa-connectdevelop fa-stack-1x"></i></span>Mesh</a>
+				</li>
+				<li   ng-class="menuClass('gateway')" ng-show="can('list_gateways')"  ui-sref-active="active">
+                    <a ui-sref="gateway"  ><span class="fa-stack fa-lg pull-left"><i class="fa fa-empire fa-stack-1x"></i></span> Gateways</a>
+                </li>
+              
+
+				
+				<!--<li   ng-class="menuClass('devices')" ng-show="can('list_devices')"  ui-sref-active="active">
+               <a ui-sref="devices"  ><span class="fa-stack fa-lg pull-left"><i class="fa fa-desktop fa-stack-1x"></i></span> Devices</a>
+				</li>-->
+			<li ng-class="menuClass('users')" ng-show="can('list_users')"  ui-sref-active="active">
+			<a ui-sref="users"><span class="fa-stack fa-lg pull-left"><i class="fa fa-group fa-stack-1x"></i></span> Users</a>
+			</li>
+			<li ng-class="menuClass('role')" ng-show="can('list_roles')" ui-sref-active="active">
+			<a ui-sref="role"><span class="fa-stack fa-lg pull-left"><i class="fa fa-user-secret fa-stack-1x"></i></span> Roles
+			</a></li>
+			<li   ng-class="menuClass('applications')" ng-show="can('list_organisations')"  ui-sref-active="active">
+			<a ui-sref="applications"  ng-class="menuClass('applications')"><span class="fa-stack fa-lg pull-left"><i class="fa fa-gears fa-stack-1x"></i></span> Applications</a>
+			</li>
+			<!--<li   ng-class="menuClass('groups')" ng-show="can('list_gatewaygroups')"  ui-sref-active="active">
+				<a ui-sref="groups"  ng-class="menuClass('groups')"><span class="fa-stack fa-lg pull-left"><i class="fa fa-sitemap fa-stack-1x"></i></span> Groups</a>
+			</li>-->
+			
+			
+			<span id="services">
+				<li>
+				<a><span class="fa-stack fa-lg pull-left"><i class="fa fa-plus-circle fa-stack-1x"></i></span><div class="mr-top10">Services</div></a>
+				</li>
+				<!--<li   ng-class="menuClass('datamanagement')" ui-sref-active="active">
+				<a ui-sref="datamanagement" ><span class="fa-stack fa-lg pull-left"><i class="fa fa-yelp fa-stack-1x"></i></span> Data  Management</a>
+				</li>
+				<li   ng-class="menuClass('configurations')" ui-sref-active="active">
+				<a ui-sref="configurations" ><span class="fa-stack fa-lg pull-left"><i class="fa fa-cogs fa-stack-1x"></i></span> Configurations</a>
+				</li>
+				-->
+				
+				<li   ng-class="menuClass('ramlproperties')" ui-sref-active="active">
+				<a ui-sref="ramlproperties" ><span class="fa-stack fa-lg pull-left"><i class="fa fa-cubes fa-stack-1x"></i></span> RAML Manager</a>
+				</li>
+				<li   ng-class="menuClass('security')" ng-show="can('sanny_test')" ui-sref-active="active">
+				<a ui-sref="security" ><span class="fa-stack fa-lg pull-left"><i class="fa fa-lock fa-stack-1x"></i></span> Security</a>
+				</li><!-- ng-show="can('sanny_test')" -->
+				<li   ng-class="menuClass('ruleengine')" ui-sref-active="active">
+				<a ui-sref="ruleengine" ><span class="fa-stack fa-lg pull-left"><i class="fa fa-gear fa-stack-1x"></i></span> Rule Engine</a>
+				</li>
+				<li ng-class="menuClass('softwareupdate')" ui-sref-active="active">
+				<a ui-sref="softwareupdate"><span class="fa-stack fa-lg pull-left"><i class="fa fa-repeat fa-stack-1x"></i></span> Auto Deployment</a>
+				</li>
+				<li   ng-class="menuClass('lookup')" ui-sref-active="active">
+				<a ui-sref="lookup" ><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-code-o fa-stack-1x"></i></span>Lookup Store</a>
+				</li>
+				<li   ng-class="menuClass('simulator')" ui-sref-active="active">
+				<a ui-sref="simulator" ><span class="fa-stack fa-lg pull-left"><i class="fa fa-life-ring fa-stack-1x"></i></span>Simulator</a>
+				</li>
+				<li ng-class="menuClass('health')" ng-show="can('sanny_test')" ui-sref-active="active">
+				<a ui-sref="health"><span class="fa-stack fa-lg pull-left"><i class="fa fa-heartbeat fa-stack-1x"></i></span> Health / Diagnostics</a>
+				</li>
+				<li ui-sref-active="active" ng-show="can('sanny_test')">
+				<a href="#" ng-click="$event.preventDefault();"><span class="fa-stack fa-lg pull-left"><i class="fa fa-bell fa-stack-1x"></i></span> Notifications</a>
+				</li>
+				<li   ng-class="menuClass('reports')"   ui-sref-active="active" >
+				<a href="#" ng-click="$event.preventDefault();"><span class="fa-stack fa-lg pull-left"><i class="fa fa-pie-chart fa-stack-1x"></i></span> Reports</a>
+				</li>
+				
+			</span>
+              </ul>  
+            
+        </div><!-- /#sidebar-wrapper -->
+<leftside-mediajquery></leftside-mediajquery>

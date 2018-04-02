@@ -1,0 +1,144 @@
+
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<div ng-controller="meshAddGatewayCtrl" >
+<div>
+ <div class="row">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div ncy-breadcrumb></div>
+			 <button style="float:right;display:inline;" type="submit" class="btn btn_back" title="Back to list" back-button>
+                <i class="fa fa-chevron-left mr-right7"></i>Back to list
+            </button>
+        </div>
+</div>
+
+    <!-- Modal content-->
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+         <hr class="mr-top10" style="border:2px solid #3D6BA9;" />
+         <!--    <ul class="nav nav-tabs font15">
+                <li class="active"><a data-toggle="tab" ng-click="$event.preventDefault();"><i class="fa fa-table mr-right7"></i>Table</a></li>
+            </ul> -->
+  <div id="device" >
+                    <div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20" >
+                    <button type="button" class="btn btn-default btn-shadow border0" ng-click="getSelectedMeshDetail(1)"><i class="fa fa-refresh"></i>Refresh</button>
+                    <div class="dropdown display-inline">
+                        <button type="button" class="btn btn-default btn-shadow border0 dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-share-square-o"></i>&nbsp;Export<span class=""></span></button>
+                            <ul class="dropdown-menu dropdown-export">
+                                <li><a export-Excel attrname="meshGrid" attrpageno="{{currentDevicePage}}"><i class="fa fa-file-excel-o mr-right7"></i>Export to Excel</a></li>
+                                <li class="divider"></li>
+                                <li><a export-Csv attrname="meshGrid" attrpageno="{{currentDevicePage}}"><i class="fa fa-file-o mr-right7"></i>Export to CSV</a></li>
+                            </ul>
+                        </div>
+
+                      <!--  <button class="btn btn-default btn-shadow border0 " data-toggle="modal" data-target="#myModaladdgateway"><i class="fa fa-plus"></i>&nbsp;Add Gateways</button>
+ -->
+                            
+                   </div>
+                   </div>
+                   </div>
+     
+
+                   <div class="mr-top10 mr-bottom10" >
+                    <div id="deviceTable" class="mr-top10">
+               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+<table id="meshGrid" class="table table-striped"  >
+
+<thead>
+<tr>
+<th width=5%>Live</th>
+<th width="15%">Display Name</th>
+<th width="15%">Gateway Manager</th>
+<th width="15%">Mac ID</th>
+<th width="15%">Network</th>
+<th width="15%">Location</th>
+
+<!-- 
+<th width="5%">Delete</th> -->
+</tr>
+</thead>
+
+<tbody>
+
+<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,gateway)" ng-repeat="gateway in meshGatewayList  | limitTo:devicePerPage" ng-init="gIndex=$index;">
+<td><div uib-tooltip="Offline" tooltip-placement = "top" ng-if="gateway.connected==false"><div class="orange center-block"></div></div>
+<div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+</td>
+<td>
+<div style="cursor:pointer;">{{gateway.displayname}}</div>
+</td>
+<td><div>{{gateway.gatewaymanager_username}}</div></td>
+
+<td><div >{{gateway.gatewaymeta.macid}}</div></td>
+
+
+<td ><div >{{gateway.gatewaymeta.meshNetwork}}</div>
+
+</td>
+<td><div>{{gateway.gatewaymeta.address}}</div></td>
+
+
+<!-- <td>
+
+<div ng-click="removeGateway(gateway.id);" id="btn_deactivate">
+<i uib-tooltip="Delete?" class="fa fa-trash"></i></div>
+
+
+
+
+
+</td> -->
+</tr>
+ <tr ng-if="dataLoading" ><td colspan="14"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+ <tr class="alert alert-danger" ng-if=" meshGatewayTotalRecords ==0 &&!dataLoading ">
+                <td colspan="11">
+                        <strong>No Record Found.</strong>
+                </td>
+                                </tr> 
+
+</tbody>
+
+</table>
+</div>
+<div id="pagination" ng-show="meshGatewayList.length" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+<div class="col-lg-12 blue-bg pad10" >
+<div class="col-lg-9">
+<uib-pagination total-items="meshGatewayTotalRecords" ng-model="currentDevicePage" items-per-page="devicePerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+</div>
+<div class="col-lg-3 text-right">Displaying {{currentDevicePage}} / {{numPages}} of {{numPages}}</div>
+
+</div>
+</div>
+</div>
+
+</div>
+<style>
+
+.panel-body {
+border-top: 0px !important;
+}
+.panel-group .panel-heading {
+border-bottom: 0px !important;
+}
+.selectionBox option {
+background-color: #000;
+color: #fff;
+}
+.modal-lg {
+width: 90%;
+/* max-width:1100px;*/
+}
+</style>
+
+
+
+</div>
+
+
+
+                   </div>
+                   </div>
+          
+          
+            </div>
+            </div>

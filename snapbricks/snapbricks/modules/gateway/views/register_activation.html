@@ -1,0 +1,320 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+
+<div  ng-controller="gatewayRegisterCtrl">
+			<div class="row">
+				<div class="col-lg-10 col-md-10 col-sm-10 col-xs-7 pad-left0">
+					
+						<div ncy-breadcrumb></div>
+					
+				</div>	
+				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-1 text-right">
+					<button type="submit" class="btn btn_back" title="Back to list" back-button><i class="fa fa-chevron-left mr-right7"></i>Back to list</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<hr class="mr-top10" style="border:2px solid #3D6BA9;" />
+				</div>
+			</div>
+			
+		
+
+			<div ng-if="locationPath=='gateway/register'" class="row"  >
+			 
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+					<form class="form-horizontal" id="formData">
+						<div class="form-group">
+							<label class="control-label col-lg-2 col-md-3 col-sm-3 col-xs-5 text-left" for="gateway">Select gateway:</label>
+							<div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
+								
+								<div class = "input-group">
+
+									<input type="text" class="form-control search-input filter-control" id="gateway" ng-model="gateway"  ng-keyup="complete()" placeholder="Type Gateway Name">
+									
+								</div>
+								
+							</div>
+						</div>
+					
+					<div>
+						<table class="table table-striped pad0">
+							<thead>
+								<tr>
+									<th class="col-lg-2 col-ms-2 col-sm-2 col-xs-3">Name</th>
+									<th class="col-lg-10 col-ms-10 col-sm-10 col-xs-9">Value</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Status</td>
+									<td>{{statusEvent}}</td>
+								</tr>
+								<tr>
+									<td>Hardware</td>
+									<td>{{hardware}}</td>
+								</tr>
+								<tr>
+									<td>OS</td>
+									<td>{{OperationSystem}}</td>
+								</tr>
+								
+								<tr>
+									<td>Location</td>
+									<td>{{location1}}</td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+					
+						<div class="form-group">
+							<label class="control-label col-lg-2 col-md-3 col-sm-3 col-xs-5 text-left" for="reg_to">Register to:</label>
+							<div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
+								
+								<!-- {{registered_username}}{{registered_id}} ng-options="user.username for user in gatewayRegisterData" -->
+								<select class="form-control filter-control"  id="registerto" ng-model="registerto" >
+									<option value="">--select user--</option>
+									<!--<option ng-repeat="user in gatewayRegisterData" value='{username:{{user.username}},id:{{user.id}}}' ng-selected="registered_id == user.id">{{user.username}}-->
+									<option ng-repeat="user in gatewayRegisterData" value="{{user}}"  ng-selected="registered_id == user.id">{{user.username}}
+</option>
+								</select>
+								<!--<select  id="registerto" ng-model="registerto" ng-init="registerto=''">
+									<option value="">--select user--</option>
+									<option ng-selected="registered=='Saleha Pathan'?registerto=registered || true:false; " value="Saleha Pathan">Saleha Pathan</option>
+									<option ng-selected="registered=='Sanny soni'?registerto=registered || true:false; " value="Sanny soni">Sanny Soni</option>
+								</select>-->
+								
+							</div>
+						</div>
+					
+					<div class="form-group">
+					<div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
+					
+					<SPAN >
+						<button type="button" ng-disabled="dataLoading" ng-show="can('update_gatewayassignee')" class="btn btn_act" ng-click="registerPostForm(registerto);" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Register</button>
+					</SPAN>	
+					<!--<SPAN ng-if="registerto===registered_id">
+						<button type="button" class="btn btn_act" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Registered</button>
+					</SPAN>-->	
+						<img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+					</div>
+					</div>
+				</form>
+				</div>
+			</div>
+			
+			<div ng-if="locationPath=='gateway/activation'" class="row" >
+			
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="control-label col-lg-2 col-md-3 col-sm-3 col-xs-5 text-left" for="gateway">Select gateway:</label>
+							<div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
+							<div class = "input-group">
+								<input type="text" class="form-control search-input filter-control" id="gateway" ng-model="gateway"  ng-keyup="complete()" placeholder="Type Gateway Name">
+									<span class="input-group-addon input-group-addon-search"><i class="fa fa-search"></i></span>
+							</div>		
+								<!--<select class="form-control filter-control" id="gateway">
+									<option>eI-Iot-55</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+								</select>-->
+							</div>
+						</div>
+					
+					<div>
+						<table class="table table-striped pad0">
+							<thead>
+								<tr>
+									<th class="col-lg-2 col-ms-2 col-sm-2 col-xs-3">Name</th>
+									<th class="col-lg-10 col-ms-10 col-sm-10 col-xs-9">Value</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Status</td>
+									<td>{{statusEvent}}</td>
+								</tr>
+								<tr>
+									<td>Hardware</td>
+									<td>{{hardware}}</td>
+								</tr>
+								<tr>
+									<td>OS</td>
+									<td>{{OperationSystem}}</td>
+								</tr>
+								
+								<tr>
+									<td>Location</td>
+									<td>{{location1}}</td>
+								</tr>
+								
+								<tr>
+									<td>Registered</td>
+									<td>{{registered}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+						
+					
+					<div class="form-group">
+					<div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
+						<div ng-if="status!='ACTIVATED'">
+						<button type="button" ng-disabled="dataLoading"   ng-click="activatePostForm()" class="btn btn_act" style="height:48px !important;" ><i class="fa fa-check-circle"></i>Activate</button>
+						<img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+						</div>
+						<div ng-if="status=='ACTIVATED'">
+						<button type="button"  class="btn btn_act" style="height:48px !important;" ><i class="fa fa-check-circle"></i>ACTIVATED</button>
+						</div>
+					</div>
+					</div>
+					</form>
+				</div>
+			</div>
+			
+			<div ng-if="locationPath=='gateway/deregister'" class="row" >
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="control-label col-lg-2 col-md-3 col-sm-3 col-xs-5 text-left" for="gateway">Select gateway:</label>
+							<div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
+								<div class = "input-group">
+
+									<input type="text" class="form-control search-input filter-control" id="gateway" ng-model="gateway"  ng-keyup="complete()" placeholder="Type Gateway Name">
+									<span class="input-group-addon input-group-addon-search"><i class="fa fa-search"></i></span>
+								</div>
+								<!--<select class="form-control filter-control" id="gateway">
+									<option>eI-Iot-55</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+								</select>-->
+							</div>
+						</div>
+					</form>
+					<div>
+						<table class="table table-striped pad0">
+							<thead>
+								<tr>
+									<th class="col-lg-2 col-ms-2 col-sm-2 col-xs-3">Name</th>
+									<th class="col-lg-10 col-ms-10 col-sm-10 col-xs-9">Value</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Status</td>
+									<td>{{statusEvent}}</td>
+								</tr>
+								<tr>
+									<td>Hardware</td>
+									<td>{{hardware}}</td>
+								</tr>
+								<tr>
+									<td>OS</td>
+									<td>{{OperationSystem}}</td>
+								</tr>
+								
+								<tr>
+									<td>Location</td>
+									<td>{{location1}}</td>
+								</tr>
+								<tr>
+									<td>Registered to</td>
+									<td>{{registered_username}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div class="form-group">
+						<button type="button" ng-disabled="dataLoading" ng-show="can('update_gatewayassignee')" class="btn btn_act" ng-click="deregisterPostForm(userFullName);" style="background-color:#d9534f !important;height:48px !important;"><i class="fa fa-trash"></i>Deregister</button>
+					 <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+					</div>
+				</div>
+			</div>
+			
+			<div ng-if="locationPath=='gateway/deactivate'" class="row" >
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="control-label col-lg-2 col-md-3 col-sm-3 col-xs-5 text-left" for="gateway">Select gateway:</label>
+							<div class="col-lg-2 col-md-3 col-sm-3 col-xs-5">
+								<div class = "input-group">
+
+									<input type="text" class="form-control search-input filter-control" id="gateway" ng-model="gateway"  ng-keyup="complete()" placeholder="Type Gateway Name">
+									<span class="input-group-addon input-group-addon-search"><i class="fa fa-search"></i></span>
+								</div>
+								<!--<select class="form-control filter-control" id="gateway">
+									<option>eI-Iot-55</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+								</select>-->
+							</div>
+						</div>
+					</form>
+					<div>
+						<table class="table table-striped pad0">
+							<thead>
+								<tr>
+									<th class="col-lg-2 col-ms-2 col-sm-2 col-xs-3">Name</th>
+									<th class="col-lg-10 col-ms-10 col-sm-10 col-xs-9">Value</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Status</td>
+									<td>{{statusEvent}}</td>
+								</tr>
+								<tr>
+									<td>Hardware</td>
+									<td>{{hardware}}</td>
+								</tr>
+								<tr>
+									<td>OS</td>
+									<td>{{OperationSystem}}</td>
+								</tr>
+								
+								<tr>
+									<td>Location</td>
+									<td>{{location1}}</td>
+								</tr>
+								<tr>
+									<td>Registered to</td>
+									<td>{{registered}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div class="form-group">
+						<div ng-if="status!='DEACTIVATED'">
+						<button type="button"  ng-click="deactivatePostForm();" ng-disabled="dataLoading" class="btn btn_act" style="background-color:#d9534f !important;height:48px !important;"><i class="fa fa-ban"></i>Deactivate</button>
+						<img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+						</div>
+						<div ng-if="status=='DEACTIVATED'">
+						<button type="button"  class="btn btn_act" style="background-color:#d9534f !important;height:48px !important;" ><i class="fa fa-check-circle"></i>DEACTIVATED</button>
+						</div>
+					
+					</div>
+				</div>
+			</div>
+			
+		</div>
+    
+
+<script type="text/javascript">
+			
+			function toggleIcon(e) 
+			{
+				$(e.target)
+					.prev('.panel-heading')
+					.find(".more-less")
+					.toggleClass('fa-plus-square-o fa-minus-square-o');
+			}
+			$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+			$('.panel-group').on('shown.bs.collapse', toggleIcon);
+		</script>

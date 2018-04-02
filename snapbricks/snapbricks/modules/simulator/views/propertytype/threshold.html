@@ -1,0 +1,34 @@
+<div class="row margin0 pad5">
+	<div class="col-xs-2">Threshold Type</div>
+	<div class="col-xs-2">
+		<select ng-model="editprop.type" class="form-control" >
+			<option value="">--Select--</option>
+			<option value="value">Value</option>
+			<option value="percentage">Percentage</option>
+		</select>
+			
+	</div>
+	<div class="col-xs-2">
+		<div ng-if="editprop.type=='value'"><span> Value</span></div>
+		<div ng-if="editprop.type=='percentage'"><span>Percentage</span></div>
+	</div>
+	<div class="col-xs-2">
+		<div ng-if="editprop.type=='value'"><input type="text" ng-model="editprop.thresholdValue" class="form-control" style="width:85%" /></div>
+		<div ng-if="editprop.type=='percentage'"><input  type="number" ng-model="editprop.thresholdValue" class="form-control leftalign" style="width:85%" /><span style="float:right">%</span></div>	
+	</div>	
+</div>
+<div class="row margin0 pad5">
+	<div class="col-xs-2">Threshold Operations</div>
+	<div class="col-xs-2">
+	
+	<div class="btn-group" data-toggle="buttons">
+						<label class="btn btn-default" ng-class="{'active':(editprop.operations.indexOf('get')>-1)}" ng-click="setpropertyOperationsData(editprop.operations,'get')">
+							<input type="checkbox" ng-model="editprop.operations.get" >GET
+						</label>
+						
+						<label class="btn btn-default" ng-class="{'active':(editprop.operations.indexOf('post')>-1)}" ng-click="setpropertyOperationsData(editprop.operations,'post')">
+							<input type="checkbox"  ng-model="editprop.operations.post" >POST
+						</label>
+					</div>			
+	</div>	
+</div>	

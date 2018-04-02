@@ -1,0 +1,637 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<div ng-controller="deviceGroupsCtrl">
+<div >
+<div class="row">
+<div >
+
+<div ncy-breadcrumb></div>
+
+</div>  
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-1 text-right">
+</div>
+</div>
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+<div id="device" >
+<div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin20" >
+<button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshGroupFunc();"><i class="fa fa-refresh"></i>Refresh</button>
+<div class="dropdown display-inline">
+<button type="button" class="btn btn-default btn-shadow border0 dropdown-toggle" data-toggle="dropdown">
+<i class="fa fa-share-square-o"></i>Export<span class=""></span></button>
+<ul class="dropdown-menu dropdown-export">
+<li><a export-Excel attrname="device" attrpageno="{{currentDevicePage}}"><i class="fa fa-file-excel-o mr-right7"></i>Export to Excel</a></li>
+<li class="divider"></li>
+<li><a export-Csv attrname="device" attrpageno="{{currentDevicePage}}"><i class="fa fa-file-o mr-right7"></i>Export to CSV</a></li>
+</ul>
+</div>
+
+<div style="display: inline-block;" ><button id=addGroup ng-click="editDeviceGroups()" type="button" class="btn btn-default btn-shadow border0" ><i class="fa fa-plus-circle"></i>Add</button></div>
+<img ng-if="dataDeviceLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+</div>
+</div>
+</div>
+
+
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">   
+<form class="form-horizontal" id="formData">
+<table  class="table table-striped" id="exportable">
+<thead>
+<tr>
+
+<th>Group Name</th>
+<th>Description</th>
+<th>Created Date</th>
+<th><center>Edit</center></th>
+<th><center>Delete</center>
+<th>Action Profiles</th>
+<th>
+<i class="fa fa-filter" data-toggle="modal" data-target="#myModalDevice" ></i>
+<!-- Modal -->
+<div class="modal fade" id="myModalDevice" role="dialog">
+<div class="modal-dialog mr-top80">
+<!-- Modal content-->
+<div class="modal-content black-bg">
+<div class="modal-header border0">
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+<h4 class="modal-title">Filter Devices</h4>
+</div>
+<div class="modal-body">
+<form class="form-horizontal">
+<div class="form-group">
+<label class="control-label col-lg-5" for="dname">Gateway:</label>
+<div class="col-lg-5">
+
+<select class="form-control filter-control" id="gateway" ng-model="gateway" ng-init="gateway=gatewayId">
+<!--<option value="">All</option>-->
+<option ng-repeat="gateway in gateway_all | unique: 'gateway'" value="{{gateway.gateway.id}}">{{gateway.gateway.displayname}}
+</select>
+</div>
+</div>
+<div class="form-group">
+<label class="control-label col-lg-5" for="gman">Gateway Manager:</label>
+<div class="col-lg-5">
+<select class="form-control filter-control" id="gmanSearch" ng-model="gmanSearch" ng-init="gmanSearch==''">
+<option value="">All</option>
+<option ng-repeat="gatewaymanagerlist in gatewaymanager_all | unique: 'gateway.gatewaymanager'" value="{{gatewaymanagerlist.gateway.gatewaymanager}}">{{gatewaymanagerlist.gateway.gatewaymanager_username}}
+</select>
+
+</div>
+</div>
+<div class="form-group">
+<label class="control-label col-lg-5" for="status">Status:</label>
+<div class="col-lg-5">
+<select class="form-control filter-control" id="statusSearch" ng-model="statusSearch" ng-init="statusSearch==''">
+<option value="">All</option>
+<option ng-repeat="gateway in gatewaystatus_all | unique: 'device_status'" value="{{gateway.device_status}}">{{gateway.device_status}}
+
+</select>
+</div>
+</div>
+
+
+<div class="form-group"> 
+<div class="col-sm-offset-5 col-sm-5">
+<button type="submit" ng-click="searchFeaturesSubmit();" data-dismiss='modal' class="btn btn-filter">Apply Filter</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+
+</th>
+</tr>
+</thead>
+<tbody >
+
+<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,action)"  ng-repeat="device in filtered = (deviceGroupList | filter:expression | filter:expression3 || undefined) | limitTo:devicePerPage">
+<!--{{$index + (currentGatewayPage - 1) * gatewayPerPage + 1}}
+
+ng-repeat="device in filtered = (deviceGroupList | filter:expression | filter:expression3 || undefined) | limitTo:devicePerPage"
+-->
+
+<td>
+{{device.name}}
+</td>
+<td>
+{{device.description}}
+</td>
+<td><div> {{device.created_ts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }} </div></td>
+<td><center><a ng-click="editDeviceGroups(device)"><i class="fa fa-edit" id=editGroup></i></a></center></td>
+
+<td id="btn_deactivate"><center><a ng-click="deleteDeviceGroups(device)"><i  class="fa fa-trash"></i></a></center></td>
+<td ng-click="actionProfiles(device)"> <i class="fa fa-cog fa fa-spin"></i>&nbsp; Set Profile </td>
+
+
+<td></td>
+</tr>
+
+<tr ng-if="dataLoading" class="alert alert-danger"><td colspan="11"><div align="center"><img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></div></td></tr>
+<!-- <tr class="alert alert-danger" ng-if="totalItems==0"><td colspan="11"><strong>No Record Found.</strong></td></tr>  --> 
+
+<tr class="alert alert-danger" ng-if="totalItems ==0 && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+
+</tbody>
+</table>
+
+</form>
+</div>      
+<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+<div class="col-lg-12 blue-bg pad10">
+<div class="col-lg-9">
+<uib-pagination  total-items="totalItems" ng-model="currentDevicePage" ng-change="pageChanged()" max-size="5" force-ellipses="true" items-per-page="devicePerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+boundary-links="true" num-pages="numPages"></uib-pagination>
+
+</div>
+<div class="col-lg-3 text-right">Displaying {{currentDevicePage}} / {{numPages}} of {{numPages}}</div>
+</div>
+
+</div>    
+</div>    
+
+
+</div>
+
+
+
+
+
+<script type="text/ng-template" id="modalEditProfile.html" >
+
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+
+<div  id="editProfile" role="dialog">
+<div  style="color:black;"  >
+<!-- Modal content-->
+
+<div class="modal-content ">
+<div id= "btn_group" class="nav navbar-fixed-top gradient-bg modal-header color-white"  >  
+<button type="button" class="close" ng-click="clearEditProfileModal();">&times;</button>
+<b ng-if="profileInfo==undefined"> {{grpdevicesinformation.name}} - Add New Action Profile  </b>
+<b ng-if="profileInfo!=undefined"> {{grpdevicesinformation.name}} - Manage Action Profile  </b>
+</div>
+<div >
+<div class="modal-body"> 
+<form id="btn_group" class="form-horizontal mr-top55" style=" height:55px">
+
+<!-- <button class="btn btn-default btn-shadow border0 fa fa-plus" ng-click="addNewProfile('addprofile')"> &nbsp;Add New Device</button>  -->
+<!-- <div style="float:right"> -->
+<!-- <select class="btn btn-default btn-shadow border0 fa fa-caret-down">
+<option value="default">Select Device</option>
+<option value="device1">Device 1</option>
+<option value="device2">Device 2</option>
+</select> --> 
+<label>Search: </label>
+<select id="displayName" name="profDevName" class="btn btn-default btn-shadow border0 fa fa-caret-down" ng-model="newProfile.deviceName" ng-options="deviceids.id as deviceids.displayname for deviceids in grpdevicesinformation.deviceids"  ng-change="searchData = newProfile.deviceName; searchFunction()">
+<option value="">All</option>
+</select>
+
+<!-- <button class="btn btn-default btn-shadow border0 fa fa-search"> &nbsp; Search</button> -->
+<div style="float: right">
+
+ <button class="btn btn_back" ng-click="clearEditProfileModal()"><i class="fa fa-chevron-left mr-right7"></i>Back to list</button>
+                </div>
+<!-- {{profileInfo}}-->
+
+</form>
+
+<div ng-if="noSchedulerApp" style="font-size: 19px"><center>
+There is no scheduler App in this gateway</center>
+</div>
+
+<form class="form-horizontal" name="myformm" class="pad-top10 pad-bottom15">
+
+  <div class="mr-top10 mr-bottom10">
+    <table class="table table-striped">
+    <tr>
+    <td>
+    Profile Name: </td>
+    <td>
+    <input type="text" name="grpname" placeholder="Give Name" maxlength="24" class="form-control" ng-model="profiledata.grpname"></input></td>
+
+    </tr>    
+    <tr><td>
+    Profile Description:</td>
+    <td>
+
+
+
+    <input type="text" name="grpdesc"  placeholder="Give Short Description" maxlength="200" class="form-control" ng-model="profiledata.grpdesc"/> </td>
+    </tr>
+<tr ng-if="!noSchedulerApp">
+<td> Processed by:</td>
+       <td>                            
+ <select name="gwid" ng-model="processedBy" class="form-control" ng-options="gatewayobj.displayname for gatewayobj in gatewayScheduleList" ng-change="dropDownData(processedBy)" ng-selected="gatewayobj.id==processedBy">
+ <option value="" selected> Select Any</option>
+
+<!-- <option ng-repeat="gatewayobj in gatewayScheduleList" value="{{gatewayobj.id}}" >
+{{gatewayobj.displayname}}</option> -->
+
+</select>
+</td>
+</tr>
+    <tr>
+    <td>
+    Schedule Frequency: </td>
+    <!-- <td>
+    <input type="text" name="grpschedfreq" placeholder="once/daily/weekly" ng-model="profiledata.grpschedfreq" style="height: 25px;"></input></td> -->
+    <td>
+     <select ng-model="profiledata.grpschedfreq" name="grpschedfreq" class="form-control">
+       <option value="" selected disabled>Select Frequency</option>
+        <option value="once">Once</option>
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+    </select>
+
+     <div class="mr-top10" ng-if="profiledata.grpschedfreq=='weekly'">
+        <div ng-if="profileInfo==undefined || profileInfo.actions.length==0" ng-repeat="day in dayOriginalArray" >
+        
+        <input type="checkbox" value={{day}} ng-model="profiledata.day[$index]" ng-change="funcData(day)"/><span class='check_span'>{{day}}</span>
+
+
+            <span ng-if="!$last"><!--,-->&nbsp;</span>
+
+</div>
+<div ng-if="profileInfo!=undefined || profileInfo.actions.length>0">
+<div  ng-repeat="day in dayOriginalArray">
+
+ <input type="checkbox" value="{{day}}" ng-model="profiledata.day[$index]" ng-checked="profileInfo.actions[0].dow.indexOf(day)!=-1" ng-click="funcData(day)"/><span class='check_span'>{{day}}</span>
+
+
+            <span ng-if="!$last"><!--,-->&nbsp;</span>
+
+</div>
+</div>
+</div> 
+
+</td>
+    </tr>
+
+
+    <tr>
+    <td>
+        Schedule Time: </td>
+        <td>
+            <uib-timepicker name="grpschedtime" show-seconds="true" show-meridian="true" ng-model="profiledata.grpschedtime" ng-init="profiledata.grpschedtime =returnTime1(profiledata.grpschedtime,profiledata.grpschedfreq)" hour-step="1" minute-step="5" second-step="5" ></uib-timepicker>
+        </td>
+
+    </tr>
+
+
+
+    <!-- {{profiledata.grpschedtime| date:'yyyy-MM-ddThh:mm:ssz'}} -->
+
+
+    </table>
+  </div>
+
+   
+
+
+<table class="table table-responsive table-striped pad10">
+
+<thead>
+<th style="width: 23%">Device Name</th>
+<th style="width: 23%">Property</th>
+<th style="width: 44%">Value</th>
+<th style="width: 7%" ng-if="profileInfo!=undefined">Edit</th>
+<th style="width: 13%">Action</th>
+
+</thead>
+
+
+<tbody>
+<!-- <tr> 
+<td> Profile Name </td>
+<td> Profile Desc </td>
+<td> Profile@Scheduled At </td>
+<td><a ng-click=""><i class="fa fa-edit"></i></a></td>
+<td><a ng-click="" id="btn_deactivate"><i  class="fa fa-trash"></i></a></td> 
+</tr> -->
+
+
+<tr id="tryedit" ng-repeat="action in profileInfo.actions | filter:searchFunction()" ng-init="editingFlag[$index]=false; actionLoopIndex=$index;">
+<td>
+<div ng-if="editingFlag[actionLoopIndex]==true">
+
+<div ng-repeat="deviceids in grpdevicesinformation.deviceids | filter:{id:action.deviceid}">
+{{deviceids.displayname}}
+</div>
+</div>
+<div ng-if="editingFlag[actionLoopIndex]==false">
+
+<div ng-repeat="deviceids in grpdevicesinformation.deviceids | filter:{id:action.deviceid}">
+{{deviceids.displayname}}
+</div>
+</div>
+</td>
+<td>
+<div ng-if="editingFlag[actionLoopIndex]==true" class="transforms">
+{{action.definitionname}}
+</div>
+<div ng-if="editingFlag[actionLoopIndex]==false" class="transforms">
+{{action.definitionname}}
+</div>
+</td>
+<td>
+<div  ng-repeat="prop in action.properties" ng-init="propLoopIndex = $index">
+<div ng-if="editingFlag[actionLoopIndex]==true">
+<span> {{prop.types.name}}</span>
+<SPAN ng-if="prop.types.type=='number' || prop.types.type=='integer'">
+<span ng-if="!(!prop.types.minimum&& !prop.types.maximum)" ng-init="myval=prop[prop.types.name]">
+<input  type="range" min="{{prop.types.minimum}}" max="{{prop.types.maximum}}" name="profDevValue" value={{myval}} placeholder="Add Device Value"  ng-model="myval" ng-change="onValueChange(action.deviceid,myval,prop.types.name)" ng-init="myval=prop[prop.types.name]" /><center>{{myval}}</center></SPAN> 
+<span class="mr-left20" ng-if="(!prop.types.minimum&& !prop.types.maximum)"><input type="number" ng-model="myval"  name="profDevValue" placeholder="Add Device Value" ng-change="onValueChange(action.deviceid,myval,prop.types.name)" ng-init="myval=prop[prop.types.name]"/></span></span>
+
+
+<SPAN ng-if="prop.types.type=='string' && !prop.types.enum"><input ng-init="myval=prop[prop.types.name]" type="text" name="profDevValue" placeholder="Add Device Value"  ng-model="myval" ng-click="onValueChange(action.deviceid,myval,prop.types.name)"  /></SPAN>
+<SPAN ng-if="prop.types.type == 'boolean'" ><toggle ng-model="prop[prop.types.name]" on="{{prop[prop.types.name]}}" off="{{prop[prop.types.name]}}" onstyle="btn-success widthFix" offstyle="btn-danger widthFix"  ng-click="onValueChange(action.deviceid,prop[prop.types.name],prop.types.name)" >{{prop[prop.types.name]}</toggle>
+<!-- 
+<switch  name="enabled" class="green" ng-init="myval=prop[prop.types.name]" ng-model="myval" on="On" off="Off"  ng-change="onValueChange(action.deviceid,myval,prop.types.name)" >{{myval}}</switch> -->
+
+</SPAN>
+<SPAN ng-if="prop.types.enum.length >0">
+<select class="form-control" ng-model="myval" ng-init="myval=prop[prop.types.name]" ng-click="onValueChange(action.deviceid,myval,prop.types.name)" >
+<option value="" selected>Select value</option>
+<option ng-repeat="oper in prop.types.enum" value="{{oper}}" >{{oper}}</option>
+</select>
+</SPAN>
+
+
+
+
+<!--<input type="text" ng-model="action.propertyvalue" value="{{action.propertyvalue}}"/>-->
+</div>
+</div>
+<div  ng-repeat="prop in action.properties" ng-init="propLoopIndex = $index">
+<div ng-if="editingFlag[actionLoopIndex]==false">
+{{prop.types.name}}: {{prop[prop.types.name]}}
+</div>
+</div>
+</td>
+
+
+<td>
+ <button ng-if="editingFlag[$index]==false" type="button" class="btn btn-primary btn-xs" ng-click="editNewProfile($index)"><span class="glyphicon glyphicon-edit"></span></button>
+
+ </td>
+<td><button type="button" ng-click="removeDevice1($index)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button></td>
+
+
+</tr>
+
+
+<tr ng-repeat="i in newdevconfigrow">
+  <center><button class="btn btn-default btn-shadow border0 fa fa-plus mr-bottom10" style=" background-color:lightblue;" ng-disabled="noSchedulerApp" ng-click="addNewProfile()"> &nbsp;<b> Add Devices</b></button></center>
+</tr>
+
+
+<!-- add ng-if="pr{{ofileInfo==undefined -->
+
+<tr id="newdevconfigrow" ng-repeat="newProfile in newProfileArray| filter:searchFunction()" ng-init="newProfileIndex = $index"> 
+<td>
+<select id="displayName" name="profDevName" class="form-control" ng-model="newProfile.deviceName" ng-click="newProfile.deviceProperty = myproperty(newProfile.deviceName,$index)" ng-options="deviceids.id as deviceids.displayname for deviceids in grpdevicesinformation.deviceids | filter:{regproperties:{properties:{operations:'post'}}}">
+<option value="" selected disabled>Select Device Name</option>
+</select>
+
+</td>
+ <td>
+
+<select  class="form-control" ng-model="newProfile.deviceDef"  ng-change="newProfile.deviceType=getTypeoftheProperty(newProfile.deviceName,newProfile.deviceDef,$index)">
+<option value="">Select Device Properties</option>
+<option ng-repeat="propertydata in newProfile.deviceProperty" value="{{propertydata.name}}">{{propertydata.name}}</option>
+
+</select>
+
+</td>
+
+<td  >
+<div ng-repeat="data in newProfile.deviceType">
+<SPAN>{{data.name}}:</SPAN>
+
+<span ng-if="data.type=='number' || data.type=='integer'">
+<span ng-if="!(!data.minimum&& !data.maximum)">
+<input type="range" ng-model="myval" min="{{data.minimum}}" max="{{data.maximum}}" ng-init="myval=data.minimum;newProfile.deviceValue=onValueChange(newProfile.deviceName,myval,data.name)" name="profDevValue" placeholder="Add Device Value"  ng-change="newProfile.deviceValue=onValueChange(newProfile.deviceName,myval,data.name)"/><center id="{{data.name}}">{{myval}}</center></span>
+<span class="mr-left20" ng-if="(!data.minimum&& !data.maximum)"><input type="number" ng-model="myval" name="profDevValue" placeholder="Add Device Value" ng-change="newProfile.deviceValue=onValueChange(newProfile.deviceName,myval,data.name)"/></span></span> 
+ <!-- ng-model="myval" ng-change="newProfile.deviceValue = myval" -->
+<SPAN class="mr-left20" ng-if="data.type=='string' && !data.enum"><input type="text" name="profDevValue" placeholder="Add Device Value"  ng-model="myval"  ng-change="newProfile.deviceValue=onValueChange(newProfile.deviceName,myval,data.name)"/></SPAN>
+<SPAN ng-if="data.type == 'boolean'"><toggle ng-init="myval=false;newProfile.deviceValue=onValueChange(newProfile.deviceName,myval,data.name)" ng-model="myval" ng-change="changed()" on="true" off="false" onstyle="btn-success widthFix" offstyle="btn-danger widthFix" ng-click="newProfile.deviceValue=onValueChange(newProfile.deviceName,myval,data.name)">{{myval}</toggle>
+
+<!-- <switch ng-init="myval=false;newProfile.deviceValue=onValueChange(newProfile.deviceName,myval,data.name)" ng-model="myval" on="On" off="Off" class="green" ng-change="newProfile.deviceValue=onValueChange(newProfile.deviceName,myval,data.name)">{{myval}}</switch> -->
+</SPAN>
+<SPAN ng-if="data.enum.length >0">
+<select class="form-control" ng-model="myval"  ng-click="newProfile.deviceValue=onValueChange(newProfile.deviceName,myval,data.name)">
+<option value="" selected>Select value</option>
+<option ng-repeat="oper in data.enum" value="{{oper}}" >{{oper}}</option>
+</select>
+</SPAN>
+<!-- <input type="hidden" ng-model="newProfile.deviceType"    /> -->
+
+<!-- ng-model="newProfile.deviceProperty" ng-init="newProfile.deviceProperty=data.name" -->
+</div>
+</td>
+<!-- <td ng-click="saveProfile(profDevName,profDevProperty,profDevValue)" ><button type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-ok"></span></button></td> -->
+<td ng-if="profileInfo!=undefined">
+	
+</td>
+<td>
+<!-- <button class="btn btn-primary btn-xs glyphicon glyphicon-ok" ng-click="saveProfile('',newProfileArray,profileInfo.actions,profiledata.grpname,profiledata.grpdesc,profiledata.grpschedfreq,profiledata.grpschedtime,'save')"></button> -->
+<button type="button" ng-click="removeDevice($index)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button></td> 
+</tr>
+
+
+</tbody>
+</table>
+
+<div class="form-horizontal" class="pad-bottom15">
+  
+<!-- <label>{{newProfileArray}}</label> -->
+
+
+<!-- <label ng-repeat="action in profileInfo.actions"><pre>
+Name: {{action.deviceid}},Property: {{action.property}}, Type: {{action.type.deviceType.type}}, Value: {{action.propertyvalue}}</pre>
+</label>
+
+
+
+<label ng-repeat="profileDetail in newProfileArray"><pre>Name: {{profileDetail.deviceName}}, Property: {{profileDetail.deviceProperty}}, Type: {{profileDetail.deviceType.type}}, Value: {{profileDetail.deviceValue}}</pre> 
+</label> -->
+<br>
+<center>
+
+
+<!--  <button ng-if="profileInfo==undefined" style="margin-bottom:5px;background-color:lightgreen" ng-click="saveProfile(newProfileArray,grpname,grpdesc,grpschedfreq,grpschedtime,objectfind)" class="btn btn-default btn-shadow border0 fa fa-save">&nbsp;Save</button> -->
+
+<button style="margin-bottom:5px;background-color:lightgreen" ng-click="saveProfile(profileInfo.id,newProfileArray,profileInfo.actions,profiledata.grpname,profiledata.grpdesc,profiledata.grpschedfreq,profiledata.grpschedtime,processedBy)" ng-disabled="noSchedulerApp" class="btn btn-default btn-shadow border0 fa fa-save">&nbsp;Save</button>
+
+</center>
+</div>
+
+</form>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+</div>
+
+</script>
+
+
+
+<!-- &&&&&&&&&&&&&&&&DeviceGroupActionProfile&&&&&&&&&&&&&&&&&&&&&&& -->
+
+<script type="text/ng-template" id="modalDeviceGroupActionProfile.html">
+
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<div class="dialog">
+<!-- Modal content-->
+<div  style="color:black;"  >
+<div class="modal-content ">
+<div id= "btn_group" class="nav navbar-fixed-top gradient-bg modal-header color-white"  >  
+<button type="button" class="close" ng-click="clearGrpActnProfile();">&times;</button>
+<b> {{grpdevicesinformation.name}} -Action Profiles</b>
+</div>
+<div >
+<div class="modal-body"> 
+<form id="btn_group"  class="form-horizontal mr-top40" >
+
+<!-- <button class="btn btn-default btn-shadow border0 fa fa-plus"><a data-toggle="modal"  data-target="#profileDevicesModal">&nbsp;Add New Profile</a> </button> 
+ -->
+
+<button ng-click="profileDevices()" class="btn btn-default btn-shadow border0 fa fa-plus">&nbsp;Add New Profile </button>
+
+
+
+<button class="btn btn-default btn-shadow border0 fa fa-caret-right" style="float:right" ng-disabled="!selectedRowDevice" ng-click="triggerNow(selectedRowDevice)">&nbsp;Trigger Now</button>
+
+
+</form>
+
+
+<form class="form-horizontal mr-top40 pad-bottom15">
+
+<table class="table table-responsive table-striped pad10">
+
+<thead>
+<th>Name</th>
+<th>Description</th>
+<th>Scheduled At</th>
+<th>Delete</th>
+<th>Action</th>
+</thead>
+
+
+<tbody>
+
+<tr ng-repeat="action in deviceActionList | limitTo:devicePerPage" ng-class="{'selected':$index == selectedRow}" class="pointer" ng-click="setClickedRow($index,action)" > 
+<td> {{action.name}} </td>
+<td> {{action.description}}</td>
+<td><div ng-if="action.actions[0].frequency != null" ng-init="temp1=returnTime1(action.actions[0].scheduledat,action.actions[0].frequency)">
+<div ng-if="action.actions[0].frequency!='once'">{{action.actions[0].frequency}}@{{ temp1| date:'HH:mm:ss'}}</div>
+<div ng-if="action.actions[0].frequency=='once'">{{action.actions[0].frequency}}@{{ temp1}}</div>
+</div>
+<div ng-if="action.actions[0].frequency == null" style="color: red"> Not Scheduled </div>
+</td>
+<td ><div align="center"><a uib-tooltip="Delete Profile?" ng-click="deleteProfile(action.id)"  id="btn_deactivate"><i  class="fa fa-trash"></i></a></div></td> 
+<!-- <td><a data-toggle="modal" data-id="selectedRowDevice" data-target="#profileDevicesModal">Manage</a> </td> -->
+
+<td><a ng-click="profileDevices(action)">Manage</a> </td>
+
+<!--
+ ng-click="profileDevices(action.id)
+
+<td ng-repeat="subaction in action.actions"> {{subaction.frequency}}@{{subaction.scheduledat}} </td>
+-->
+</tr>
+
+<tr class="alert alert-danger" ng-if="deviceActionList.length == 0"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+
+
+
+<!-- 
+<tr> 
+<td> Profile Name </td>
+<td> Profile Desc </td>
+<td> Profile@Scheduled At </td>
+<td><a ng-click=""><i class="fa fa-edit"></i></a></td>
+<td><a ng-click="" id="btn_deactivate"><i  class="fa fa-trash"></i></a></td> 
+</tr> -->
+<tr  ng-if="viewSelect =='addprofiles'">
+<td>
+<input type="text" name="profname" value="Add Name"/>
+</td>
+
+<td>
+<input type="text" name="profdesc" value="Add Description"/>
+</td>
+
+
+<td>
+<input type="text" name="proffreq" value="Frequency"/>@
+<input type="text" name="proftime" value="Time"/>
+</td>
+
+<td>
+   <i class="fa-edit"></i>
+   <i class="fa-delete"></i>
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+</form>
+<br>
+
+<form class="navbar-fixed-bottom blue-bg  ">
+
+<div id="pagination" class="col-lg-12 col-md-10 col-sm-8 col-xs-8 blue-bg pad10">
+<div style="display:inline-block;">
+<uib-pagination  total-items="totalItems" ng-model="currentDevicePage" ng-change="pageChanged()" max-size="5" force-ellipses="true" items-per-page="devicePerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+</div>
+<SPAN style="float:right"> Displaying {{currentDevicePage}} / {{numPages}} of {{numPages}} &nbsp; </SPAN>
+</div>
+
+
+</form>
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+</div>
+</div>
+</script>
+<!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& -->
+
+
+<script type="text/javascript">
+
+function toggleIcon(e) 
+{
+$(e.target)
+.prev('.panel-heading')
+.find(".more-less")
+.toggleClass('fa-plus-square-o fa-minus-square-o');
+}
+$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+$('.panel-group').on('shown.bs.collapse', toggleIcon);
+</script>

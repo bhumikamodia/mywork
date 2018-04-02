@@ -1,0 +1,115 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<div ng-controller="ramleditDevicepropertiesCtrl" >
+<div class="row" >
+	<div >
+		
+			<div ncy-breadcrumb></div>
+		
+	</div>    
+	<div class="col-lg-2 col-md-2 col-sm-2 col-xs-1 text-right">
+		<button type="submit" class="btn btn_back" title="Back to list" back-button><i class="fa fa-chevron-left mr-right7"></i>Back to list</button>
+	</div>
+</div>
+<hr class="mr-top10" style="border:2px solid #3D6BA9;" />
+<div class="row row_margin_0 ">
+	<form class="form-horizontal" id="main_form" name="main_form"  >
+		<table class="table table-striped pad0">
+			<tbody>
+				<tr>
+					<td class="col-lg-3 col-ms-12 col-sm-12 col-xs-3 c_cls">Name:</td>
+					<td class="col-lg-9 col-ms-12 col-sm-12 col-xs-9">
+						<div ng-class="{ 'has-error': main_form.deviceName.$dirty && (main_form.deviceName.$error.required || main_form.deviceName.$error.maxlength) }" >
+						   <input type="text"  class="form-control" name="deviceName" ng-model="editrml.devicename" required ng-maxlength="30" />
+							<span ng-show="main_form.deviceName.$dirty && (main_form.deviceName.$error.required)" class="help-block">Device Name is required</span>
+							<span ng-show="main_form.deviceName.$error.maxlength" class="help-block">Device Name Should Contain within 30 Characters</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="c_cls">Description:</td>
+					<td class="">
+						<div ng-class="{'has-error': main_form.deviceDesc.$dirty && main_form.deviceDesc.$error.required }" >
+						  <textarea placeholder="Description"  rows="2" name="deviceDesc" required ng-model="editrml.deviceDesc" class="form-control" ></textarea> 
+						  <span ng-show="main_form.deviceDesc.$dirty && form.deviceDesc.$error.required" class="help-block">Device Description is required</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="c_cls">Keyword:</td>
+					<td class="">
+						<textarea placeholder="Keywords"  rows="2" ng-model="editrml.devicekeywords" class="form-control"></textarea> 
+					</td>
+				</tr>
+			</tbody>
+		</table>				
+	</form>
+</div>
+<div class="row row_margin_0" >
+	<div class="col-lg-3 col-ms-12 col-sm-12 pad0">	
+		<div class="list-group">
+			  <a href="#" ng-click="$event.preventDefault();" class="list-group-item active">Properties Added</a>
+			    <div class="list-group-item pad0" style="min-height:150px;">
+					<table class="table" style="background:#ccc">
+						<tr>
+							<th>Definitions / Properties</th>
+							<th>
+							<select ng-model="editrml.device_defpro" class="form-control" ng-options="c.name for c in maindefpro" ng-change="AddPropertyData(editrml.device_defpro)">
+							<option value="" >Select</option>
+							</select>
+							</th>
+						</tr>
+					  </table>
+					
+				    <table class="table table-striped">
+						<tr ng-repeat="pro_info in editrml.defination">
+							<td style="width:50%">{{pro_info.name}}</td>
+							<td style="float: right; ">
+							<button class="btn btn-default"  ng-click="delPropertyData($index)"><i style="color: red" class="fa fa-trash"></i></button>
+							<button class="btn btn-default"  ng-click="showPropertyData(pro_info.name)"><i style="color: blue" class="glyphicon glyphicon-menu-right fa-1px"></i></button></td>
+						</tr>
+					  </table>
+			    </div>
+					 
+		</div>	
+		<button type="button" ng-disabled="main_form.$invalid" class="btn btn-primary" ng-click="EditSaveData()" >SAVE</button>
+	</div>
+	
+	<div class="col-lg-9 col-ms-12 col-sm-12 col-xs-9" >
+		<form class="form-horizontal" id="form" name="form">
+		<table class="table table-striped pad0">
+		  <thead>
+			<tr>
+				<th style="background-color:#337ab7;color:#FFF;height:54px;">
+					<div class="col-xs-1"><button type="button" class="btn btn_act" ng-show="defaultProperty.length != 0" ng-disabled="form.$invalid" ng-click="editDefinitionPropertiesData();"  >Save Property</button></div>
+				</th>
+			</tr>
+			</thead>
+			<tr>
+				<td> 
+				<div id="deviceTable" >
+				<div  ng-include="'modules/ramlproperties/views/rmlTemplatePropertyadd.html'"></div>
+				</div>
+				</td>
+			</tr>
+			<tbody>
+		  </tbody>
+		</table>  
+		</form>
+	</div>
+	
+</div> <!-- end of row -->
+</div>
+
+<script type="text/javascript">
+
+function toggleIcon(e) 
+{
+$(e.target)
+.prev('.panel-heading')
+.find(".more-less")
+.toggleClass('fa-plus-square-o fa-minus-square-o');
+}
+$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+$('.panel-group').on('shown.bs.collapse', toggleIcon);
+</script>
+

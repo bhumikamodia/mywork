@@ -1,0 +1,26 @@
+
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Request Manager Details</h3>
+        </div>
+		
+        <div class="modal-body" id="modal-body">
+            <h5>Channel : {{channel}}</h5>
+			<h5>Server Message : {{servermsg}}</h5>
+			<ul>
+                <li ng-repeat="device in devices">
+					 <h5>display name : {{device.dispname}}</h5>
+					 <h5>port : {{device.port}}</h5>
+					 <h5>port : {{device.port}}</h5>
+					 <h5>protocol : {{device.protocol}}</h5>
+					 <h5>senu : {{device.senu}}</h5>
+					 <h5>senid : {{device.senid}}</h5>
+					 <h5>senp : {{device.senp}}</h5>
+					 <h5>status : {{device.sstatus}}</h5>
+					 <h5>vendor : {{device.vendor}}</h5>
+                </li>
+            </ul>
+           
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        </div>

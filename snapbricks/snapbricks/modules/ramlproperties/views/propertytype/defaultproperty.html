@@ -1,0 +1,81 @@
+<div class="row margin0 pad5">
+	<div class="col-xs-3">Name</div>
+	<div class="col-xs-6">
+			<div  ng-class="{ 'has-error': form.pr_name_{{m_key}}_{{key}}.$dirty && (form.pr_name_{{m_key}}_{{key}}.$error.required) }">
+				<input type="text" name="pr_name_{{m_key}}_{{key}}"  autocomplete="off" ng-model="editprop.userpropertyname" class="form-control" ng-blur="checkuniquenameTemp(editprop.userpropertyname,m_key,key)" maxlength="30" required />								
+				<span class="help-block error_red" ng-show="form.pr_name_{{m_key}}_{{key}}.$error.required">This field is required</span>
+			</div>	
+						
+	</div>
+		
+</div>
+<div class="row margin0 pad5">
+<div class="col-xs-3">Operations</div>
+	<div class="col-xs-7">
+		<div ng-class="{'has-error':editprop.operations.length==0 || (form.propoperations_{{m_key}}_{{key}}.$dirty && (form.propoperations_{{m_key}}_{{key}}.$error.required))}" > <!--  'has-error':(form.propoperations_{{$index}}.$dirty && form.propoperations_{{$index}}.$error.required) }-->
+			<div class="btn-group" data-toggle="buttons">
+				<label class="btn btn-default"  ng-class="{'active':(editprop.operations.indexOf('get')>-1)}" ng-click="setpropertyOperationsData(editprop.operations,'get')">
+					<input type="checkbox" name="propoperations_{{m_key}}_{{key}}" ng-model="propoperations"  ng-required="editprop.operations.length==0">GET
+				</label>
+				<label class="btn btn-default" data-ng-class="{'active':(editprop.operations.indexOf('post')>-1)}" ng-click="setpropertyOperationsData(editprop.operations,'post')" >
+					<input type="checkbox" name="propoperations_{{m_key}}_{{key}}" ng-model="propoperations" ng-required="editprop.operations.length==0">POST
+				</label>
+				<label class="btn btn-default" ng-class="{'active':(editprop.operations.indexOf('put')>-1)}" ng-click="setpropertyOperationsData(editprop.operations,'put')" >
+					<input type="checkbox" name="propoperations_{{m_key}}_{{key}}" ng-model="propoperations" ng-required="editprop.operations.length==0">PUT
+				</label>
+				<label class="btn btn-default" ng-class="{'active':(editprop.operations.indexOf('delete')>-1)}" ng-click="setpropertyOperationsData(editprop.operations,'delete')">
+					<input type="checkbox" name="propoperations_{{m_key}}_{{key}}" ng-model="propoperations" ng-required="editprop.operations.length==0">DELETE
+				</label>
+				<label class="btn btn-default" ng-class="{'active':(editprop.operations.indexOf('notify')>-1)}" ng-click="setpropertyOperationsData(editprop.operations,'notify')">
+					<input type="checkbox" name="propoperations_{{m_key}}_{{key}}" ng-model="propoperations" ng-required="editprop.operations.length==0">NOTIFY
+				</label>
+			</div>
+			<span class="help-block error_red" ng-show="editprop.operations.length==0 || (form.propoperations.$error.required)">Please Select Any one Operation</span>							
+		</div>
+	</div>
+</div>		
+<div class="row margin0 pad5">
+	<div class="col-xs-3">Type</div>
+	<div class="col-xs-5">
+		<div  ng-class="{ 'has-error': form.pr_type_{{m_key}}_{{key}}.$dirty && (form.pr_type_{{m_key}}_{{key}}.$error.required)}">
+				<select ng-model="editprop.type" class="form-control" name="pr_type_{{m_key}}_{{key}}" ng-change="changePropertytemplate(editprop.type,m_key,key)" required>
+					<option value="">--Select--</option>
+					<option value="string">String</option>
+					<option value="number">Number</option>
+					<option value="integer">Integer</option>
+					<option value="float">Float</option>
+					<option value="boolean">Boolean</option>
+				</select>
+				<span class="help-block error_red" ng-show="form.pr_type_{{m_key}}_{{key}}.$error.required">Selecte Type</span>
+		</div>
+	</div>
+	<div class="col-xs-1">&nbsp;</div>
+	<div class="col-xs-1">&nbsp;</div>	
+</div>	
+<!------- condition base show hide div ------------->	
+<div ng-show="propertyTypeFunctionData(editprop.type,editprop.enum)==1">
+	<div class="row margin0 pad5" >
+		<div class="col-xs-3">Add Property Value</div>
+		<div class="col-xs-4"><a ng-click="addNewPropertyChoiceData(editprop.enum)">Add New Value</a></div>
+		<div class="col-xs-1">&nbsp;</div>
+		<div class="col-xs-2">&nbsp;</div>	
+	</div>
+	<div class="row margin0 pad5">
+			<div ng-repeat="choice in editprop.enum"  ng-init="enumindex=$index;">
+				<div class="row margin0 pad5">
+					<div class="col-xs-3">Value {{enumindex + 1}}:</div>
+					<div class="col-xs-6" ng-class="{'has-error':form.enter_val_{{m_key}}_{{key}}_{{enumindex}}.$dirty && (form.enter_val_{{m_key}}_{{key}}_{{enumindex}}.$error.required)}">
+						<input type="text" autocomplete="off" class="form-control" name="enter_val_{{m_key}}_{{key}}_{{enumindex}}" ng-model="choice.value"
+						ng-required="propertyTypeFunctionData(editprop.type)==1">
+						<span class="help-block error_red" ng-show="form.enter_val_{{m_key}}_{{key}}_{{enumindex}}.$error.required">Value is required</span>
+					</div>
+					<div class="col-xs-1"><button ng-if="$index>0" type="button" class="close" style="float:left" ng-click="deletePropertyChoicesData(editprop.enum,$index);">&times;</button></div> 
+				</div>
+			</div>
+	</div>
+</div>
+<div ng-show="propertyTypeFunctionData(editprop.type,editprop.enum)==2" class="row margin0 pad5">	
+		<div class="col-xs-3">Boolean Value</div>
+		<div class="col-xs-6"><center><pre>True/False</pre></center></div>	
+</div>	
+	

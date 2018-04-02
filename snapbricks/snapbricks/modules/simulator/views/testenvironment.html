@@ -1,0 +1,414 @@
+<div ng-controller="simulatortestenvCtrl">
+    <div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFunc();">
+            <i class="fa fa-refresh"></i>&nbsp;Refresh
+        </button>
+          <button type="button" class="btn btn-default btn-shadow border0" ng-click="requestFunc();" ng-if="setDivVal=='actionbots'">
+            Request
+        </button>
+        <div class="stepwizard" style="float:right;width:50%" >
+        <div class="stepwizard-row setup-panel">
+              <div class="stepwizard-step">
+                <a href="#step-1" ng-click="gatewaysWiard=false; devicesWiard=false;flag=false;$event.preventDefault();" type="button" class="btn btn-primary btn-circle">1</a>
+                <p>Test Environments</p>
+              </div>
+              <div class="stepwizard-step">
+              <SPAN ng-if="gatewaysWiard==false && devicesWiard==false &&flag==false">
+                <a href="#step-2" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                </SPAN>
+                
+                <SPAN ng-if="(gatewaysWiard==true && devicesWiard==false) ||flag==true">
+                <a href="#step-2" ng-click="abc();$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >2</a>
+                </SPAN>
+                <p>Gateways</p>
+              </div>
+              
+              <div class="stepwizard-step">
+                <SPAN ng-if="(gatewaysWiard==false || gatewaysWiard==true) && devicesWiard==false">
+                <a href="#step-3" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle"  disabled="disabled">3</a>
+                </SPAN>
+                <SPAN ng-if="gatewaysWiard==false && devicesWiard==true">
+                <a href="#step-3" ng-click="gatewaysWiard==false && devicesWiard==true;$event.preventDefault();" type="button" class="btn btn-primary btn-circle"  >3</a>
+                </SPAN>
+                <p>Devices/Action Bots</p>
+              </div>
+              
+               
+        </div>
+  </div>
+    </div>
+
+			
+    
+    <div id="deviceTable">
+        <div ng-if="gatewaysWiard==false && devicesWiard==false">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+                <table class="table table-striped" id="softAppGrid">
+                    <thead>
+                        <tr>
+                            <td colspan="12">
+                                <div style="float:left;">
+                                    <h4>Test Environments</h4></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th>Test Environment Name</th>
+                            <th>Created By</th>
+                            <th>Status</th>
+                            <th>Gateways</th>
+                           
+                            
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-repeat="testenv in testEnvList | limitTo:envPerPage:envPerPage*(currentEnvPage-1)"">
+                            <td>
+                                <SPAN class="checkbox checkbox-primary">
+									<input type="checkbox" id="{{gateway.id}}"   value="{{gateway}}" ng-click="checkedGateway(gateway)" />
+									<label for="gateway.gatewaySelected"></label>
+								</SPAN>
+                            </td>
+                            <td>
+                                <div>{{testenv.displayname}}</div>
+                            </td>
+                            <td>
+                                <div>{{testenv.createdby}}</div>
+                            </td>
+                            <td>{{testenv.status}}</td>
+                            <td><a ng-click="viewGateway(testenv)">View</a></td>
+                            
+                            <td id="btn_deactivate"><a ng-click="deleteTestEnv(testenv)"><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                          <tr ng-if="dataTestEnvLoading" ><td colspan="14"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+                        <tr class="alert alert-danger" ng-if="(testEnvList ==0) &&!dataTestEnvLoading ">
+                            <td colspan="11"><strong>No Record Found.</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+<div id="pagination" ng-show="testEnvList.length>0"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+  <div class="col-lg-12 blue-bg pad10" >
+    <div class="col-lg-9">
+      <uib-pagination total-items="testEnvList.length" ng-model="currentEnvPage" ng-change="pageChanged()" items-per-page="envPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+    </div>
+    <div class="col-lg-3 text-right">Displaying {{currentEnvPage}} / {{numPages}} of {{numPages}}</div>
+  </div>
+</div>
+        </div>
+        <div ng-if="gatewaysWiard==true && devicesWiard==false">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+                <table class="table table-striped" id="softAppGrid">
+                    <thead>
+                        
+                        <tr>
+                            <td colspan="12">
+                                <div style="float:left;">
+                                    <h4>Test Environments / {{selectedenv.displayname|uppercase}} / Gateways</h4></div>
+                                    <div style="float: right">
+                                         <button class="btn btn-primary" ng-click="backfromGateway()" >Back to Environments
+                                    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                        <th></th>
+                            <th>Display Name</th>
+                            
+                            <th>Devices</th>
+                            <th>Action Bots</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-repeat="gateway in gatewayList |limitTo:gwPerPage:gwPerPage*(currentGwPage-1)">
+                        <td>
+                                <SPAN class="checkbox checkbox-primary">
+									<input type="checkbox" id="{{gateway.gatewayid}}"   value="{{gateway}}" ng-click="checkedGateway(gateway)" />
+									<label for="gateway.gatewaySelected"></label>
+								</SPAN>
+                            </td>
+                            <td>{{gateway.displayname}}</td>
+                            
+                            <td><a ng-click="viewDevices(gateway)">Manage</a></td>
+                            <td><a ng-click="viewActionBots(gateway)">Manage</a></td>
+                             <td id="btn_deactivate"><a ng-click="deleteServerFun(ServerApp,$event)"><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                        <tr ng-if="testenvGatewayLoading">
+                            <td colspan="11">
+                                <div align="center"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+                            </td>
+                        </tr>
+                        <tr class="alert alert-danger" ng-if="(gatewayList.length == 0 ) && !testenvGatewayLoading">
+                            <td colspan="11"><strong>No Record Found.</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="pagination" ng-show="gatewayList.length>0"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+  <div class="col-lg-12 blue-bg pad10" >
+    <div class="col-lg-9">
+      <uib-pagination total-items="gatewayList.length" ng-model="currentGwPage" ng-change="pageChanged()" items-per-page="gwPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+    
+    </div>
+    <div class="col-lg-3 text-right">Displaying {{currentGwPage}} / {{numPages}} of {{numPages}}</div>
+  </div>
+</div>
+        </div>
+        <div ng-if="devicesWiard==true && gatewaysWiard==false">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0" ng-if="setDivVal=='device'">
+                <table class="table table-striped" id="softAppGrid">
+                    <thead>
+                        <tr>
+                            <td colspan="12">
+                                <div style="float:left;">
+                                    <h4>Test Environments / {{selectedenv.displayname|uppercase}} / Gateways / {{selectedgateway.displayname|uppercase}} /Devices</h4></div>
+									 <div ng-if="dataLoading">
+                                <div align="center"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+									</div>
+                                     <div style="float: right">
+                                         <button class="btn btn-primary" ng-click="backfromDevice()" >Back to Gateways
+                                    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                        <th></th>
+                            <th style="width: 16%">Display Name</th>
+                            <th style="width: 16%">MacID</th>
+                            <th style="width: 15%">Status</th> 
+                            <th style="width: 16%">RAML</th>
+                            <th style="width: 16%">Control Panel</th>
+                            <th style="width: 16%">Config Panel</th>
+                            <th style="width: 5%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="selectedenv.status!='in process'" ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-repeat="device in testenvdeviceList |limitTo:devPerPage:devPerPage*(currentDevPage-1)">
+                        <td>
+                                <SPAN class="checkbox checkbox-primary">
+									<input type="checkbox" id="{{gateway.id}}"   value="{{gateway}}" ng-click="checkedGateway(gateway)" />
+									<label for="gateway.gatewaySelected"></label>
+								</SPAN>
+                            </td>
+                            <td>{{device.displayname}}</td>
+                            <td>{{device.macid}}</td>
+                            <td><!-- <toggle on="on-<br>line" off="off-<br>line" onstyle="btn-success widthFix" offstyle="btn-danger widthFix" ng-model="device.devicestatus">{{device.devicestatus}}</toggle> -->
+                            <toggle  ng-model="device.devicestatus" ng-change="changeToggle(device)" on="online" off="offline" onstyle="btn-success" offstyle="btn-danger">{{device.devicestatus}}</toggle></td>
+                            <td>
+                                <a  ng-click="openRAMLView(device)">View</a>
+                            </td>
+                            <td>
+                                <a ng-click="openControlPanelmodal(device)">View</a>
+                            </td>
+                            <td>
+                                <a ng-click="openConfigPanelmodal(device)">View</a>
+                            </td>
+                             <td id="btn_deactivate"><a ng-click="deleteServerFun(ServerApp,$event)"><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                        <tr ng-if="selectedenv.status=='in process'" class="alert alert-info">
+                             <td colspan="11"><strong>{{selectedenv.status}}</strong></td>
+                        </tr>
+                        <tr ng-if="testenvDeviceLoading">
+                            <td colspan="11">
+                                <div align="center"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+                            </td>
+                        </tr>
+                        <tr class="alert alert-danger" ng-if="(testenvdeviceList.length == 0 ) && !testenvDeviceLoading">
+                            <td colspan="11"><strong>No Record Found.</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="pagination" ng-show="testenvdeviceList.length>0"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+  <div class="col-lg-12 blue-bg pad10" >
+    <div class="col-lg-9">
+      <uib-pagination total-items="testenvdeviceList.length" ng-model="currentDevPage" max-size="5" force-ellipses="true" ng-change="pageChanged()" items-per-page="devPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+    </div>
+    <div class="col-lg-3 text-right">Displaying {{currentDevPage}} / {{numPages}} of {{numPages}}</div>
+  </div>
+</div>
+
+ <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0" ng-if="setDivVal=='actionbots'">
+                <table class="table table-striped" id="softAppGrid">
+                    <thead>
+                        <tr>
+                            <td colspan="12">
+                                <div style="float:left;">
+                                    <h4>Test Environments / {{selectedenv.displayname|uppercase}} / Gateways / {{selectedgateway.displayname|uppercase}} /Action bots</h4></div>
+                                     <div ng-if="dataLoadingAction">
+                                <div align="center"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+                                    </div>
+                                     <div style="float: right">
+                                         <button class="btn btn-primary" ng-click="backfromDevice()" >Back to Gateways
+                                    </div>
+                            </td>
+                        </tr>
+                        <tr >
+                        
+                            <th style="width: 16%">Excel Sheet Name</th>
+                            <th style="width: 16%">Download</th>
+                            <th style="width: 15%">Fire & Verify</th> 
+                            <th style="width: 16%">Status</th>
+                            <th style="width: 16%">Delete</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                       <tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-repeat="sheet in excelList |limitTo:xclPerPage:xclPerPage*(currentxclPage-1)">
+                      
+                            <td>{{sheet.xlsx_filename}}</td>
+                            <td><a ng-click="downloadXcl(sheet)"><i class="fa fa-download" aria-hidden="true"></i></a>
+                            </td>
+                            <td><div ng-click="callFirenVerify(sheet,$index)" ng-disabled="dataLoadingAction"><a >Fire & Verify</a></div></td>
+                            <td><div id="status_{{$index}}">NA</div>
+                            </td>
+                            <td id="btn_deactivate">
+                             <i ng-click="deleteExcel(sheet)" class="fa fa-trash"></i>
+                            </td>
+                           
+                        </tr>
+                       
+                        <tr ng-if="testenvXclLoading">
+                            <td colspan="11">
+                                <div align="center"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+                            </td>
+                        </tr>
+                        <tr class="alert alert-danger" ng-if="(excelList.length == 0 ) && !testenvXclLoading">
+                            <td colspan="11"><strong>No Record Found.</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="pagination" ng-show="excelList.length>0"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+  <div class="col-lg-12 blue-bg pad10" >
+    <div class="col-lg-9">
+      <uib-pagination total-items="excelList.length" ng-model="currentxclPage" max-size="5" force-ellipses="true" ng-change="pageChanged()" items-per-page="xclPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+    </div>
+    <div class="col-lg-3 text-right">Displaying {{currentxclPage}} / {{numPages}} of {{numPages}}</div>
+  </div>
+</div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script type="text/ng-template" id="simulatorControlPanel.html">
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+
+        <div  id="controlPanel" role="dialog">
+<div  style="color:black;"  >
+    <!-- Modal content-->
+    <div class="modal-content ">
+        <div id= "btn_group" class="nav navbar-fixed-top gradient-bg " style="color:white;">
+<button type="button" class="close" ng-click="clearControlPanel();">&times;</button>
+
+<b>Control Panel</b> - &nbsp;  {{selectedRowDevice.displayname}}
+        </div>
+        <div >
+<div class="modal-body" >
+    <form name="form" class="form-horizontal">
+        <div class="container col-md-12" >
+<div class="mr-leftmin30 mr-rightmin30 panel panel-default" style="border-radius:0px;">
+    <div class="row outer">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+<table  ng-if = "regPropsDefinitionArray.length==0" class="mr-leftmin30" style="margin-left:4%;" class="col-md-10"  >
+    <tr >
+        <td class="alert alert-danger"><div align="center">No Record Found.</div></td>
+    </tr>
+</table>
+        </div>
+        <div class="col-md-2">
+<div id="deviceTable">
+    <table class="table table-striped pad0" style="margin-top: 30%;" >
+        <thead>
+        </thead>
+        <tbody >
+<tr ng-repeat="properties in regPropsDefinitionArray" ng-class="{'selectedProp':$index == selectedRowProp}" ng-init="propertiesTestIndex = $index;" style="cursor:pointer;" ng-click="setClickedRowProp($index)" >
+    <td ng-if="$index==0" class="grad col-lg-2" ng-init="getPropLock(selectedRowDevice.id,$index);toggleDeviceProperty(properties,$index);refreshSlider();setClickedRowProp($index)"  ng-click="getPropLock(selectedRowDevice.id,$index);toggleDeviceProperty(properties,$index);refreshSlider()"> 
+        <div >
+<label style="cursor:pointer;" ng-model="propDetail" for="gman">
+    <span class="modal-title">{{properties.definitionName}}</span>
+</label>
+        </div>
+    </td>
+</tr>
+<tr ng-repeat="properties in regPropsDefinitionArray" ng-class="{'selectedProp':$index == selectedRowProp}" ng-init="propertiesTestIndex = $index;" style="cursor:pointer;" ng-click="setClickedRowProp($index)" >
+    <td ng-if="$index!=0" class="grad col-lg-2"   ng-click="getPropLock(selectedRowDevice.id,$index);toggleDeviceProperty(properties,$index);refreshSlider()" > 
+        <div >
+<label style="cursor:pointer;" ng-model="propDetail" for="gman">
+    <span class="modal-title">{{properties.definitionName}}</span>
+</label>
+        </div>
+    </td
+</tr>
+        </tbody>
+    </table>
+</div>
+        </div>
+        <div class="col-md-10" style="margin-top: 5%;">
+<div ng-if = "regPropsDefinitionArray.length>0">
+    <table class="table table-striped pad0">
+        <tr>
+<td> 
+    <div ng-repeat="properties in regPropsDefinitionArray" ng-class="{'selectedProp':$index == selectedRowProp}">
+        <div ng-show="(selectedRowProperty.Selected == true && regPropsDefinitionArray[$index]==selectedRowProperty)  " >
+<table class="table table-striped pad0" ng-repeat="defName in properties.properties" ng-init="propIndex=$index">
+    <tr ng-if="checkForPostOperation(defName.operations)==false || checkForPostOperation(defName.operations)==true">
+        <td class="transforms" width="50%">{{defName.propertyName}} Reported Value 
+        </td>
+        <td width="50%">
+    <p id="{{defName.propertyName+selectedRowProp}}">{{defName.reportedvalue}} </p>
+        </td> 
+    </tr>
+    <tr ng-if="checkForPostOperation(defName.operations)==true">
+        <td class="transforms" width="50%">
+{{defName.propertyName}}   Desired Value </td>
+<td width="50%">
+    <p style="cursor:pointer;" ng-click="getRequestJob(desiredValue.JOBID)">{{defName.desiredvalue}}&nbsp;&nbsp;&nbsp;</p>
+</td>
+        </tr>
+        <tr ng-if="defName.units!=undefined"><td class="transforms">Units </td>
+<td ng-if="defName.units!=undefined"> {{defName.units}} </td> 
+        </tr>
+        <tr>
+</tr>
+</table>
+<div class="form-group col-lg-12" ng-show="selectedRowProperty.Selected == true  && regPropsDefinitionArray[$index]==selectedRowProperty">
+    <div class="col-sm-offset-3">
+
+<span>
+    <button type="button" ng-disabled="DisabledGetMethod[$index] || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">GET {{LockGetMethod[index]}}</button></span>
+<span>
+        <button type="button" ng-click="setProperties(selectedRowProperty
+        ,propertiesTestIndex);" ng-disabled=" DisabledPostMethod[$index] || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">POST</button> </span>
+<span >
+        <button type="button"  ng-click="putBtn();"  ng-disabled=" DisabledPushMethod[$index] || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">PUT</button> </span>
+    <span >
+        <button type="button"  ng-click="putBtn();"  ng-disabled=" DisabledDeleteMethod[$index] || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">DELETE</button> </span>
+<span >
+        <button uib-tooltip="This is device initiated" type="button"  ng-click="deleteBtn();"  ng-disabled="DisabledNotifyMethod[$index] || dataDeviceLoadingProperties" id="btnCustomTest" class="btn btn-primary">NOTIFY</button> </span>
+    </div>
+</div>
+
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div></div></div></div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</script>
+
+

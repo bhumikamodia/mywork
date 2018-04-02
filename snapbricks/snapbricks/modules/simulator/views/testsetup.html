@@ -1,0 +1,241 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<div ng-controller="simulatorTestSetupCtrl">
+    <div class="row">
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-7 pad-left0">
+            <div ncy-breadcrumb></div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-1 text-right">
+            <form>
+                <button type="submit" class="btn btn_back" title="Back To Gateway List" back-button><i class="fa fa-chevron-left mr-right7"></i>Back to list</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <hr class="mr-top10" style="border:2px solid #3D6BA9;" />
+        </div>
+    </div>
+    <form class="form-horizontal" id="formData">
+        <div class="row" id="deviceTable">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="firstWizard==true">
+                <table class="table table-striped pad">
+                    <thead>
+                        
+                        <tr>
+                            <th class="col-lg-2 col-ms-2 col-sm-2 col-xs-3">Name</th>
+                            <th class="col-lg-10 col-ms-10 col-sm-10 col-xs-9">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Test Setup Name:</td>
+                            <td>
+                                <div ng-class="{ 'has-error': form.grpname.$dirty && (form.grpname.$error.required || form.grpname.$error.maxlength) }">
+                                    <input class="form-control" name="grpname" maxlength="24" ng-model="selectedSetup.displayname" placeholder="Add Test Setup Name" ng-maxlength="24" required/><span ng-show="form.grpname.$dirty && (form.grpname.$error.required)" class="help-block">Test Setup Name is required</span><span ng-show="form.grpname.$dirty" class="help-block">Please Enter Proper Test Setup Name!!!</span><span ng-show="form.grpname.$error.maxlength" class="help-block">Name Should Contain within 24 Characters</span></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Test Setup Created By:</td>
+                            <td>
+                                <div ng-class="{ 'has-error': form.grpname.$dirty && (form.grpname.$error.required || form.grpname.$error.maxlength) }">
+                                    <input class="form-control" name="grpname" maxlength="24" ng-model="selectedSetup.createdby" placeholder="Add Created By" ng-maxlength="24" required/><span ng-show="form.grpname.$dirty && (form.grpname.$error.required)" class="help-block">Created By is required</span><span ng-show="form.grpname.$dirty" class="help-block">Please Enter Proper Created By!!!</span><span ng-show="form.grpname.$error.maxlength" class="help-block">Name Should Contain within 24 Characters</span></div>
+                            </td>
+                        </tr>
+                        <tr>
+                        <td></td>
+                        <td>
+                            <div style=" display: inline-block;float:right;">
+                                <button type="button" ng-click="firstWizard = false;secondWizard = true;savegatewayData()" ng-disabled="selectedSetup.displayname==undefined||selectedSetup.createdby==undefined ||arrgwid.length==0" class="btn btn-primary btn-shadow border0 mr-bottom10"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+                            
+                            </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-striped" id="softGatewayGrid">
+                    <thead>
+                        <tr>
+                            <td colspan="12">
+                                <div style="float:left;">
+                                    <h4>Select Gateway</h4></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th>Display Name</th>
+                            <th>MacID</th>
+                            <th>Mesh Network</th>
+                            <th>Architecture</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-repeat="gateway in gatewayList |limitTo:gatewayPerPage">
+                            <td>
+                                <SPAN class="checkbox checkbox-primary">
+<input type="checkbox" id="{{gateway.id}}"   value="{{gateway}}" ng-click="checkedGateway(gateway)" />
+<label for="gateway.gatewaySelected"></label>
+		</SPAN>
+                            </td>
+                            <td>{{gateway.displayname}}</td>
+                            <td>{{gateway.gatewaymeta.macid}}</td>
+                            <td>
+                                <div ng-if="gateway.gatewaymeta.meshNetwork>0" ng-repeat="net in gateway.gatewaymeta.meshNetwork">{{net}}</div>
+                                <div ng-if="gateway.gatewaymeta.meshNetwork==0">NULL</div>
+                            </td>
+                            <td>{{gateway.gatewaymeta.architecture}}</td>
+                        </tr>
+                        <tr ng-if="dataLoading">
+                            <td colspan="11">
+                                <div align="center"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+                            </td>
+                        </tr>
+                        <tr class="alert alert-danger" ng-if="totalItems ==0 && !dataLoading">
+                            <td colspan="11"><strong>No Record Found.</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+                    <div class="col-lg-12 blue-bg pad10">
+                        <div class="col-lg-9">
+                            <uib-pagination total-items="totalItems" ng-model="cugwPage" ng-change="pageChanged()" items-per-page="gatewayPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+                        </div>
+                        <div class="col-lg-3 text-right">Displaying {{cugwPage}} / {{numPages}} of {{numPages}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="secondWizard==true">
+                <table class="table table-striped pad0">
+                    <thead>
+                        <tr>
+                            <th class="col-lg-2 col-ms-2 col-sm-2 col-xs-3">Name</th>
+                            <th class="col-lg-10 col-ms-10 col-sm-10 col-xs-9">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Test Setup Name:</td>
+                            <td>
+                                <div ng-class="{ 'has-error': form.grpname.$dirty && (form.grpname.$error.required || form.grpname.$error.maxlength) }">
+                                    <input class="form-control" name="grpname" maxlength="24" ng-model="selectedSetup.displayname" ng-maxlength="24" required disabled/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Test Setup Created By:</td>
+                            <td>
+                                <div ng-class="{ 'has-error': form.grpname.$dirty && (form.grpname.$error.required || form.grpname.$error.maxlength) }">
+                                    <input class="form-control" name="grpname" maxlength="24" ng-model="selectedSetup.createdby" ng-maxlength="24" required disabled/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="mr-top15">Test Environment Gateway:</div>
+                            </td>
+                            <td>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive border0">
+                                    <table class="table table-striped" id="softGatewayGrid">
+                                        <thead>
+                                            <tr>
+                                                <th>Display Name</th>
+                                                <th>MacID</th>
+                                                
+                                                <th>Added Devices</th>
+                                                <th>Devices</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-repeat="gateway in arrgwid">
+                                                <td>{{gateway.displayname}}</td>
+                                                <td>{{gateway.gatewaymeta.macid}}</td>
+                                               <td>
+                                                    <div ng-repeat="gw in gatewayTestSetupArray |filter: {gatewayid:gateway.id}">
+                                                        <div ng-repeat="device in gw.devices">{{device.displayname}}::{{device.quantity}}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><a ng-click="openDeviceModal(gateway)">Manage</a></td>
+                                            </tr>
+                                            <tr ng-if="dataLoading">
+                                                <td colspan="11">
+                                                    <div align="center"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+                                                </td>
+                                            </tr>
+                                            <tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalItems ==0) && !dataLoading">
+                                                <td colspan="11"><strong>No Record Found.</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <SPAN>
+
+		<button type="button" class="btn btn_act"  ng-click="saveTestSetup(selectedSetup)" style="margin-left: 250px;height:48px" ng-disabled="">Save</button>
+
+		<button type="button" class="btn btn_act "   ng-click="" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Cancel</button>
+
+	</SPAN>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/ng-template" id="modalnoofDevices.html">
+    <link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+    <div>
+        <div class="modal-content">
+            <div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+                <button type="button" class="close" ng-click="clearDevicemodal()">&times;</button>
+                <b class="modal-title">No of Devices - {{gatewayname}}</b>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="form" name="form" style="margin-top:40px;">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+                            <table class="table table-striped" id="softGatewayGrid">
+                                <thead>
+                                    <tr>
+                                       
+                                        <th>Display Name</th>
+                                        <th>No of Resources</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-repeat="device in deviceList|limitTo:devPerPage:devPerPage*(cudevPage-1)">
+                                        
+                                        <td>{{device.device_name}}</td>
+                                        <td><input type="number" ng-model="noofdevices[device.device_name]" min="0"/></td>
+                                    </tr>
+                                    <tr ng-if="dataLoading">
+                                        <td colspan="11">
+                                            <div align="center"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+                                        </td>
+                                    </tr>
+                                    <tr class="alert alert-danger" ng-if="deviceList.length==0&& !dataLoading">
+                                        <td colspan="11"><strong>No Record Found.</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                         <div id="pagination" ng-show="deviceList.length>0"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+  <div class="col-lg-12 blue-bg pad10" >
+    <div class="col-lg-9">
+      <uib-pagination total-items="deviceList.length" ng-model="cudevPage" ng-change="pageChanged()" items-per-page="devPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+    
+    </div>
+    <div class="col-lg-3 text-right">Displaying {{cudevPage}} / {{numPages}} of {{numPages}}</div>
+  </div>
+</div>
+                        <div class="col-sm-offset-2 col-sm-6 mr-top20">
+                            <button type="button" class="btn btn-primary" ng-click="saveDeviceCount(gateway,noofdevices)"> Save Information</button>
+                            <button type="button" class="btn btn-primary" ng-click="clearDevicemodal()">Clear</button>
+                            <img ng-if="dataAddDeviceLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,9 @@
+<li >
+    <SPAN class="checkbox checkbox-primary">  <span ng-click="toggleVisibility(node)"> {{ ( node.childrenVisibility && node.permissions.length ) ? '+' : '-' }}</span>
+  <input ng-click="checkNode(node)"  type="checkbox"  ng-checked="node.checked" ng-disabled="(page&&!node.permissions.length)">
+	
+    <label for="node.checked">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $index + 1 }}. {{node.roles}} {{ node.displayname }}
+    </label>
+	</SPAN>
+</li>

@@ -1,0 +1,38 @@
+<div class="row margin0 pad5">
+	<div class="col-xs-2">Interval Type</div>
+	<div class="col-xs-2">
+			<select ng-model="editprop.type" class="form-control"  ng-init="editprop.type = 'integer'">
+				<option value="integer">Number</option>
+			</select>			
+	</div>
+	<div class="col-xs-2">Interval Units</div>
+	<div class="col-xs-4">
+			<input type="number" ng-model="editprop.value" class="form-control" style="width:30%;float:left;margin-right:1%"/>&nbsp;
+			<div class="input-group" style="float:left;">
+				<div class="btn-group" data-toggle="buttons">				
+					<label class="btn btn-default" ng-class="{'active':(editprop.units.indexOf('seconds')>-1)}"  ng-click="editprop.units = 'seconds'" >
+						<input type="radio" value="seconds">Seconds
+					</label>
+					<label class="btn btn-default" ng-class="{'active':(editprop.units.indexOf('minutes')>-1)}"  ng-click="editprop.units ='minutes'">
+						<input type="radio" value="minutes" >Minutes
+					</label>
+					<label class="btn btn-default" ng-class="{'active':(editprop.units.indexOf('hours')>-1)}"  ng-click="editprop.units ='hours'">
+						<input type="radio" value="hours" >Hours
+					</label>
+				</div>
+			</div>
+	</div>	
+</div>
+<div class="row margin0 pad5">
+	<div class="col-xs-2">Interval Operations</div>
+		<div class="col-xs-2">	
+			<div class="btn-group" data-toggle="buttons" >							
+				<label class="btn btn-default" ng-class="{'active':(editprop.operations.indexOf('get')>-1)}" ng-click="setpropertyOperationsData(editprop.operations,'get')">
+					<input type="checkbox" ng-model="editprop.operations.get" >GET
+				</label>
+				<label class="btn btn-default" ng-class="{'active':(editprop.operations.indexOf('post')>-1)}" ng-click="setpropertyOperationsData(editprop.operations,'post')" >
+					<input type="checkbox"  ng-model="editprop.operations.post" >POST
+				</label>
+			</div>			
+		</div>	
+</div>		

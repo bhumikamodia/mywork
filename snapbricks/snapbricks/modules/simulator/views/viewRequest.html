@@ -1,0 +1,111 @@
+ 
+    
+ 
+    
+    <!-- Modal content-->
+    <div class="modal-content">
+
+    <div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+    <button type="button" class="close" ng-click="clearControlPanel();">&times;</button>
+
+    <div class="modal-title">Create Action Bot Excel Sheet</div>
+   
+    </div>
+    <div class="modal-body">
+    <form class="form-horizontal" id="form" name="form" style="margin-top:40px;">
+     <div class="row">
+     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+        <table class="table table-striped pad0">
+        <thead>
+            
+            <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Name</th>
+            <th  class="col-lg-9 col-md-9 col-sm-9 col-xs-7">Value</th>
+           
+        </thead>            
+        <tbody>
+        <tr>
+            <td width="10%" >Excel Sheet Name</td>
+            <td width="15%" class="col-md-3" ng-class="{ 'has-error': form.name.$dirty && (form.name.$error.required || form.name.$error.maxlength || form.name.$error.pattern) }">
+            <input style="width:60%;" type="text" name="name" class="form-control" ng-model="actionbot.name" ng-pattern="/^[a-zA-Z0-9 _-]+$/" required disallow-spaces ng-maxlength="30"/>
+            <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Docker Name is required</span>
+            <span ng-show="form.name.$error.maxlength" class="help-block">Docker Name Should Contain within 30 Characters</span>
+            <span ng-show="form.name.$error.pattern" class="help-block" >Docker Name is not valid</span>
+            </td>
+           
+        </tr>
+        <tr>
+            <td width="10%" >No. of Action Bots</td>
+            <td width="15%" class="col-md-3" ng-class="{ 'has-error': form.urlusernm.$dirty && (form.urlusernm.$error.required || form.urlusernm.$error.maxlength) }">
+            <input style="width:60%;" type="number" name="urlusernm" class="form-control" ng-model="actionbot.actionbotcount"  />
+            <span ng-show="form.urlusernm.$dirty && form.urlusernm.$error.required" class="help-block">Url Username is required</span>
+            <span ng-show="form.urlusernm.$error.maxlength" class="help-block">Url Username Should Contain within 30 Characters</span>
+            </td>
+          
+        </tr>
+        <tr>
+            <td width="10%" >Operations Allowed</td>
+            <td width="15%" class="col-md-3" ng-class="{ 'has-error': form.architecture.$dirty && (form.architecture.$error.required || form.architecture.$error.maxlength) }">
+             <div class="btn-group" data-toggle="buttons" >  
+            <label  class="btn btn-default active">     
+                <input id="a" type="radio" name="opervalue" value="get" ng-model="actionbot.oper"> GET
+            </label>   
+            <label  class="btn btn-default">     
+                <input id="a" type="radio" name="opervalue" value="post" ng-model="actionbot.oper"> POST   
+            </label>
+            <label  class="btn btn-default">     
+                <input id="a" type="radio" name="opervalue" value="both" ng-model="actionbot.oper"> BOTH   
+            </label> 
+        </div>    
+           
+            </td>
+            
+            
+        </tr>
+        <tr>
+        <td width="10%" >Multiple Acrion Bots per Device</td>
+            <td colspan="3" width="15%" class="col-md-3"  >
+        <!--  <select class="form-control" ng-model="actionbot.action">
+             <option value="" selected>Select Any</option>
+             <option value="yes">Yes</option>
+             <option value="no">No</option>
+         </select> -->
+             <div class="btn-group" data-toggle="buttons" >  
+            <label  class="btn btn-default active">     
+                <input id="a" type="radio" name="actionvalue" value="True" ng-model="actionbot.action"> True
+            </label>   
+            <label  class="btn btn-default">     
+                <input id="a" type="radio" name="actionvalue" value="False" ng-model="actionbot.action"> False   
+            </label>
+         
+        </div>    
+        
+            </td>
+        </tr>
+         <tr>
+            <td width="10%" >App</td>
+            <td width="15%" class="col-md-3" ng-class="{ 'has-error': form.appname.$dirty && (form.appname.$error.required || form.appname.$error.maxlength) }">
+           
+            <select style="width:60%;" name="appname" class="form-control" ng-model="appname" ng-options="task.AppName for task in applist" >
+                <option value="" selected>Select Any</option>
+            </select>
+            <span ng-show="form.appname.$dirty && form.appname.$error.required" class="help-block">Url Appname is required</span>
+          
+            </td>
+          
+        </tr>
+        </tbody>
+        </table>
+           <div class="col-sm-offset-2 col-sm-6 mr-top20">
+                            <button type="button" class="btn btn-primary" ng-click="submitRequest(actionbot,appname)">Submit</button>
+                            <button type="button" class="btn btn-primary" ng-click="clearControlPanel()">Close</button>
+                            <img ng-if="dataAddactionLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                        </div>
+     </div>
+            
+     
+     </div>
+    
+    </form> 
+    </div>
+    </div>
+ 

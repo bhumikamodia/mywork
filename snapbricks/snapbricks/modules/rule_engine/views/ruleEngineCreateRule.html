@@ -1,0 +1,685 @@
+<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+<script>
+$(document).ready(function () {
+  $('[data-toggle="offcanvas"]').click(function () {
+    $('.row-offcanvas').toggleClass('active')
+  });
+});
+</script>		
+<div ng-controller="ruleengineCreateEditCtrl">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div ncy-breadcrumb></div>
+			 <button style="float:right;display:inline;" type="submit" class="btn btn_back" title="Back to list" back-button>
+                <i class="fa fa-chevron-left mr-right7"></i>Back to list
+            </button>
+			<h4 style="display:inline-block;" ng-if="!ruleEngineselectedInfo.name">Create New Rule</h4>
+			<h4 style="display:inline-block;" ng-if="ruleEngineselectedInfo.name">{{ruleEngineselectedInfo.name}}</h4>
+        </div>
+       
+    </div>
+	
+    <div ng-if="processPage!='transformation' && processPage!='confirmation'">
+		
+        <div class="row">
+		<div id="deviceTable" >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+               
+				
+				<div class="stepwizard " >
+					<div class="stepwizard-row setup-panel">
+					  <div class="stepwizard-step">
+						<a href="#step-1" ng-click="$event.preventDefault();" type="button" class="btn btn-primary btn-circle">1</a>
+						<p>Input</p>
+					  </div>
+					  <div class="stepwizard-step">
+						<a href="#step-2" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+						<p>Monitor</p>
+					  </div>
+					  <div class="stepwizard-step">
+						<a href="#step-3" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+						<p>Confirm</p>
+					  </div>
+					</div>
+				  </div> 
+				 
+                <hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+            </div>
+           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive border0 mr-topmin20" >
+					<form class="form-horizontal" id="main_form" name="main_form"  >
+                    <table class="table table-striped pad0">
+						
+                        <thead>
+						    <tr>
+                                <th class="col-lg-2 col-ms-2 col-sm-2">Name</th>
+                                <th class="col-lg-8 col-ms-10 col-sm-10">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Name:</div>
+                                </td>
+                                <td>
+								   <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{'has-error': (main_form.parent_rule_name.$dirty && (main_form.parent_rule_name.$error.required))}">
+                                        <input type="text" name="parent_rule_name"   ng-model="rule.parent_rule_name" ng-pattern="/^[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)*$/" class="form-control" placeholder="Enter Name" required  autocomplete="off" maxlength="30"/>
+										<span class="help-block error_red" ng-show="main_form.parent_rule_name.$error.required && main_form.parent_rule_name.$dirty">This field is required</span>
+                                        <span class="help-block error_red" ng-if="main_form.parent_rule_name.$error.pattern" class="help-block" aria-hidden="true">Name is not valid</span>
+                                    </div>
+                                </td>
+                            </tr>
+							<tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Description:</div>
+                                </td>
+                                <td>
+                                    <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{ 'has-error': main_form.parent_rule_desc.$dirty && (main_form.parent_rule_desc.$error.required) }">
+                                        <input type="text" name="parent_rule_desc"   ng-model="rule.parent_rule_desc" class="form-control" placeholder="Enter Description here" required autocomplete="off" />
+										<span class="help-block error_red" ng-show="main_form.parent_rule_desc.$error.required && main_form.parent_rule_desc.$dirty">This field is required</span>
+                                    </div>
+                                </td>
+                            </tr>
+							<tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Mode:</div>
+                                </td>
+                                <td>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" >
+                                          <md-radio-group ng-model="rule.mode" ng-click="funcDataGroup(rule.mode,rule.parent_appid);" class="mr-top0 mr-left0" layout="row">
+												<md-radio-button value="Standalone" class="md-primary"> Standalone mode </md-radio-button>
+												<md-radio-button value="Mesh" class="md-primary">Mesh mode</md-radio-button>
+										  </md-radio-group>
+                                    </div>
+                                </td>
+                            </tr>
+							<tr ng-if="rule.mode == 'Mesh'">
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Mesh:</div>
+                                </td>
+                                <td>
+                                    <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{ 'has-error': main_form.meshid.$dirty && (main_form.meshid.$error.required) }">
+										
+                                        <select name="meshid" ng-model="rule.meshid"  class="form-control" required ng-change="getNetworklist(rule.meshid)">
+										<option value="">--Select--</option>
+										<option ng-repeat="meshdata in meshlist" value={{meshdata.id}}>{{meshdata.name}}</option>
+										<span class="help-block error_red" ng-show="main_form.meshid.$error.required && main_form.meshid.$dirty">This field is required</span>
+										</select>
+                                    </div>
+                                </td>
+                            </tr>
+							<tr ng-if="rule.mode == 'Mesh'">
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Network:</div>
+                                </td>
+                                <td>
+                                    <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{ 'has-error': main_form.networkid.$dirty && (main_form.networkid.$error.required) }">
+										
+                                        <select name="networkid" ng-model="rule.networkid"  class="form-control" required ng-change="getprocessbylist(rule.parent_appid);">
+										<option value="">--Select--</option>
+										<option ng-repeat="netdata in networklist" value={{netdata}}>{{netdata}}</option>
+										
+										</select>
+                                    <span class="help-block error_red" ng-show="main_form.networkid.$error.required && main_form.networkid.$dirty">This field is required</span>
+									</div>
+                                </td>
+                            </tr>
+							<tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">App:</div>
+                                </td>
+                                <td>
+                                    <div class="col-lg-4 col-md-6 col-sm-6" ng-class="{ 'has-error': main_form.parent_appid.$dirty && (main_form.parent_appid.$error.required) }">
+										
+                                        <select name="parent_appid" ng-init="rule.parent_appid ='RuleEngineApp'" ng-model="rule.parent_appid"  class="form-control" required >
+										
+										<option value="RuleEngineApp">Rule Engine</option>
+										<span class="help-block error_red" ng-show="main_form.parent_appid.$error.required && main_form.parent_appid.$dirty">This field is required</span>
+										</select>
+                                    </div>
+                                </td>
+                            </tr>
+							<tr ng-if="rule.mode == 'Mesh'">
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Processed by:</div>
+                                </td>
+                                <td><div class="col-lg-4 col-md-6 col-sm-6" ng-class="{ 'has-error': main_form.parent_gwid.$dirty && (main_form.parent_gwid.$error.required) }">
+										
+                                        <select name="parent_gwid" ng-model="rule.parent_gwid" class="form-control"  required>
+										<option ng-repeat="gatewayobj in selectGatewaylist" value="{{gatewayobj.id}}">{{gatewayobj.displayname}}</option>										
+										</select>
+										<span class="help-block error_red" ng-show="main_form.parent_gwid.$error.required && main_form.parent_gwid.$dirty">This field is required</span>
+                                    </div>
+                                  
+                                </td>
+                            </tr>
+							<tr ng-if="rule.mode == 'Standalone'">
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Processed by:</div>
+                                </td>
+                                <td><div class="col-lg-4 col-md-6 col-sm-6" ng-class="{ 'has-error': main_form.parent_gwid.$dirty && (main_form.parent_gwid.$error.required) }">
+										
+                                        <select name="parent_gwid" ng-change="getselectedGWID(rule.parent_gwid);" ng-model="rule.parent_gwid" class="form-control"  required>
+										<option ng-repeat="gatewayobj in selectGatewaylist" value="{{gatewayobj.id}}">{{gatewayobj.displayname}}</option>										
+										</select>
+										<span class="help-block error_red" ng-show="main_form.parent_gwid.$error.required && main_form.parent_gwid.$dirty">This field is required</span>
+                                    </div>
+                                  
+                                </td>
+                            </tr>
+                            <tr ng-if="rule.mode == 'Mesh'">
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Apply to:</div>
+                                </td>
+                                <td>
+                                   <div class="col-sm-12 col-xs-12" ng-init="applyGroups='Devices'" >
+                                        <!--<div class="form-check">										
+                                           
+                                            <input class="form-check-input" type="radio" id="applyGroups" ng-checked="true" name="applyGroups" ng-model="applyGroups" value="Gateways" /><span class="check_span">Gateways</span>
+                                         
+                                        </div>-->
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <br clear="all" />									
+                                        <span class="form-control filter-control"   data-toggle="modal"  data-target="#myModalGroups">Choose {{applyGroups}}</span>
+                                    </div>
+                                </td>
+                            </tr>
+							 <tr ng-if="rule.mode == 'Standalone' && rule.parent_gwid != undefined">
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Apply to:</div>
+                                </td>
+                                <td>
+                                   <div class="col-sm-12 col-xs-12" ng-init="applyGroups='Devices'" >
+                                        <!--<div class="form-check">										
+                                           
+                                            <input class="form-check-input" type="radio" id="applyGroups" ng-checked="true" name="applyGroups" ng-model="applyGroups" value="Gateways" /><span class="check_span">Gateways</span>
+                                         
+                                        </div>-->
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <br clear="all" />									
+                                        <span class="form-control filter-control"   data-toggle="modal"  data-target="#myModalGroups">Choose {{applyGroups}}</span>
+                                    </div>
+                                </td>
+                            </tr>
+							<tr  ng-if="selectedDevicesList.length>0">
+							<td colspan="11">
+							 <div class="scrollbar_rule">
+							<table class="table table-striped pad0">
+							<thead><tr>
+							<th>Gateway</th>
+							<th>Device</th>
+							<th>Properties</th>
+							</tr></thead>
+							<tbody>
+							<tr ng-repeat="item in selectedDevicesList">
+							<td>{{item.gateway.displayname}}</td>
+							<td>{{item.displayname}}</td>
+							<td>
+							<div style=" display: inline-block;" ng-repeat="property in item.regproperties">							
+							<input type="checkbox"  ng-model="property.propertySelected" ng-change="checkStatusProperty(property,$index);" /><span class='check_span'>{{property.definitionName}}</span>
+							<span ng-if="!$last">&nbsp;</span></div>
+							<!--<div style=" display: inline-block;" ng-repeat="property1 in activeList | filter:{'deviceid':item.id}">		
+								<div ng-repeat = "property in property1.properties">
+								<input type="checkbox"  ng-model="property.propertySelected" ng-change="checkStatusProperty(property,$index);" /><span class='check_span'>{{property.definitionName}}</span>
+								<span ng-if="!$last">&nbsp;</span></div>
+							</div>-->			
+							
+							</td>
+							</tr>
+							
+							</tbody>
+							
+							</table>
+							</div>
+							
+							</td>
+							</tr>
+							<tr >
+							<td colspan="5">
+							<div style="display: inline-block;" >
+								<button type="button" class="btn btn-primary btn-shadow border0" ng-disabled="main_form.$invalid" ng-click="nextProcedureSavedInfo();" >Next Step</button>
+								</div>
+							</td>
+							</tr>
+                            <!--<tr>
+                                <td>
+                                    <div style="float:left;margin-left:1%;margin-top:2%;">Input:</div>
+                                </td>
+                                <td>
+                                    <div class="col-lg-2 col-md-5 col-sm-5 col-xs-5">
+                                        <i class="form-control filter-control" style="width : 220px" data-toggle="modal" data-target="#myModalInput">Select</i>
+                                    </div>
+                                </td>
+                            </tr>-->
+                        </tbody>
+                    </table>
+                   </form>
+                    <style>
+                        .panel-body {
+                            border-top: 0px !important;
+                        }
+                        .panel-group .panel-heading {
+                            border-bottom: 0px !important;
+                        }
+                        .selectionBox option {
+                            background-color: #000;
+                            color: #fff;
+                        }
+					    .modal-lg {
+							width: 90%;
+						   max-width:1200px;
+						  }
+                    </style>
+                    <div class="modal fade " id="myModalGroups" role="dialog">
+                        <div class="modal-dialog mr-top10 modal-lg">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+							<div id="btn_group" class="nav  gradient-bg modal-header " style="color:white;">  
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<b class="ng-binding"> Add {{applyGroups}} </b>
+							</div>
+							<div class="modal-body ">
+										<div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 mr-top10">
+											
+												<div class="form-group">
+													<label class="control-label col-lg-2 col-md-3 col-sm-3  text-left" for="gateway">Select gateway:</label>
+													<div class="col-lg-10 col-md-8 col-sm-8 ">
+													
+														<div class = "input-group">
+															<select id="gateway" ng-model="gatewayId" class="form-control" ng-options="gateway.id as gateway.displayname for gateway in jsonFormatData" ng-change="completeGetGateway(gatewayId);">
+															
+															</select>
+														
+															<!--<span class="input-group-addon input-group-addon-search"><i class="fa fa-search"></i></span>-->
+														</div>													
+													</div>
+												</div>
+											
+											 
+											<div class="col-lg-8 col-md-8 col-sm-8 table-responsive mr-top10 border0">
+											<table id="total" class="table  table-striped">
+												<thead>
+													<tr>
+														<th>Status</th>
+														<th>Display Name</th>
+														<th>Mac ID</th>
+														<th>Gateway</th>
+														<th>Gateway Manager</th>
+														<th>Status</th>
+														<th>Protocol </th>
+														<th>Add</th>
+														
+													</tr>
+												</thead>
+												<tbody>
+													<tr style="cursor:pointer;" ng-repeat="device in deviceList | limitTo:ruleEnginePerPage">
+														<td>
+															<div uib-tooltip="Offline" tooltip-placement = "top" ng-if="device.connected==false"><div class="orange center-block"></div></div>
+															<div uib-tooltip="Online" tooltip-placement = "top" ng-if="device.connected==true"><div class="green center-block"></div></div>
+														</td>														
+														<td>
+															<div>{{device.displayname}}</div>
+														</td>
+														<td>
+															<div>{{device.macid}}</div>
+														</td>
+														<td>
+															<div>{{device.gateway.displayname}}</div>
+														</td>
+														<td>
+															<div>{{device.gateway.gatewaymanager_username}}</div>
+														</td>
+														<td>
+															<div>{{device.device_status}}</div>
+														</td>
+														<td>
+															<div>{{device.protocol}}</div>
+														</td>
+														<td>
+															<div>
+																<button  class="btn btn-default" ng-click="getDeviceinfo(device)" ng-disabled="alreadyExists(device)">
+																	<i class="glyphicon glyphicon-menu-right"></i>
+																</button>
+															</div>
+														</td>
+													</tr>
+													<tr ng-if="dataRuleEngineLoading" class="alert alert-danger">
+														<td colspan="11">
+															<div align="center">
+																<img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+															</div>
+														</td>
+													</tr>
+													<tr class="alert alert-danger" ng-if="(totaldevices ==0) && !dataRuleEngineLoading">
+														<td colspan="11">
+															<strong>No Record Found.</strong>
+														</td>
+													</tr>
+													<tr>
+													<td colspan="11" ng-if="totaldevices>0">
+													<div id="pagination"  class="mr-topmin15">
+											<div class="col-lg-12 blue-bg pad10">
+												<div class="col-lg-9">
+													<uib-pagination total-items="totaldevices" ng-model="$parent.$parent.currentRuleEnginePage" ng-change="pageChanged()" max-size="5" force-ellipses="true" items-per-page="$parent.ruleEnginePerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+												
+												</div>
+												<div class="col-lg-3 text-right">Displaying {{$parent.currentRuleEnginePage}} / {{numPages}} of {{numPages}}</div>
+											</div>
+										</div>
+													</td>
+													</tr>
+												</tbody>
+											</table>
+											
+											</div>
+											<div class="col-lg-4 col-md-4 col-sm-4  mr-top5">
+												<div>
+													<font color="White" size="4"><input type="text" value=" Added Devices" style="width:100%;background-color:grey" readonly/></font>
+													<tags-input ng-model="tags" display-property="displayname" key-property="id" style="width:100%;background-color:black">
+														<auto-complete source="loadTags($query)"></auto-complete>
+													</tags-input>
+												</div>
+											</div>	
+											
+											
+										</div>
+										 	
+										<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-10 mr-top10">
+											<button type="button" class="btn btn_act" ng-click="saveSelectedDevices();">Done</button>
+											<button type="button" class="btn btn_act" ng-click="clearSelectedDevices();">Clear</button>
+											<img ng-if="savemodalLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                        </div>
+										</div>
+										
+                                </div>
+							
+                            </div>
+                        </div>
+                    </div><!-- nextProcess('transformation');-->
+                   
+                </div>         
+	
+		</div>	
+       
+         
+        <script type="text/javascript">
+            function toggleIcon(e) {
+                $(e.target)
+                    .prev('.panel-heading')
+                    .find(".more-less")
+                    .toggleClass('fa-plus-square-o fa-minus-square-o');
+            }
+            $('.panel-group').on('hidden.bs.collapse', toggleIcon);
+            $('.panel-group').on('shown.bs.collapse', toggleIcon);
+        </script>
+		</div>	
+    </div>
+    <div ng-if="processPage=='transformation'">
+        <div class="row">
+			<div id="deviceTable" >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+               <div class="stepwizard " >
+					<div class="stepwizard-row setup-panel">
+					  <div class="stepwizard-step">
+						<a href="#step-1" ng-click="selectSteps(1);$event.preventDefault();" type="button" class="btn btn-primary btn-circle" >1</a>
+						<p>Input</p>
+					  </div>
+					  <div class="stepwizard-step">
+						<a href="#step-2" ng-click="selectSteps(2);$event.preventDefault();" type="button" class="btn btn-primary btn-circle" >2</a>
+						<p>Monitor</p>
+					  </div>
+					  <div class="stepwizard-step">
+						<a href="#step-3" ng-click="$event.preventDefault();" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+						<p>Confirm</p>
+					  </div>
+					</div>
+				  </div> 
+                <hr class="mr-top0" style="border:2px solid #3D6BA9;" />				
+            </div>           
+			
+		
+			
+				<div class="col-lg-4 col-md-6 col-sm-12" id="sidebar">
+				
+					<div class="list-group" >
+					  <a href="#" ng-click="$event.preventDefault();" class="list-group-item active">Monitor Properties</a>
+						<div class="list-group-item pad0" style="height:230px;overflow-y:scroll">
+						  <table class="table table-striped">
+							  <tr ng-repeat="item in dataFilterSelectedDevices">
+								<td class="wordwrap">
+									<div ng-repeat="pr in item.defination.properties">
+									<div ng-if="item.propertyType == 'get,post'" class="col-xs-3 pad-left3">
+										<span class='monitor_block' >M</span><span  class='action_block'>A</span>
+									</div>
+									<div ng-else-if="item.propertyType == 'get'" class="col-xs-3 pad-left3">
+										<span class="monitor_block">M</span>
+									</div>
+									<div ng-else-if="item.propertyType == 'post'" class="col-xs-3 pad-left3">
+										<span class="action_block">A</span>
+									</div>					
+									<div ng-else-if="item.propertyType == 'notify'" class="col-xs-3 pad-left3">
+										<span class="notifi_block">N</span>
+									</div>
+									<div class="col-xs-9">
+									{{item.gatewayDisplayname}}/{{item.displayname}}/{{pr.propertyName}} &nbsp;
+									</div>
+									</div>
+								</td>
+								<td>
+								<button  class="btn btn-default" ng-click="ruleEngineAction(item)" ng-disabled="alreadyExistsRuleEngine(item)"><i class="glyphicon glyphicon-menu-right"></i>
+								</button>
+								</td>
+							  </tr>
+						  </table>
+						</div>
+						<div ng-if="dataFilterSelectedDevices.length<=0"> 
+						<div class="alert alert-danger">NO RECORD FOUND.</div>
+						</div>
+				    </div>
+
+					<div class="list-group" >
+					  <a href="#" ng-click="$event.preventDefault();" class="list-group-item active">Rules Added</a>
+					  <div class="list-group-item pad0" style="height:150px;overflow-y:scroll">
+					  <table class="table table-striped">
+						  <tr ng-repeat="rulearr in sessionAddRules" ng-init="RulesAddedIndex = $index;">
+							<td class="wordwrap col-xs-8" > {{rulearr.ruleName}}</td>
+							<td class="col-xs-4"><button  class="btn btn-default" ng-click="editSessionRule($index)" ><i class="glyphicon glyphicon-edit"></i></button>
+								<button  class="btn btn-default" ng-click="deleteSessionRule($index)" ><i class="glyphicon glyphicon-trash"></i></button>
+							</td>
+						  </tr>
+					  </table>
+					  </div>
+					  <div ng-if="dataFilterSelectedDevices.length<=0"> 
+						<div class="alert alert-danger">NO RECORD FOUND.</div>
+					   </div>
+					 <div style="float:right;" class="pad10">  
+						<button ng-disabled="sessionAddRules.length==0" type="button" class="btn btn-primary btn-shadow border0" ng-click="nextProcedureSavedRule('confirmation')">Confirm Step</button>
+					</div>
+					</div>
+					
+					
+				</div><!--/.sidebar-offcanvas-->
+				<div class="col-lg-8 col-md-12 col-sm-12 "> <!--style="height:440px;overflow:auto"-->
+				<form class="form-horizontal" id="form" name="form" role="form" >
+				<table id="total" class="table table-striped" cellpadding="1">
+				
+				<tbody >
+					
+					<tr >
+						<td style="background-color:#337ab7;color:#FFF;" width="12%"><b>Add Rule</b></td>
+						<td style="background-color:#337ab7;color:#FFF;">
+								<div class="col-xs-5" >
+									<!--<input type="text" class="form-control" id="rule_name" ng-model="rule.rule_name" placeholder="Rule name" >-->
+                              
+								</div>
+								<div class="col-xs-2" >
+										<!--<input type="button" ng-modle="AddRules" ng-disabled="(selectedRuleEngineData[0].data[0].hasOwnProperty('ifc')&& !selectedRuleEngineData[1].data[0].hasOwnProperty('item')&&selectedRuleEngineData[1].data[0].sel_val!='')" ng-click="addRuleinSesson()"  value="Add Rules"  class="btn btn_act show" id="addrule"/>-->
+										<input type="button" ng-modle="AddRules"  ng-disabled="form.$invalid" ng-click="addRuleinSesson()"  value="Add Rules"  class="btn btn_act show" id="addrule"/>		
+										
+										<input type="button" ng-modle="AddRules" ng-disabled="form.$invalid" ng-click="editRuleinSesson()" value="Edit Rules" class="btn btn_act hide" id="editrule"/>
+								</div>
+								<div class="col-xs-2" >
+										<input type="button" ng-modle="AddBlock" ng-click="AddIfBlock()" value="Add Block" class="btn btn_act" id="addblock" ng-show="selectedRuleEngine == 0 ? true : false"/>
+								</div>
+								<div class="col-xs-1" >
+										<input type="hidden"  class="form-control" value="{{rule.gui_code_flag}}" ng-model="rule.gui_code_flag"/>
+										<input type="hidden"  class="form-control" value="{{rule.edit_selected_row}}" ng-model="rule.edit_selected_row"/>
+										<input type="hidden" class="form-control" ng-model="rule.create_block" value="{{rule.create_block}}"   />
+										<input type="hidden" class="form-control" ng-model="rule.sel_block" value="{{rule.sel_block}}" />
+								<!--<input type="button" ng-modle="GUI" ng-click="changeUITheme(rule.gui_code_flag)" value="GUI" class="btn btn_act" id="changeui" /> -->
+								</div>
+								<div class="col-xs-2" >
+										<input type="button" ng-modle="clear"    ng-click="clearAddRuleSession()" value="Clear" class="btn btn_act" id="clear" />
+								</div>
+						</td>				
+					</tr>
+					<tr>
+						<td colspan="2" ng-show='showerrormessage != ""'>
+							<div class="alert alert-danger margin0" >
+							<a href="javascript:void(0)"  ng-click="CloseErromessage()" style="float:right">X</a>
+								{{showerrormessage}}
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="c_cls">Rule Name </td>
+						<td>
+							<div   ng-class="{'has-error': (form.rule_name.$dirty && (form.rule_name.$error.required))}" class="">							       
+							<input type="text" class="form-control" name="rule_name" id="rule_name" ng-model="rule.rule_name" ng-pattern="/^[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)*$/"  placeholder="Rule name" required autocomplete="off">
+							<span class="help-block error_red" ng-show="form.rule_name.$error.required && form.rule_name.$dirty">This field is required</span>
+                             <span ng-if="form.rule_name.$error.pattern" class="help-block error_red" aria-hidden="true">Rule name is not valid</span>
+							</div>
+						</td>			
+					</tr>
+					<tr>
+						<td class="c_cls">Description </td>
+						<td>
+							<div   ng-class="{ 'has-error': form.rule_desc.$dirty && (form.rule_desc.$error.required) }" class="group-title">
+							<input type="text" class="form-control" name="rule_desc" id="rule_desc" ng-model="rule.rule_desc" placeholder="Rule Description" required autocomplete="off">
+							<span class="help-block error_red" ng-show="form.rule_desc.$error.required && form.rule_desc.$dirty">This field is required</span>
+							</div>
+						</td>
+					</tr>
+					
+					<tr ng-class="{'selected':0 == selectedRuleEngine}" style="cursor:pointer;" ng-click="setClickedRuleEngine(0)" >
+					
+						<td class="c_cls" width="12%"><div align="left">CONDITIONS</div></td>
+						<td>	
+							<div  ng-class="{ 'has-error': form.conditions.$dirty && (form.conditions.$error.required) }"><div ng-include="'modules/rule_engine/views/ruleCond.html'"></div>
+                            </div>				
+						</td>
+					</tr>
+					
+					<tr ng-class="{'selected':1 == selectedRuleEngine}" style="cursor:pointer;" ng-click="setClickedRuleEngine(1)">
+						<td class="c_cls" ><div align="left">DO ACTION</div></td>
+						<td>
+							<div ng-include="'modules/rule_engine/views/ruleCondThen.html'"></div>	
+						</td>				
+					</tr>
+					
+					<tr ng-class="{'selected':2 == selectedRuleEngine}" style="cursor:pointer;" ng-click="setClickedRuleEngine(2)">
+						<td class="c_cls" ><div align="left">ELSE ACTION</div></td>
+						<td>
+							<div ng-include="'modules/rule_engine/views/ruleCondElse.html'"></div>	
+						</td>				
+					</tr>
+					
+				
+				</tbody>
+				</table>
+				 </form>
+				</div>			
+				
+            
+			
+		
+			</div>
+		</div>
+        
+		<!----modle code --->
+		<div class="modal fade " id="filteroperation" role="dialog">
+                        <div class="modal-dialog mr-top10 modal-lg">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+							<div id="btn_group" class="nav navbar-fixed-top gradient-bg modal-header " style="color:white;">  
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<b class="ng-binding">Operation </b>
+							</div><br clear="all"><br clear="all">
+							<div class="modal-body model_bg" >
+                                   <table class="table">
+								   <tr>
+										<td width="15%">Operation</td>
+										<td width="25%"><select class="form-control filter-control"  ng-model="model.model_operation">
+															<option value=''>Select</option>
+															<option value='filter()'>filter()</option>
+															<option value='avg()'>Avg()</option>
+															<option value='min()'>Min()</option>
+															<option value='max()'>Max()</option>															
+														</select>
+										</td>
+										<td >&nbsp;</td>										
+								   </tr>
+								   <tr>
+										<td>Duration</td>
+										<td>
+											<input type="number"  ng-model="model.model_time_txt" class="form-control" value=""/>
+										</td>
+										<td >
+										<input type="hidden" value=""  ng-model="model.model_time" class="form-control" />
+										<div class="model_condition_ope col-xs-10"> 
+										<button type="button" id='samples' class="btn btn-default" ng-click="model.model_time = 'samples';setModelMainConditionclass('samples');">Samples</button>
+										<button type="button" id='sec' class="btn btn-default" ng-click="model.model_time = 'sec';setModelMainConditionclass('sec');">Sec</button>
+										<button type="button" id='min' class="btn btn-default" ng-click="model.model_time = 'min';setModelMainConditionclass('min');">Min</button>
+										<button type="button" id='max' class="btn btn-default" ng-click="model.model_time = 'max';setModelMainConditionclass('max');">Max</button>
+										<button type="button" id='hrs' class="btn btn-default" ng-click="model.model_time = 'hrs';setModelMainConditionclass('hrs');">Hrs</button>
+										</div>										
+										</td>										
+								   </tr>
+								   <td>&nbsp;</td>
+									<td colspan="2"><button type="button" class="btn btn_act" ng-click="FilterOperationData()">Done</button>
+                                     </td>
+								   </tr>
+								   </table>
+                                        
+                            </div>
+                        </div>
+			</div>
+		</div>
+    </div><!-- nextProcess('transformation');-->
+    <div ng-if="processPage=='confirmation'">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+               <div class="stepwizard " >
+					<div class="stepwizard-row setup-panel">
+					  <div class="stepwizard-step">
+						<a href="#step-1" ng-click="selectSteps(1);$event.preventDefault();" type="button" class="btn btn-primary btn-circle">1</a>
+						<p>Input</p>
+					  </div>
+					  <div class="stepwizard-step">
+						<a href="#step-2" ng-click="selectSteps(2);$event.preventDefault();" type="button" class="btn btn-primary btn-circle" >2</a>
+						<p>Monitor</p>
+					  </div>
+					  <div class="stepwizard-step">
+						<a href="#step-3" ng-click="selectSteps(3);$event.preventDefault();" type="button" class="btn btn-primary btn-circle" >3</a>
+						<p>Confirm</p>
+					  </div>
+					</div>
+				  </div>				 
+                <hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+            </div>
+			
+			
+        </div>
+			<div id="deviceTable" >
+				<div ng-include="'modules/rule_engine/views/ruleConfirm.html'"></div>
+				<div class="col-lg-12 mr-top0">
+						<button type="button" class="btn btn-primary btn-shadow border0" ng-click="RuleDataSave()">Save</button>
+				</div>
+			</div>
+    </div>
+</div>
+
+
+

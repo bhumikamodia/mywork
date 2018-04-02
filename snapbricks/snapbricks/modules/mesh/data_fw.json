@@ -1,0 +1,201 @@
+{
+   "Data":[
+      {
+         "gatewayname":"Workshop-1/G-1",
+         "networks":[
+            "Factory Workshop 1"
+         ],
+         "gateway_info": {
+            "serialnumber" : "N/A",
+            "staticip" : "10.100.17.206",
+            "CPU_count" : "4",
+            "harddisk" : "46G",
+            "longitude" : 0,
+            "macid" : "98:40:bb:18:18:22",
+            "hardware" : "Intel(R)",
+            "latitude" : 0,
+            "modelname" : "Intel(R) Core(TM) i3-5005U CPU @ 2.00GHz",
+            "ram" : "8GiB",
+            "address" : "",
+            "usb" : 3,
+            "os" : "Ubuntu 16.04.1 LTS",
+            "architecture" : "x86_64"
+         },
+         "cloud_connectivity":"No cloud connectivity",
+         "connected_to": "Workshop-1/G-2",
+         "re_installed" : true
+      },
+      {
+         "gatewayname":"Workshop-2/G-1",
+         "networks":[
+            "Factory Workshop 2"
+         ],
+         "gateway_info": {
+            "serialnumber" : "N/A",
+            "staticip" : "10.100.23.98",
+            "CPU_count" : "4",
+            "harddisk" : "47G",
+            "longitude" : 0,
+            "macid" : "98:40:bb:25:c4:3d",
+            "hardware" : "Intel(R)",
+            "latitude" : 0,
+            "modelname" : "Intel(R) Core(TM) i3-6100U CPU @ 2.30GHz",
+            "ram" : "7805MiB",
+            "address" : "",
+            "usb" : 2,
+            "os" : "Ubuntu 16.04 LTS",
+            "architecture" : "x86_64"
+         },
+         "cloud_connectivity":"No cloud connectivity",
+         "connected_to": "Workshop-2/G-2",
+         "re_installed" : true
+      },
+      {
+         "gatewayname":"Workshop-2/G-2",
+         "networks":[
+            "Factory Workshop 2"
+         ],
+         "gateway_info": {
+            "serialnumber" : " 710MWBAD10000358",
+            "dockerCreatedID" : "600f98f8e373ff0cc7dcee5c55fa664777402417dfb1267f477c5a4241f82d09",
+            "staticip" : "10.115.3.221",
+            "meshID" : "5982f6581d41c82d24bbe587",
+            "boardID" : "598302f51d41c82d24bbe5b0",
+            "harddisk" : "3.5G",
+            "CPU_count" : "8",
+            "longitude" : 0,
+            "macid" : "aa:be:97:f3:3e:ff",
+            "hardware" : "Samsung",
+            "latitude" : 0,
+            "modelname" : "Samsung artik710 raptor board based on s5p6818",
+            "ram" : "957MiB",
+            "address" : "",
+            "usb" : 3,
+            "ansibleServerID" : "59631fe71d41c83e385f72d3",
+            "dockerName" : "test-snapbricks-7415",
+            "os" : "Ubuntu 16.04.2 LTS",
+            "architecture" : "armv7l"
+         },
+         "cloud_connectivity":"MQTT",
+         "re_installed" : false
+      },
+      {
+         "gatewayname":"Workshop-1/G-2",
+         "networks":[
+            "Factory Workshop 1"
+         ],
+         "gateway_info": {
+            "modelname" : "intel I3",
+            "boardID" : null,
+            "serialnumber" : "",
+            "harddisk" : "25 GB",
+            "sdcard" : "N/A",
+            "hardware" : "Virtual Gateway",
+            "dockerId" : "",
+            "modelid" : "",
+            "subnet" : "N/A",
+            "usb" : "4 slots",
+            "altitude" : 30.3,
+            "dockerName" : "",
+            "provider" : "Airtel",
+            "latitude" : 0,
+            "ansibleServerID" : null,
+            "ram" : "7.71880722046",
+            "default_gateway" : "N/A",
+            "simcard" : "",
+            "address" : "",
+            "interface" : "",
+            "useraccount" : "ratansinh",
+            "staticip" : "172.17.0.1",
+            "mask" : "N/A",
+            "longitude" : 0,
+            "macid" : "02:42:20:4a:b7:4f",
+            "connection" : "Wifi",
+            "architecture" : "x86_64",
+            "cpu" : "1.2 GHz 64/32-bit quad-core ARM Cortex-A53"
+         },
+         "cloud_connectivity":"MQTT",
+         "re_installed" : true
+      },
+      {
+         "gatewayname":"Workshop-1/G-3",
+         "networks":[
+            "Factory Workshop 1"
+         ],
+         "gateway_info": {
+            "serialnumber" : " 710MWBAD10000358",
+            "dockerCreatedID" : "a6f8c65d4f4b893c256f67f2aed0f4144e8e9bb680de659b83f7601cb2d90917",
+            "staticip" : "10.115.2.222",
+            "meshID" : "5982f6581d41c82d24bbe587",
+            "boardID" : "598302f51d41c82d24bbe5b0",
+            "harddisk" : "3.5G",
+            "CPU_count" : "8",
+            "longitude" : 0,
+            "macid" : "3e:e9:ee:55:da:c7",
+            "hardware" : "Samsung",
+            "latitude" : 0,
+            "modelname" : "Samsung artik710 raptor board based on s5p6818",
+            "ram" : "957MiB",
+            "address" : "",
+            "usb" : 3,
+            "ansibleServerID" : "59631fe71d41c83e385f72d3",
+            "dockerName" : "test-snapbricks-9004",
+            "os" : "Ubuntu 16.04.2 LTS",
+            "architecture" : "armv7l"
+         },
+         "cloud_connectivity":"MQTT",
+         "re_installed" : false
+      },
+      {
+         "gatewayname":"Workshop",
+         "networks":[
+            "Factory Workshop 2",
+            "Factory Workshop 1"
+         ],
+         "gateway_info": {
+            "serialnumber" : "N/A",
+            "staticip" : "10.107.2.139",
+            "CPU_count" : "4",
+            "harddisk" : "9.8G",
+            "longitude" : 0,
+            "macid" : "b8:27:eb:f0:a6:53",
+            "hardware" : "ARMv7",
+            "latitude" : 0,
+            "modelname" : "ARMv7 Processor rev 4 (v7l)",
+            "ram" : "923MiB",
+            "address" : "",
+            "usb" : 1,
+            "os" : "Ubuntu 16.04.2 LTS",
+            "architecture" : "armv7l"
+         },
+         "cloud_connectivity":"MQTT",
+         "re_installed" : true
+      },
+      {
+         "gatewayname":"Workshop-2/G-3",
+         "networks":[
+            "Factory Workshop 2"
+         ],
+         "gateway_info": {
+            "serialnumber" : "N/A",
+            "staticip" : "10.100.21.14",
+            "meshID" : "5982f6581d41c82d24bbe58",
+            "harddisk" : "46G",
+            "CPU_count" : "4",
+            "longitude" : 0,
+            "macid" : "74:e6:e2:2c:f7:98",
+            "hardware" : "Intel(R)",
+            "latitude" : 0,
+            "modelname" : "Intel(R) Core(TM) i3-4005U CPU @ 1.70GHz",
+            "ram" : "8GiB",
+            "address" : "",
+            "usb" : 3,
+            "os" : "Ubuntu 16.04.2 LTS",
+            "architecture" : "x86_64"
+         },
+         "cloud_connectivity":"No cloud connectivity",
+         "connected_to": "Workshop",
+         "re_installed" : false
+      }
+   ]
+}

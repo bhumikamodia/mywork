@@ -1,0 +1,457 @@
+<div ng-controller="simulatorExplorerCtrl">
+    <div id="btn_group" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <button type="button" class="btn btn-default btn-shadow border0">
+            <i class="fa fa-refresh"></i>&nbsp;Refresh
+        </button>
+        <button ng-click="assignDevices()" ng-class="assignDevicesOption==true? 'btn btn-primary' : 'btn btn-default';" type="button" class="btn btn-default btn-shadow border0"><i class="fa fa-plus-circle"></i>&nbsp;Resource Template</button>
+        <button ng-click="brokerConfigdata()" ng-class="brokerConfig==true? 'btn btn-primary' : 'btn btn-default';" type="button" class="btn btn-default btn-shadow border0"><i class="fa fa-plus-circle"></i>&nbsp;Broker Configuration</button>
+        <button ng-click="assigntestEnvironment()" ng-class="assigntestEnvironmentOption==true? 'btn btn-primary' : 'btn btn-default';" type="button" class="btn btn-default btn-shadow border0"><i class="fa fa-plus-circle"></i>&nbsp;Test Setup</button>
+            <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+    </div>
+    <div id="deviceTable">
+        <div ng-if="assignDevicesOption == true">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+                <table class="table table-striped" id="softAppGrid">
+                    <thead>
+                        <tr>
+                            <td colspan="12">
+                                <div style="float:left;">
+                                    <h4>Resource Templates</h4></div>
+                                <div style=" display: inline-block;float:right;">
+                                    <a class="btn btn-primary" ng-click="createDevices();">Create Resource Template</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th>OCF Resource Name</th>
+                            <th>OCF Resource RAML</th>
+                            <!--<th>Assign Gateway</th>-->
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-repeat="device in deviceList | limitTo:DevicePerPage:DevicePerPage*(currentDevicePage-1)">
+                            <td>
+                                <SPAN class="checkbox checkbox-primary">
+                                    <input type="checkbox" id="{{gateway.id}}"   value="{{gateway}}" ng-click="checkedGateway(gateway)" />
+                                    <label for="gateway.gatewaySelected"></label>
+                                </SPAN>
+                            </td>
+                            <td>
+                                <div>{{device.device_name}}</div>
+                            </td>
+                            <td><a ng-click="openRAMLView(device)">View</a></td>
+                            <td><a ng-click="editDevice(device)"><i class="fa fa-edit"></i></a></td>
+                            <td id="btn_deactivate"><a ng-click="deleteResource(device)"><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                        <tr ng-if="dataResourceLoading">
+                            <td colspan="14">
+                                <div align="center"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+                            </td>
+                        </tr>
+                        <tr class="alert alert-danger" ng-if="(deviceList ==0) &&!dataResourceLoading">
+                            <td colspan="11"><strong>No Record Found.</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="pagination" ng-show="deviceList.length>0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+                <div class="col-lg-12 blue-bg pad10">
+                    <div class="col-lg-9">
+                        <uib-pagination total-items="deviceList.length" ng-model="currentDevicePage" ng-change="pageChanged()" items-per-page="DevicePerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+                    </div>
+                    <div class="col-lg-3 text-right">Displaying {{currentDevicePage}} / {{numPages}} of {{numPages}}</div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="brokerConfig == true">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+                <table class="table table-striped" id="softAppGrid">
+                    <thead>
+                        <tr>
+                            <td colspan="12">
+                                <div style="float:left;">
+                                    <h4>Broker Configurations</h4></div>
+                                    <div style=" display: inline-block;float:right;">
+                                    <a ng-show="editFlag==false" class="btn btn-primary" ng-click="editBrokerDetails();">Edit Broker</a> 
+                                    <a ng-show="editFlag==true" class="btn btn-primary" ng-click="">Save</a>
+                                    <a ng-show="editFlag==true" class="btn btn-primary" ng-click="cancelBroker()">Cancel</a> 
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Broker Url:</td>
+                            <td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+                                <div  ng-class="{ 'has-error': form.broker_ip.$dirty && form.broker_ip.$error.required }">
+                                    <input ng-disabled="!editFlag" type="text" class="form-control" ng-model="createBroker.broker_ip" name="broker_ip" id="broker_ip" disallow-spaces required/>
+                                    <span ng-show="form.broker_ip.$dirty && form.broker_ip.$error.required" class="help-block ng-hide" aria-hidden="true">Broker Url is required</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Broker Port:</td>
+                            <td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+                                <div  ng-class="{ 'has-error': form.broker_port.$dirty && form.broker_port.$error.required }">
+                                    <input ng-disabled="!editFlag" type="text" class="form-control" ng-model="createBroker.broker_port" name="broker_port" id="broker_port" disallow-spaces required/>
+                                    <span ng-show="form.broker_port.$dirty && form.broker_port.$error.required" class="help-block ng-hide" aria-hidden="true">Broker Port is required</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Broker Username:</td>
+                            <td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+                                <div ng-class="{ 'has-error': form.broker_username.$dirty && form.broker_username.$error.required }">
+                                    <input ng-disabled="!editFlag" type="text" class="form-control" ng-model="createBroker.broker_username" name="broker_username" id="broker_username" disallow-spaces required/>
+                                    <span ng-show="form.broker_username.$dirty && form.broker_username.$error.required" class="help-block ng-hide" aria-hidden="true">Broker Username is required</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Broker Password:</td>
+                            <td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+                                <div  ng-class="{ 'has-error': form.broker_password.$dirty && form.broker_password.$error.required }">
+                                    <input ng-disabled="!editFlag" type="password" class="form-control" ng-model="createBroker.broker_password" name="broker_password" id="broker_password" disallow-spaces required/>
+                                    <span ng-show="form.broker_password.$dirty && form.broker_password.$error.required" class="help-block ng-hide" aria-hidden="true">Broker Password is required</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div ng-if="assigntestEnvironmentOption == true">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+                <table class="table table-striped" id="softAppGrid">
+                    <thead>
+                        <tr>
+                            <td colspan="12">
+                                <div style="float:left;">
+                                    <h4>Test Setups</h4></div>
+                                <div style=" display: inline-block;float:right;">
+                                    <a class="btn btn-primary" ng-click="createTestSetup();">Create Test Setup</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th>Display Name</th>
+                            <th>Created By</th>
+                            <th>Status</th>
+                            <!--<th>Assign Gateway</th>-->
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-repeat="testenv in envSetupList| limitTo:EnvSetupPerPage:EnvSetupPerPage*(currentEnvSetupPage-1)">
+                            <td>
+                                <SPAN class="checkbox checkbox-primary">
+                                <input type="checkbox" id="{{testenv.test_env_id}}"   value="{{testenv}}" ng-click="checkedGateway(testenv)" />
+                                <label for="gateway.gatewaySelected"></label>
+                            </SPAN>
+                            </td>
+                            <td>
+                                <div>{{testenv.displayname}}</div>
+                            </td>
+                            <td>{{testenv.createdby}}</td>
+                            <td>{{testenv.status}}</td>
+                            <td><a ng-click="edittestSetup(testenv)"><i class="fa fa-edit"></i></a></td>
+                            <td id="btn_deactivate"><a ng-click="deletetestsetup(testenv)"><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                        <tr ng-if="dataSetupLoading">
+                            <td colspan="14">
+                                <div align="center"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div>
+                            </td>
+                        </tr>
+                        <tr class="alert alert-danger" ng-if="(envSetupList ==0) &&!dataSetupLoading ">
+                            <td colspan="11"><strong>No Record Found.</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="pagination" ng-show="envSetupList.length>0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+                <div class="col-lg-12 blue-bg pad10">
+                    <div class="col-lg-9">
+                        <uib-pagination total-items="envSetupList.length" ng-model="currentEnvSetupPage" ng-change="pageEnvSetupChanged()" items-per-page="EnvSetupPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+                    </div>
+                    <div class="col-lg-3 text-right">Displaying {{currentEnvSetupPage}} / {{numPages}} of {{numPages}}</div>
+                </div>
+            </div>
+            <!-- <uib-pagination class="pagination-sm pagination" total-items="envSetupList.length" ng-model="page"
+                        ng-change="pageChanged()" previous-text="&lsaquo;" max-size="5" boundary-link-numbers="true" num-pages="numPages" next-text="&rsaquo;" items-per-page="EnvSetupPerPage" ></uib-pagination> -->
+        </div>
+    </div>
+    <script type="text/ng-template" id="modaladdDevices.html">
+        <link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+        <div>
+            <div class="modal-content">
+                <div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+                    <button type="button" class="close" ng-click="clearDevicemodal()">&times;</button>
+                    <b class="modal-title">Create Resource Template</b>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="form" name="form" style="margin-top:40px;">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+                                <table class="table table-striped" id="softGatewayGrid">
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Resource name</td>
+                                            <td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+                                                <div ng-class="{ 'has-error': form.device_name.$dirty && form.device_name.$error.required }">
+                                                    <input type="text" class="form-control" ng-model="createDevice.device_name" name="device_name" id="device_name" required/>
+                                                    <span ng-show="form.device_name.$dirty && form.device_name.$error.required" class="help-block ng-hide" aria-hidden="true">Resource Name is required</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Resource RAML</td>
+                                            <td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+                                                <textarea type="text" class="form-control" ng-model="createDevice.device_raml" name="device_raml" id="device_raml"></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>OR</center>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Resource RAML JSON</td>
+                                            <td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+                                                <textarea type="text" class="form-control" ng-model="createDevice.device_json" name="device_json" id="device_json"></textarea>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-6">
+                                <button type="button" class="btn btn-primary" ng-click="saveDeviceData(createDevice)" ng-disabled="createDevice.device_name==undefined">Save Information</button>
+                                <button type="button" class="btn btn-primary" ng-click="clearDevicemodal()">Clear</button>
+                                <img ng-if="dataAddDeviceLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            </div>
+                            <br clear="all" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="modaledittestsetup.html">
+        <link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+        <div>
+            <div class="modal-content">
+                <div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+                    <button type="button" class="close" ng-click="clearDevicemodal()">&times;</button>
+                    <b class="modal-title">Edit Test Setup</b>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="form" name="form" style="margin-top:40px;">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+                                <table class="table table-striped" id="softGatewayGrid">
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Test Setup name</td>
+                                            <td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+                                                <div ng-class="{ 'has-error': form.device_name.$dirty && form.device_name.$error.required }">
+                                                    <input type="text" class="form-control" ng-model="createDevice.device_name" name="device_name" id="device_name" disallow-spaces required/>
+                                                    <span ng-show="form.device_name.$dirty && form.device_name.$error.required" class="help-block ng-hide" aria-hidden="true">Test Setup name is required</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Created By</td>
+                                            <td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+                                                <div ng-class="{ 'has-error': form.device_name.$dirty && form.device_name.$error.required }">
+                                                    <input type="text" class="form-control" ng-model="createDevice.device_name" name="device_name" id="device_name" disallow-spaces required/>
+                                                    <span ng-show="form.device_name.$dirty && form.device_name.$error.required" class="help-block ng-hide" aria-hidden="true">Test Setup created by is required</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-striped" id="softGatewayGrid">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Display name</th>
+                                            <th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Test Setup name</td>
+                                            <td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+                                                <div ng-class="{ 'has-error': form.device_name.$dirty && form.device_name.$error.required }">
+                                                    <input type="text" class="form-control" ng-model="createDevice.device_name" name="device_name" id="device_name" disallow-spaces required/>
+                                                    <span ng-show="form.device_name.$dirty && form.device_name.$error.required" class="help-block ng-hide" aria-hidden="true">Test Setup name is required</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-lg-5 col-md-7 col-sm-7 col-xs-7">Created By</td>
+                                            <td class="col-lg-7 col-md-5 col-sm-5 col-xs-5">
+                                                <div ng-class="{ 'has-error': form.device_name.$dirty && form.device_name.$error.required }">
+                                                    <input type="text" class="form-control" ng-model="createDevice.device_name" name="device_name" id="device_name" disallow-spaces required/>
+                                                    <span ng-show="form.device_name.$dirty && form.device_name.$error.required" class="help-block ng-hide" aria-hidden="true">Test Setup created by is required</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-6">
+                                <button type="button" class="btn btn-primary" ng-click="saveDeviceData(createDevice)" ng-disabled="createDevice.device_name==undefined||createDevice.device_raml==undefined"> Save Information</button>
+                                <button type="button" class="btn btn-primary" ng-click="clearDevicemodal()">Clear</button>
+                                <img ng-if="dataAddDeviceLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            </div>
+                            <br clear="all" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- <script type="text/ng-template" id="modaladdTestEnv.html">
+    <link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+    <div>
+    <div class="modal-content">
+
+    <div class="nav navbar-fixed-top gradient-bg modal-header" style="color: white;">
+    <button type="button" class="close" ng-click="clearDevicemodal()">&times;</button>
+    
+    <b class="modal-title">Create Test Setup</b>
+    </div>
+<div class="modal-body">
+    <form class="form-horizontal" id="form" name="form" style="margin-top:40px;">
+     <div class="row">
+     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0"> 
+     <table  class="table table-striped" id="softGatewayGrid"  >
+     <tbody >
+     <tr>
+        <td class="col-lg-3 col-md-5 col-sm-5 col-xs-5">Test Environment  name</td>
+        <td class="col-lg-9 col-md-7 col-sm-7 col-xs-5">
+        <div  ng-class="{ 'has-error': form.device_name.$dirty && form.device_name.$error.required }">
+        <input type="text" class="form-control" ng-model="createDevice.device_name" name="device_name" id="device_name" disallow-spaces required></input>
+        <span ng-show="form.device_name.$dirty && form.device_name.$error.required" class="help-block ng-hide" aria-hidden="true">Device Name is required</span>
+        </div>
+        </td>
+        </tr>
+
+        <tr>
+        <td class="col-lg-3 col-md-5 col-sm-5 col-xs-5">Gateways </td>
+        <td class="col-lg-9 col-md-7 col-sm-7 col-xs-5">
+        <form class="form-horizontal mr-top45">
+          <div >
+
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6 table-responsive mr-top0 border0">
+              <table id="total" class="table table-striped">
+                <thead>
+                  <tr>
+                   
+                    <th style="width:15%">Display Name</th>
+             
+                    <th style="width: 15%">Mac ID</th>
+                    
+              
+                    <th style="width: 5%">Add</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,gateway)" ng-repeat="gateway in filtered = (gatewayList| filter:expression | filter:expression2 | filter:expression3 || undefined) | orderBy:sortType:sortReverse | limitTo:gatewayPerPage">
+
+
+                   
+                    <td>
+                      <div style="cursor:pointer;">{{gateway.displayname}}</div>
+                    </td>
+                  
+
+                    <td><div >{{gateway.gatewaymeta.macid}}</div></td>
+
+                   
+                    
+                    <td><div>
+
+                      <button  class="btn btn-default" ng-click="getGatewayinfo(gateway)" ng-disabled="alreadyExistsGateway(gateway)">
+                        <i class="glyphicon glyphicon-menu-right"></i>
+                      </button>
+                    </div></td>
+
+                  </tr>
+                  
+                  <tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalItems ==0) && !dataLoading">
+                    <td colspan="11">
+                      <strong>No Record Found.</strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div id="pagination" ng-show="(filtered).length" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15 page-class">
+                <div class="col-lg-12 blue-bg pad10" >
+                  <div class="col-lg-8">
+                    <uib-pagination total-items="totalItems" ng-model="currentGatewayPage" ng-change="pageChanged()" items-per-page="gatewayPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" num-pages="numPages"></uib-pagination>
+                  </div>
+                  <div class="col-lg-3 text-right">Displaying {{currentGatewayPage}} / {{numPages}} of {{numPages}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 mr-top5">
+             <table  class="table table-striped" id="softGatewayGrid"  >
+             <thead>
+                <th>Added Gateways</th>
+</thead>
+<tbody>
+<tr ng-repeat="item in gatewaytags">
+<td >{{item.displayname}}<a style="cursor:pointer;" ng-click="removeTags(item);"><i style="float:right;" class="glyphicon glyphicon-remove"></i></a></td>
+</tr>
+<tr ng-if="gatewaytags.length==0">
+    <td><div class="alert alert-danger"><strong>No Record Found.</strong></div></td>
+</tr>
+</tbody>
+</table>
+              </div>
+            </div>  
+          </div>
+ 
+        </form>
+        </td>
+      
+        </tr>
+    
+     </tbody>
+     </table>
+     </div>
+     </div>
+
+         <div class="form-group"> 
+    <div class="col-sm-offset-2 col-sm-6">
+    <button type="button"   class="btn btn-primary" ng-click="saveDeviceData(createDevice)" ng-disabled="createDevice.device_name==undefined||createDevice.raml==undefined||createDevice.device_config==undefined"> Save Information</button>
+    <button type="button"  class="btn btn-primary" ng-click="clearDevicemodal()" >Clear</button>
+    <img ng-if="dataAddDeviceLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+    </div>
+    <br clear="all"/>
+    </div>  
+     </form>
+     </div>
+
+
+
+
+    </div>
+    </div>
+</script> -->

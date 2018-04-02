@@ -1,0 +1,12 @@
+{
+	"nodes":[
+	    {"id": 1, "label":"Gateway 1", "color":"blue","title": "Gateway 1 : RE not installed","type":"RE not installed"},
+	    {"id": 2, "label":"Gateway 2","color":"orange","title": "Gateway 2 : RE installed","type":"RE installed"},
+	    {"id": 3, "label":"Gateway 3","color":"blue","title": "Gateway 3 : RE not installed","type":"RE not installed"},
+	    {"id": 4, "label":"Gateway 4","color":"blue","title": "Gateway 4 : RE not installed","type":"RE not installed"},
+	    {"id": 5, "label":"Gateway 5","color":"blue","title": "Gateway 5 : RE not installed","type":"RE not installed"},
+	    {"id": 6, "label":"Gateway 6","color":"orange","title": "Gateway 6 : RE installed","type":"RE installed"},
+	    {"id": 7, "label":"Gateway 7","color":"orange","title": "Gateway 7 : RE installed","type":"RE installed"},
+	    {"id": 8, "label":"Gateway 8","color":"blue","title": "Gateway 8 : RE not installed","type":"RE not installed"}
+  ]
+}

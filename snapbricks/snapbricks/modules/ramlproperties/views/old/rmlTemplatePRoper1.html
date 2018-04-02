@@ -1,0 +1,66 @@
+<div class="panel-group" id="accordionNewPackage" style="height:400px;overflow:auto">
+	<div ng-repeat="(m_key,propertyarr) in defaultProperty" ng-init="m_key=$index;">
+		<div ng-repeat="(key,editprop) in propertyarr.data" ng-init="propertyIndex=$index;">
+			<div ng-if="key==0">			
+					<div class="panel panel-default" >
+						<div class="panel-heading">
+								<h4 class="panel-title">
+									<a  data-toggle="collapse" data-parent="#accordionNewPackage" href="#editDefinitionProperty{{m_key}}_{{key}}" ng-click="$event.preventDefault();" >
+										<i class="more-less fa fa-minus-square-o"></i>
+										<span ng-show="editprop.UserpropertyName != ''" style="text-transform:capitalize">{{editprop.UserpropertyName}}  </span>
+										<span ng-show="editprop.UserpropertyName == ''" style="text-transform:capitalize">{{editprop.propertyType}}  </span>
+										<span ng-show="propertyIndex == 0">(Controllable)  </span>
+									</a> 
+									<span style="float: right">
+											<i ng-if="key==0 && m_key == 0" class="glyphicon glyphicon-plus" ng-click="newAddPropertyNameData();" style="color:green"></i> 
+											<i ng-if="key==0 && m_key != 0" class="glyphicon glyphicon-remove" ng-click="removePropertyNameData(m_key);" style="color:red" ></i>
+									</span>
+								</h4>			 
+						</div>
+						<div id="editDefinitionProperty{{m_key}}_{{key}}" class="panel-collapse collapse in">
+							<div ng-if="editprop.propertyType == 'other' && propertyIndex == 0" ng-include="'modules/ramlproperties/views/propertytype/otherproperty.html'"></div>
+						</div>
+					</div>
+			</div>
+			<div ng-if="key != 0">
+						<div class="panel panel-default" style="margin-left:2%">
+						<div class="panel-heading">
+								<h4 class="panel-title">
+									<a  data-toggle="collapse" data-parent="#accordionNewPackage" href="#editDefinitionProperty{{m_key}}_{{key}}" ng-click="$event.preventDefault();" >
+										<i class="more-less fa fa-minus-square-o"></i>
+										<span ng-show="editprop.UserpropertyName != ''" style="text-transform:capitalize">{{editprop.UserpropertyName}}  </span>
+										<span ng-show="editprop.UserpropertyName == ''" style="text-transform:capitalize">{{editprop.propertyType}}  </span>
+										<span ng-show="propertyIndex!=0">(Configurable)  </span>
+										<i ng-if="propertyIndex!=0" class="glyphicon glyphicon-remove" ng-click="removeProperty(m_key,key,editprop.propertyType);$event.preventDefault();" style="color:red" ></i>									
+							
+									</a> 
+								</h4>			 
+						</div>
+						<div id="editDefinitionProperty{{m_key}}_{{key}}" class="panel-collapse collapse in">
+							<div ng-if="editprop.propertyType == 'Units'" ng-include="'modules/ramlproperties/views/propertytype/unit.html'"></div>				
+							<div ng-if="editprop.propertyType == 'Interval'" ng-include="'modules/ramlproperties/views/propertytype/interval.html'"></div>				
+							<div ng-if="editprop.propertyType == 'Threshold'" ng-include="'modules/ramlproperties/views/propertytype/threshold.html'"></div>				
+							<div ng-if="editprop.propertyType == 'other' && propertyIndex != 0 " ng-include="'modules/ramlproperties/views/propertytype/defaultproperty.html'"></div>
+						</div>
+					</div>
+			</div>
+		</div>
+		<div style="padding-left:31px;padding-top:10px;">Add Sub Property
+				<button class="btn btn-primary" ng-click="(propertyarr.ope_arr.indexOf('Units')>-1)? '' : Addproperty(m_key,'Units')"  ng-class="{'disabled':(propertyarr.ope_arr.indexOf('Units')>-1)}">Units</button>
+				<button class="btn btn-primary" ng-click="(propertyarr.ope_arr.indexOf('Interval')>-1)? '' : Addproperty(m_key,'Interval')" ng-class="{'disabled':(propertyarr.ope_arr.indexOf('Interval')>-1)}">Interval</button>
+				<button class="btn btn-primary" ng-click="(propertyarr.ope_arr.indexOf('Threshold')>-1)? '' : Addproperty(m_key,'Threshold')" ng-class="{'disabled':(propertyarr.ope_arr.indexOf('Threshold')>-1)}">Threshold</button>
+				<button class="btn btn-primary" ng-click="Addproperty(m_key,'Other')">Other</button>			
+				</div>
+	</div>
+</div>
+<script type="text/javascript">
+function toggleIcon(e) 
+{
+$(e.target)
+.prev('.panel-heading')
+.find(".more-less")
+.toggleClass('fa-plus-square-o fa-minus-square-o');
+}
+$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+$('.panel-group').on('shown.bs.collapse', toggleIcon);
+</script>

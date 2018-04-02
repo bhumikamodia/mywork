@@ -1,0 +1,2156 @@
+
+<div class="row" >
+  
+        <div ncy-breadcrumb></div>
+   
+</div>
+
+<div class="row" ng-controller="provisionCtrl">
+
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  
+  <div ng-cloak>
+  <md-content>
+    <md-tabs md-dynamic-height md-border-bottom >
+      <md-tab label="Explorer" ng-click="$event.preventDefault();">
+        <md-content id="explorer" class="md-padding">
+         
+       
+		  <div ng-include="'modules/softwareupdate/views/explorer.html'"></div>
+		
+        </md-content>
+      </md-tab>
+      <md-tab label="Provision" ng-click="$event.preventDefault();">
+        <md-content id="management" class="md-padding">
+          <div>
+ 
+    <div >
+	
+		<md-content>
+			<md-tabs md-dynamic-height md-border-bottom md-selected="-1" >
+				<md-tab ng-click="provisionGatewayFunction();">Create Gateway</md-tab>
+				<md-tab ng-click="provisionTrashFunction();">Delete Gateway</md-tab>
+			</md-tabs>
+		</md-content>
+	
+        <!--<div id="btn_group"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFunc();">
+                <i class="fa fa-refresh"></i>Refresh
+            </button>
+			<button type="button" ng-click="provisionGatewayFunction();" ng-class="provisionWizard==true? 'btn btn-primary' : 'btn btn-default';" class="btn btn-default btn-shadow border0"><i class="fa fa-random"></i>Create Gateway</button>
+			<button type="button" ng-click="provisionTrashFunction();" ng-class="provisionTrashWizard==true? 'btn btn-primary' : 'btn btn-default';" class="btn btn-default btn-shadow border0"><i class="fa fa-random"></i>Delete Gateway</button>
+        </div>-->
+    </div>
+	<div id="deviceTable">
+	
+	<!--	Provision Wizard Start -->
+	<div ng-if="provisionWizard == true">
+	<div ng-include="'modules/softwareupdate/views/stepwizard.html'"></div>
+		<!-- Mesh Code Start -->
+		<div ng-if="provisionWizardmeshSelection == 'ON'">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+								
+								<table  class="table table-striped" id="softMeshGrid"  >
+								<thead>
+								<tr>
+								<td colspan="12">
+								<div style="float:left;"><h4>Select Mesh</h4></div>
+								<div style="display: inline-block;float:right;" >
+								<button type="button" ng-click="nextStepProvisionMesh();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+								</div>
+								</td>
+								</tr>
+								<tr>
+								
+								<th>Name</th>
+								<th>Network</th>
+								
+								</tr>
+								</thead>
+								<tbody>
+								<tr  ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-click="setClickedRowMesh($index,MeshApp);" ng-repeat="MeshApp in MeshApps | limitTo:MeshAppPerPage">
+										
+								
+										<td><div >{{MeshApp.name}}</div ></td>
+										<td><div >{{MeshApp.network}}</div ></td>
+										
+										
+										
+								</tr>
+								<tr ng-if="dataMeshAppLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(MeshApps.length == 0 || MeshAppTotalRecords ==0) && !dataMeshAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+								</tbody>
+								</table>
+			</div>
+		<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+
+								<uib-pagination  total-items="MeshAppTotalRecords" ng-model="$parent.$parent.currentMeshAppPage" ng-change="pageChanged()" items-per-page="MeshAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+								boundary-links="true" num-pages="numPages"></uib-pagination>
+
+								</div>
+								<div class="col-lg-3 text-right">Displaying {{$parent.currentMeshAppPage}} / {{numPages}} of {{numPages}}</div>
+							</div>
+
+			</div>
+		</div>
+		<!-- Mesh Code End -->
+	
+		<!-- Server Code Start -->
+		<div  ng-if="provisionWizardserverSelection == 'ON'" >
+			<div  >
+			
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0" >
+			
+			<table  class="table table-striped" id="softAppGrid"  >
+			<thead>
+			<tr>
+			<td colspan="12">
+			<div style="float:left;"><h4>Select Ansible Server</h4></div>
+			<div style="display: inline-block;float:right;" >
+			<button type="button" ng-click="nextStepProvisionServer();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+			</div>
+			</td>
+			</tr>
+			<tr>
+			
+			<th>Name</th>
+			<th>IP</th>
+			<th>Macid</th>
+			<th>Network</th>
+			<th>Created On</th>
+			
+			
+			</tr>
+			</thead>
+			<tbody>
+			<tr  ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-click="setClickedRowServer($index,ServerApp);" ng-repeat="ServerApp in filtered = (ServerApps) | limitTo:ServerAppPerPage">
+					
+					<td><div >{{ServerApp.name}}</div ></td>
+					<td><div >{{ServerApp.ip}}</div ></td>
+					<td><div >{{ServerApp.macid}}</div ></td>
+					<td><div >{{ServerApp.ansibleserver_network}}</div ></td>
+					<td><div >{{ServerApp.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+					
+					
+			</tr>
+			<tr ng-if="dataServerAppLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+			<tr class="alert alert-danger" ng-if="(filtered.length == 0 || ServerAppTotalRecords ==0) && !dataServerAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+			</tbody>
+			</table>
+			</div>
+			<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+		<div class="col-lg-12 blue-bg pad10">
+		<div class="col-lg-9">
+
+		<uib-pagination  total-items="ServerAppTotalRecords" ng-model="$parent.$parent.currentServerAppPage" ng-change="pageChanged()" items-per-page="ServerAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+		boundary-links="true" num-pages="numPages"></uib-pagination>
+
+		</div>
+		<div class="col-lg-3 text-right">Displaying {{$parent.currentServerAppPage}} / {{numPages}} of {{numPages}}</div>
+		</div>
+
+		</div>
+			</div>
+		</div>
+
+		<!-- Server Code End -->
+		
+		<!-- Gateway Code Start -->
+		<div ng-if="provisionWizardgatewaySelection == 'ON'">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+							
+							<table  class="table table-striped" id="softGatewayGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Gateway Board</h4></div>
+							<div style=" display: inline-block;float:right;" >
+							<button type="button" ng-click="nextStepProvisionGateway();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+							</div>
+							</td>
+							</tr>
+							<tr>
+							<th ><!--<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAllGateway" ng-click="checkAllSoftwareGateway(selectedAllGateway)" /> <label></label></span>--></th>
+							
+							<th >Display Name</th>
+							<th >MacID</th>
+							<th >IP</th>
+							<th >Vendor</th>
+							<th >Network</th>
+							<th >Architecture</th>
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-click="setClickedRowGateway($index,gateway)" ng-repeat="gateway in filtered = (gatewayList) | limitTo:gatewayPerPage">
+							<td>
+												<SPAN class="checkbox checkbox-primary">
+												<input type="checkbox" id="{{gateway.id}}"  ng-checked="arrayObjectIndexOf(arrGatewayProvision,gateway) > -1"  value="{{gateway}}"  /><label for="gateway.gatewaySelected"></label></SPAN>
+												</td>
+							
+							<td>{{gateway.name}}</td>
+							<td>{{gateway.macid}}</td>
+							<td>{{gateway.ip}}</td>
+							<td>{{gateway.vendor}}</td>
+							<td>{{gateway.network}}</td>
+							<td>{{gateway.architecture}}</td>
+							
+							</tr>
+							<tr ng-if="dataLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalItems ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody>
+							</table>
+							
+							</div>
+							<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+														<div class="col-lg-12 blue-bg pad10">
+														<div class="col-lg-9">
+														
+														<uib-pagination  total-items="totalItems" ng-model="$parent.$parent.currentGatewayPage" ng-change="pageChanged1()" items-per-page="gatewayPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+							boundary-links="true" num-pages="numPages"></uib-pagination>
+																	
+																</div>
+																<div class="col-lg-3 text-right">Displaying {{currentGatewayPage}} / {{numPages}} of {{numPages}}</div>
+																</div>
+														
+														</div>
+		</div>
+		<!-- Gateway Code End -->
+		
+		<!-- Docker Code Start -->
+		<div ng-if="provisionWizarddockerSelection=='ON'">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+							
+							<table  class="table table-striped" id="softAppGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Docker</h4></div>
+							<div style="display: inline-block;float:right;" >
+							<button type="button" ng-click="nextStepProvisionDocker();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+							</div>
+							</td>
+							</tr>
+							<tr>
+							<th width="2%" ><!--<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAllApp" ng-click="checkAllSoftwareAPP(selectedAllApp)" /> <label></label></span>--></th>
+							
+							<th width="20%">Docker Name</th>
+							<th width="20%">Docker Url</th>
+							<th width="10%">Url Username</th>
+							<th width="10%">Architecture</th>
+							<th width="5%">Copies</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr  ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowDocker($index,DockerApp);" ng-repeat="DockerApp in DockerApps | limitTo:DockerAppPerPage">
+									<td><SPAN class="checkbox checkbox-primary">
+														<input type="checkbox" id="{{DockerApp.id}}" ng-checked="arrayObjectIndexOf(arrDockerProvision,DockerApp.id) > -1"  value="{{DockerApp.id}}"  /><label for="DockerApp.DockerAppSelected"></label></SPAN>
+									</td>
+							
+									<td><div >{{DockerApp.name}}</div ></td>
+									<td><div >{{DockerApp.url}}</div ></td>
+									<td><div >{{DockerApp.username}}</div></td>
+									<td><div >{{DockerApp.architecture}}</div></td>
+									<td ><div  style="width: 130px;"><div class="input-group">
+          <span class="input-group-btn">
+              <button type="button" class="btn btn-danger btn-number"  data-type="minus" ng-click="DockerApp.copies = returnMinus(DockerApp.copies);$event.stopPropagation();">
+                <span class="glyphicon glyphicon-minus"></span>
+              </button>
+          </span>
+		 
+          <input type="text" ng-init="DockerApp.copies =1;"  ng-model="DockerApp.copies" ng-click="$event.stopPropagation();" ng-keypress="filterValue($event)"  class="form-control input-number" readonly="readonly" required  max="10"  min="1" pattern="^([1-9])$">
+          <span class="input-group-btn">
+              <button type="button" class="btn btn-success btn-number" data-type="plus" ng-click="DockerApp.copies = returnPlus(DockerApp.copies);$event.stopPropagation();">
+                  <span class="glyphicon glyphicon-plus"></span>
+              </button>
+          </span>
+      </div></div></td>
+							
+							</tr>
+							<tr ng-if="dataDockerAppLoading" class="alert alert-danger"><td colspan="7"><div align="center"><img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(DockerAppsTotalRecords ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody>
+							</table>
+							</div>
+							<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+						<div class="col-lg-12 blue-bg pad10">
+						<div class="col-lg-9">
+
+						<uib-pagination  total-items="DockerAppsTotalRecords" ng-model="$parent.$parent.currentDockerAppPage" ng-change="pageChanged4()" items-per-page="DockerAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+						boundary-links="true" num-pages="numPages"></uib-pagination>
+
+						</div>
+						<div class="col-lg-3 text-right">Displaying {{currentDockerAppPage}} / {{numPages}} of {{numPages}}</div>
+						</div>
+
+						</div>
+		</div>
+		<!-- Docker Code End -->
+		<!-- Provision Configuration Code Start -->
+		<div ng-if="provisionWizardconfigureSelection =='ON'">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0">
+		<table  class="table table-striped" id="softConfigureGrid"  >
+		<thead>
+								<tr>
+								<td colspan="12">
+								<div style="float:left;"><h4>Select Configuration</h4></div>
+								<div style="display: inline-block;float:right;" >
+								<button type="button" ng-disabled="dataDeviceLoadingProvision || (formbaseConfig.$invalid) || (formcloudConnect.$invalid) || (formdeployment.$invalid)"  ng-click="nextStepProvisionConfiguration();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+								<SPAN ng-if="dataDeviceLoadingProvision"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></SPAN>
+								</div>
+								</td>
+								</tr>
+								
+								</thead>
+		</table>
+	
+			<div ng-include="'modules/softwareupdate/views/configurations.html'"></div>
+		<script>
+							function toggleIcon(e) 
+											{ 
+											$(e.target)
+											.prev('.panel-heading')
+											.find(".more-less")
+											.toggleClass('fa-plus-square-o fa-minus-square-o');
+											}
+											$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+											$('.panel-group').on('shown.bs.collapse', toggleIcon);
+
+							</script>
+		</div>
+		</div>
+		<!-- Provision Configuration Code End -->
+		<div ng-if="provisionWizardconfirmSelection=='ON'">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0" ng-if="selectedRowMesh != ''">
+							<table  class="table table-striped" id="softMeshGrid"  >
+								<thead>
+								<tr>
+								<td colspan="12">
+								<div style="float:left;"><h4>Select Mesh</h4></div>
+								<div style="display: inline-block;float:right;" >
+								<button type="button" ng-disabled="dataDeviceLoadingProvision"  ng-click="nextStepProvisionData();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Confirm Provision</button>
+								<SPAN ng-if="dataDeviceLoadingProvision"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></SPAN>
+								</div>
+								</td>
+								</tr>
+								<tr>
+								
+								<th>Name</th>
+								<th>Network</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+										
+								
+								<td><div >{{selectedRowMesh.name}}</div ></td>
+								<td><div >{{selectedRowMesh.network}}</div ></td>		
+								</tr>
+								
+								</tbody>
+							</table>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0" ng-if="selectedRowServer != null">
+		<table  class="table table-striped" id="softAppGrid"  >
+			<thead>
+			<tr>
+			<td colspan="12">
+			<div style="float:left;"><h4>Select Ansible Server</h4></div>
+			<div style="display: inline-block;float:right;" >
+			
+			</div>
+			</td>
+			</tr>
+			
+			<tr>
+			
+			<th>Name</th>
+			<th>IP</th>
+			<th>Macid</th>
+			<th>Network</th>
+			<th>Created On</th>
+			
+			
+			</tr>
+			</thead>
+			<tbody>
+			<tr  >
+					
+					<td><div >{{selectedRowServer.name}}</div ></td>
+					<td><div >{{selectedRowServer.ip}}</div ></td>
+					<td><div >{{selectedRowServer.macid}}</div ></td>
+					<td><div >{{selectedRowServer.ansibleserver_network}}</div ></td>
+					<td><div >{{selectedRowServer.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+					
+					
+			</tr>
+			</tbody>
+			</table>
+		
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0" ng-if="arrGatewayProvision.length>0">
+							
+							<table  class="table table-striped" id="softGatewayGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Gateway Board</h4></div>
+							
+							</td>
+							</tr>
+							<tr>
+							
+							<th >Display Name</th>
+							<th >MacID</th>
+							<th >IP</th>
+							<th >Vendor</th>
+							<th >Architecture</th>
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr  style="cursor:pointer;"  ng-repeat="gateway in arrGatewayProvision">
+							
+							<td>{{gateway.name}}</td>
+							<td>{{gateway.macid}}</td>
+							<td>{{gateway.ip}}</td>
+							<td>{{gateway.vendor}}</td>
+							<td>{{gateway.architecture}}</td>
+							
+							</tr>
+							</tbody>
+							</table>
+							
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0" ng-if="arrDockerProvision.length>0">
+							
+							<table  class="table table-striped" id="softDockerGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Docker</h4></div>
+							
+							</td>
+							</tr>
+							<tr>
+							<th>Docker Name</th>
+							<th>Docker Url</th>
+							<th>Url Username</th>
+							<th>Architecture</th>
+							<th>Copies</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr  style="cursor:pointer;"  ng-repeat="DockerApp in arrDockerProvisionBody">
+							
+							<td><div >{{DockerApp.name}}</div ></td>
+							<td><div >{{DockerApp.url}}</div ></td>
+							<td><div >{{DockerApp.username}}</div></td>
+							<td><div >{{DockerApp.architecture}}</div></td>
+							<td><div >{{DockerApp.copies}}</div></td>
+							</tr>
+							</tbody>
+							</table>
+							
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0" ng-if="docker_configurations.cloudbrokers.length >0 || docker_configurations.deploymentbrokers.length >0 || docker_configurations.OrganizationAbbreviation != ''">
+			
+			<table  class="table table-striped" id="softDockerGrid"  >
+			<thead>
+			<tr>
+			<td colspan="12">
+			<div style="float:left;"><h4>Select Configuration</h4></div>
+			
+			</td>
+			</tr>
+			
+			</thead>
+			<tbody>
+			<tr  style="cursor:pointer;" >
+			<th>Base URL Syntax</th>
+			<td><div >{{docker_configurations.baseurl}}/{{docker_configurations.orgid}}/</div ></td>
+			</tr>
+			<tr  style="cursor:pointer;">
+			<th>USB Configuration</th>
+			<td><div >{{docker_configurations.noofusbs}}</div ></td>
+			</tr>
+			<tr  style="cursor:pointer;" >
+			<th>Azure Connectivity</th>
+			<td><div >
+				<table  class="table table-striped">
+			<thead><tr><th>IOT Hub Name</th><th>Primary Connection String</th><th>Secondary Connection String</th></tr></thead>
+			<tbody><tr ><td>{{docker_configurations.azureConnectivity.IoTHubName}}</td><td>{{docker_configurations.azureConnectivity.PrimaryConnectionString}}</td><td>{{docker_configurations.azureConnectivity.SecondaryConnectionString}}</td></tr></tbody>
+			</table>
+			</div >
+			</td>
+			</tr>
+			<tr  style="cursor:pointer;" >
+			<th>Cloud Brokers</th><td><div >
+			<table  class="table table-striped">
+			<thead><tr><th>Type</th><th>Broker IP</th><th>Port</th><th>Username</th><th>Password</th><th>Protocol</th></tr></thead>
+			<tbody><tr ng-repeat="dockerCloud in docker_configurations.cloudbrokers"><td>{{dockerCloud.type}}</td><td>{{dockerCloud.brokerip}}</td><td>{{dockerCloud.port}}</td><td>{{dockerCloud.username}}</td><td>{{dockerCloud.password}}</td><td>{{dockerCloud.protocol}}</td></tr></tbody>
+			</table>
+			</div ></td>
+			</tr>
+			<tr  style="cursor:pointer;" >
+			<th>Deployment Brokers</th><td><div >
+			<table  class="table table-striped">
+			<thead><tr><th>Type</th><th>Broker IP</th><th>Port</th><th>Username</th><th>Password</th><th>Protocol</th></tr></thead>
+			<tbody><tr ng-repeat="dockerCloud in docker_configurations.deploymentbrokers"><td>{{dockerCloud.type}}</td><td>{{dockerCloud.brokerip}}</td><td>{{dockerCloud.port}}</td><td>{{dockerCloud.username}}</td><td>{{dockerCloud.password}}</td><td>{{dockerCloud.protocol}}</td></tr></tbody>
+			</table>
+			</div></td>
+			</tr>
+			<tr  style="cursor:pointer;" >
+			<th>Local Brokers</th><td><div >
+			<table  class="table table-striped">
+			<thead><tr><th>Type</th><th>Broker IP</th><th>Port</th><th>Username</th><th>Password</th><th>Protocol</th></tr></thead>
+			<tbody><tr ng-repeat="dockerCloud in docker_configurations.localbrokers"><td>{{dockerCloud.type}}</td><td>{{dockerCloud.brokerip}}</td><td>{{dockerCloud.port}}</td><td>{{dockerCloud.username}}</td><td>{{dockerCloud.password}}</td><td>{{dockerCloud.protocol}}</td></tr></tbody>
+			</table>
+			</div></td>
+			</tr>
+			<tr  style="cursor:pointer;" >
+			<th>Gateway Mode</th>
+			<td><div >{{docker_configurations.mode}}</div ></td>
+			</tr>
+			</tbody>
+			</table>		
+		</div>
+		
+	</div>
+	
+	</div>
+	<!--	Provision Wizard End -->
+	
+	<div ng-if="provisionTrashWizard == true">
+	<div ng-include="'modules/softwareupdate/views/stepwizard.html'"></div>
+		<div  ng-if="provisionTrashWizardmeshSelection == 'ON'">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+								
+								<table  class="table table-striped" id="softMeshGrid"  >
+								<thead>
+								<tr>
+								<td colspan="12">
+								<div style="float:left;"><h4>Select Mesh</h4></div>
+								<div style="display: inline-block;float:right;" >
+								<button type="button" ng-click="nextStepProvisionTrashMesh();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+								</div>
+								</td>
+								</tr>
+								<tr>
+								
+								<th>Name</th>
+								<th>network</th>
+								
+								</tr>
+								</thead>
+								<tbody>
+								<tr  ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-click="setClickedRowMesh($index,MeshApp);" ng-repeat="MeshApp in MeshApps | limitTo:MeshAppPerPage">
+										
+								
+										<td><div >{{MeshApp.name}}</div ></td>
+										<td><div >{{MeshApp.network}}</div ></td>
+										
+										
+										
+								</tr>
+								<tr ng-if="dataMeshAppLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+								<tr class="alert alert-danger" ng-if="(MeshApps.length == 0 || MeshAppTotalRecords ==0) && !dataMeshAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+								</tbody>
+								</table>
+			</div>
+			<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+
+								<uib-pagination  total-items="MeshAppTotalRecords" ng-model="$parent.$parent.currentMeshAppPage" ng-change="pageChanged()" items-per-page="MeshAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+								boundary-links="true" num-pages="numPages"></uib-pagination>
+
+								</div>
+								<div class="col-lg-3 text-right">Displaying {{$parent.currentMeshAppPage}} / {{numPages}} of {{numPages}}</div>
+							</div>
+
+			</div>
+		</div>
+		<div  ng-if="provisionTrashWizardserverSelection == 'ON'">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0" >
+			
+			<table  class="table table-striped" id="softAppGrid"  >
+			<thead>
+			<tr>
+			<td colspan="12">
+			<div style="float:left;"><h4>Select Ansible Server</h4></div>
+			<div style="display: inline-block;float:right;" >
+			<button type="button" ng-click="nextStepProvisionTrashServer();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+			</div>
+			</td>
+			</tr>
+			<tr>
+			
+			<th>Name</th>
+			<th>IP</th>
+			<th>MacID</th>
+			<th>Network</th>
+			<th>Created On</th>
+			
+			
+			</tr>
+			</thead>
+			<tbody>
+			<tr  ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-click="setClickedRowServer($index,ServerApp);" ng-repeat="ServerApp in filtered = (ServerApps) | limitTo:ServerAppPerPage">
+					
+					<td><div >{{ServerApp.name}}</div ></td>
+					<td><div >{{ServerApp.ip}}</div ></td>
+					<td><div >{{ServerApp.macid}}</div ></td>
+					<td><div >{{ServerApp.ansibleserver_network}}</div ></td>
+					<td><div >{{ServerApp.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+					
+					
+			</tr>
+			<tr ng-if="dataServerAppLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+			<tr class="alert alert-danger" ng-if="(filtered.length == 0 || ServerAppTotalRecords ==0) && !dataServerAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+			</tbody>
+			</table>
+			</div>
+			<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+		<div class="col-lg-12 blue-bg pad10">
+		<div class="col-lg-9">
+
+		<uib-pagination  total-items="ServerAppTotalRecords" ng-model="$parent.$parent.currentServerAppPage" ng-change="pageChanged()" items-per-page="ServerAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+		boundary-links="true" num-pages="numPages"></uib-pagination>
+
+		</div>
+		<div class="col-lg-3 text-right">Displaying {{$parent.currentServerAppPage}} / {{numPages}} of {{numPages}}</div>
+		</div>
+
+		</div>
+		</div>
+		<div  ng-if="provisionTrashWizardgatewaySelection == 'ON'">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+							
+							<table  class="table table-striped" id="softGatewayGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Gateway</h4></div>
+							<div style=" display: inline-block;float:right;" >
+							<button type="button" ng-click="nextStepProvisionTrashGateway();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+							</div>
+							</td>
+							</tr>
+							<tr>
+							<th ><!--<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAllGateway" ng-click="checkAllSoftwareGateway(selectedAllGateway)" /> <label></label></span>--></th>
+							<th >Live</th>
+							<th >Display Name</th>
+							
+							<th >Static IP</th>
+							<th >Mesh</th>
+							<th >Mesh Network</th>
+							
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-click="setClickedRowGateway($index,gateway)" ng-repeat="gateway in filtered = (gatewayList) | limitTo:gatewayPerPage">
+							<td>
+												<SPAN class="checkbox checkbox-primary">
+												<input type="checkbox" id="{{gateway.id}}"  ng-checked="arrayObjectIndexOf(arrGatewayCheckboxSelection,gateway.id) > -1"  value="{{gateway.id}}"  /><label for="gateway.gatewaySelected"></label></SPAN>
+												</td>
+							<td>
+							<div uib-tooltip="Offline" tooltip-placement = "top" ng-if="gateway.connected==false"><div class="orange center-block"></div></div>
+							<div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+							</td>
+							<td>{{gateway.displayname}}</td>
+							
+							<td>{{gateway.gatewaymeta.staticip}}</td>
+							<td>{{gateway.gatewaymeta.meshID}}</td>
+							<td>{{gateway.gatewaymeta.meshNetwork}}</td>
+							
+							
+							</tr>
+							<tr ng-if="dataLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalItems ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody>
+							</table>
+							
+							</div>
+							<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+														<div class="col-lg-12 blue-bg pad10">
+														<div class="col-lg-9">
+														
+														<uib-pagination  total-items="totalItems" ng-model="$parent.$parent.currentGatewayPage" ng-change="pageChanged1()" items-per-page="gatewayPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+							boundary-links="true" num-pages="numPages"></uib-pagination>
+																	
+																</div>
+																<div class="col-lg-3 text-right">Displaying {{currentGatewayPage}} / {{numPages}} of {{numPages}}</div>
+																</div>
+														
+														</div>
+		</div>
+	
+		<div ng-if="provisionTrashWizardconfirmSelection == 'ON'">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0" ng-if="selectedRowMesh != ''">
+							<table  class="table table-striped" id="softMeshGrid"  >
+								<thead>
+								<tr>
+								<td colspan="12">
+								<div style="float:left;"><h4>Select Mesh</h4></div>
+								<div style="display: inline-block;float:right;" >
+								<button type="button" ng-disabled="dataDeviceLoadingProvisionTrash"  ng-click="nextStepProvisionTrashData();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Confirm Delete</button>
+								<SPAN ng-if="dataDeviceLoadingProvisionTrash"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></SPAN>
+								</div>
+								</td>
+								</tr>
+								<tr>
+								
+								<th>Name</th>
+								<th>Network</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+										
+								
+								<td><div >{{selectedRowMesh.name}}</div ></td>
+								<td><div >{{selectedRowMesh.network}}</div ></td>		
+								</tr>
+								
+								</tbody>
+							</table>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0" ng-if="selectedRowServer != null">
+		<table  class="table table-striped" id="softAppGrid"  >
+			<thead>
+			<tr>
+			<td colspan="12">
+			<div style="float:left;"><h4>Select Ansible Server</h4></div>
+			<div style="display: inline-block;float:right;" >
+			
+			</div>
+			</td>
+			</tr>
+			<tr>
+			
+			<th>Name</th>
+			<th>IP</th>
+			<th>MacID</th>
+			<th>Network</th>
+			<th>Created On</th>
+			
+			</tr>
+			</thead>
+			<tbody>
+			<tr  >
+					
+					<td><div >{{selectedRowServer.name}}</div ></td>
+					<td><div >{{selectedRowServer.ip}}</div ></td>
+					<td><div >{{selectedRowServer.macid}}</div ></td>
+					<td><div >{{selectedRowServer.ansibleserver_network}}</div ></td>
+					<td><div >{{selectedRowServer.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+					
+					
+			</tr>
+			</tbody>
+			</table>
+		
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0" ng-if="arrGatewayCheckboxSelection.length>0">
+							
+							<table  class="table table-striped" id="softGatewayGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Gateway</h4></div>
+							
+							</td>
+							</tr>
+							<tr>
+							<th >Live</th>
+							<th >Display Name</th>
+							<th >Static IP</th>
+							<th >Mesh</th>
+							<th >Mesh Network</th>
+							
+						
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr  style="cursor:pointer;"  ng-repeat="gateway in arrGatewayCheckboxSelectionBody">
+							<td>
+							<div uib-tooltip="Offline" tooltip-placement = "top" ng-if="gateway.connected==false"><div class="orange center-block"></div></div>
+							<div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+							</td>
+							<td>{{gateway.displayname}}</td>
+							<td>{{gateway.gatewaymeta.staticip}}</td>
+							<td>{{gateway.gatewaymeta.meshID}}</td>
+							<td>{{gateway.gatewaymeta.meshNetwork}}</td>
+							
+							
+							
+							</tr>
+							</tbody>
+							</table>
+							
+		</div>
+		</div>
+	</div>
+	</div>
+
+	
+	
+	
+   </div>
+   
+
+         
+        </md-content>
+      </md-tab>
+      <md-tab label="Deployment" ng-click="$event.preventDefault();">
+        <md-content  id="deployment" class="md-padding">
+           <div >
+ 
+    <div>
+	
+		<md-content>
+			<md-tabs md-dynamic-height md-border-bottom md-selected="-1" >
+				<md-tab  ng-click="INSTALLATIONPACKAGES();">Install</md-tab>
+				<md-tab ng-click="UNINSTALLPACKAGES();">Uninstall</md-tab>
+				<md-tab ng-click="UPGRADATIONPACKAGES();">Update</md-tab>
+			</md-tabs>
+		</md-content>
+		
+	    <!--<div id="btn_group"  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFunc();">
+                <i class="fa fa-refresh"></i>Refresh
+            </button>
+			<button type="button" ng-click="INSTALLATIONPACKAGES();" ng-class="installationWizard==true? 'btn btn-primary' : 'btn btn-default';" class="btn btn-default btn-shadow border0"><i class="fa fa-tasks"></i>Install</button>
+			<button type="button" ng-click="UNINSTALLPACKAGES();" ng-class="uninstallWizard==true? 'btn btn-primary' : 'btn btn-default';"  class="btn btn-default btn-shadow border0"><i class="fa fa-tasks"></i>Uninstall</button>
+			<button type="button" ng-click="UPGRADATIONPACKAGES();" ng-class="upgradationWizard==true? 'btn btn-primary' : 'btn btn-default';"  class="btn btn-default btn-shadow border0"><i class="fa fa-tasks"></i>Update</button>	
+		</div>-->
+    </div>
+	<div id="deviceTable">
+	<!-- 	Installation Wizard Start -->
+	<div ng-if="installationWizard == true">
+							<!-- Mesh Code Start -->
+	<div ng-include="'modules/softwareupdate/views/stepwizard.html'"></div>						
+							<div ng-if="meshSelectionOption == 'ON'">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+								
+								<table  class="table table-striped" id="softMeshGrid"  >
+								<thead>
+								<tr>
+								<td colspan="12">
+								<div style="float:left;"><h4>Select Mesh</h4></div>
+								<div style="display: inline-block;float:right;" >
+								<button type="button" ng-click="nextStepMesh();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+								</div>
+								</td>
+								</tr>
+								<tr>
+								
+								<th>Name</th>
+								<th>Network</th>
+								
+								</tr>
+								</thead>
+								<tbody>
+								<tr  ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-click="setClickedRowMesh($index,MeshApp);" ng-repeat="MeshApp in MeshApps | limitTo:MeshAppPerPage">
+										
+								
+										<td><div >{{MeshApp.name}}</div ></td>
+										<td><div >{{MeshApp.network}}</div ></td>
+										
+										
+										
+								</tr>
+								<tr ng-if="dataMeshAppLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+								<tr class="alert alert-danger" ng-if="(MeshApps.length == 0 || MeshAppTotalRecords ==0) && !dataMeshAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+								</tbody>
+								</table>
+							</div>
+							<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+
+								<uib-pagination  total-items="MeshAppTotalRecords" ng-model="$parent.$parent.currentMeshAppPage" ng-change="pageChanged()" items-per-page="MeshAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+								boundary-links="true" num-pages="numPages"></uib-pagination>
+
+								</div>
+								<div class="col-lg-3 text-right">Displaying {{$parent.currentMeshAppPage}} / {{numPages}} of {{numPages}}</div>
+							</div>
+
+							</div>
+							
+							</div>
+							<!-- Mesh Code End -->
+							<!-- Server Code Start -->
+							<div  ng-if="serverSelectionOption == 'ON'">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+								
+								<table  class="table table-striped" id="softAppGrid"  >
+								<thead>
+								<tr>
+								<td colspan="12">
+								<div style="float:left;"><h4>Select Ansible Server</h4></div>
+								<div style="display: inline-block;float:right;" >
+								<button type="button" ng-click="nextStepServer();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+								</div>
+								</td>
+								</tr>
+								<tr>
+								<th ><!--<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAll" ng-click="checkAllSoftwareServer(selectedAll)" /> <label></label></span>--></th>
+								
+								<th>Name</th>
+								<th>IP</th>
+								<th>MacID</th>
+								<th>Network</th>
+								<th>Created On</th>
+								
+								
+								</tr>
+								
+								</thead>
+								<tbody>
+								<tr  ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-click="setClickedRowServer($index,ServerApp);" ng-repeat="ServerApp in filtered = (ServerApps) | limitTo:ServerAppPerPage">
+										<td><SPAN class="checkbox checkbox-primary">
+															<input type="checkbox" id="{{ServerApp.id}}"  ng-checked="arrayObjectIndexOf(arrServerCheckboxSelection,ServerApp.id) > -1"  value="{{ServerApp.id}}"  /><label for="ServerApp.ServerAppSelected"></label></SPAN>
+										</td>
+								
+										<td><div >{{ServerApp.name}}</div ></td>
+										<td><div >{{ServerApp.ip}}</div ></td>
+										<td><div >{{ServerApp.macid}}</div ></td>
+										<td><div >{{ServerApp.ansibleserver_network}}</div ></td>
+										<td><div >{{ServerApp.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+										
+										
+								</tr>
+								<tr ng-if="dataServerAppLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(filtered.length == 0 || ServerAppTotalRecords ==0) && !dataServerAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+								</tbody>
+								</table>
+								</div>
+								<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+							<div class="col-lg-12 blue-bg pad10">
+							<div class="col-lg-9">
+
+							<uib-pagination  total-items="ServerAppTotalRecords" ng-model="$parent.$parent.currentServerAppPage" ng-change="pageChanged()" items-per-page="ServerAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+							boundary-links="true" num-pages="numPages"></uib-pagination>
+
+							</div>
+							<div class="col-lg-3 text-right">Displaying {{$parent.currentServerAppPage}} / {{numPages}} of {{numPages}}</div>
+							</div>
+
+							</div>
+							</div>
+
+							<!-- Server Code End -->
+
+							<!-- Gateway Code Start -->	
+							<div  ng-if="gatewaySelectionOption == 'ON'">
+							
+							
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+							
+							<table  class="table table-striped" id="softGatewayGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Gateway</h4></div>
+							<div style=" display: inline-block;float:right;" >
+							<button type="button" ng-click="nextStepGateway();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+							</div>
+							</td>
+							</tr>
+							<tr>
+							<th ><!--<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAllGateway" ng-click="checkAllSoftwareGateway(selectedAllGateway)" /> <label></label></span>--></th>
+							<th >Live</th>
+							<th >Display Name</th>
+							
+							<th >Static IP</th>
+							<th >Mesh</th>
+							<th >Mesh Network</th>
+							
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-click="setClickedRowGateway($index,gateway)" ng-repeat="gateway in filtered = (gatewayList) | limitTo:gatewayPerPage">
+							<td>
+												<SPAN class="checkbox checkbox-primary">
+												<input type="checkbox" id="{{gateway.id}}"  ng-checked="arrayObjectIndexOf(arrGatewayCheckboxSelection,gateway.id) > -1"  value="{{gateway.id}}"  /><label for="gateway.gatewaySelected"></label></SPAN>
+												</td>
+							<td>
+							<div uib-tooltip="Offline" tooltip-placement = "top" ng-if="gateway.connected==false"><div class="orange center-block"></div></div>
+							<div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+							</td>
+							<td>{{gateway.displayname}}</td>
+							
+							<td>{{gateway.gatewaymeta.staticip}}</td>
+							<td>{{gateway.gatewaymeta.meshID}}</td>
+							<td>{{gateway.gatewaymeta.meshNetwork}}</td>
+							
+							
+							</tr>
+							<tr ng-if="dataLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalItems ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody>
+							</table>
+							
+							</div>
+							<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+														<div class="col-lg-12 blue-bg pad10">
+														<div class="col-lg-9">
+														
+														<uib-pagination  total-items="totalItems" ng-model="$parent.$parent.currentGatewayPage" ng-change="pageChanged1()" items-per-page="gatewayPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+							boundary-links="true" num-pages="numPages"></uib-pagination>
+																	
+																</div>
+																<div class="col-lg-3 text-right">Displaying {{currentGatewayPage}} / {{numPages}} of {{numPages}}</div>
+																</div>
+														
+							</div>
+							
+							
+							</div>
+							<!-- Gateway Code End -->	
+							<!-- App Code Start -->
+							<div  ng-if="appSelectionOption == 'ON'">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+							
+							<table  class="table table-striped" id="softAppGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select App</h4></div>
+							<div style="display: inline-block;float:right;" >
+							<button type="button" ng-click="nextStepApp();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+							</div>
+							</td>
+							</tr>
+							<tr>
+							<th ><!--<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAllApp" ng-click="checkAllSoftwareAPP(selectedAllApp)" /> <label></label></span>--></th>
+							
+							<th>Name</th>
+							<th>Version</th>
+							<th>Description</th>
+							<th>Type</th>
+							
+							<th>Created On</th>
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr  ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowPackage($index,packageInstall);" ng-repeat="packageInstall in packageApps | limitTo:packageAppPerPage">
+									<td><SPAN class="checkbox checkbox-primary">
+														<input type="checkbox" id="{{packageInstall.id}}" ng-checked="arrayObjectIndexOf(arrCheckboxSelection,packageInstall.id) > -1"  value="{{packageInstall.id}}"  /><label for="packageInstall.packageInstallSelected"></label></SPAN>
+									</td>
+							
+									<td><div >{{packageInstall.packageName}}</div ></td>
+									<td><div >{{packageInstall.version}}</div ></td>
+									<td><div >{{packageInstall.description}}</div></td>
+									<td><div >{{packageInstall.packageType}}</div></td>
+									
+									<td><div >{{packageInstall.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+							
+							</tr>
+							<tr ng-if="dataPackageAppLoading" class="alert alert-danger"><td colspan="7"><div align="center"><img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(packageAppsTotalRecords ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody>
+							</table>
+							</div>
+							<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+						<div class="col-lg-12 blue-bg pad10">
+						<div class="col-lg-9">
+
+						<uib-pagination  total-items="packageAppsTotalRecords" ng-model="$parent.$parent.currentPackageAppPage" ng-change="pageChanged4()" items-per-page="packageAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+						boundary-links="true" num-pages="numPages"></uib-pagination>
+
+						</div>
+						<div class="col-lg-3 text-right">Displaying {{currentPackageAppPage}} / {{numPages}} of {{numPages}}</div>
+						</div>
+
+						</div>
+							</div>
+						<!-- App Code End -->	
+
+						<!-- Confirm Code Start -->
+						<div  ng-if="confirmSelectionOption == 'ON'">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0" ng-if="selectedRowMesh != ''">
+							<table  class="table table-striped" id="softMeshGrid"  >
+								<thead>
+								<tr>
+								<td colspan="12">
+								<div style="float:left;"><h4>Select Mesh</h4></div>
+								<div style="display: inline-block;float:right;" >
+								<button type="button" ng-disabled="dataDeviceLoadingDeployment" ng-click="confirmSave();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Start Installation</button>
+								<SPAN ng-if="dataDeviceLoadingDeployment"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></SPAN>
+								</div>
+								</td>
+								</tr>
+								<tr>
+								
+								<th>Name</th>
+								<th>Network</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+										
+								
+								<td><div >{{selectedRowMesh.name}}</div ></td>
+								<td><div >{{selectedRowMesh.network}}</div ></td>		
+								</tr>
+								
+								</tbody>
+							</table>
+							</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0" ng-if="arrServerCheckboxSelection.length>0">
+							
+							<table  class="table table-striped" id="softAppGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Ansible Server</h4></div>
+							
+							</td>
+							</tr>
+							<tr>
+							
+							<th>Name</th>
+							<th>IP</th>
+							<th>MacID</th>
+							<th>Network</th>
+							<th>Created On</th>
+							
+							
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr   style="cursor:pointer;" ng-repeat="ServerApp in arrServerCheckboxSelectionBody">
+									
+							
+									<td><div >{{ServerApp.name}}</div ></td>
+									<td><div >{{ServerApp.ip}}</div ></td>
+									<td><div >{{ServerApp.macid}}</div ></td>
+									<td><div >{{ServerApp.ansibleserver_network}}</div ></td>
+									<td><div >{{ServerApp.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+									
+									
+							</tr>
+							</tbody>
+							</table>
+						</div>
+						 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive border0" ng-if="arrGatewayCheckboxSelectionBody.length>0">
+							
+							<table  class="table table-striped" id="softGatewayGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Gateway</h4></div>
+							
+							</td>
+							</tr>
+							<tr>
+							<th >Live</th>
+							<th >Display Name</th>
+							<th >Static IP</th>
+							
+							<th >Mesh</th>
+							<th >Mesh Network</th>
+							
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr  style="cursor:pointer;"  ng-repeat="gateway in arrGatewayCheckboxSelectionBody">
+							<td>
+							<div uib-tooltip="Offline" tooltip-placement = "top" ng-if="gateway.connected==false"><div class="orange center-block"></div></div>
+							<div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+							</td>
+							<td>{{gateway.displayname}}</td>
+							<td>{{gateway.gatewaymeta.staticip}}</td>
+							
+							<td>{{gateway.gatewaymeta.meshID}}</td>
+							<td>{{gateway.gatewaymeta.meshNetwork}}</td>
+							
+							
+							</tr>
+							</tbody>
+							</table>
+							
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0">
+							
+							<table  class="table table-striped" id="softAppGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select App</h4></div>
+							
+							</td>
+							</tr>
+							<tr>
+							
+							<th>Name</th>
+							<th>Version</th>
+							<th>Description</th>
+							<th>Type</th>
+							<th>Created On</th>
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr   style="cursor:pointer;" ng-repeat="packageInstall in arrCheckboxSelectionBody">
+									
+							
+									<td><div >{{packageInstall.packageName}}</div ></td>
+									<td><div >{{packageInstall.version}}</div ></td>
+									<td><div >{{packageInstall.description}}</div></td>
+									<td><div >{{packageInstall.packageType}}</div></td>
+									<td><div >{{packageInstall.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+							
+							</tr>
+							</tbody>
+							</table>
+							</div>
+							
+							
+							</div>
+
+						<!-- Confirm Code End -->				
+
+	</div>
+	<!--	Installation Wizard End	-->
+	
+	<!--	Upgradation Wizard Start -->
+	<div ng-if="upgradationWizard == true">
+	<div ng-include="'modules/softwareupdate/views/stepwizard.html'"></div>
+		<div ng-if="upgradationMeshOption == 'ON'">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+								
+								<table  class="table table-striped" id="softMeshGrid"  >
+								<thead>
+								<tr>
+								<td colspan="12">
+								<div style="float:left;"><h4>Select Mesh</h4></div>
+								<div style="display: inline-block;float:right;" >
+								<button type="button" ng-click="nextStepUpgradationMesh();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+								</div>
+								</td>
+								</tr>
+								<tr>
+								
+								<th>Name</th>
+								<th>Network</th>
+								
+								</tr>
+								</thead>
+								<tbody>
+								<tr  ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-click="setClickedRowMesh($index,MeshApp);" ng-repeat="MeshApp in MeshApps | limitTo:MeshAppPerPage">
+										
+								
+										<td><div >{{MeshApp.name}}</div ></td>
+										<td><div >{{MeshApp.network}}</div ></td>
+										
+										
+										
+								</tr>
+								<tr ng-if="dataMeshAppLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+								<tr class="alert alert-danger" ng-if="(MeshApps.length == 0 || MeshAppTotalRecords ==0) && !dataMeshAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+								</tbody>
+								</table>
+			</div>
+			<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+
+								<uib-pagination  total-items="MeshAppTotalRecords" ng-model="$parent.$parent.currentMeshAppPage" ng-change="pageChanged()" items-per-page="MeshAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+								boundary-links="true" num-pages="numPages"></uib-pagination>
+
+								</div>
+								<div class="col-lg-3 text-right">Displaying {{$parent.currentMeshAppPage}} / {{numPages}} of {{numPages}}</div>
+							</div>
+
+			</div>				
+
+		</div>
+		
+			<div ng-if="upgradationServerOption == 'ON'">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+								
+								<table  class="table table-striped" id="softAppGrid"  >
+								<thead>
+								<tr>
+								<td colspan="12">
+								<div style="float:left;"><h4>Select Ansible Server</h4></div>
+								<div style="display: inline-block;float:right;" >
+								<button type="button" ng-click="nextStepUpgradationServer();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+								</div>
+								</td>
+								</tr>
+								<tr>
+								<th ><!--<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAll" ng-click="checkAllSoftwareServer(selectedAll)" /> <label></label></span>--></th>
+								
+								<th>Name</th>
+								<th>IP</th>
+								<th>MacID</th>
+								<th>Network</th>
+								<th>Created On</th>
+								
+								
+								</tr>
+								
+								</thead>
+								<tbody>
+								<tr  ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-click="setClickedRowServer($index,ServerApp);" ng-repeat="ServerApp in filtered = (ServerApps) | limitTo:ServerAppPerPage">
+										<td><SPAN class="checkbox checkbox-primary">
+															<input type="checkbox" id="{{ServerApp.id}}"  ng-checked="arrayObjectIndexOf(arrServerCheckboxSelection,ServerApp.id) > -1"  value="{{ServerApp.id}}"  /><label for="ServerApp.ServerAppSelected"></label></SPAN>
+										</td>
+								
+										<td><div >{{ServerApp.name}}</div ></td>
+										<td><div >{{ServerApp.ip}}</div ></td>
+										<td><div >{{ServerApp.macid}}</div ></td>
+										<td><div >{{ServerApp.ansibleserver_network}}</div ></td>
+										<td><div >{{ServerApp.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+										
+										
+								</tr>
+								<tr ng-if="dataServerAppLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(filtered.length == 0 || ServerAppTotalRecords ==0) && !dataServerAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+								</tbody>
+								</table>
+		</div>
+		<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+						<div class="col-lg-12 blue-bg pad10">
+						<div class="col-lg-9">
+
+						<uib-pagination  total-items="ServerAppTotalRecords" ng-model="$parent.$parent.currentServerAppPage" ng-change="pageChanged()" items-per-page="ServerAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+						boundary-links="true" num-pages="numPages"></uib-pagination>
+
+						</div>
+						<div class="col-lg-3 text-right">Displaying {{$parent.currentServerAppPage}} / {{numPages}} of {{numPages}}</div>
+						</div>
+
+		</div>
+	
+			</div>
+			
+			<div ng-if="upgradationAppOption == 'ON'">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0">
+				<table  class="table table-striped" id="softAppGrid"  >
+				<tbody>
+			
+				<tr>
+				
+				<td width="30%"><select ng-model="appType" ng-options="rf.packageType as rf.packageType for rf in responseFilters | unique:'packageType'" class="form-control" > 
+				<option value="">Select Type</option>
+				</select></td>
+				
+				<td width="30%"><select ng-model="appVersion" ng-options="rf.version as rf.version for rf in responseFilters | unique:'version'" class="form-control">
+				<option value="">Select Version</option>
+				</select></td>
+				<td width="30%">
+				<button class="btn btn-primary" ng-click="funcFilterSearch(appType,appVersion);" >Search</button>
+				</td>
+				</tr>
+				</tbody>
+				</table>
+				</div>	
+	
+					<div class="col-lg-7 col-md-7 col-sm-7 col-xs-6 table-responsive  border0">
+										
+										<table  class="table table-striped" id="softAppGrid"  >
+										<thead>
+										<tr>
+										<td colspan="12">
+										<div style="float:left">
+										<h4>Select App</h4>
+										</div>
+										<div style="display: inline-block;float:right;" >
+										<!--<button type="button" ng-click="nextStepupgradeWizardApp();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>-->
+										</div>
+										</td>
+										</tr>
+										<tr >
+										<!--<th ><span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAllApp" ng-click="checkAllSoftwareAPP(selectedAllApp)" /> <label></label></span></th>-->
+										
+										<th>Name</th>
+										<th>Type</th>
+										<th>Old Version</th>
+										<th>New Version</th>
+										<th></th>
+										
+										</tr>
+										</thead>
+										<tbody >
+										<tr  ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowPackage($index,packageInstall);" ng-repeat="packageInstall in packageApps | limitTo:packageAppPerPage">
+												<!--<td><SPAN class="checkbox checkbox-primary">
+																	<input type="checkbox"  id="{{packageInstall.id}}"   ng-checked="arrayObjectIndexOf(arrCheckboxSelection,packageInstall.id) > -1"  value="{{packageInstall.id}}"  /><label for="packageInstall.packageInstallSelected" ></label></SPAN>
+												</td>-->
+										
+												<td><div >{{packageInstall.packageName}}</div ></td>
+												<td><div >{{packageInstall.packageType}}</div></td>
+												<td><div ng-init="optionsData = packageInstall.appid_version">
+												 <multiselect ng-model="packageInstall.version" multiple="true" ng-disabled="alreadyExists(packageInstall)" options="od as od.appversion for od in optionsData" ></multiselect>
+												<!--<select ng-model="packageInstall.version" multiple class="form-control" ng-disabled="alreadyExists(packageInstall)" ng-options="app as app.appversion for app in packageInstall.appid_version" class="form-control"  >
+												<option value="">Select Version</option>
+												</select>-->
+												
+												</div ></td>
+												<td><div >
+														<select ng-model="packageInstall.newversion" class="form-control" ng-disabled="alreadyExists(packageInstall)"  ng-options="app as app.appversion for app in packageInstall.appid_version | filter:{appversion: '!'+packageInstall.version.appversion}: true" ng-selected="packageInstall.newversion" ng-click="$event.stopPropagation();" class="form-control">
+															<option value="">Select New Version</option>
+														</select>
+													</div >
+												</td>
+												<td>
+												<button class="btn btn-default" ng-disabled="alreadyExists(packageInstall)" ng-click="responseVersion($index,packageInstall);"  ><i class="glyphicon glyphicon-menu-right"></i></button>
+												</td>
+										</tr>
+										<tr ng-if="dataPackageAppLoading" class="alert alert-danger"><td colspan="7"><div align="center"><img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></div></td></tr>
+										<tr class="alert alert-danger" ng-if="(packageAppsTotalRecords ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+										</tbody>
+										</table>
+							<div id="pagination"  >
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+
+								<uib-pagination  total-items="packageAppsTotalRecords" ng-model="$parent.$parent.currentPackageAppPage" ng-change="pageChanged4()" items-per-page="packageAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+								boundary-links="true" num-pages="numPages"></uib-pagination>
+
+								</div>
+								<div class="col-lg-3 text-right">Displaying {{currentPackageAppPage}} / {{numPages}} of {{numPages}}</div>
+								</div>
+							</div>			
+					</div>
+						<div class="col-lg-5 col-md-5 col-sm-5 col-xs-4 table-responsive  border0">
+						<table  class="table table-striped" id="softAppGrid"  >
+										<thead>
+										<tr>
+										<td colspan="12">
+										<div style="float:left">
+										<h4>Selected App</h4>
+										</div>
+										<div style="display: inline-block;float:right;" >
+										<button type="button" ng-click="nextStepupgradeWizardApp();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+										</div>
+										</td>
+										</tr>
+										<tr >
+										<th>Name</th>
+										<th>Transfer Version</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr style="cursor:pointer;" ng-repeat="packageInstall in arrCheckboxSelectionBody">
+										<td>{{packageInstall.packageName}}</td>
+										<td> <SPAN ng-repeat="aversion in packageInstall.version">{{aversion.appversion}} <span ng-if="!$last">,&nbsp;</span></SPAN> <i class="fa fa-angle-double-right "></i> {{packageInstall.newversion.appversion}}
+										<a style="cursor:pointer;"  ng-click="removePackage(packageInstall);"><i style="float:right;" class="glyphicon glyphicon-remove"></i></a>
+										</td>
+										</tr>
+										<tr ng-if="arrCheckboxSelectionBody.length==0">
+										<td colspan="2">No Records.</td>
+										</tr>
+										</tbody>
+						</table>				
+										
+						</div>
+
+			
+			</div>
+			<div ng-if="upgradationGatewayOption == 'ON'">
+			
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+						
+						<md-radio-group ng-model="gatewaySelection">
+						<md-radio-button value="1" class="md-primary">Specific Gateway(s)</md-radio-button>
+						<md-radio-button value="0" class="md-primary"> All Gateways </md-radio-button>
+						</md-radio-group>
+						<hr />
+							
+							<table  class="table table-striped" id="softGatewayGrid" ng-show="gatewaySelection == 0" >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Go to Next Step with all gateways option</h4></div>
+							<div style=" display: inline-block;float:right;" >
+							<button type="button" ng-click="nextStepupgradeWizardAllGateway();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+							</div>
+							</td>
+							</tr>
+							</thead>
+							</table>
+							
+							<table  class="table table-striped" id="softGatewayGrid" ng-show="gatewaySelection == 1" >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Gateway</h4></div>
+							<div style=" display: inline-block;float:right;" >
+							<button type="button" ng-click="nextStepupgradeWizardGateway();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+							</div>
+							</td>
+							</tr>
+							<tr>
+							<th ><!--<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAllGateway" ng-click="checkAllSoftwareGateway(selectedAllGateway)" /> <label></label></span>--></th>
+							<th >Live</th>
+							<th >Display Name</th>
+							<th >APP USED</th>
+							<th >Static IP</th>
+							<th >Mesh</th>
+							<th >Mesh Network</th>
+							
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-click="setClickedRowGateway($index,gateway)" ng-repeat="gateway in filtered = (gatewayList) | limitTo:gatewayPerPage">
+							<td>
+												<SPAN class="checkbox checkbox-primary">
+												<input type="checkbox" id="{{gateway.id}}"  ng-checked="arrayObjectIndexOf(arrGatewayCheckboxSelection,gateway.id) > -1"  value="{{gateway.id}}"  /><label for="gateway.gatewaySelected"></label></SPAN>
+												</td>
+							<td>
+							<div uib-tooltip="Offline" tooltip-placement = "top" ng-if="gateway.connected==false"><div class="orange center-block"></div></div>
+							<div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+							</td>
+							<td>{{gateway.displayname}}</td>
+							<td>
+							<div ng-repeat="(key, data) in gateway.appids">
+											<div ng-repeat="(key, value) in data">
+											{{value}}
+											</div>
+							</div>
+							</td>
+							<td>{{gateway.gatewaymeta.staticip}}</td>
+							<td>{{gateway.gatewaymeta.meshID}}</td>
+							<td>{{gateway.gatewaymeta.meshNetwork}}</td>
+							
+							
+							</tr>
+							<tr ng-if="dataLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalItems ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody>
+							</table>
+							
+						</div>
+						<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="gatewaySelection ==1">
+													<div class="col-lg-12 blue-bg pad10">
+													<div class="col-lg-9">
+													
+													<uib-pagination  total-items="totalItems" ng-model="$parent.$parent.currentGatewayPage" ng-change="pageChanged1()" items-per-page="gatewayPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+						boundary-links="true" num-pages="numPages"></uib-pagination>
+																
+															</div>
+															<div class="col-lg-3 text-right">Displaying {{currentGatewayPage}} / {{numPages}} of {{numPages}}</div>
+															</div>
+													
+						</div>
+	
+			</div>
+	
+			<div ng-if="upgradationConfirmOption == 'ON'">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0" ng-if="selectedRowMesh != ''">
+								<table  class="table table-striped" id="softMeshGrid"  >
+									<thead>
+									<tr>
+									<td colspan="12">
+									<div style="float:left;"><h4>Select Mesh</h4></div>
+									<div style="display: inline-block;float:right;" >
+									<button type="button" ng-disabled="dataDeviceLoadingUpgrade" ng-click="confirmSaveUpgradeWizard();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Start Update</button>
+									<SPAN ng-if="dataDeviceLoadingUpgrade"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></SPAN>
+									</div>
+									</td>
+									</tr>
+									<tr>
+									
+									<th>Name</th>
+									<th>Network</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+											
+									
+									<td><div >{{selectedRowMesh.name}}</div ></td>
+									<td><div >{{selectedRowMesh.network}}</div ></td>		
+									</tr>
+									
+									</tbody>
+								</table>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0" ng-if="arrServerCheckboxSelectionBody.length>0">
+											
+											<table  class="table table-striped" id="softAppGrid"  >
+											<thead>
+											<tr>
+											<td colspan="12">
+											<div style="float:left;"><h4>Select Ansible Server</h4></div>
+											
+											</td>
+											</tr>
+											<tr>
+											
+											<th>Name</th>
+											<th>IP</th>
+											<th>MacID</th>
+											<th>Network</th>
+											<th>Created On</th>
+											
+											
+											
+											</tr>
+											</thead>
+											<tbody>
+											<tr   style="cursor:pointer;" ng-repeat="ServerApp in arrServerCheckboxSelectionBody">
+													
+											
+													<td><div >{{ServerApp.name}}</div ></td>
+													<td><div >{{ServerApp.ip}}</div ></td>
+													<td><div >{{ServerApp.macid}}</div ></td>
+													<td><div >{{ServerApp.ansibleserver_network}}</div ></td>
+													<td><div >{{ServerApp.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+													
+													
+											</tr>
+											</tbody>
+											</table>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0" ng-if="arrCheckboxSelectionBody.length>0">
+											
+											<table  class="table table-striped" id="softAppGrid"  >
+											<thead>
+											<tr>
+											<td colspan="12">
+											<div style="float:left;"><h4>Select App</h4></div>
+											
+											</td>
+											</tr>
+											<tr>
+											
+											<th>Name</th>
+											<th>Transfer Version</th>
+											<th>Type</th>
+											<th>Created On</th>
+											
+											</tr>
+											</thead>
+											<tbody>
+											<tr   style="cursor:pointer;" ng-repeat="packageInstall in arrCheckboxSelectionBody">
+													
+											
+													<td><div >{{packageInstall.packageName}}</div ></td>
+													<td><div ><SPAN ng-repeat="aversion in packageInstall.version">{{aversion.appversion}} <span ng-if="!$last">,&nbsp;</span></SPAN> <i class="fa fa-angle-double-right "></i> {{packageInstall.newversion.appversion}}</div ></td>
+													<td><div >{{packageInstall.packageType}}</div></td>
+													<td><div >{{packageInstall.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+											
+											</tr>
+											</tbody>
+											</table>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive border0" ng-if="arrGatewayCheckboxSelectionBody.length>0">
+											
+											<table  class="table table-striped" id="softGatewayGrid"  >
+											<thead>
+											<tr>
+											<td colspan="12">
+											<div style="float:left;"><h4>Select Gateway</h4></div>
+											
+											</td>
+											</tr>
+											<tr>
+											<th >Live</th>
+											<th >Display Name</th>
+											<th >Static IP</th>
+											
+											<th >Mesh</th>
+											<th >Mesh Network</th>
+											
+											
+											</tr>
+											</thead>
+											<tbody>
+											<tr  style="cursor:pointer;"  ng-repeat="gateway in arrGatewayCheckboxSelectionBody">
+											<td>
+											<div uib-tooltip="Offline" tooltip-placement = "top" ng-if="gateway.connected==false"><div class="orange center-block"></div></div>
+											<div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+											</td>
+											<td>{{gateway.displayname}}</td>
+											<td>{{gateway.gatewaymeta.staticip}}</td>
+											
+											<td>{{gateway.gatewaymeta.meshID}}</td>
+											<td>{{gateway.gatewaymeta.meshNetwork}}</td>
+											
+											
+											</tr>
+											</tbody>
+											</table>
+											
+					</div>
+	
+			</div>
+	</div>
+	<!--	Upgradation Wizard End	-->
+	
+	<!--	Uninstallation Wizard Start -->
+	<div ng-if="uninstallWizard == true">
+	<div ng-include="'modules/softwareupdate/views/stepwizard.html'"></div>
+	<div ng-if="uninstallWizardMeshSelection == 'ON'">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+							
+							<table  class="table table-striped" id="softMeshGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Mesh</h4></div>
+							<div style="display: inline-block;float:right;" >
+							<button type="button" ng-click="nextStepUninstallMesh();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+							</div>
+							</td>
+							</tr>
+							<tr>
+							
+							<th>Name</th>
+							<th>Network</th>
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr  ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-click="setClickedRowMesh($index,MeshApp);" ng-repeat="MeshApp in MeshApps | limitTo:MeshAppPerPage">
+									
+							
+									<td><div >{{MeshApp.name}}</div ></td>
+									<td><div >{{MeshApp.network}}</div ></td>
+									
+									
+									
+							</tr>
+							<tr ng-if="dataMeshAppLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(MeshApps.length == 0 || MeshAppTotalRecords ==0) && !dataMeshAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody>
+							</table>
+		</div>
+		<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+						<div class="col-lg-12 blue-bg pad10">
+						<div class="col-lg-9">
+
+						<uib-pagination  total-items="MeshAppTotalRecords" ng-model="$parent.$parent.currentMeshAppPage" ng-change="pageChanged()" items-per-page="MeshAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+						boundary-links="true" num-pages="numPages"></uib-pagination>
+
+						</div>
+						<div class="col-lg-3 text-right">Displaying {{$parent.currentMeshAppPage}} / {{numPages}} of {{numPages}}</div>
+						</div>
+
+		</div>					
+	</div>
+	<div ng-if="uninstallWizardServerSelection == 'ON'">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+								
+								<table  class="table table-striped" id="softAppGrid"  >
+								<thead>
+								<tr>
+								<td colspan="12">
+								<div style="float:left;"><h4>Select Ansible Server</h4></div>
+								<div style="display: inline-block;float:right;" >
+								<button type="button" ng-click="nextStepUninstallServer();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+								</div>
+								</td>
+								</tr>
+								<tr>
+								<th ><!--<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAll" ng-click="checkAllSoftwareServer(selectedAll)" /> <label></label></span>--></th>
+								
+								<th>Name</th>
+								<th>IP</th>
+								<th>MacID</th>
+								<th>Network</th>
+								<th>Created On</th>
+								
+								
+								</tr>
+								
+								</thead>
+								<tbody>
+								<tr  ng-class="{'selected':$index == selectedRow3}" style="cursor:pointer;" ng-click="setClickedRowServer($index,ServerApp);" ng-repeat="ServerApp in filtered = (ServerApps) | limitTo:ServerAppPerPage">
+										<td><SPAN class="checkbox checkbox-primary">
+															<input type="checkbox" id="{{ServerApp.id}}"  ng-checked="arrayObjectIndexOf(arrServerCheckboxSelection,ServerApp.id) > -1"  value="{{ServerApp.id}}"  /><label for="ServerApp.ServerAppSelected"></label></SPAN>
+										</td>
+								
+										<td><div >{{ServerApp.name}}</div ></td>
+										<td><div >{{ServerApp.ip}}</div ></td>
+										<td><div >{{ServerApp.macid}}</div ></td>
+										<td><div >{{ServerApp.ansibleserver_network}}</div ></td>
+										<td><div >{{ServerApp.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+										
+										
+								</tr>
+								<tr ng-if="dataServerAppLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(filtered.length == 0 || ServerAppTotalRecords ==0) && !dataServerAppLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+								</tbody>
+								</table>
+		</div>
+		<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15">
+						<div class="col-lg-12 blue-bg pad10">
+						<div class="col-lg-9">
+
+						<uib-pagination  total-items="ServerAppTotalRecords" ng-model="$parent.$parent.currentServerAppPage" ng-change="pageChanged()" items-per-page="ServerAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+						boundary-links="true" num-pages="numPages"></uib-pagination>
+
+						</div>
+						<div class="col-lg-3 text-right">Displaying {{$parent.currentServerAppPage}} / {{numPages}} of {{numPages}}</div>
+						</div>
+
+		</div>
+	</div>
+	
+	<div ng-if="uninstallWizardAppSelection == 'ON'">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0">
+			<table  class="table table-striped" id="softAppGrid"  >
+			<tbody>
+			<tr>
+			<td colspan="3">
+			<h4>Filters</h4>
+			</td>
+			</tr>
+			<tr>
+			
+			<td width="30%"><select ng-model="appType" ng-options="rf.packageType as rf.packageType for rf in responseFilters | unique:'packageType'" class="form-control" > 
+			<option value="">Select Type</option>
+			</select></td>
+			
+			<td width="30%"><select ng-model="appVersion" ng-options="rf.version as rf.version for rf in responseFilters | unique:'version'" class="form-control">
+			<option value="">Select Version</option>
+			</select></td>
+			<td width="30%">
+			<button class="btn btn-primary" ng-click="funcFilterSearch(appType,appVersion);" >Search</button>
+			</td>
+			</tr>
+			</tbody>
+			</table>
+			</div>	
+		
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0">
+							
+							<table  class="table table-striped" id="softAppGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left">
+							<h4>Select App</h4>
+							</div>
+							<div style="display: inline-block;float:right;" >
+							<button type="button" ng-click="nextStepuninstallWizardApp();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+							</div>
+							</td>
+							</tr>
+							<tr >
+							<th ><!--<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAllApp" ng-click="checkAllSoftwareAPP(selectedAllApp)" /> <label></label></span>--></th>
+							
+							<th>Name</th>
+							<th>Version</th>
+							<th>Description</th>
+							<th>Type</th>
+							
+							<th>Created On</th>
+							
+							</tr>
+							</thead>
+							<tbody ">
+							<tr  ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRowPackage($index,packageInstall);" ng-repeat="packageInstall in packageApps | limitTo:packageAppPerPage">
+									<td><SPAN class="checkbox checkbox-primary">
+														<input type="checkbox" id="{{packageInstall.id}}"   ng-checked="arrayObjectIndexOf(arrCheckboxSelection,packageInstall.id) > -1"  value="{{packageInstall.id}}"  /><label for="packageInstall.packageInstallSelected" ></label></SPAN>
+									</td>
+							
+									<td><div >{{packageInstall.packageName}}</div ></td>
+									<td><div >{{packageInstall.version}}</div ></td>
+									<td><div >{{packageInstall.description}}</div></td>
+									<td><div >{{packageInstall.packageType}}</div></td>
+									
+									<td><div >{{packageInstall.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+							
+							</tr>
+							<tr ng-if="dataPackageAppLoading" class="alert alert-danger"><td colspan="7"><div align="center"><img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(packageAppsTotalRecords ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody>
+							</table>
+		</div>
+		<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" >
+						<div class="col-lg-12 blue-bg pad10">
+						<div class="col-lg-9">
+
+						<uib-pagination  total-items="packageAppsTotalRecords" ng-model="$parent.$parent.currentPackageAppPage" ng-change="pageChanged4()" items-per-page="packageAppPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+						boundary-links="true" num-pages="numPages"></uib-pagination>
+
+						</div>
+						<div class="col-lg-3 text-right">Displaying {{currentPackageAppPage}} / {{numPages}} of {{numPages}}</div>
+						</div>
+		</div>	
+	</div>
+	
+	<div ng-if="uninstallWizardGatewaySelection == 'ON'">
+		
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top10 border0">
+							
+			<md-radio-group ng-model="gatewaySelection">
+			<md-radio-button value="1" class="md-primary">Specific Gateway(s)</md-radio-button>
+			<md-radio-button value="0" class="md-primary"> All Gateways </md-radio-button>
+			</md-radio-group>
+			<hr />
+				
+				<table  class="table table-striped" id="softGatewayGrid" ng-show="gatewaySelection == 0" >
+				<thead>
+				<tr>
+				<td colspan="12">
+				<div style="float:left;"><h4>Go to Next Step with all gateways option</h4></div>
+				<div style=" display: inline-block;float:right;" >
+				<button type="button" ng-click="nextStepuninstallWizardAllGateway();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+				</div>
+				</td>
+				</tr>
+				</thead>
+				</table>
+			
+							<table  class="table table-striped" id="softGatewayGrid" ng-show="gatewaySelection == 1" >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Gateway</h4></div>
+							<div style=" display: inline-block;float:right;" >
+							<button type="button" ng-click="nextStepuninstallWizardGateway();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Next Step</button>
+							</div>
+							</td>
+							</tr>
+							<tr>
+							<th ><!--<span class="checkbox checkbox-primary"> <input type="checkbox" ng-model="selectedAllGateway" ng-click="checkAllSoftwareGateway(selectedAllGateway)" /> <label></label></span>--></th>
+							<th >Live</th>
+							<th >Display Name</th>
+							
+							<th >Static IP</th>
+							<th >Mesh</th>
+							<th >Mesh Network</th>
+							
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-class="{'selected':$index == selectedRow1}" style="cursor:pointer;" ng-click="setClickedRowGateway($index,gateway)" ng-repeat="gateway in filtered = (gatewayList) | limitTo:gatewayPerPage">
+							<td>
+												<SPAN class="checkbox checkbox-primary">
+												<input type="checkbox" id="{{gateway.id}}"  ng-checked="arrayObjectIndexOf(arrGatewayCheckboxSelection,gateway.id) > -1"  value="{{gateway.id}}"  /><label for="gateway.gatewaySelected"></label></SPAN>
+												</td>
+							<td>
+							<div uib-tooltip="Offline" tooltip-placement = "top" ng-if="gateway.connected==false"><div class="orange center-block"></div></div>
+							<div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+							</td>
+							<td>{{gateway.displayname}}</td>
+							
+							<td>{{gateway.gatewaymeta.staticip}}</td>
+							<td>{{gateway.gatewaymeta.meshID}}</td>
+							<td>{{gateway.gatewaymeta.meshNetwork}}</td>
+							
+							
+							</tr>
+							<tr ng-if="dataLoading" ><td colspan="11"><div align="center"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></div></td></tr>
+							<tr class="alert alert-danger" ng-if="(filtered.length == 0 || totalItems ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+							</tbody>
+							</table>
+							
+							</div>
+							<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="gatewaySelection == 1">
+														<div class="col-lg-12 blue-bg pad10">
+														<div class="col-lg-9">
+														
+														<uib-pagination  total-items="totalItems" ng-model="$parent.$parent.currentGatewayPage" ng-change="pageChanged1()" items-per-page="gatewayPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+							boundary-links="true" num-pages="numPages"></uib-pagination>
+																	
+																</div>
+																<div class="col-lg-3 text-right">Displaying {{currentGatewayPage}} / {{numPages}} of {{numPages}}</div>
+																</div>
+														
+							</div>
+	</div>
+	
+	<div ng-if="uninstallWizardConfirmSelection == 'ON'">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0" ng-if="selectedRowMesh != ''">
+							<table  class="table table-striped" id="softMeshGrid"  >
+								<thead>
+								<tr>
+								<td colspan="12">
+								<div style="float:left;"><h4>Select Mesh</h4></div>
+								<div style="display: inline-block;float:right;" >
+								<button type="button" ng-disabled="dataDeviceLoadingUninstall" ng-click="confirmSaveUninstallWizard();" class="btn btn-primary btn-shadow border0"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Start Uninstallation</button>
+								<SPAN ng-if="dataDeviceLoadingUninstall"><i  class="fa fa-spinner fa-spin fa-2x fa-fw"></i></SPAN>
+								</div>
+								</td>
+								</tr>
+								<tr>
+								
+								<th>Name</th>
+								<th>Network</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+										
+								
+								<td><div >{{selectedRowMesh.name}}</div ></td>
+								<td><div >{{selectedRowMesh.network}}</div ></td>		
+								</tr>
+								
+								</tbody>
+							</table>
+							</div>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0" ng-if="arrServerCheckboxSelectionBody.length>0">
+							
+							<table  class="table table-striped" id="softAppGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Ansible Server</h4></div>
+							
+							</td>
+							</tr>
+							<tr>
+							
+							<th>Name</th>
+							<th>IP</th>
+							<th>MacID</th>
+							<th>Server</th>
+							<th>Created On</th>
+							
+							
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr   style="cursor:pointer;" ng-repeat="ServerApp in arrServerCheckboxSelectionBody">
+									
+							
+									<td><div >{{ServerApp.name}}</div ></td>
+									<td><div >{{ServerApp.ip}}</div ></td>
+									<td><div >{{ServerApp.macid}}</div ></td>
+									<td><div >{{ServerApp.ansibleserver_network}}</div ></td>
+									<td><div >{{ServerApp.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+									
+									
+							</tr>
+							</tbody>
+							</table>
+						</div>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive  border0" ng-if="arrCheckboxSelectionBody.length>0">
+							
+							<table  class="table table-striped" id="softAppGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select App</h4></div>
+							
+							</td>
+							</tr>
+							<tr>
+							
+							<th>Name</th>
+							<th>Version</th>
+							<th>Description</th>
+							<th>Type</th>
+							<th>Created On</th>
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr   style="cursor:pointer;" ng-repeat="packageInstall in arrCheckboxSelectionBody">
+									
+							
+									<td><div >{{packageInstall.packageName}}</div ></td>
+									<td><div >{{packageInstall.version}}</div ></td>
+									<td><div >{{packageInstall.description}}</div></td>
+									<td><div >{{packageInstall.packageType}}</div></td>
+									<td><div >{{packageInstall.createdts | utcToLocal:'dd-MM-yyyy hh:mm:ss' }}</div></td>
+							
+							</tr>
+							</tbody>
+							</table>
+	</div>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive border0" ng-if="arrGatewayCheckboxSelectionBody.length>0">
+							
+							<table  class="table table-striped" id="softGatewayGrid"  >
+							<thead>
+							<tr>
+							<td colspan="12">
+							<div style="float:left;"><h4>Select Gateway</h4></div>
+							
+							</td>
+							</tr>
+							<tr>
+							<th >Live</th>
+							<th >Display Name</th>
+							<th >Static IP</th>
+							
+							<th >Mesh</th>
+							<th >Mesh Network</th>
+							
+							
+							</tr>
+							</thead>
+							<tbody>
+							<tr  style="cursor:pointer;"  ng-repeat="gateway in arrGatewayCheckboxSelectionBody">
+							<td>
+							<div uib-tooltip="Offline" tooltip-placement = "top" ng-if="gateway.connected==false"><div class="orange center-block"></div></div>
+							<div uib-tooltip="Online" tooltip-placement = "top" ng-if="gateway.connected==true"><div class="green center-block"></div></div>
+							</td>
+							<td>{{gateway.displayname}}</td>
+							<td>{{gateway.gatewaymeta.staticip}}</td>
+							
+							<td>{{gateway.gatewaymeta.meshID}}</td>
+							<td>{{gateway.gatewaymeta.meshNetwork}}</td>
+							
+							
+							</tr>
+							</tbody>
+							</table>
+							
+	</div>
+																	 
+	</div>
+	</div>
+	<!--	Uninstallation Wizard End -->
+	</div>
+	</div>
+        </md-content>
+      </md-tab>
+	  <md-tab  label="Configure" ng-click="$event.preventDefault();">
+        <md-content id="config" class="md-padding">
+		<div ng-include="'modules/softwareupdate/views/configure.html'"></div>
+		 </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+</div>
+ 
+  <!--<ul class="nav nav-tabs font15">
+      <li class="active"><a data-toggle="tab" href="#explorer" ng-click="installationWizard =false;provisionWizard =false;provisionTrashWizard=false;upgradationWizard=false;uninstallWizard=false;$event.preventDefault();"><i class="fa fa-cog mr-right7"></i>Explorer</a></li>
+      <li ><a data-toggle="tab" href="#management" ng-click="installationWizard =false;provisionWizard =false;provisionTrashWizard=false;upgradationWizard=false;uninstallWizard=false;$event.preventDefault();"><i class="fa fa-random mr-right7"></i>Provision</a></li>
+	  <li ><a data-toggle="tab" href="#deployment" ng-click="installationWizard =false;provisionWizard =false;provisionTrashWizard=false;upgradationWizard=false;uninstallWizard=false;$event.preventDefault();"><i class="fa fa-tasks mr-right7"></i>Deployment</a></li>
+	  <li ><a data-toggle="tab" href="#config" ng-click="installationWizard =false;provisionWizard =false;provisionTrashWizard=false;upgradationWizard=false;uninstallWizard=false;$event.preventDefault();"><i class="fa fa-certificate mr-right7"></i>Configure</a></li>
+   </ul>
+   
+   <div class="tab-content">
+    <div id="explorer" class="tab-pane fade in active">
+  
+	
+	
+   </div>
+   <div id="management" class="tab-pane fade">
+   
+	</div>
+   <div id="deployment" class="tab-pane fade">
+ 
+   </div>
+   <div id="config" class="tab-pane fade">
+   
+		
+   </div>
+   </div>-->
+</div>
+<div ng-include="'modules/softwareupdate/views/modal.html'"></div>

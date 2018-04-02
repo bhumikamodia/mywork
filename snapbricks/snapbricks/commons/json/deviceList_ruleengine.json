@@ -1,0 +1,107 @@
+{
+ "devices": [ 
+    {
+                  "status": "connected",
+                  "display_name": "Sensor1",
+                  "mac_id": "12345",
+                  "gateway": "eI-IoT1",
+                  "gateway_manager" : "Sombabu",
+                  "sessing_parameter": "Motion",
+                  "vendor": "Samsung",
+                  "protocol": "ZIGBEE",
+                  "last_activity":"Nov 11,2016 2:45:51 PM"
+                },
+                {
+                  "status": "disconnected",
+                  "display_name": "Sensor2",
+                  "mac_id": "12345",
+                  "gateway": "eI-IoT1",
+                  "gateway_manager" : "Sombabu",
+                  "sessing_parameter": "Fire",
+                  "vendor": "Vendor2",
+                  "protocol": "PROTOCOL",
+                  "last_activity":"Nov 11,2016 2:45:52 PM"
+                },{
+                  "status": "connected",
+                  "display_name": "Sensor3",
+                  "mac_id": "12345",
+                  "gateway": "eI-IoT1",
+                  "gateway_manager" : "Sombabu",
+                  "sessing_parameter": "Light",
+                  "vendor": "Vendor1",
+                  "protocol": "ZIGBEE",
+                  "last_activity":"Nov 11,2016 2:45:53 PM"
+                },{
+                  "status": "disconnected",
+                  "display_name": "Sensor4",
+                  "mac_id": "12345",
+                  "gateway": "eI-IoT1",
+                  "gateway_manager" : "Sombabu",
+                  "sessing_parameter": "Temp",
+                  "vendor": "Samsung",
+                  "protocol": "PROTOCOL",
+                  "last_activity":"Nov 11,2016 2:45:54 PM"
+                },{
+                  "status": "connected",
+                  "display_name": "Sensor5",
+                  "mac_id": "12345",
+                  "gateway": "eI-IoT1",
+                  "gateway_manager" : "Sombabu",
+                  "sessing_parameter": "Motion",
+                  "vendor": "Vendor2",
+                  "protocol": "ZIGBEE",
+                  "last_activity":"Nov 11,2016 2:45:55 PM"
+                },{
+                  "status": "connected",
+                  "display_name": "Sensor6",
+                  "mac_id": "12345",
+                  "gateway": "eI-IoT1",
+                  "gateway_manager" : "Rachit",
+                  "sessing_parameter": "Fire",
+                  "vendor": "Vendor1",
+                  "protocol": "PROTOCOL",
+                  "last_activity":"Nov 11,2016 2:45:56 PM"
+                },{
+                  "status": "disconnected",
+                  "display_name": "Sensor7",
+                  "mac_id": "12345",
+                  "gateway": "eI-IoT1",
+                  "gateway_manager" : "Rachit",
+                  "sessing_parameter": "Light",
+                  "vendor": "Samsung",
+                  "protocol": "ZIGBEE",
+                  "last_activity":"Nov 11,2016 2:45:57 PM"
+                },{
+                  "status": "connected",
+                  "display_name": "Sensor8",
+                  "mac_id": "12345",
+                  "gateway": "eI-IoT1",
+                  "gateway_manager" : "Rachit",
+                  "sessing_parameter": "Temp",
+                  "vendor": "Vendor2",
+                  "protocol": "PROTOCOL",
+                  "last_activity":"Nov 11,2016 2:45:58 PM"
+                },{
+                  "status": "connected",
+                  "display_name": "Sensor9",
+                  "mac_id": "12345",
+                  "gateway": "eI-IoT1",
+                  "gateway_manager" : "Rachit",
+                  "sessing_parameter": "Motion",
+                  "vendor": "Samsung",
+                  "protocol": "ZIGBEE",
+                  "last_activity":"Nov 11,2016 2:45:59 PM"
+                },{
+                  "status": "disconnected",
+                  "display_name": "Sensor10",
+                  "mac_id": "12345",
+                  "gateway": "eI-IoT1",
+                  "gateway_manager" : "Rachit",
+                  "sessing_parameter": "Fire",
+                  "vendor": "Vendor2",
+                  "protocol": "PROTOCOL",
+                  "last_activity":"Nov 11,2016 2:45:54 PM"
+                }
+
+               ]
+}

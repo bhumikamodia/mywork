@@ -1,0 +1,28 @@
+{
+	"ruleengine": [ 
+				{
+                  "id": 1,
+                  "name": "Oven data consolidation",
+                  "description": "This collects 30 seconds data",
+                  "Creator": "Abhishek Sikka",
+                  "status" : "activate"
+                },
+                {
+                  "id": 2,
+                  "name": "Oven data filtering",
+                  "description": "This filters oven data",
+                  "Creator": "Sombabu Gunithi",
+                  "status" : "activate"
+                },
+				{
+                  "id": 3,
+                  "name": "Demo rule",
+                  "description": "Demo",
+                  "Creator": "Admin",
+                  "status" : "activate"
+                }
+
+               ]
+}
+
+ 

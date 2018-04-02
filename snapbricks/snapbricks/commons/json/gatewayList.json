@@ -1,0 +1,1522 @@
+{"total_records":3,"message":"Data fetched successfully","Data": [
+    {
+      "id": "58456952844138642ae10f52",
+      "gatewaymeta": {
+        "latitude": 23.050527,
+        "longitude": 72.498536,
+        "altitude": 30.3,
+        "address": "Bld-1, AP Office, Thaltej",
+        "hardware": "Raspberry PI, Model B",
+        "modelname": "RP12",
+        "macid": "b8:27:eb:65:14:0e",
+        "modelid": "RP112",
+        "serialnumber": "ABC124",
+        "cpu": "1.2 GHz 64/32-bit quad-core ARM Cortex-A53",
+        "harddisk": "25 GB",
+        "ram": "1 GB",
+        "usb": "4 slots",
+        "architecture": "ARM",
+        "sdcard": "N/A",
+        "connection": "4G Dongle",
+        "provider": "Airtel",
+        "useraccount": "user@user.com",
+        "simcard": "9898989898",
+        "staticip": "1.2.2.4",
+        "interface": "(B8:27:EB:88:44:63), lo00:00:00:00:00:00), wlan0 (B8:27:EB:DD:11:36)"
+      },
+      "packages": [
+        {
+          "packagetype": "OS",
+          "name": "Linux",
+          "version": "Ubuntu 14.04",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "FW",
+          "name": "SmartGate Firmware",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Cloud Interface",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Main Service Delegator)",
+          "version": "1.5.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Device Management & Aggregator",
+          "version": "1.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Rule Engine",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Security",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Software Update",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Health Status",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "LIB",
+          "name": "Physical Layer",
+          "version": "1. 0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        }
+      ],
+      "displayname": "eI_IoT_2",
+      "clientid": "1234",
+      "clientname": "Samsung",
+      "is_deleted": false,
+      "gateway_status": "PROVISIONED",
+      "gatewaymanager": "Sombabu Gunithi",
+      "createdts": "2016-12-05T13:18:04.993000",
+      "timezone": "America",
+      "connected": true,
+      "connectedtimestamp": "2016-12-05T13:18:04.993000",
+      "groups": [
+        "5845620384413862cbd581d1",
+        "5845637c8441386347bb9caa"
+      ],
+      "configuration": {
+        "message": [
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Cloud Connection - 1",
+            "url": "104.236.138.227",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "publish/subscribe on to cloud"
+          },
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Local Connection - 1",
+            "url": "10.99.14.170",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "this broker is local data consumption in factory premises"
+          }
+        ],
+        "telemetry": {
+          "tinterval": "120"
+        },
+        "protocols_subscribed": [
+          {
+            "protocol": 1
+          },
+          {
+            "protocol": 2
+          },
+          {
+            "protocol": 3
+          }
+        ]
+      },
+      "certificate": {
+        "certificateid": "1234",
+        "expirydate": "2016-11-30"
+      }
+    },
+    {
+      "id": "58456988844138642ae10f53",
+      "gatewaymeta": {
+        "latitude": 23.050527,
+        "longitude": 72.498536,
+        "altitude": 30.3,
+        "address": "Bld-1, AP Office, Thaltej",
+        "hardware": "Raspberry PI, Model B",
+        "modelname": "RP12",
+        "macid": "b8:27:eb:cd:30:54",
+        "modelid": "RP112",
+        "serialnumber": "ABC123",
+        "cpu": "1.2 GHz 64/32-bit quad-core ARM Cortex-A53",
+        "harddisk": "25 GB",
+        "ram": "1 GB",
+        "usb": "4 slots",
+        "architecture": "ARM",
+        "sdcard": "N/A",
+        "connection": "4G Dongle",
+        "provider": "Airtel",
+        "useraccount": "user@user.com",
+        "simcard": "9999988888",
+        "staticip": "1.2.2.3",
+        "interface": "(B8:27:EB:88:44:63), lo00:00:00:00:00:00), wlan0 (B8:27:EB:DD:11:36)"
+      },
+      "packages": [
+        {
+          "packagetype": "OS",
+          "name": "Linux",
+          "version": "Ubuntu 14.04",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "FW",
+          "name": "SmartGate Firmware",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Cloud Interface",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Main Service Delegator)",
+          "version": "1.5.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Device Management & Aggregator",
+          "version": "1.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Rule Engine",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Security",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Software Update",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Health Status",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "LIB",
+          "name": "Physical Layer",
+          "version": "1. 0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        }
+      ],
+      "displayname": "eI_IoT_1",
+      "clientid": "1234",
+      "clientname": "Samsung",
+      "is_deleted": false,
+      "gateway_status": "PROVISIONED",
+      "gatewaymanager": "Saleha Pathan",
+      "createdts": "2016-12-05T13:18:04.993000",
+      "timezone": "America",
+      "connected": true,
+      "connectedtimestamp": "2016-12-05T13:18:04.993000",
+      "groups": [
+        "5845620384413862cbd581d1",
+        "5845637c8441386347bb9caa"
+      ],
+      "configuration": {
+        "message": [
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Cloud Connection - 1",
+            "url": "104.236.138.227",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "publish/subscribe on to cloud"
+          },
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Local Connection - 1",
+            "url": "10.99.14.170",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "this broker is local data consumption in factory premises"
+          }
+        ],
+        "telemetry": {
+          "tinterval": "120"
+        },
+        "protocols_subscribed": [
+          {
+            "protocol": 1
+          },
+          {
+            "protocol": 2
+          },
+          {
+            "protocol": 3
+          }
+        ]
+      },
+      "certificate": {
+        "certificateid": "1234",
+        "expirydate": "2016-11-30"
+      }
+    },
+    {
+      "id": "584569bd844138642ae10f54",
+      "gatewaymeta": {
+        "latitude": 23.050527,
+        "longitude": 72.498536,
+        "altitude": 30.3,
+        "address": "Bld-1, AP Office, Thaltej",
+        "hardware": "Raspberry PI, Model B",
+        "modelname": "RP12",
+        "macid": "b8:27:eb:9e:7c:9f",
+        "modelid": "RP112",
+        "serialnumber": "ABC123",
+        "cpu": "1.2 GHz 64/32-bit quad-core ARM Cortex-A53",
+        "harddisk": "25 GB",
+        "ram": "1 GB",
+        "usb": "4 slots",
+        "architecture": "ARM",
+        "sdcard": "N/A",
+        "connection": "4G Dongle",
+        "provider": "Airtel",
+        "useraccount": "user@user.com",
+        "simcard": "9999988888",
+        "staticip": "1.2.2.3",
+        "interface": "(B8:27:EB:88:44:63), lo00:00:00:00:00:00), wlan0 (B8:27:EB:DD:11:36)"
+      },
+      "packages": [
+        {
+          "packagetype": "OS",
+          "name": "Linux",
+          "version": "Ubuntu 14.04",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "FW",
+          "name": "SmartGate Firmware",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Cloud Interface",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Main Service Delegator)",
+          "version": "1.5.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Device Management & Aggregator",
+          "version": "1.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Rule Engine",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Security",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Software Update",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Health Status",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "LIB",
+          "name": "Physical Layer",
+          "version": "1. 0",
+          "lastupdated": "2016-12-05T13:18:04.993000",
+          "updatesavailable": "NA"
+        }
+      ],
+      "displayname": "eI_IoT_3",
+      "clientid": "1234",
+      "clientname": "Samsung",
+      "is_deleted": false,
+      "gateway_status": "PROVISIONED",
+      "gatewaymanager": "Saleha Pathan",
+      "createdts": "2016-12-05T13:18:04.993000",
+      "timezone": "America",
+      "connected": true,
+      "connectedtimestamp": "2016-12-05T13:18:04.993000",
+      "groups": [
+        "5845620384413862cbd581d1",
+        "5845637c8441386347bb9caa"
+      ],
+      "configuration": {
+        "message": [
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Cloud Connection - 1",
+            "url": "104.236.138.227",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "publish/subscribe on to cloud"
+          },
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Local Connection - 1",
+            "url": "10.99.14.170",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "this broker is local data consumption in factory premises"
+          }
+        ],
+        "telemetry": {
+          "tinterval": "120"
+        },
+        "protocols_subscribed": [
+          {
+            "protocol": 1
+          },
+          {
+            "protocol": 2
+          },
+          {
+            "protocol": 3
+          }
+        ]
+      },
+      "certificate": {
+        "certificateid": "1234",
+        "expirydate": "2016-11-30"
+      }
+    },
+    {
+      "id": "5846aa828441382a17e34a24",
+      "gatewaymeta": {
+        "latitude": 23.050527,
+        "longitude": 72.498536,
+        "altitude": 30.3,
+        "address": "KB Office, CG Road",
+        "hardware": "Raspberry PI, Model B",
+        "modelname": "RP12",
+        "macid": "c8:1f:66:08:ce:1d",
+        "modelid": "RP112",
+        "serialnumber": "ABC125",
+        "cpu": "1.2 GHz 64/32-bit quad-core ARM Cortex-A53",
+        "harddisk": "25 GB",
+        "ram": "1 GB",
+        "usb": "4 slots",
+        "architecture": "ARM",
+        "sdcard": "N/A",
+        "connection": "4G Dongle",
+        "provider": "Airtel",
+        "useraccount": "user@user.com",
+        "simcard": "878787878787",
+        "staticip": "1.2.2.4",
+        "interface": "(B8:27:EB:88:44:63), lo00:00:00:00:00:00), wlan0 (B8:27:EB:DD:11:36)"
+      },
+      "packages": [
+        {
+          "packagetype": "OS",
+          "name": "Linux",
+          "version": "Ubuntu 14.04",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "FW",
+          "name": "SmartGate Firmware",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Cloud Interface",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Main Service Delegator)",
+          "version": "1.5.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Device Management & Aggregator",
+          "version": "1.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Rule Engine",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Security",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Software Update",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Health Status",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "LIB",
+          "name": "Physical Layer",
+          "version": "1. 0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        }
+      ],
+      "displayname": "Vipul Desktop",
+      "clientid": "1234",
+      "clientname": "Samsung",
+      "is_deleted": false,
+      "gateway_status": "ACTIVATED",
+      "gatewaymanager": "Vipul Verma",
+      "createdts": "2016-12-06T06:05:20.990000",
+      "timezone": "America",
+      "connected": false,
+      "connectedtimestamp": "2016-12-06T06:05:20.990000",
+      "groups": [
+        "58456f56844138653cf5c6a3",
+        "5845620384413862cbd581d1"
+      ],
+      "configuration": {
+        "message": [
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Cloud Connection - 1",
+            "url": "104.236.138.227",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "publish/subscribe on to cloud"
+          },
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Local Connection - 1",
+            "url": "10.99.14.170",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "this broker is local data consumption in factory premises"
+          }
+        ],
+        "telemetry": {
+          "tinterval": "120"
+        },
+        "protocols_subscribed": [
+          {
+            "protocol": 1
+          },
+          {
+            "protocol": 2
+          },
+          {
+            "protocol": 3
+          }
+        ]
+      },
+      "certificate": {
+        "certificateid": "1234",
+        "expirydate": "2016-11-30"
+      }
+    },
+    {
+      "id": "5846ab7f8441382a17e34a25",
+      "gatewaymeta": {
+        "latitude": 23.050527,
+        "longitude": 72.498536,
+        "altitude": 30.3,
+        "address": "KB Office, CG Road",
+        "hardware": "Raspberry PI, Model B",
+        "modelname": "RP12",
+        "macid": "a4:1f:72:74:6e:25",
+        "modelid": "RP112",
+        "serialnumber": "ABC126",
+        "cpu": "1.2 GHz 64/32-bit quad-core ARM Cortex-A53",
+        "harddisk": "25 GB",
+        "ram": "1 GB",
+        "usb": "4 slots",
+        "architecture": "ARM",
+        "sdcard": "N/A",
+        "connection": "4G Dongle",
+        "provider": "Airtel",
+        "useraccount": "user@user.com",
+        "simcard": "878787878787",
+        "staticip": "1.2.2.4",
+        "interface": "(B8:27:EB:88:44:63), lo00:00:00:00:00:00), wlan0 (B8:27:EB:DD:11:36)"
+      },
+      "packages": [
+        {
+          "packagetype": "OS",
+          "name": "Linux",
+          "version": "Ubuntu 14.04",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "FW",
+          "name": "SmartGate Firmware",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Cloud Interface",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Main Service Delegator)",
+          "version": "1.5.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Device Management & Aggregator",
+          "version": "1.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Rule Engine",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Security",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Software Update",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Health Status",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "LIB",
+          "name": "Physical Layer",
+          "version": "1. 0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        }
+      ],
+      "displayname": "Ashutosh Desktop",
+      "clientid": "1234",
+      "clientname": "Samsung",
+      "is_deleted": false,
+      "gateway_status": "PROVISIONED",
+      "gatewaymanager": "Saleha Pathan",
+      "createdts": "2016-12-06T06:05:20.990000",
+      "timezone": "America",
+      "connected": true,
+      "connectedtimestamp": "2016-12-06T06:05:20.990000",
+      "groups": [
+        "58456f56844138653cf5c6a3",
+        "5845620384413862cbd581d1"
+      ],
+      "configuration": {
+        "message": [
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Cloud Connection - 1",
+            "url": "104.236.138.227",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "publish/subscribe on to cloud"
+          },
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Local Connection - 1",
+            "url": "10.99.14.170",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "this broker is local data consumption in factory premises"
+          }
+        ],
+        "telemetry": {
+          "tinterval": "120"
+        },
+        "protocols_subscribed": [
+          {
+            "protocol": 1
+          },
+          {
+            "protocol": 2
+          },
+          {
+            "protocol": 3
+          }
+        ]
+      },
+      "certificate": {
+        "certificateid": "1234",
+        "expirydate": "2016-11-30"
+      }
+    },
+    {
+      "id": "5848db8f84413852939b1f1b",
+      "gatewaymeta": {
+        "latitude": 23.03012,
+        "longitude": 72.559322,
+        "altitude": 30.3,
+        "address": "KB Office, CG Road",
+        "hardware": "Raspberry PI, Model B",
+        "modelname": "RP12",
+        "macid": "b8:27:eb:11:a1:c7",
+        "modelid": "RP112",
+        "serialnumber": "ABC126",
+        "cpu": "1.2 GHz 64/32-bit quad-core ARM Cortex-A53",
+        "harddisk": "25 GB",
+        "ram": "1 GB",
+        "usb": "4 slots",
+        "architecture": "ARM",
+        "sdcard": "N/A",
+        "connection": "4G Dongle",
+        "provider": "Airtel",
+        "useraccount": "user@user.com",
+        "simcard": "878787878787",
+        "staticip": "1.2.2.4",
+        "interface": "(B8:27:EB:88:44:63), lo00:00:00:00:00:00), wlan0 (B8:27:EB:DD:11:36)"
+      },
+      "packages": [
+        {
+          "packagetype": "OS",
+          "name": "Linux",
+          "version": "Ubuntu 14.04",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "FW",
+          "name": "SmartGate Firmware",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Cloud Interface",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Main Service Delegator)",
+          "version": "1.5.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Device Management & Aggregator",
+          "version": "1.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Rule Engine",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Security",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Software Update",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Health Status",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "LIB",
+          "name": "Physical Layer",
+          "version": "1. 0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        }
+      ],
+      "displayname": "eI_IoT_4",
+      "clientid": "1234",
+      "clientname": "Samsung",
+      "is_deleted": false,
+      "gateway_status": "PROVISIONED",
+      "gatewaymanager": "Ashutosh Bhatt",
+      "createdts": "2016-12-07T21:55:29.575000",
+      "timezone": "America",
+      "connected": false,
+      "connectedtimestamp": "2016-12-07T21:55:29.575000",
+      "groups": [
+        "58456f56844138653cf5c6a3",
+        "5845620384413862cbd581d1"
+      ],
+      "configuration": {
+        "message": [
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Cloud Connection - 1",
+            "url": "104.236.138.227",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "publish/subscribe on to cloud"
+          },
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Local Connection - 1",
+            "url": "10.99.14.170",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "this broker is local data consumption in factory premises"
+          }
+        ],
+        "telemetry": {
+          "tinterval": "120"
+        },
+        "protocols_subscribed": [
+          {
+            "protocol": 1
+          },
+          {
+            "protocol": 2
+          },
+          {
+            "protocol": 3
+          }
+        ]
+      },
+      "certificate": {
+        "certificateid": "1234",
+        "expirydate": "2016-11-30"
+      }
+    },
+    {
+      "id": "5848dbeb84413852939b1f1c",
+      "gatewaymeta": {
+        "latitude": 23.03012,
+        "longitude": 72.559322,
+        "altitude": 30.3,
+        "address": "KB Office, CG Road",
+        "hardware": "Raspberry PI, Model B",
+        "modelname": "RP12",
+        "macid": "b8:27:eb:88:44:63",
+        "modelid": "RP112",
+        "serialnumber": "ABC126",
+        "cpu": "1.2 GHz 64/32-bit quad-core ARM Cortex-A53",
+        "harddisk": "25 GB",
+        "ram": "1 GB",
+        "usb": "4 slots",
+        "architecture": "ARM",
+        "sdcard": "N/A",
+        "connection": "4G Dongle",
+        "provider": "Airtel",
+        "useraccount": "user@user.com",
+        "simcard": "878787878787",
+        "staticip": "1.2.2.4",
+        "interface": "(B8:27:EB:88:44:63), lo00:00:00:00:00:00), wlan0 (B8:27:EB:DD:11:36)"
+      },
+      "packages": [
+        {
+          "packagetype": "OS",
+          "name": "Linux",
+          "version": "Ubuntu 14.04",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "FW",
+          "name": "SmartGate Firmware",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Cloud Interface",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Main Service Delegator)",
+          "version": "1.5.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Device Management & Aggregator",
+          "version": "1.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Rule Engine",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Security",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Software Update",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Health Status",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "LIB",
+          "name": "Physical Layer",
+          "version": "1. 0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        }
+      ],
+      "displayname": "eI_IoT_5",
+      "clientid": "1234",
+      "clientname": "Samsung",
+      "is_deleted": false,
+      "gateway_status": "PROVISIONED",
+      "gatewaymanager": "Ashutosh Bhatt",
+      "createdts": "2016-12-07T21:55:29.575000",
+      "timezone": "America",
+      "connected": true,
+      "connectedtimestamp": "2016-12-07T21:55:29.575000",
+      "groups": [
+        "58456f56844138653cf5c6a3",
+        "5845620384413862cbd581d1"
+      ],
+      "configuration": {
+        "message": [
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Cloud Connection - 1",
+            "url": "104.236.138.227",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "publish/subscribe on to cloud"
+          },
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Local Connection - 1",
+            "url": "10.99.14.170",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "this broker is local data consumption in factory premises"
+          }
+        ],
+        "telemetry": {
+          "tinterval": "120"
+        },
+        "protocols_subscribed": [
+          {
+            "protocol": 1
+          },
+          {
+            "protocol": 2
+          },
+          {
+            "protocol": 3
+          }
+        ]
+      },
+      "certificate": {
+        "certificateid": "1234",
+        "expirydate": "2016-11-30"
+      }
+    },
+    {
+      "id": "5848dc3184413852939b1f1d",
+      "gatewaymeta": {
+        "latitude": 23.028348,
+        "longitude": 72.555772,
+        "altitude": 30.3,
+        "address": "KB Office, CG Road",
+        "hardware": "Raspberry PI, Model B",
+        "modelname": "RP12",
+        "macid": "b8:27:eb:1f:cc:9f",
+        "modelid": "RP112",
+        "serialnumber": "ABC126",
+        "cpu": "1.2 GHz 64/32-bit quad-core ARM Cortex-A53",
+        "harddisk": "25 GB",
+        "ram": "1 GB",
+        "usb": "4 slots",
+        "architecture": "ARM",
+        "sdcard": "N/A",
+        "connection": "4G Dongle",
+        "provider": "Airtel",
+        "useraccount": "user@user.com",
+        "simcard": "878787878787",
+        "staticip": "1.2.2.4",
+        "interface": "(B8:27:EB:88:44:63), lo00:00:00:00:00:00), wlan0 (B8:27:EB:DD:11:36)"
+      },
+      "packages": [
+        {
+          "packagetype": "OS",
+          "name": "Linux",
+          "version": "Ubuntu 14.04",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "FW",
+          "name": "SmartGate Firmware",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Cloud Interface",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Main Service Delegator)",
+          "version": "1.5.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Device Management & Aggregator",
+          "version": "1.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Rule Engine",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Security",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Software Update",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Health Status",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "LIB",
+          "name": "Physical Layer",
+          "version": "1. 0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        }
+      ],
+      "displayname": "eI_IoT_6",
+      "clientid": "1234",
+      "clientname": "Samsung",
+      "is_deleted": false,
+      "gateway_status": "PROVISIONED",
+      "gatewaymanager": "Ashutosh Bhatt",
+      "createdts": "2016-12-07T21:55:29.575000",
+      "timezone": "America",
+      "connected": true,
+      "connectedtimestamp": "2016-12-07T21:55:29.575000",
+      "groups": [
+        "58456f56844138653cf5c6a3",
+        "5845620384413862cbd581d1"
+      ],
+      "configuration": {
+        "message": [
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Cloud Connection - 1",
+            "url": "104.236.138.227",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "publish/subscribe on to cloud"
+          },
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Local Connection - 1",
+            "url": "10.99.14.170",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "this broker is local data consumption in factory premises"
+          }
+        ],
+        "telemetry": {
+          "tinterval": "120"
+        },
+        "protocols_subscribed": [
+          {
+            "protocol": 1
+          },
+          {
+            "protocol": 2
+          },
+          {
+            "protocol": 3
+          }
+        ]
+      },
+      "certificate": {
+        "certificateid": "1234",
+        "expirydate": "2016-11-30"
+      }
+    },
+    {
+      "id": "5848dc5b84413852939b1f1e",
+      "gatewaymeta": {
+        "latitude": 23.026224,
+        "longitude": 72.557524,
+        "altitude": 30.3,
+        "address": "KB Office, CG Road",
+        "hardware": "Raspberry PI, Model B",
+        "modelname": "RP12",
+        "macid": "b8:27:eb:87:17:07",
+        "modelid": "RP112",
+        "serialnumber": "ABC126",
+        "cpu": "1.2 GHz 64/32-bit quad-core ARM Cortex-A53",
+        "harddisk": "25 GB",
+        "ram": "1 GB",
+        "usb": "4 slots",
+        "architecture": "ARM",
+        "sdcard": "N/A",
+        "connection": "4G Dongle",
+        "provider": "Airtel",
+        "useraccount": "user@user.com",
+        "simcard": "878787878787",
+        "staticip": "1.2.2.4",
+        "interface": "(B8:27:EB:88:44:63), lo00:00:00:00:00:00), wlan0 (B8:27:EB:DD:11:36)"
+      },
+      "packages": [
+        {
+          "packagetype": "OS",
+          "name": "Linux",
+          "version": "Ubuntu 14.04",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "FW",
+          "name": "SmartGate Firmware",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Cloud Interface",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Main Service Delegator)",
+          "version": "1.5.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Device Management & Aggregator",
+          "version": "1.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Rule Engine",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Security",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Software Update",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Health Status",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "LIB",
+          "name": "Physical Layer",
+          "version": "1. 0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        }
+      ],
+      "displayname": "eI_IoT_7",
+      "clientid": "1234",
+      "clientname": "Samsung",
+      "is_deleted": false,
+      "gateway_status": "PROVISIONED",
+      "gatewaymanager": "Ashutosh Bhatt",
+      "createdts": "2016-12-07T21:55:29.575000",
+      "timezone": "America",
+      "connected": true,
+      "connectedtimestamp": "2016-12-07T21:55:29.575000",
+      "groups": [
+        "58456f56844138653cf5c6a3",
+        "5845620384413862cbd581d1"
+      ],
+      "configuration": {
+        "message": [
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Cloud Connection - 1",
+            "url": "104.236.138.227",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "publish/subscribe on to cloud"
+          },
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Local Connection - 1",
+            "url": "10.99.14.170",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "this broker is local data consumption in factory premises"
+          }
+        ],
+        "telemetry": {
+          "tinterval": "120"
+        },
+        "protocols_subscribed": [
+          {
+            "protocol": 1
+          },
+          {
+            "protocol": 2
+          },
+          {
+            "protocol": 3
+          }
+        ]
+      },
+      "certificate": {
+        "certificateid": "1234",
+        "expirydate": "2016-11-30"
+      }
+    },
+    {
+      "id": "5848dc9884413852939b1f1f",
+      "gatewaymeta": {
+        "latitude": 23.028474,
+        "longitude": 72.564059,
+        "altitude": 30.3,
+        "address": "KB Office, CG Road",
+        "hardware": "Raspberry PI, Model B",
+        "modelname": "RP12",
+        "macid": "b8:27:eb:32:ef:aa",
+        "modelid": "RP112",
+        "serialnumber": "ABC126",
+        "cpu": "1.2 GHz 64/32-bit quad-core ARM Cortex-A53",
+        "harddisk": "25 GB",
+        "ram": "1 GB",
+        "usb": "4 slots",
+        "architecture": "ARM",
+        "sdcard": "N/A",
+        "connection": "4G Dongle",
+        "provider": "Airtel",
+        "useraccount": "user@user.com",
+        "simcard": "878787878787",
+        "staticip": "1.2.2.4",
+        "interface": "(B8:27:EB:88:44:63), lo00:00:00:00:00:00), wlan0 (B8:27:EB:DD:11:36)"
+      },
+      "packages": [
+        {
+          "packagetype": "OS",
+          "name": "Linux",
+          "version": "Ubuntu 14.04",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "FW",
+          "name": "SmartGate Firmware",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Cloud Interface",
+          "version": "1.4.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Main Service Delegator)",
+          "version": "1.5.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Device Management & Aggregator",
+          "version": "1.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Rule Engine",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Security",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Software Update",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "MS",
+          "name": "Health Status",
+          "version": "2.6.0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        },
+        {
+          "packagetype": "LIB",
+          "name": "Physical Layer",
+          "version": "1. 0",
+          "lastupdated": "2016-12-05T19:18:04.993000",
+          "updatesavailable": "NA"
+        }
+      ],
+      "displayname": "eI_IoT_8",
+      "clientid": "1234",
+      "clientname": "Samsung",
+      "is_deleted": false,
+      "gateway_status": "PROVISIONED",
+      "gatewaymanager": "Ashutosh Bhatt",
+      "createdts": "2016-12-07T21:55:29.575000",
+      "timezone": "America",
+      "connected": true,
+      "connectedtimestamp": "2016-12-07T21:55:29.575000",
+      "groups": [
+        "58456f56844138653cf5c6a3",
+        "5845620384413862cbd581d1"
+      ],
+      "configuration": {
+        "message": [
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Cloud Connection - 1",
+            "url": "104.236.138.227",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "publish/subscribe on to cloud"
+          },
+          {
+            "username": "iotuser",
+            "protocol": "MQTT",
+            "name": "Local Connection - 1",
+            "url": "10.99.14.170",
+            "password": "ei12@",
+            "port": "1883",
+            "description": "this broker is local data consumption in factory premises"
+          }
+        ],
+        "telemetry": {
+          "tinterval": "120"
+        },
+        "protocols_subscribed": [
+          {
+            "protocol": 1
+          },
+          {
+            "protocol": 2
+          },
+          {
+            "protocol": 3
+          }
+        ]
+      },
+      "certificate": {
+        "certificateid": "1234",
+        "expirydate": "2016-11-30"
+      }
+    }
+  ],"previous_page":null,"next_page":null}

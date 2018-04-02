@@ -1,0 +1,483 @@
+<!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">	
+							
+							
+							<table id="total" class="table table-striped" ng-show="(discoverList).length">
+										<thead>
+											<tr>
+												<th style="width:4%;"><input type="checkbox" ng-model="selectedAll" ng-click="checkAll(selectedAll)"/> </th>
+												<th style="width:15%;">Display Name</th>
+												<th style="width:10%;">Sensing</th>
+												<th style="width:5%;">Unit</th>
+												<th >Data Unit</th>
+												<th style="width:5%;">Hardware</th>
+												<th >SenID</th>
+												<th >Port</th>
+												<th >FW</th>
+												<th >Status</th>
+												<th>
+												<i class="fa fa-filter" data-toggle="modal" data-target="#myModal" ></i>
+													
+													<div class="modal fade" id="myModal" role="dialog">
+														<div class="modal-dialog mr-top80">
+														 
+															<div class="modal-content black-bg">
+																<div class="modal-header border0">
+																	<button type="button" class="close" data-dismiss="modal">&times;</button>
+																	<h4 class="modal-title">Filter Discover - under construction</h4>
+																</div>
+																<div class="modal-body">
+																	<form class="form-horizontal">
+																		<div class="form-group">
+																			<label class="control-label col-lg-5" for="dname">On Development </label>
+																			<div class="col-lg-5">
+																				On Development
+																			</div>
+																		</div>
+																		
+																		<div class="form-group"> 
+																			<div class="col-sm-offset-5 col-sm-5">
+																				<button type="submit" ng-click="searchFeaturesSubmit();" data-dismiss='modal' class="btn btn-filter">Apply Filter</button>
+																			</div>
+																		</div>
+																	</form>
+																</div>
+															</div>
+														</div>
+													</div>
+												</th>
+											</tr>
+										</thead>
+										<tbody >
+				
+					<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,discover);" ng-repeat="discover in discoverList | limitTo:OPCPerPage">
+                        
+						<td><input type="checkbox" ng-model="discover.discoverSelected" ng-change="checkStatus(discover);"  />
+						</td>
+                        <td><a style="cursor:pointer;" ng-click="openDisplayInfo(discover);" class="pointer">{{discover.dispname}}</a>
+						
+						</td>
+						 
+						<td><div >{{discover.senp}}</div></td>
+						<td><div>{{discover.senu}}</div></td>
+                        <td><div>{{discover.sendu}}</div></td>
+                       
+                        <td><div>{{discover.hardware}}</div></td>
+						<td><div>{{discover.senid}}</div></td>
+						<td><div>{{discover.port}}</div></td>
+						<td><div>{{discover.firmware}}</div></td>
+						<td><div>{{discover.device_status}}</div></td>
+                        <td></td>
+                    </tr>
+					<tr ng-if="dataLoading" class="alert alert-danger"><td colspan="11"><div align="center"><img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></div></td></tr>
+					
+					<tr class="alert alert-danger" ng-if="(discoverList.length == 0 || totalOPCItems ==0) && !dataLoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+					</tbody>
+					</table>
+					
+					</div>-->
+					<!--<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(discoverList).length">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+								
+								<uib-pagination  total-items="totalOPCItems" ng-model="$parent.currentOPCPage" ng-change="pageChanged()" items-per-page="OPCPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+    boundary-links="true" num-pages="numPages"></uib-pagination>
+											
+										</div>
+										<div class="col-lg-3 text-right">Displaying {{currentOPCPage}} / {{numPages}} of {{numPages}}</div>
+										</div>
+								
+								</div>-->
+					<!--<div ng-show="(discoverList).length" ng-if="discoverOption=='online'">
+					<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+					<div class="form-group">
+						<button type="button" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,discoverList,'online','OPC');" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Register</button>
+						<button type="button" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,discoverList,'online','OPC');" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Activate</button>
+						<img ng-if="dataOPCRegisterLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+						<img ng-if="dataOPCActivationLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+					</div>
+					</div>
+					</div>-->	
+					
+					<!--	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">	
+							
+							<table id="total" class="table table-striped" > 
+										<thead>
+											<tr>
+												<th style="width:4%;"><input type="checkbox" ng-model="selectedAllOfflineOPC" ng-click="checkAllOfflineOPC(selectedAllOfflineOPC)"/> </th>
+												<th style="width:15%;">Display Name</th>
+												<th style="width:10%;">Sensing</th>
+												<th style="width:5%;">Unit</th>
+												<th >Data Unit</th>
+												<th style="width:5%;">Hardware</th>
+												<th >SenID</th>
+												<th >Port</th>
+												<th >FW</th>
+												<th >Status</th>
+												<th>
+												<i class="fa fa-filter" data-toggle="modal" data-target="#myModalofflineOPC" ></i>
+													
+													<div class="modal fade" id="myModalofflineOPC" role="dialog">
+														<div class="modal-dialog mr-top80">
+														 
+															<div class="modal-content black-bg">
+																<div class="modal-header border0">
+																	<button type="button" class="close" data-dismiss="modal">&times;</button>
+																	<h4 class="modal-title">Filter Discover - under construction</h4>
+																</div>
+																<div class="modal-body">
+																	<form class="form-horizontal">
+																		<div class="form-group">
+																			<label class="control-label col-lg-5" for="dname">On Development </label>
+																			<div class="col-lg-5">
+																				On Development
+																			</div>
+																		</div>
+																		
+																		<div class="form-group"> 
+																			<div class="col-sm-offset-5 col-sm-5">
+																				<button type="submit" ng-click="searchFeaturesSubmit();" data-dismiss='modal' class="btn btn-filter">Apply Filter</button>
+																			</div>
+																		</div>
+																	</form>
+																</div>
+															</div>
+														</div>
+													</div>
+												</th>
+											</tr>
+										</thead>
+										<tbody >
+	
+					<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,discover);" ng-repeat="discover in offlineOPCList | limitTo:offlineOPCPerPage">
+                       
+						<td><input type="checkbox" ng-model="discover.Selected" ng-change="checkStatus(discover);"  />
+						</td>
+                        <td><a style="cursor:pointer;" ng-click="openDisplayInfo(discover);" class="pointer">{{discover.dispname}}</a>
+						
+						</td>
+						 
+						<td><div >{{discover.senp}}</div></td>
+						<td><div>{{discover.senu}}</div></td>
+                        <td><div>{{discover.sendu}}</div></td>
+                       
+                        <td><div>{{discover.hardware}}</div></td>
+						<td><div>{{discover.senid}}</div></td>
+						<td><div>{{discover.port}}</div></td>
+						<td><div>{{discover.firmware}}</div></td>
+						<td><div>{{discover.device_status}}</div></td>
+                        <td></td>
+                    </tr>
+					<tr class="alert alert-danger" ng-if="(offlineOPCList.length == 0 || totalOfflineOPCItems ==0)"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+					</tbody>
+					</table>
+					
+					
+					</div>-->
+					
+					<!--<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(offlineOPCList).length">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+								
+								<uib-pagination  total-items="totalOfflineOPCItems" ng-model="$parent.currentofflineOPCPage" ng-change="pageChanged()" items-per-page="offlineOPCPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+    boundary-links="true" num-pages="numPages"></uib-pagination>
+											
+										</div>
+										<div class="col-lg-3 text-right">Displaying {{currentofflineOPCPage}} / {{numPages}} of {{numPages}}</div>
+										</div>
+								
+					</div>-->
+					<!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">	
+					<div ng-show="(offlineOPCList).length" >
+					
+					<div class="form-group">
+						<button type="button" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,offlineOPCList,'offline','OPC');" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Register</button>
+						<button type="button" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,offlineOPCList,'offline','OPC');" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Activate</button>
+						<img ng-if="dataOPCRegisterLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+						<img ng-if="dataOPCActivationLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+					</div>
+					</div>
+					</div>-->	
+					
+					<!--<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0" >
+							
+							<table id="total" class="table table-striped" >
+										<thead>
+											<tr>
+												<th ><input type="checkbox" ng-model="selectedAllzigbee" ng-click="checkAllzigbeeOffline(selectedAllzigbee)"/> </th>
+												<th >Display Name</th>
+												<th >Sensing</th>
+												<th >Unit</th>
+												<th >Data Unit</th>
+												<th >Hardware</th>
+												<th >SenID</th>
+												<th >Port</th>
+												<th >FW</th>
+												<th >Status</th>
+												
+											</tr>
+										</thead>
+										<tbody >
+	
+					<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,discover);" ng-repeat="discover in zigbeeOFFLINEdiscoverList | limitTo:ZigbeeOFFLINEPerPage">
+                      
+						<td><input type="checkbox" ng-model="discover.Selected" ng-change="checkStatus(discover);"  />
+						</td>
+                        <td><a style="cursor:pointer;" ng-click="openDisplayInfo(discover);" class="pointer">{{discover.dispname}}</a>
+						
+						</td>
+						 
+						<td><div >{{discover.senp}}</div></td>
+						<td><div>{{discover.senu}}</div></td>
+                        <td><div>{{discover.sendu}}</div></td>
+                       
+                        <td><div>{{discover.hardware}}</div></td>
+						<td><div>{{discover.senid}}</div></td>
+						<td><div>{{discover.port}}</div></td>
+						<td><div>{{discover.firmware}}</div></td>
+						<td><div>{{discover.device_status}}</div></td>
+                        
+                    </tr>
+					
+					<tr class="alert alert-danger" ng-if="(zigbeeOFFLINEdiscoverList.length == 0 || totalzigbeeOFFLINEItems ==0) && !dataZiGBEEOFFLINELoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+
+					</tbody>
+					</table>
+					
+					</div>-->
+					<!--<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(zigbeeOFFLINEdiscoverList).length">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+								
+								<uib-pagination  total-items="totalzigbeeOFFLINEItems" ng-model="$parent.currentOFFLINEZigbeePage" ng-change="pageChanged()" items-per-page="ZigbeeOFFLINEPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+    boundary-links="true" num-pages="numPages"></uib-pagination>
+											
+										</div>
+										<div class="col-lg-3 text-right">Displaying {{currentOFFLINEZigbeePage}} / {{numPages}} of {{numPages}}</div>
+										</div>
+								
+					</div>-->
+					<!--<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+					<div ng-show="(zigbeeOFFLINEdiscoverList).length" ng-if="zigbeediscoverOption=='offline'">
+					
+					<div class="form-group">
+						<button type="button" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,zigbeeOFFLINEdiscoverList,'offline','ZIGBEE');" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Register</button>
+						<button type="button" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,zigbeeOFFLINEdiscoverList,'offline','ZIGBEE');" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Activate</button>
+						
+						<img ng-if="dataOPCRegisterLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+						<img ng-if="dataOPCActivationLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+					</div>
+					</div>
+					</div>-->
+					
+					<!--<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0" >
+							
+							
+							<table id="total" class="table table-striped" ng-show="(zigbeediscoverList).length">
+										<thead>
+											<tr>
+												<th ><input type="checkbox" ng-model="selectedAllzigbee" ng-click="checkAllzigbee(selectedAllzigbee)"/> </th>
+												<th >Display Name</th>
+												<th >Sensing</th>
+												<th >Unit</th>
+												<th >Data Unit</th>
+												<th >Hardware</th>
+												<th >SenID</th>
+												<th >Port</th>
+												<th >FW</th>
+												<th >Status</th>
+												
+											</tr>
+										</thead>
+										<tbody >
+	
+					<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,discover);" ng-repeat="discover in zigbeediscoverList | limitTo:ZigbeePerPage">
+                       
+						<td><input type="checkbox" ng-model="discover.discoverSelected" ng-change="checkStatus(discover);"  />
+						</td>
+                        <td><a style="cursor:pointer;" ng-click="openDisplayInfo(discover);" class="pointer">{{discover.dispname}}</a>
+						
+						</td>
+						 
+						<td><div >{{discover.senp}}</div></td>
+						<td><div>{{discover.senu}}</div></td>
+                        <td><div>{{discover.sendu}}</div></td>
+                       
+                        <td><div>{{discover.hardware}}</div></td>
+						<td><div>{{discover.senid}}</div></td>
+						<td><div>{{discover.port}}</div></td>
+						<td><div>{{discover.firmware}}</div></td>
+						<td><div>{{discover.device_status}}</div></td>
+                        
+                    </tr>
+					
+					<tr class="alert alert-danger" ng-if="(zigbeediscoverList.length == 0 || totalOPCItems ==0) && !dataZiGBEELoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+
+					</tbody>
+					</table>
+					
+					</div>-->
+					<!--<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(zigbeediscoverList).length">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+								
+								<uib-pagination  total-items="totalOPCItems" ng-model="$parent.currentZigbeePage" ng-change="pageChanged()" items-per-page="ZigbeePerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+    boundary-links="true" num-pages="numPages"></uib-pagination>
+											
+										</div>
+										<div class="col-lg-3 text-right">Displaying {{currentZigbeePage}} / {{numPages}} of {{numPages}}</div>
+										</div>
+								
+					</div>-->
+					<!--<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0">
+					<div ng-show="(zigbeediscoverList).length" ng-if="zigbeediscoverOption=='online'">
+					
+					<div class="form-group">
+						<button type="button" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,zigbeediscoverList,'online','ZIGBEE');" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Register</button>
+						<button type="button" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,zigbeediscoverList,'online','ZIGBEE');" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Activate</button>
+						<img ng-if="dataOPCRegisterLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+						<img ng-if="dataOPCActivationLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+					</div>
+					</div>
+					</div>-->
+					
+					<!--<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0" >
+							
+							
+							<table id="total" class="table table-striped" >
+										<thead>
+											<tr>
+												<th ><input type="checkbox" ng-model="selectedAllzigbee" ng-click="checkAllBLEOFFLINE(selectedAllzigbee)"/> </th>
+												<th >Display Name</th>
+												<th >Sensing</th>
+												<th >Unit</th>
+												<th >Data Unit</th>
+												<th >Hardware</th>
+												<th >SenID</th>
+												<th >Port</th>
+												<th >FW</th>
+												<th >Status</th>
+												
+											</tr>
+										</thead>
+										<tbody >
+	
+					<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,discover);" ng-repeat="discover in BLEOFFLINEdiscoverList | limitTo:BLEPerPage">
+                       
+						<td><input type="checkbox" ng-model="discover.Selected" ng-change="checkStatus(discover);"  />
+						</td>
+                        <td><a style="cursor:pointer;" ng-click="openDisplayInfo(discover);" class="pointer">{{discover.dispname}}</a>
+						
+						</td>
+						 
+						<td><div >{{discover.senp}}</div></td>
+						<td><div>{{discover.senu}}</div></td>
+                        <td><div>{{discover.sendu}}</div></td>
+                       
+                        <td><div>{{discover.hardware}}</div></td>
+						<td><div>{{discover.senid}}</div></td>
+						<td><div>{{discover.port}}</div></td>
+						<td><div>{{discover.firmware}}</div></td>
+						<td><div>{{discover.device_status}}</div></td>
+                        
+                    </tr>
+					
+					<tr class="alert alert-danger" ng-if="(BLEOFFLINEdiscoverList.length == 0 || totalBLEOFFLINEItems ==0) && !dataBLEOFFLINELoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+
+					</tbody>
+					</table>
+					
+					</div>-->
+					<!--<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(BLEOFFLINEdiscoverList).length">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+								
+								<uib-pagination  total-items="totalBLEOFFLINEItems" ng-model="$parent.currentOfflineBLEPage" ng-change="pageChanged()" items-per-page="BLEPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+    boundary-links="true" num-pages="numPages"></uib-pagination>
+											
+										</div>
+										<div class="col-lg-3 text-right">Displaying {{currentOfflineBLEPage}} / {{numPages}} of {{numPages}}</div>
+										</div>
+								
+					</div>-->
+					<!--<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0" >		
+					<div ng-show="(BLEOFFLINEdiscoverList).length" ng-if="BLEdiscoverOption=='offline'">
+					
+					<div class="form-group">
+						<button type="button" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,BLEOFFLINEdiscoverList,'offline','BLE');" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Register</button>
+						<button type="button" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,BLEOFFLINEdiscoverList,'offline','BLE');" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Activate</button>
+						<img ng-if="dataOPCRegisterLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+						<img ng-if="dataOPCActivationLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+					</div>
+					</div>
+					</div>-->
+					
+					<!--<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0" >
+							
+							
+							<table id="total" class="table table-striped" ng-show="(BLEdiscoverList).length">
+										<thead>
+											<tr>
+												<th ><input type="checkbox" ng-model="selectedAllzigbee" ng-click="checkAllzigbee(selectedAllzigbee)"/> </th>
+												<th >Display Name</th>
+												<th >Sensing</th>
+												<th >Unit</th>
+												<th >Data Unit</th>
+												<th >Hardware</th>
+												<th >SenID</th>
+												<th >Port</th>
+												<th >FW</th>
+												<th >Status</th>
+												
+											</tr>
+										</thead>
+										<tbody >
+	
+					<tr ng-class="{'selected':$index == selectedRow}" style="cursor:pointer;" ng-click="setClickedRow($index,discover);" ng-repeat="discover in BLEdiscoverList | limitTo:BLEPerPage">
+                       
+						<td><input type="checkbox" ng-model="discover.discoverSelected" ng-change="checkStatus(discover);"  />
+						</td>
+                        <td><a style="cursor:pointer;" ng-click="openDisplayInfo(discover);" class="pointer">{{discover.dispname}}</a>
+						
+						</td>
+						 
+						<td><div >{{discover.senp}}</div></td>
+						<td><div>{{discover.senu}}</div></td>
+                        <td><div>{{discover.sendu}}</div></td>
+                       
+                        <td><div>{{discover.hardware}}</div></td>
+						<td><div>{{discover.senid}}</div></td>
+						<td><div>{{discover.port}}</div></td>
+						<td><div>{{discover.firmware}}</div></td>
+						<td><div>{{discover.device_status}}</div></td>
+                        
+                    </tr>
+					
+					<tr class="alert alert-danger" ng-if="(BLEdiscoverList.length == 0 || totalBLEItems ==0) && !dataBLELoading"><td colspan="11"><strong>No Record Found.</strong></td></tr>
+
+					</tbody>
+					</table>
+					
+					</div>-->
+					<!--<div id="pagination" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mr-topmin15" ng-show="(BLEdiscoverList).length">
+								<div class="col-lg-12 blue-bg pad10">
+								<div class="col-lg-9">
+								
+								<uib-pagination  total-items="totalBLEItems" ng-model="$parent.currentBLEPage" ng-change="pageChanged()" items-per-page="BLEPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+    boundary-links="true" num-pages="numPages"></uib-pagination>
+											
+										</div>
+										<div class="col-lg-3 text-right">Displaying {{currentBLEPage}} / {{numPages}} of {{numPages}}</div>
+										</div>
+								
+					</div>-->
+					<!--<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive mr-top20 border0" >		
+					<div ng-show="(BLEdiscoverList).length" ng-if="BLEdiscoverOption=='online'">
+					
+					<div class="form-group">
+						<button type="button" class="btn btn_act" ng-click="registerOPCPostForm(gatewayInfo.id,BLEdiscoverList,'online','BLE');" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Register</button>
+						<button type="button" class="btn btn_act" ng-click="registerOPCActivateForm(gatewayInfo.id,BLEdiscoverList,'online','BLE');" style="height:48px !important;"><i class="fa fa-plus-circle"></i>Activate</button>
+						<img ng-if="dataOPCRegisterLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+						<img ng-if="dataOPCActivationLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+					</div>
+					</div>
+					</div>-->

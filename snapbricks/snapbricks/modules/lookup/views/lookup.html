@@ -1,0 +1,135 @@
+<div class="row">
+    <div >
+        <div ncy-breadcrumb></div>
+    </div>
+</div>
+<div id="home">
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	
+        <hr class="mr-top0" style="border:2px solid #3D6BA9;" />
+		<div ng-cloak class="mr-topmin20">
+		<md-content>
+			<md-tabs md-dynamic-height md-border-bottom  md-selected="-1">
+				<md-tab  ng-click="openLookup('OPC')" >OPC</md-tab>
+				<md-tab ng-click="openLookup('ZIGBEE');">ZIGBEE</md-tab>
+				<md-tab ng-click="openLookup('BLE');">BLE</md-tab>
+				<md-tab  ng-click="openLookup('ZWAVE');">ZWAVE</md-tab>
+				<md-tab ng-click="openLookup('MODBUS');">MODBUS</md-tab>
+			</md-tabs>
+		</md-content>
+		</div>
+        <!--<div id="btn_group" style="margin-top:-1.62%;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			 <button type="button" class="btn btn-default btn-shadow border0" ng-click="refreshFunc();">
+                <i class="fa fa-refresh"></i>Refresh
+            </button>
+            <button type="button" class="btn btn-default btn-shadow border0" ng-click="openLookup('OPC')">
+                <i class="fa fa-plus-circle"></i>OPC
+            </button>
+            <button type="button"   class="btn btn-default btn-shadow border0" ng-click="openLookup('ZIGBEE')">
+                <i class="fa fa-plus-circle"></i>ZIGBEE
+            </button>
+			<button type="button"   class="btn btn-default btn-shadow border0" ng-click="openLookup('BLE')">
+                <i class="fa fa-plus-circle"></i>BLE
+            </button>
+			<button type="button" ng-class="openCtrl=='ZWAVE'?'btn btn-primary':'btn btn-default';"  class="btn btn-default btn-shadow border0" ng-click="openLookup('ZWAVE')">
+                <i class="fa fa-plus-circle"></i>ZWAVE
+            </button>
+			<button type="button" ng-class="openCtrl=='MODBUS'?'btn btn-primary':'btn btn-default';"  class="btn btn-default btn-shadow border0" ng-click="openLookup('MODBUS')">
+                <i class="fa fa-plus-circle"></i>MODBUS
+            </button>         
+        </div>-->
+    </div>
+    
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 table-responsive border0">
+		<div ng-if="openCtrl=='ZWAVE'">
+		<form name="form" id="form">
+		<div id="deviceTable">
+		<table class="table table-striped" >
+		<tbody><tr>
+		<td class="col-lg-2 col-md-5 col-sm-5 col-xs-5">Vendor</td><td class="col-xs-2" ng-class="{ 'has-error': form.vendor.$dirty && (form.vendor.$error.required || form.vendor1.$error.maxlength) }">
+		
+		<div class="col-md-4"><input type="text" ng-model="zwave.vendor" name="vendor" class="form-control" required ng-maxlength="30"/></div>
+		<div class="col-md-6"><select  ng-model="zwave.vendor" class="form-control" ng-options="data.vendor as data.vendor for data in getDisplayVendorModelID | unique: 'vendor'" ng-change="funcGetModelid(zwave.vendor);">
+		<option value="">--Select Vendor--</option>
+		</select></div>
+		
+		<span ng-show="form.vendor.$dirty && (form.vendor.$error.required)" class="help-block">Vendor is required</span>
+		<span ng-show="form.vendor.$dirty && form.vendor.$error.maxlength" class="help-block">Vendor Should Contain within 30 Characters</span>
+		</td>
+		</tr>
+		<tr>
+		<td class="col-lg-2 col-md-5 col-sm-5 col-xs-5">ModelId</td><td class="col-xs-2" ng-class="{ 'has-error': form.modelid.$dirty && (form.modelid.$error.required || form.modelid.$error.maxlength) }">
+		<div class="col-md-4"><input type="text" ng-model="zwave.modelid" name="modelid" class="form-control" required ng-maxlength="30" /></div>
+		<div class="col-md-6"><select class="form-control" ng-model="zwave.modelid" ng-options="data.modelid as (data.modelid +' ('+ data.devicename+')') for data in getDisplayModelID | unique: 'modelid'">
+								<option value="">--Select ModelId--</option>
+								</select></div>
+		<span ng-show="form.modelid.$dirty && (form.modelid.$error.required)" class="help-block">ModelId is required</span>
+		<span ng-show="form.modelid.$dirty && form.modelid.$error.maxlength" class="help-block">Modelid Should Contain within 30 Characters</span>
+		</td>
+		</tr>
+		
+		<tr>
+		<td class="col-lg-2 col-md-5 col-sm-5 col-xs-5">XML</td><td class="col-xs-2" ng-class="{ 'has-error': form.xmlData.$dirty && (form.xmlData.$error.required) }">
+		<textarea ng-model="zwave.xmlData" name="xmlData" class="form-control" style="resize: none;" cols="30" rows="10" required ></textarea>
+		<span ng-show="form.xmlData.$dirty && (form.xmlData.$error.required)" class="help-block">XML is required</span>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		<div class="form-group">
+						<button type="button" ng-disabled="form.$invalid " ng-click="funSaveAdd(zwave);" class="btn btn-primary"  >Add</button>
+						<button type="button" ng-disabled="form.$invalid" ng-click="funSave(zwave);" class="btn btn-primary"  >Update</button>
+						
+				</div>
+		</div>
+		
+		</form>
+		</div>
+		<div ng-if="openCtrl=='MODBUS'">
+		<form name="form" id="form">
+		
+		<div id="deviceTable">
+		<table class="table table-striped" style="width: 100%">
+		<tbody><tr>
+		<td class="col-lg-2 col-md-5 col-sm-5 col-xs-5">Vendor</td><td class="col-xs-2" ng-class="{ 'has-error': form.vendor1.$dirty && (form.vendor1.$error.required || form.vendor1.$error.maxlength) }" >
+		<div class="col-md-4"><input type="text" ng-model="modbus.vendor" name="vendor1" class="form-control" required ng-maxlength="30"/></div>
+		<div class="col-md-6"><select  ng-model="modbus.vendor" class="form-control" ng-options="data.vendor as data.vendor for data in getDisplayVendorModelID | unique: 'vendor'" ng-change="funcGetModelid(modbus.vendor);">
+		<option value="">--Select Vendor--</option>
+		</select></div>
+		<span ng-show="form.vendor1.$dirty && (form.vendor1.$error.required)" class="help-block">Vendor is required</span>
+		<span ng-show="form.vendor1.$dirty && form.vendor1.$error.maxlength" class="help-block">Vendor Should Contain within 30 Characters</span>
+		</td>
+		</tr>
+		<tr>
+		<td class="col-lg-2 col-md-5 col-sm-5 col-xs-5">ModelId</td><td class="col-xs-2" ng-class="{ 'has-error': form.modelid1.$dirty && (form.modelid1.$error.required || form.modelid1.$error.maxlength) }">
+		
+		<div class="col-md-4"><input type="text" name="modelid1" ng-model="modbus.modelid" class="form-control" required ng-maxlength="30" /></div>
+		<div class="col-md-6"><select  ng-model="modbus.modelid" class="form-control" ng-options="data.modelid as (data.modelid +' ('+ data.devicename+')') for data in getDisplayModelID | unique: 'modelid'" ng-change="funcGetDevicename(modbus.modelid);">
+		<option value="">--Select ModelId--</option>
+		</select>
+		
+		</div>
+		<span ng-show="form.modelid1.$dirty && (form.modelid1.$error.required)" class="help-block">ModelId is required</span>
+		<span ng-show="form.modelid1.$dirty && form.modelid1.$error.maxlength" class="help-block">ModelId Should Contain within 30 Characters</span>
+		</td>
+		</tr>
+		<tr>
+		<td class="col-lg-2 col-md-5 col-sm-5 col-xs-5">XML</td><td class="col-xs-2" ng-class="{ 'has-error': form.xmlData.$dirty && (form.xmlData.$error.required) }">
+		<textarea ng-model="modbus.xmlData" name="xmlData" class="form-control" style="resize: none;" cols="30" rows="10" required ></textarea>
+		<span ng-show="form.xmlData.$dirty && (form.xmlData.$error.required)" class="help-block">XML is required</span>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		<div class="form-group">
+						<button type="button" ng-disabled="form.$invalid " ng-click="funSaveAdd(modbus);" class="btn btn-primary"  >Add</button>
+						<button type="button" ng-disabled="form.$invalid" class="btn btn-primary" ng-click="funSave(modbus);" >Update</button>
+				</div>
+		</div>
+		
+		</form>		
+	</div>
+	</div>
+</div>
+</div>
